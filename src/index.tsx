@@ -1,13 +1,5 @@
 import React from 'react'
 import { render } from 'react-dom'
-import { generateSource } from './generateSource'
-import { SampleEditor } from './SampleEditor'
+import { App } from './App'
 
-render(
-  <div>
-    <span>Hello</span>
-    <button onClick={() => generateSource().then((source) => console.log(source))}>Generate</button>
-    <SampleEditor />
-  </div>,
-  document.getElementById('root'),
-)
+render(<App />, document.getElementById('root'))
