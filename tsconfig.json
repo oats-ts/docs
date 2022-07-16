@@ -2,7 +2,6 @@
   "compilerOptions": {
     "outDir": "lib",
     "module": "commonjs",
-    "declaration": true,
     "noImplicitAny": true,
     "jsx": "react",
     "target": "ES2020",

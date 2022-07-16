@@ -7,7 +7,7 @@ module.exports = {
   devtool: 'cheap-source-map',
   output: {
     filename: 'main.js',
-    path: path.resolve(__dirname, '../../docs'),
+    path: path.resolve(__dirname, 'docs'),
   },
   module: {
     rules: [
@@ -16,10 +16,22 @@ module.exports = {
         use: 'ts-loader',
         exclude: /node_modules/,
       },
+      {
+        test: /\.css$/,
+        use: ['style-loader', 'css-loader'],
+      },
+      {
+        test: /\.(png|jpe?g|gif)$/i,
+        use: [
+          {
+            loader: 'file-loader',
+          },
+        ],
+      },
     ],
   },
   resolve: {
-    extensions: ['.tsx', '.ts', '.js'],
+    extensions: ['.tsx', '.ts', '.js', '.css'],
     fallback: {
       path: require.resolve('path-browserify'),
       process: require.resolve('process'),
