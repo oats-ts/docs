@@ -9,6 +9,8 @@ import { ConfigureModal } from './ConfigureModal'
 import { ConfigurationContext } from '../ConfigurationContext'
 import YAML from 'yamljs'
 
+const HeightSub = 128
+
 export type OpenAPIPanelProps = {
   source: string
   onSourceChange: (source: string) => void
@@ -16,6 +18,7 @@ export type OpenAPIPanelProps = {
 
 const editorConfig: editor.IStandaloneEditorConstructionOptions = {
   minimap: { enabled: false },
+  tabSize: 2,
 }
 
 export const OpenAPIPanel: FC<OpenAPIPanelProps> = ({ source, onSourceChange }) => {
@@ -44,7 +47,7 @@ export const OpenAPIPanel: FC<OpenAPIPanelProps> = ({ source, onSourceChange }) 
     <>
       <Menu attached="top" secondary>
         <Menu.Item header>OpenAPI input</Menu.Item>
-        <Dropdown item text="Language">
+        <Dropdown item text={sourceType === 'json' ? 'JSON' : 'YAML'}>
           <Dropdown.Menu>
             <Dropdown.Item value="json" active={sourceType === 'json'} onClick={handleSourceTypeChange('json')}>
               JSON
@@ -60,7 +63,7 @@ export const OpenAPIPanel: FC<OpenAPIPanelProps> = ({ source, onSourceChange }) 
       </Menu>
       <Segment raised attached="bottom" className={codeEditorSegmentStyle}>
         <Editor
-          height="calc(100vh - 117px)"
+          height={`calc(100vh - ${HeightSub}px)`}
           theme="light"
           defaultPath={`input.${sourceType}`}
           language={sourceType}

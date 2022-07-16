@@ -6,10 +6,10 @@ The generators that comes with oats by default can be accessed from the [@oats-t
 
 ### Using individual generators
 
-You can configure your generator from a set of code generators of your choosing. For this approach, it's the easiest to use `generators.create` from the [@oats-ts/openapi](https://www.npmjs.com/package/@oats-ts/openapi) package. You can use the generator names (see [below](#available-generators)) as the first argument, and optionally the approriate configuration object as the second argument (autocomplete will help with this).
+You can configure your generator from a set of code generators of your choosing. For this approach, it's the easiest to use `generators.create` from the [@oats-ts/openapi](https://www.npmjs.com/package/@oats-ts/openapi) package. You can use the generator names (see below) as the first argument, and optionally the approriate configuration object as the second argument (autocomplete will help with this).
 
 ```ts
-import { generator, nameProviders, pathProviders, generators } from '@oats-ts/openapi';
+import { generator, nameProviders, pathProviders, generators } from '@oats-ts/openapi'
 
 const withGenerators = generator({
   nameProvider: nameProviders.default(),
@@ -19,7 +19,7 @@ const withGenerators = generator({
     generators.create('json-schema/type-guard'),
     generators.create('json-schema/type-validator'),
   ],
-});
+})
 ```
 
 ### Using presets
@@ -27,13 +27,13 @@ const withGenerators = generator({
 You can also use presets (I'd recommend starting with presets). Presets are a set of generators grouped toghether. The ones available currently are `presets.client()`, `presets.server()` and `presets.fullStack()`. The simplest way is to use the preset without any configuration:
 
 ```ts
-import { generator, nameProviders, pathProviders, presets } from '@oats-ts/openapi';
+import { generator, nameProviders, pathProviders, presets } from '@oats-ts/openapi'
 
 const withDefaults = generator({
   nameProvider: nameProviders.default(),
   pathProvider: pathProviders.default('src/generated'),
   children: presets.client(),
-});
+})
 ```
 
 In case the preset mostly suits your needs, but you'd like to override some configurations, you can do that as well:
@@ -50,7 +50,7 @@ const withOverrides = generator({
       'json-schema/type-guard': false,
     },
   }),
-});
+})
 ```
 
 ### Mixing presets and generators
@@ -62,7 +62,7 @@ const withPresetsAndGenerators = generator({
   nameProvider: nameProviders.default(),
   pathProvider: pathProviders.default('src/generated'),
   children: [presets.client(), generators.create('openapi/express-cors-middleware')],
-});
+})
 ```
 
 ## Configuration
@@ -72,12 +72,12 @@ The main `generator` function can be configured with an object having the follow
 - `nameProvider: (input: any, originalName: string | undefined, target: string) => string` - A function that determines how each generated artifact is called. For reasonable, convention respecting names use `nameProviders.default()`
   - `input` is the part of the OpenAPI object tree that the given artifact is based on (eg.: A Schema object or Operation object).
   - `originalName` optionally appears for pieces of the OpenAPI document, where the name is not part of the object itself (eg.: Schema object).
-  - `target` is one of the names listed [below](#available-generators).
+  - `target` is one of the names listed below.
 - `pathProvider: (input: any, name: NameProvider, target: string) => string` - A function that determines where in the disk each artifact is written to (`SourceFile#fileName`). Check `pathProviders.*` for options.
   - `input` is the part of the OpenAPI object tree that the given artifact is based on (eg.: A Schema object or Operation object).
   - `name` is a simplified function that takes the `input` and the `target` and delegates to the `nameProvider`.
-  - `target` is one of the names listed [below](#available-generators).
-- `children: OpenAPIGenerator | OpenAPIGenerator[]` - A single generator or a list of generators. See available ones [below](#available-generators).
+  - `target` is one of the names listed below.
+- `children: OpenAPIGenerator | OpenAPIGenerator[]` - A single generator or a list of generators. See available ones below.
 - `noEmit?: boolean = false` - When `true`, the generators return no output `SourceFile`s.
 - `name?: string = 'root'` - The name of the root generator, shows up in logs.
 

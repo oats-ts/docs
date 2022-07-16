@@ -6,6 +6,8 @@ import { Dropdown, Icon, Menu, Segment, Message } from 'semantic-ui-react'
 import { codeEditorSegmentStyle } from '../commonCss'
 import { GeneratorStatus, Result } from '../../types'
 
+const HeightSub = 168
+
 export type TypescriptPanelProps = Result
 
 const editorConfig: editor.IStandaloneEditorConstructionOptions = {
@@ -66,7 +68,7 @@ export const TypescriptPanel: FC<TypescriptPanelProps> = ({ data, status, issues
       </Menu>
       <Segment raised attached className={codeEditorSegmentStyle} loading={status === 'working'}>
         <Editor
-          height="calc(100vh - 157px)"
+          height={`calc(100vh - ${HeightSub}px)`}
           language="typescript"
           theme="light"
           defaultPath="output.ts"

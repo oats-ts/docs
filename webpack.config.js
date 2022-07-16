@@ -35,7 +35,7 @@ module.exports = {
         ],
       },
       {
-        test: /\.(md|json)$/i,
+        test: /\.(md)$/i,
         use: 'raw-loader',
       },
     ],

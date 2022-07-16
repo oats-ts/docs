@@ -14,7 +14,7 @@ import { defaultGenerators } from './defaultGenerators'
 const contentContainerStyle = css`
   display: grid;
   grid-template-columns: minmax(0px, 1fr) minmax(0px, 1fr);
-  grid-gap: 10px;
+  grid-gap: 16px;
 `
 
 const columnStyle = css`
