@@ -46,12 +46,14 @@
     "@oats-ts/try": "0.0.29",
     "@oats-ts/typescript-writer": "0.0.29",
     "@oats-ts/validators": "0.0.29",
+    "@types/yamljs": "^0.2.31",
     "lodash": "^4.17.21",
     "monaco-editor": "^0.33.0",
     "prettier": "2.6.1",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "semantic-ui-css": "^2.4.1",
-    "semantic-ui-react": "^2.1.3"
+    "semantic-ui-react": "^2.1.3",
+    "yamljs": "^0.3.0"
   }
 }

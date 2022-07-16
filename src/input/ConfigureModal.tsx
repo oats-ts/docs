@@ -1,14 +1,12 @@
 import { OpenAPIGeneratorTarget } from '@oats-ts/openapi-common'
-import React, { FC, useState } from 'react'
+import React, { FC, useContext } from 'react'
 import { Button, Dropdown, DropdownProps, Form, Icon, Menu, Modal, StrictDropdownItemProps } from 'semantic-ui-react'
+import { ConfigurationContext } from '../ConfigurationContext'
 import { defaultGenerators } from '../defaultGenerators'
 
 type ConfigureModalProps = {
   isOpen: boolean
   onChange: (isOpen: boolean) => void
-  onComplete: () => void
-
-  // generators: Record<OpenAPIGeneratorTarget, boolean>
 }
 
 const options: StrictDropdownItemProps[] = Object.keys(defaultGenerators).map((key) => ({
@@ -17,12 +15,21 @@ const options: StrictDropdownItemProps[] = Object.keys(defaultGenerators).map((k
   key,
 }))
 
-export const ConfigureModal: FC<ConfigureModalProps> = ({ isOpen, onChange, onComplete }) => {
-  const [selectedGenerators, setSelectedGenerators] = useState<OpenAPIGeneratorTarget[]>(
-    () => Object.keys(defaultGenerators) as OpenAPIGeneratorTarget[],
-  )
+export const ConfigureModal: FC<ConfigureModalProps> = ({ isOpen, onChange }) => {
+  const { generators, setGenerators } = useContext(ConfigurationContext)
+
+  const selectedGenerators = Object.keys(generators).filter((key) => generators[key as OpenAPIGeneratorTarget])
+
   const onGeneratorsChange = (_: any, data: DropdownProps) => {
-    setSelectedGenerators(data.value! as OpenAPIGeneratorTarget[])
+    const selectedKeys = data.value! as OpenAPIGeneratorTarget
+    const updatedGenerators = Object.keys(defaultGenerators).reduce(
+      (gens, key) => ({
+        ...gens,
+        [key]: selectedKeys.includes(key),
+      }),
+      {} as Record<OpenAPIGeneratorTarget, boolean>,
+    )
+    setGenerators(updatedGenerators)
   }
   return (
     <Modal
@@ -39,7 +46,7 @@ export const ConfigureModal: FC<ConfigureModalProps> = ({ isOpen, onChange, onCo
       <Modal.Content>
         <Form>
           <Form.Field>
-            <label>First Name</label>
+            <label>Which generators should run?</label>
             <Dropdown
               placeholder="Generators"
               fluid
@@ -56,7 +63,7 @@ export const ConfigureModal: FC<ConfigureModalProps> = ({ isOpen, onChange, onCo
       </Modal.Content>
       <Modal.Actions>
         <Button content="Close" color="black" onClick={() => onChange(false)} />
-        <Button content="Save" labelPosition="right" icon="checkmark" onClick={onComplete} positive />
+        <Button content="Save" labelPosition="right" icon="checkmark" onClick={() => onChange(false)} positive />
       </Modal.Actions>
     </Modal>
   )

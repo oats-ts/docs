@@ -7,7 +7,7 @@ module.exports = {
   devtool: 'cheap-source-map',
   output: {
     filename: 'main.js',
-    path: path.resolve(__dirname, '../../docs'),
+    path: path.resolve(__dirname, 'docs'),
   },
   module: {
     rules: [

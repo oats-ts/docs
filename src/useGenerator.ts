@@ -18,6 +18,7 @@ import { isSuccess, Try } from '@oats-ts/try'
 import { GeneratedFile } from '@oats-ts/typescript-writer'
 import { IssueTypes } from '@oats-ts/validators'
 import { OpenAPIGeneratorTarget } from '@oats-ts/openapi-common'
+import debounce from 'lodash/debounce'
 
 const DUMMY_URL = 'https://dummy.schema.com'
 
@@ -57,25 +58,28 @@ export function useGenerator(
     }
   }
 
-  useEffect(() => {
-    setResult({ data: '', issues: [], status: 'working' })
-    generate({
-      logger: loggers.verbose(),
-      validator: validator(),
-      reader: readers.test[sourceType]({
-        path: DUMMY_URL,
-        content: new Map().set(DUMMY_URL, source),
-      }),
-      generator: generator({
-        nameProvider: nameProviders.default(),
-        pathProvider: pathProviders.singleFile('test.ts'),
-        children: presets.fullStack({ overrides: generators }),
-      }),
-      writer: writers.typescript.memory({
-        format: formatters.prettier({ ...baseOptions }),
-      }),
-    }).then(processResult)
-  }, [source, sourceType, generators])
+  useEffect(
+    debounce(() => {
+      setResult({ data: '', issues: [], status: 'working' })
+      generate({
+        logger: loggers.verbose(),
+        validator: validator(),
+        reader: readers.test[sourceType]({
+          path: DUMMY_URL,
+          content: new Map().set(DUMMY_URL, source),
+        }),
+        generator: generator({
+          nameProvider: nameProviders.default(),
+          pathProvider: pathProviders.singleFile('test.ts'),
+          children: presets.fullStack({ overrides: generators }),
+        }),
+        writer: writers.typescript.memory({
+          format: formatters.prettier({ ...baseOptions }),
+        }),
+      }).then(processResult)
+    }, 500),
+    [source, sourceType, generators],
+  )
 
   return result
 }

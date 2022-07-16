@@ -48,8 +48,8 @@ const IssuesItem: FC<{ issues: Issue[] }> = ({ issues }) => {
       direction="left"
     >
       <Dropdown.Menu>
-        {issues.map((issue) => (
-          <Message error>
+        {issues.map((issue, index) => (
+          <Message error key={index}>
             <Icon name="exclamation circle" /> {stringify(issue)}
           </Message>
         ))}
