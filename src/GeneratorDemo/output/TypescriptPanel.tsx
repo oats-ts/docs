@@ -4,7 +4,7 @@ import { editor } from 'monaco-editor'
 import React, { FC } from 'react'
 import { Dropdown, Icon, Menu, Segment, Message } from 'semantic-ui-react'
 import { codeEditorSegmentStyle } from '../commonCss'
-import { GeneratorStatus, Result } from '../types'
+import { GeneratorStatus, Result } from '../../types'
 
 export type TypescriptPanelProps = Result
 

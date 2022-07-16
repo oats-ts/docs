@@ -4,7 +4,7 @@ import React, { FC, useContext, useState } from 'react'
 import { Dropdown, Menu, Segment } from 'semantic-ui-react'
 
 import { codeEditorSegmentStyle } from '../commonCss'
-import { SourceType } from '../types'
+import { SourceType } from '../../types'
 import { ConfigureModal } from './ConfigureModal'
 import { ConfigurationContext } from '../ConfigurationContext'
 import YAML from 'yamljs'

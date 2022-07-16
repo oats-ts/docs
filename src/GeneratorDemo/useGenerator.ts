@@ -11,7 +11,7 @@ import {
   generator,
   loggers,
 } from '@oats-ts/openapi'
-import { Result, SourceType } from './types'
+import { Result, SourceType } from '../types'
 import { Options } from 'prettier'
 import { useEffect, useState } from 'react'
 import { isSuccess, Try } from '@oats-ts/try'
@@ -62,7 +62,7 @@ export function useGenerator(
     debounce(() => {
       setResult({ data: '', issues: [], status: 'working' })
       generate({
-        logger: loggers.verbose(),
+        logger: loggers.simple(),
         validator: validator(),
         reader: readers.test[sourceType]({
           path: DUMMY_URL,
