@@ -1,5 +1,5 @@
 import { OpenAPIGeneratorTarget } from '@oats-ts/openapi-common'
-import React, { FC, useContext } from 'react'
+import React, { FC, useContext, useState } from 'react'
 import { Button, Dropdown, DropdownProps, Form, Icon, Menu, Modal, StrictDropdownItemProps } from 'semantic-ui-react'
 import { ConfigurationContext } from '../ConfigurationContext'
 import { defaultGenerators } from '../defaultGenerators'
@@ -17,8 +17,9 @@ const options: StrictDropdownItemProps[] = Object.keys(defaultGenerators).map((k
 
 export const ConfigureModal: FC<ConfigureModalProps> = ({ isOpen, onChange }) => {
   const { generators, setGenerators } = useContext(ConfigurationContext)
+  const [newGenerators, setNewGenerators] = useState(generators)
 
-  const selectedGenerators = Object.keys(generators).filter((key) => generators[key as OpenAPIGeneratorTarget])
+  const selectedGenerators = Object.keys(newGenerators).filter((key) => newGenerators[key as OpenAPIGeneratorTarget])
 
   const onGeneratorsChange = (_: any, data: DropdownProps) => {
     const selectedKeys = data.value! as OpenAPIGeneratorTarget
@@ -29,8 +30,14 @@ export const ConfigureModal: FC<ConfigureModalProps> = ({ isOpen, onChange }) =>
       }),
       {} as Record<OpenAPIGeneratorTarget, boolean>,
     )
-    setGenerators(updatedGenerators)
+    setNewGenerators(updatedGenerators)
   }
+
+  const onSave = () => {
+    setGenerators(newGenerators)
+    onChange(false)
+  }
+
   return (
     <Modal
       onClose={() => onChange(false)}
@@ -63,7 +70,14 @@ export const ConfigureModal: FC<ConfigureModalProps> = ({ isOpen, onChange }) =>
       </Modal.Content>
       <Modal.Actions>
         <Button content="Close" color="black" onClick={() => onChange(false)} />
-        <Button content="Save" labelPosition="right" icon="checkmark" onClick={() => onChange(false)} positive />
+        <Button
+          disabled={generators === newGenerators}
+          content="Update"
+          labelPosition="right"
+          icon="checkmark"
+          onClick={onSave}
+          positive
+        />
       </Modal.Actions>
     </Modal>
   )

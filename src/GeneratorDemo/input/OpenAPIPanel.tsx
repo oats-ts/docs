@@ -47,17 +47,18 @@ export const OpenAPIPanel: FC<OpenAPIPanelProps> = ({ source, onSourceChange }) 
     <>
       <Menu attached="top" secondary>
         <Menu.Item header>OpenAPI input</Menu.Item>
-        <Dropdown item text={sourceType === 'json' ? 'JSON' : 'YAML'}>
-          <Dropdown.Menu>
-            <Dropdown.Item value="json" active={sourceType === 'json'} onClick={handleSourceTypeChange('json')}>
-              JSON
-            </Dropdown.Item>
-            <Dropdown.Item value="yaml" active={sourceType === 'yaml'} onClick={handleSourceTypeChange('yaml')}>
-              YAML
-            </Dropdown.Item>
-          </Dropdown.Menu>
-        </Dropdown>
+
         <Menu.Menu position="right">
+          <Dropdown item text={sourceType === 'json' ? 'JSON' : 'YAML'}>
+            <Dropdown.Menu>
+              <Dropdown.Item value="json" active={sourceType === 'json'} onClick={handleSourceTypeChange('json')}>
+                JSON
+              </Dropdown.Item>
+              <Dropdown.Item value="yaml" active={sourceType === 'yaml'} onClick={handleSourceTypeChange('yaml')}>
+                YAML
+              </Dropdown.Item>
+            </Dropdown.Menu>
+          </Dropdown>
           <ConfigureModal isOpen={isModalOpen} onChange={setModalOpen} />
         </Menu.Menu>
       </Menu>

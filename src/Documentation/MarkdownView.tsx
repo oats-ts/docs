@@ -1,7 +1,7 @@
 import { isNil } from 'lodash'
 import React, { FC } from 'react'
 import Markdown, { uriTransformer, Options } from 'react-markdown'
-import { Message } from 'semantic-ui-react'
+import { Message, Table } from 'semantic-ui-react'
 import { Prism } from 'react-syntax-highlighter'
 import remarkGfm from 'remark-gfm'
 import { markdown } from '../md/markdown'
@@ -25,6 +25,13 @@ const customUriTransformer = (uri: string) => {
 
 const remarkPlugins: Options['remarkPlugins'] = [remarkGfm]
 const components: Options['components'] = {
+  table({ className, children }) {
+    return (
+      <Table celled striped className={className}>
+        {children}
+      </Table>
+    )
+  },
   code({ node, inline, className, children, ...props }) {
     const match = /language-(\w+)/.exec(className || '')
     return !inline && match ? (

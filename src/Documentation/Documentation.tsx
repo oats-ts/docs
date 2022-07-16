@@ -1,7 +1,6 @@
 import { css } from '@emotion/css'
-import { isEmpty } from 'lodash'
 import React, { FC } from 'react'
-import { useNavigate, useParams } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 import { Menu, Segment } from 'semantic-ui-react'
 import { MarkdowPageName } from '../md/markdown'
 import { MarkdownView } from './MarkdownView'
@@ -61,7 +60,6 @@ const menuStyle = css`
 export const Documentation: FC = () => {
   const { page } = useParams<{ page: MarkdowPageName }>()
   const activePage = page ?? 'OpenAPI_Workflow'
-  const navigate = useNavigate()
   return (
     <div className={containerStyle}>
       <Menu vertical pointing className={menuStyle}>
@@ -69,12 +67,7 @@ export const Documentation: FC = () => {
           <Menu.Header>OpenAPI</Menu.Header>
           <Menu.Menu>
             {openAPIDocs.map(({ name, md }) => (
-              <Menu.Item
-                key={md}
-                name={name}
-                active={activePage === md}
-                onClick={() => navigate(isEmpty(page) ? md : `../docs/${md}`, { replace: true })}
-              />
+              <Menu.Item key={md} name={name} active={activePage === md} href={`#/docs/${md}`} />
             ))}
           </Menu.Menu>
         </Menu.Item>
