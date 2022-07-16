@@ -28,6 +28,10 @@ module.exports = {
           },
         ],
       },
+      {
+        test: /\.(md|json)$/i,
+        use: 'raw-loader',
+      },
     ],
   },
   resolve: {
