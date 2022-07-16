@@ -1,13 +1,15 @@
-import React, { FC } from 'react'
-import { Icon, Menu, Segment } from 'semantic-ui-react'
-import { SampleEditor } from './SampleEditor'
-import { css } from '@emotion/css'
 import 'semantic-ui-css/semantic.min.css'
 
-const segmentStyle = css`
-  padding: 10px 0px 0px 0px !important;
-  overflow: hidden;
-`
+import React, { FC, useEffect, useState } from 'react'
+import { Icon, Menu } from 'semantic-ui-react'
+import { css } from '@emotion/css'
+import { OpenAPIPanel } from './input/OpenAPIPanel'
+import { TypescriptPanel } from './output/TypescriptPanel'
+import { SourceType } from './types'
+import { useGenerator } from './useGenerator'
+import { OpenAPIGeneratorTarget } from '@oats-ts/openapi-common'
+import { storage } from './storage'
+import { defaultGenerators } from './defaultGenerators'
 
 const appStyle = css`
   background-color: rgba(0, 0, 0, 0.1);
@@ -17,7 +19,7 @@ const appStyle = css`
 
 const contentContainerStyle = css`
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: minmax(0px, 1fr) minmax(0px, 1fr);
   grid-gap: 10px;
 `
 
@@ -27,6 +29,16 @@ const columnStyle = css`
 `
 
 export const App: FC = () => {
+  const [source, setSource] = useState<string>(() => storage.get('source'))
+  const [sourceType] = useState<SourceType>(() => 'json')
+  const [generators] = useState<Record<OpenAPIGeneratorTarget, boolean>>(() => defaultGenerators)
+
+  const result = useGenerator(source, sourceType, generators)
+
+  useEffect(() => {
+    storage.set('source', source)
+  }, [source])
+
   return (
     <div className={appStyle}>
       <Menu pointing>
@@ -41,40 +53,10 @@ export const App: FC = () => {
       </Menu>
       <div className={contentContainerStyle}>
         <div className={columnStyle}>
-          <Menu attached="top" secondary>
-            <Menu.Item header>OpenAPI input</Menu.Item>
-            <Menu.Menu position="right">
-              <Menu.Item>
-                <Icon name="cog" /> Configure
-              </Menu.Item>
-            </Menu.Menu>
-          </Menu>
-          <Segment raised attached className={segmentStyle}>
-            <SampleEditor />
-          </Segment>
-          <Menu attached="bottom">
-            <Menu.Item header>oats-ts</Menu.Item>
-            <Menu.Item name="Demo" active />
-            <Menu.Item name="Documentation" />
-          </Menu>
+          <OpenAPIPanel source={source} sourceType={sourceType} onSourceChange={setSource} />
         </div>
         <div className={columnStyle}>
-          <Menu attached="top" secondary>
-            <Menu.Item header>Typescript output</Menu.Item>
-            <Menu.Menu position="right">
-              <Menu.Item>
-                <Icon name="cog" /> Configure
-              </Menu.Item>
-            </Menu.Menu>
-          </Menu>
-          <Segment raised attached className={segmentStyle}>
-            <SampleEditor />
-          </Segment>
-          <Menu attached="bottom">
-            <Menu.Item header>oats-ts</Menu.Item>
-            <Menu.Item name="Demo" active />
-            <Menu.Item name="Documentation" />
-          </Menu>
+          <TypescriptPanel {...result} />
         </div>
       </div>
     </div>
