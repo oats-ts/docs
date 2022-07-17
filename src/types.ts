@@ -1,7 +1,7 @@
 import { OpenAPIGeneratorTarget } from '@oats-ts/openapi-common'
 import { Issue } from '@oats-ts/validators'
 
-export type SourceType = 'yaml' | 'json'
+export type SourceLanguage = 'yaml' | 'json'
 export type GeneratorStatus = 'success' | 'failure' | 'working'
 
 export type Result = {
@@ -10,10 +10,33 @@ export type Result = {
   issues: Issue[]
 }
 
-export type ConfigurationContextType = {
+export type GeneratorContextType = {
   generators: Record<OpenAPIGeneratorTarget, boolean>
-  sourceType: SourceType
-
+  language: SourceLanguage
+  source: string
+  result: Result
+  samples: SampleFile[]
+  isLoading: boolean
+  isIssuesPanelOpen: boolean
+  isConfigurationDialogOpen: boolean
+  setIssuesPanelOpen: (isOpen: boolean) => void
+  setConfigurationDialogOpen: (isOpen: boolean) => void
+  setSourceBySample: (sampleUrl: string) => void
   setGenerators: (generators: Record<OpenAPIGeneratorTarget, boolean>) => void
-  setSourceType: (sourceType: SourceType) => void
+  setLanguage: (lang: SourceLanguage) => void
+  setSource: (source: string) => void
+}
+
+export type GhFileDescriptor = {
+  path: string
+  mode: string
+  type: 'tree' | 'blob'
+  sha: string
+  size: number
+  url: string
+}
+
+export type SampleFile = {
+  name: string
+  uri: string
 }

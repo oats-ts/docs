@@ -11,27 +11,37 @@ import {
   generator,
   loggers,
 } from '@oats-ts/openapi'
-import { Result, SourceType } from '../types'
+import debounce from 'lodash/debounce'
+import isNil from 'lodash/isNil'
+import { GeneratorContextType, Result, SampleFile, SourceLanguage } from '../types'
 import { Options } from 'prettier'
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { isSuccess, Try } from '@oats-ts/try'
 import { GeneratedFile } from '@oats-ts/typescript-writer'
 import { IssueTypes } from '@oats-ts/validators'
 import { OpenAPIGeneratorTarget } from '@oats-ts/openapi-common'
-import debounce from 'lodash/debounce'
+import { storage, Ttl } from '../storage'
+import { defaultGenerators } from './defaultGenerators'
+import { getSampleFile, getSampleFiles } from './getSampleFiles'
 
-const DUMMY_URL = 'https://dummy.schema.com'
+const DUMMY_URL = ''
 
 const baseOptions: Options = {
   parser: 'typescript',
   plugins: [typescriptParser],
 }
 
-export function useGenerator(
-  source: string,
-  sourceType: SourceType,
-  generators: Record<OpenAPIGeneratorTarget, boolean>,
-): Result {
+export function useGenerator(): GeneratorContextType {
+  const [samples, setSamples] = useState<SampleFile[]>([])
+  const [source, setSource] = useState<string>(() => storage.get('source', ''))
+  const [language, setLanguage] = useState<SourceLanguage>(() => storage.get('language', 'json'))
+  const [generators, setGenerators] = useState<Record<OpenAPIGeneratorTarget, boolean>>(() =>
+    storage.get('generators', defaultGenerators),
+  )
+  const [isLoading, setLoading] = useState<boolean>(true)
+  const [isIssuesPanelOpen, setIssuesPanelOpen] = useState<boolean>(false)
+  const [isConfigurationDialogOpen, setConfigurationDialogOpen] = useState<boolean>(false)
+
   const [result, setResult] = useState<Result>({ data: '', status: 'success', issues: [] })
 
   function processResult(output: Try<GeneratedFile[]>): void {
@@ -58,13 +68,60 @@ export function useGenerator(
     }
   }
 
+  const setSourceBySample = useCallback((uri: string): void => {
+    setLoading(true)
+    getSampleFile(uri)
+      .then((source) => {
+        setLanguage('json')
+        setSource(source)
+      })
+      .finally(() => setLoading(false))
+  }, [])
+
+  useEffect(
+    debounce(() => {
+      storage.set('source', source, Ttl.days(1))
+    }, 1000),
+    [source],
+  )
+
+  useEffect(
+    debounce(() => {
+      storage.set('language', language, Ttl.days(1))
+    }, 1000),
+    [language],
+  )
+
+  useEffect(
+    debounce(() => {
+      storage.set('generators', generators, Ttl.days(1))
+    }, 1000),
+    [generators],
+  )
+
+  useEffect(() => {
+    setLoading(true)
+    const inStorage = storage.get<SampleFile[]>('samples')
+    if (!isNil(inStorage) && Array.isArray(inStorage)) {
+      setSamples(inStorage)
+      setLoading(false)
+    } else {
+      getSampleFiles(['schemas', 'generated-schemas'])
+        .then((fetchedSamples) => {
+          setSamples(fetchedSamples)
+          storage.set('samples', fetchedSamples, Ttl.hours(1))
+        })
+        .finally(() => setLoading(false))
+    }
+  }, [])
+
   useEffect(
     debounce(() => {
       setResult({ data: '', issues: [], status: 'working' })
       generate({
         logger: loggers.simple(),
         validator: validator(),
-        reader: readers.test[sourceType]({
+        reader: readers.test[language]({
           path: DUMMY_URL,
           content: new Map().set(DUMMY_URL, source),
         }),
@@ -78,8 +135,23 @@ export function useGenerator(
         }),
       }).then(processResult)
     }, 500),
-    [source, sourceType, generators],
+    [source, language, generators],
   )
 
-  return result
+  return {
+    generators,
+    result,
+    source,
+    language,
+    samples,
+    isLoading,
+    isConfigurationDialogOpen,
+    isIssuesPanelOpen,
+    setIssuesPanelOpen,
+    setConfigurationDialogOpen,
+    setGenerators,
+    setSource,
+    setLanguage,
+    setSourceBySample,
+  }
 }

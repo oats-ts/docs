@@ -16,19 +16,19 @@ const openAPIDocs: DocumentationItem[] = [
     name: 'Workflow',
   },
   {
-    md: 'OpenAPI_Reader',
+    md: 'OpenAPI_Read',
     name: 'Read',
   },
   {
-    md: 'OpenAPI_Validator',
+    md: 'OpenAPI_Validate',
     name: 'Validate',
   },
   {
-    md: 'OpenAPI_Generator',
+    md: 'OpenAPI_Generate',
     name: 'Generate',
   },
   {
-    md: 'Typescript_Writer',
+    md: 'Typescript_Write',
     name: 'Write',
   },
 ]
@@ -50,6 +50,8 @@ const mdContainerStyle = css`
 
 const mdSegmentStyle = css`
   margin-top: 0px !important;
+  flex: 1 1 1px;
+  min-width: 0px;
 `
 
 const menuStyle = css`

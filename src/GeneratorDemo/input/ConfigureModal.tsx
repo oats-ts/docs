@@ -1,48 +1,51 @@
 import { OpenAPIGeneratorTarget } from '@oats-ts/openapi-common'
 import React, { FC, useContext, useState } from 'react'
 import { Button, Dropdown, DropdownProps, Form, Icon, Menu, Modal, StrictDropdownItemProps } from 'semantic-ui-react'
-import { ConfigurationContext } from '../ConfigurationContext'
+import { GeneratorContext } from '../GeneratorContext'
 import { defaultGenerators } from '../defaultGenerators'
 
-type ConfigureModalProps = {
-  isOpen: boolean
-  onChange: (isOpen: boolean) => void
-}
+const AllGenerators = '###all-generators###'
 
-const options: StrictDropdownItemProps[] = Object.keys(defaultGenerators).map((key) => ({
-  text: key,
-  value: key,
-  key,
-}))
+const options: StrictDropdownItemProps[] = [
+  { text: 'All generators', value: AllGenerators, key: AllGenerators } as StrictDropdownItemProps,
+  ...Object.keys(defaultGenerators).map((key) => ({
+    text: key,
+    value: key,
+    key,
+  })),
+]
 
-export const ConfigureModal: FC<ConfigureModalProps> = ({ isOpen, onChange }) => {
-  const { generators, setGenerators } = useContext(ConfigurationContext)
+export const ConfigureModal: FC = () => {
+  const { generators, isConfigurationDialogOpen, setConfigurationDialogOpen, setGenerators } =
+    useContext(GeneratorContext)
   const [newGenerators, setNewGenerators] = useState(generators)
 
   const selectedGenerators = Object.keys(newGenerators).filter((key) => newGenerators[key as OpenAPIGeneratorTarget])
 
   const onGeneratorsChange = (_: any, data: DropdownProps) => {
-    const selectedKeys = data.value! as OpenAPIGeneratorTarget
-    const updatedGenerators = Object.keys(defaultGenerators).reduce(
-      (gens, key) => ({
-        ...gens,
-        [key]: selectedKeys.includes(key),
-      }),
-      {} as Record<OpenAPIGeneratorTarget, boolean>,
-    )
+    const selectedKeys = data.value! as string[]
+    const updatedGenerators = selectedKeys.includes(AllGenerators)
+      ? defaultGenerators
+      : Object.keys(defaultGenerators).reduce(
+          (gens, key) => ({
+            ...gens,
+            [key]: selectedKeys.includes(key),
+          }),
+          {} as Record<OpenAPIGeneratorTarget, boolean>,
+        )
     setNewGenerators(updatedGenerators)
   }
 
   const onSave = () => {
     setGenerators(newGenerators)
-    onChange(false)
+    setConfigurationDialogOpen(false)
   }
 
   return (
     <Modal
-      onClose={() => onChange(false)}
-      onOpen={() => onChange(true)}
-      open={isOpen}
+      onClose={() => setConfigurationDialogOpen(false)}
+      onOpen={() => setConfigurationDialogOpen(true)}
+      open={isConfigurationDialogOpen}
       trigger={
         <Menu.Item>
           <Icon name="cog" /> Configure
@@ -69,7 +72,7 @@ export const ConfigureModal: FC<ConfigureModalProps> = ({ isOpen, onChange }) =>
         </Form>
       </Modal.Content>
       <Modal.Actions>
-        <Button content="Close" color="black" onClick={() => onChange(false)} />
+        <Button content="Close" color="black" onClick={() => setConfigurationDialogOpen(false)} />
         <Button
           disabled={generators === newGenerators}
           content="Update"
