@@ -111,7 +111,6 @@ export function useGenerator(): GeneratorContextType {
       const logger: Logger = (emitter) => {
         loggers.simple()(emitter)
         emitter.addListener('validator-step-completed', ({ issues }) => {
-          console.error(issues)
           setResult((result) => ({ ...result, issues }))
         })
       }
