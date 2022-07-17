@@ -1,3 +1,5 @@
+# Read
+
 The reader step is responsible for
 
 - Reading your OpenAPI 3.x document
@@ -11,16 +13,16 @@ The reader that comes with oats by default can be accessed from the [@oats-ts/op
 ## Examples
 
 ```ts
-import { readers } from '@oats-ts/openapi';
+import { readers } from '@oats-ts/openapi'
 
 // Reads from the local file system, in json format
-const jsonFileReader = readers.file.json('oa.json');
+const jsonFileReader = readers.file.json('oa.json')
 
 // Reads from the local file system, in json format
-const httpsYamlReader = readers.https.yaml('https://asd.com/oa.yaml');
+const httpsYamlReader = readers.https.yaml('https://asd.com/oa.yaml')
 
 // Reads from any source in any format
-const mixedReader = readers.mixed.mixed('http://localhost:3000/oa.json');
+const mixedReader = readers.mixed.mixed('http://localhost:3000/oa.json')
 ```
 
 ## Configuration

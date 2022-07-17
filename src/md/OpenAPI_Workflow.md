@@ -1,3 +1,5 @@
+# Workflow
+
 This guide will walk you through on how to get started with oats and OpenAPI.
 
 ## Set up the code generator
