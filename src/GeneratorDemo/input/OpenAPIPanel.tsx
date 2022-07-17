@@ -4,43 +4,39 @@ import React, { FC, useContext, useState } from 'react'
 import { Dropdown, Menu, Segment } from 'semantic-ui-react'
 
 import { codeEditorSegmentStyle } from '../commonCss'
-import { SourceType } from '../../types'
+import { SourceLanguage } from '../../types'
 import { ConfigureModal } from './ConfigureModal'
-import { ConfigurationContext } from '../ConfigurationContext'
+import { GeneratorContext } from '../GeneratorContext'
 import YAML from 'yamljs'
 
 const HeightSub = 128
-
-export type OpenAPIPanelProps = {
-  source: string
-  onSourceChange: (source: string) => void
-}
 
 const editorConfig: editor.IStandaloneEditorConstructionOptions = {
   minimap: { enabled: false },
   tabSize: 2,
 }
 
-export const OpenAPIPanel: FC<OpenAPIPanelProps> = ({ source, onSourceChange }) => {
-  const { setSourceType, sourceType } = useContext(ConfigurationContext)
+export const OpenAPIPanel: FC = () => {
+  const { source, language, setSource, setLanguage } = useContext(GeneratorContext)
   const [isModalOpen, setModalOpen] = useState(false)
 
   const handleSourceChange = (value: string | undefined) => {
-    onSourceChange(value ?? '')
+    setSource(value ?? '')
   }
-  const handleSourceTypeChange = (type: SourceType) => () => {
-    if (type === sourceType) {
+
+  const handleLanguageChange = (type: SourceLanguage) => () => {
+    if (type === language) {
       return
     } else if (type === 'json') {
       try {
-        onSourceChange(JSON.stringify(YAML.parse(source), null, 2))
+        setSource(JSON.stringify(YAML.parse(source), null, 2))
       } catch (e) {}
     } else if (type === 'yaml') {
       try {
-        onSourceChange(YAML.stringify(JSON.parse(source), 10000, 2))
+        setSource(YAML.stringify(JSON.parse(source), 10000, 2))
       } catch (e) {}
     }
-    setSourceType(type)
+    setLanguage(type)
   }
 
   return (
@@ -49,12 +45,12 @@ export const OpenAPIPanel: FC<OpenAPIPanelProps> = ({ source, onSourceChange }) 
         <Menu.Item header>OpenAPI input</Menu.Item>
 
         <Menu.Menu position="right">
-          <Dropdown item text={sourceType === 'json' ? 'JSON' : 'YAML'}>
+          <Dropdown item text={language === 'json' ? 'JSON' : 'YAML'}>
             <Dropdown.Menu>
-              <Dropdown.Item value="json" active={sourceType === 'json'} onClick={handleSourceTypeChange('json')}>
+              <Dropdown.Item value="json" active={language === 'json'} onClick={handleLanguageChange('json')}>
                 JSON
               </Dropdown.Item>
-              <Dropdown.Item value="yaml" active={sourceType === 'yaml'} onClick={handleSourceTypeChange('yaml')}>
+              <Dropdown.Item value="yaml" active={language === 'yaml'} onClick={handleLanguageChange('yaml')}>
                 YAML
               </Dropdown.Item>
             </Dropdown.Menu>
@@ -66,8 +62,8 @@ export const OpenAPIPanel: FC<OpenAPIPanelProps> = ({ source, onSourceChange }) 
         <Editor
           height={`calc(100vh - ${HeightSub}px)`}
           theme="light"
-          defaultPath={`input.${sourceType}`}
-          language={sourceType}
+          defaultPath={`input.${language}`}
+          language={language}
           value={source}
           onChange={handleSourceChange}
           options={editorConfig}

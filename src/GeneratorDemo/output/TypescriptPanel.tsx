@@ -1,14 +1,13 @@
 import Editor from '@monaco-editor/react'
 import { Issue, stringify } from '@oats-ts/validators'
 import { editor } from 'monaco-editor'
-import React, { FC } from 'react'
+import React, { FC, useContext } from 'react'
 import { Dropdown, Icon, Menu, Segment, Message } from 'semantic-ui-react'
 import { codeEditorSegmentStyle } from '../commonCss'
-import { GeneratorStatus, Result } from '../../types'
+import { GeneratorStatus } from '../../types'
+import { GeneratorContext } from '../GeneratorContext'
 
 const HeightSub = 168
-
-export type TypescriptPanelProps = Result
 
 const editorConfig: editor.IStandaloneEditorConstructionOptions = {
   minimap: { enabled: false },
@@ -60,7 +59,9 @@ const IssuesItem: FC<{ issues: Issue[] }> = ({ issues }) => {
   )
 }
 
-export const TypescriptPanel: FC<TypescriptPanelProps> = ({ data, status, issues }) => {
+export const TypescriptPanel: FC = () => {
+  const { result } = useContext(GeneratorContext)
+  const { data, issues, status } = result
   return (
     <>
       <Menu attached="top" secondary>

@@ -11,7 +11,7 @@ import {
   generator,
   loggers,
 } from '@oats-ts/openapi'
-import { Result, SourceType } from '../types'
+import { GeneratorContextType, Result, SourceLanguage } from '../types'
 import { Options } from 'prettier'
 import { useEffect, useState } from 'react'
 import { isSuccess, Try } from '@oats-ts/try'
@@ -19,6 +19,8 @@ import { GeneratedFile } from '@oats-ts/typescript-writer'
 import { IssueTypes } from '@oats-ts/validators'
 import { OpenAPIGeneratorTarget } from '@oats-ts/openapi-common'
 import debounce from 'lodash/debounce'
+import { storage } from '../storage'
+import { defaultGenerators } from './defaultGenerators'
 
 const DUMMY_URL = 'https://dummy.schema.com'
 
@@ -27,11 +29,11 @@ const baseOptions: Options = {
   plugins: [typescriptParser],
 }
 
-export function useGenerator(
-  source: string,
-  sourceType: SourceType,
-  generators: Record<OpenAPIGeneratorTarget, boolean>,
-): Result {
+export function useGenerator(): GeneratorContextType {
+  const [source, setSource] = useState<string>(() => storage.get('source'))
+  const [sourceType, setSourceType] = useState<SourceLanguage>(() => 'json')
+  const [generators, setGenerators] = useState<Record<OpenAPIGeneratorTarget, boolean>>(() => defaultGenerators)
+
   const [result, setResult] = useState<Result>({ data: '', status: 'success', issues: [] })
 
   function processResult(output: Try<GeneratedFile[]>): void {
@@ -81,5 +83,13 @@ export function useGenerator(
     [source, sourceType, generators],
   )
 
-  return result
+  return {
+    generators,
+    result,
+    source,
+    language: sourceType,
+    setGenerators,
+    setSource,
+    setLanguage: setSourceType,
+  }
 }

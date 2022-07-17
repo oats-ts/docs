@@ -1,15 +1,11 @@
 import 'semantic-ui-css/semantic.min.css'
 
-import React, { FC, useState } from 'react'
+import React, { FC } from 'react'
 import { css } from '@emotion/css'
 import { OpenAPIPanel } from './input/OpenAPIPanel'
 import { TypescriptPanel } from './output/TypescriptPanel'
-import { ConfigurationContextType, SourceType } from '../types'
 import { useGenerator } from './useGenerator'
-import { OpenAPIGeneratorTarget } from '@oats-ts/openapi-common'
-import { storage } from '../storage'
-import { ConfigurationContext } from './ConfigurationContext'
-import { defaultGenerators } from './defaultGenerators'
+import { GeneratorContext } from './GeneratorContext'
 
 const contentContainerStyle = css`
   display: grid;
@@ -23,29 +19,18 @@ const columnStyle = css`
 `
 
 export const GeneratorDemo: FC = () => {
-  const [source, setSource] = useState<string>(() => storage.get('source'))
-  const [sourceType, setSourceType] = useState<SourceType>(() => 'json')
-  const [generators, setGenerators] = useState<Record<OpenAPIGeneratorTarget, boolean>>(() => defaultGenerators)
-
-  const result = useGenerator(source, sourceType, generators)
-
-  const config: ConfigurationContextType = {
-    sourceType,
-    generators,
-    setSourceType,
-    setGenerators,
-  }
+  const context = useGenerator()
 
   return (
-    <ConfigurationContext.Provider value={config}>
+    <GeneratorContext.Provider value={context}>
       <div className={contentContainerStyle}>
         <div className={columnStyle}>
-          <OpenAPIPanel source={source} onSourceChange={setSource} />
+          <OpenAPIPanel />
         </div>
         <div className={columnStyle}>
-          <TypescriptPanel {...result} />
+          <TypescriptPanel />
         </div>
       </div>
-    </ConfigurationContext.Provider>
+    </GeneratorContext.Provider>
   )
 }

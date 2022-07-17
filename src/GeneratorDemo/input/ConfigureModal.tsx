@@ -1,7 +1,7 @@
 import { OpenAPIGeneratorTarget } from '@oats-ts/openapi-common'
 import React, { FC, useContext, useState } from 'react'
 import { Button, Dropdown, DropdownProps, Form, Icon, Menu, Modal, StrictDropdownItemProps } from 'semantic-ui-react'
-import { ConfigurationContext } from '../ConfigurationContext'
+import { GeneratorContext } from '../GeneratorContext'
 import { defaultGenerators } from '../defaultGenerators'
 
 type ConfigureModalProps = {
@@ -16,7 +16,7 @@ const options: StrictDropdownItemProps[] = Object.keys(defaultGenerators).map((k
 }))
 
 export const ConfigureModal: FC<ConfigureModalProps> = ({ isOpen, onChange }) => {
-  const { generators, setGenerators } = useContext(ConfigurationContext)
+  const { generators, setGenerators } = useContext(GeneratorContext)
   const [newGenerators, setNewGenerators] = useState(generators)
 
   const selectedGenerators = Object.keys(newGenerators).filter((key) => newGenerators[key as OpenAPIGeneratorTarget])
