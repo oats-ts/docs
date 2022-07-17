@@ -24,7 +24,7 @@ import { storage, Ttl } from '../storage'
 import { defaultGenerators } from './defaultGenerators'
 import { getSampleFile, getSampleFiles } from './getSampleFiles'
 
-const DUMMY_URL = 'https://dummy.schema.com'
+const DUMMY_URL = ''
 
 const baseOptions: Options = {
   parser: 'typescript',
@@ -39,6 +39,7 @@ export function useGenerator(): GeneratorContextType {
     storage.get('generators', defaultGenerators),
   )
   const [isLoading, setLoading] = useState<boolean>(true)
+  const [isIssuesPanelOpen, setIssuesPanelOpen] = useState<boolean>(false)
   const [isConfigurationDialogOpen, setConfigurationDialogOpen] = useState<boolean>(false)
 
   const [result, setResult] = useState<Result>({ data: '', status: 'success', issues: [] })
@@ -145,6 +146,8 @@ export function useGenerator(): GeneratorContextType {
     samples,
     isLoading,
     isConfigurationDialogOpen,
+    isIssuesPanelOpen,
+    setIssuesPanelOpen,
     setConfigurationDialogOpen,
     setGenerators,
     setSource,
