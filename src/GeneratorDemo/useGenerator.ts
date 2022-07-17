@@ -1,4 +1,4 @@
-import { generate } from '@oats-ts/oats-ts'
+import { generate, Logger } from '@oats-ts/oats-ts'
 import typescriptParser from 'prettier/parser-typescript'
 import {
   formatters,
@@ -18,7 +18,6 @@ import { Options } from 'prettier'
 import { useCallback, useEffect, useState } from 'react'
 import { isSuccess, Try } from '@oats-ts/try'
 import { GeneratedFile } from '@oats-ts/typescript-writer'
-import { IssueTypes } from '@oats-ts/validators'
 import { OpenAPIGeneratorTarget } from '@oats-ts/openapi-common'
 import { storage, Ttl } from '../storage'
 import { defaultGenerators } from './defaultGenerators'
@@ -49,22 +48,9 @@ export function useGenerator(): GeneratorContextType {
       const { data } = output
       switch (data.length) {
         case 0:
-          return setResult({ data: '', issues: [], status: 'success' })
-        case 1:
-          return setResult({ data: data[0]?.content!, issues: [], status: 'success' })
+          return setResult((result) => ({ ...result, data: '', status: 'success' }))
         default:
-          return setResult({
-            status: 'failure',
-            data: '',
-            issues: [
-              {
-                message: `Expected exactly 1 output file, got ${data.length}`,
-                path: 'output',
-                severity: 'error',
-                type: IssueTypes.other,
-              },
-            ],
-          })
+          return setResult((result) => ({ ...result, data: data[0]?.content!, status: 'success' }))
       }
     } else {
       setResult({ data: '', issues: output.issues, status: 'failure' })
@@ -121,8 +107,16 @@ export function useGenerator(): GeneratorContextType {
   useEffect(
     debounce(() => {
       setResult({ data: '', issues: [], status: 'working' })
+      // TODO warnings not emmited for some reason
+      const logger: Logger = (emitter) => {
+        loggers.simple()(emitter)
+        emitter.addListener('validator-step-completed', ({ issues }) => {
+          console.error(issues)
+          setResult((result) => ({ ...result, issues }))
+        })
+      }
       generate({
-        logger: loggers.simple(),
+        logger,
         validator: validator(),
         reader: readers.test[language]({
           path: DUMMY_URL,
