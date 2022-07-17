@@ -4,7 +4,7 @@ import { Header, Icon, Table } from 'semantic-ui-react'
 import { GeneratorContext } from '../GeneratorContext'
 
 const issuesContainerStyle = css`
-  height: calc(100vh - 150px);
+  height: calc(100vh - 168px);
   overflow-y: auto;
   padding: 16px;
 `

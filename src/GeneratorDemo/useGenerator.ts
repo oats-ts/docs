@@ -47,22 +47,25 @@ export function useGenerator(): GeneratorContextType {
   function processResult(output: Try<GeneratedFile[]>): void {
     if (isSuccess(output)) {
       const { data } = output
-      if (data === undefined || data.length !== 1) {
-        return setResult({
-          status: 'failure',
-          data: '',
-          issues: [
-            {
-              message: `Expected exactly 1 output file, got ${data.length}`,
-              path: 'output',
-              severity: 'error',
-              type: IssueTypes.other,
-            },
-          ],
-        })
+      switch (data.length) {
+        case 0:
+          return setResult({ data: '', issues: [], status: 'success' })
+        case 1:
+          return setResult({ data: data[0]?.content!, issues: [], status: 'success' })
+        default:
+          return setResult({
+            status: 'failure',
+            data: '',
+            issues: [
+              {
+                message: `Expected exactly 1 output file, got ${data.length}`,
+                path: 'output',
+                severity: 'error',
+                type: IssueTypes.other,
+              },
+            ],
+          })
       }
-      const [file] = data
-      setResult({ data: file?.content!, issues: [], status: 'success' })
     } else {
       setResult({ data: '', issues: output.issues, status: 'failure' })
     }
