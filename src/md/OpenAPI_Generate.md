@@ -85,7 +85,7 @@ The main `generator` function can be configured with an object having the follow
 
 ## Available generators
 
-There are a number of code generators available. These are part of certain presets, but can also be used individually, using `generators.create`.
+There are a number of code generators available. These are part of certain presets, but can also be used individually, using `generators.create`. In case you want to see them in action, check the [demo](#/demo) page!
 
 | **Name**                              | **Preset**                | **Uses**                                                                                                                   | **Creates**                                                                                                                                        |
 | ------------------------------------- | ------------------------- | -------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------- |
