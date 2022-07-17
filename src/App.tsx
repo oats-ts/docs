@@ -7,12 +7,22 @@ import { Route, Routes, useLocation } from 'react-router-dom'
 import { GeneratorDemo } from './GeneratorDemo/GeneratorDemo'
 import { MarkdownView } from './Documentation/MarkdownView'
 import { Documentation } from './Documentation/Documentation'
+import { usePageTitle } from './usePageTitle'
 
 const appStyle = css`
   background-color: rgba(0, 0, 0, 0.1);
   padding: 16px 16px 0px 16px;
   height: 100vh;
 `
+
+const Home: FC = () => {
+  usePageTitle('Home')
+  return (
+    <Segment raised>
+      <MarkdownView page="Home" />
+    </Segment>
+  )
+}
 
 export const App: FC = () => {
   const { pathname } = useLocation()
@@ -36,14 +46,7 @@ export const App: FC = () => {
         </Menu.Menu>
       </Menu>
       <Routes>
-        <Route
-          index
-          element={
-            <Segment raised>
-              <MarkdownView page="Home" />
-            </Segment>
-          }
-        />
+        <Route index element={<Home />} />
         <Route path="demo" element={<GeneratorDemo />} />
         <Route path="docs" element={<Documentation />} />
         <Route path="docs/:page" element={<Documentation />} />

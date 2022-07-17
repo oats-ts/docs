@@ -21,7 +21,7 @@ Let's assume, that your code lives in the `src` folder. Let's create a `generate
 ```ts
 // src/generate.ts
 
-import { generate } from '@oats-ts/oats-ts';
+import { generate } from '@oats-ts/oats-ts'
 import {
   nameProviders,
   generator,
@@ -32,9 +32,9 @@ import {
   formatters,
   loggers,
   validator,
-} from '@oats-ts/openapi';
+} from '@oats-ts/openapi'
 
-import prettierConfig from './.prettierrc.json';
+import prettierConfig from './.prettierrc.json'
 
 generate({
   logger: loggers.simple(),
@@ -48,7 +48,7 @@ generate({
   writer: writers.typescript({
     format: formatters.prettier(prettierConfig),
   }),
-});
+})
 ```
 
 ### Breakdown
@@ -102,6 +102,5 @@ npm run oats
 
 ## Where to go from here?
 
-- If you find the project interesting, feel free to check it out in action!
-- If you are interested in how do certain parts work in this project, have a look around in this wiki!
-- If you have found a bug, please open an issue!
+- If you this looks interesting, check out the [demo](#/demo) page, where you can see the outputs of each generator, with either your OpenAPI inputs or samples!
+- If you find any issues, I'd greatly appreciate if you [report](https://github.com/oats-ts/oats-ts/issues) it!

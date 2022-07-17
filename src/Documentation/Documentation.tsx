@@ -1,8 +1,10 @@
 import { css } from '@emotion/css'
+import { isNil } from 'lodash'
 import React, { FC } from 'react'
 import { useParams } from 'react-router-dom'
 import { Menu, Segment } from 'semantic-ui-react'
 import { MarkdowPageName } from '../md/markdown'
+import { usePageTitle } from '../usePageTitle'
 import { MarkdownView } from './MarkdownView'
 
 type DocumentationItem = {
@@ -62,6 +64,8 @@ const menuStyle = css`
 export const Documentation: FC = () => {
   const { page } = useParams<{ page: MarkdowPageName }>()
   const activePage = page ?? 'OpenAPI_Workflow'
+  const docPageName = openAPIDocs.find((d) => d.md === activePage)?.name
+  usePageTitle(`Documentation${isNil(docPageName) ? '' : ` - ${docPageName}`}`)
   return (
     <div className={containerStyle}>
       <Menu vertical pointing className={menuStyle}>

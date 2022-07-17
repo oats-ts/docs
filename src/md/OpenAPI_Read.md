@@ -35,6 +35,7 @@ The reader can be configured to read inputs a few different ways:
 - `https` - Reads main input document (and all possible references) from https. Will fail if the main input (or any of the references) are not accessible through https (http, local file, etc).
 - `file` - Reads main input document (and all possible references) from your local file system. Will fail if the main input (or any of the references) are not on your file system.
 - `mixed` - Reads main input document (and all possible references) from any of the sources above. You can have for example a main document in your local file system, that can reference a document through http, which references another document through https.
+- `test` - Reads main input document (and all possible references) from memory. Ideal for testing custom generators end-to-end.
 
 ### Parse
 

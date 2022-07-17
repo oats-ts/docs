@@ -1,12 +1,13 @@
 const path = require('path')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
+const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 const { ProvidePlugin } = require('webpack')
 
 module.exports = {
   entry: './src/index.tsx',
   devtool: 'cheap-source-map',
   output: {
-    filename: 'main.js',
+    filename: '[name].js',
     path: path.resolve(__dirname, 'docs'),
   },
   module: {
@@ -51,6 +52,7 @@ module.exports = {
     },
   },
   plugins: [
+    new CleanWebpackPlugin(),
     new HtmlWebpackPlugin({
       template: path.resolve('src/index.html'),
     }),
@@ -58,6 +60,11 @@ module.exports = {
       process: 'process/browser',
     }),
   ],
+  optimization: {
+    splitChunks: {
+      chunks: 'all',
+    },
+  },
   devServer: {
     client: {
       overlay: false,
