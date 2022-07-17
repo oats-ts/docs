@@ -8,11 +8,13 @@ export const GeneratorContext = createContext<GeneratorContextType>({
   source: '',
   samples: [],
   isLoading: true,
+  isConfigurationDialogOpen: false,
   result: {
     data: '',
     issues: [],
     status: 'success',
   },
+  setConfigurationDialogOpen: () => {},
   setGenerators: () => {},
   setLanguage: () => {},
   setSource: () => {},

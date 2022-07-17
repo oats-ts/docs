@@ -17,7 +17,9 @@ export type GeneratorContextType = {
   result: Result
   samples: SampleFile[]
   isLoading: boolean
+  isConfigurationDialogOpen: boolean
 
+  setConfigurationDialogOpen(isOpen: boolean): void
   setSourceBySample(sampleUrl: string): void
   setGenerators: (generators: Record<OpenAPIGeneratorTarget, boolean>) => void
   setLanguage: (lang: SourceLanguage) => void

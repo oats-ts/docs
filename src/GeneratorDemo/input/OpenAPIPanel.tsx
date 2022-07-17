@@ -1,6 +1,6 @@
 import Editor from '@monaco-editor/react'
 import { editor } from 'monaco-editor'
-import React, { FC, useContext, useState } from 'react'
+import React, { FC, useContext } from 'react'
 import { Dropdown, Menu, Segment } from 'semantic-ui-react'
 
 import { codeEditorSegmentStyle } from '../commonCss'
@@ -19,7 +19,6 @@ const editorConfig: editor.IStandaloneEditorConstructionOptions = {
 export const OpenAPIPanel: FC = () => {
   const { source, language, samples, isLoading, setSource, setLanguage, setSourceBySample } =
     useContext(GeneratorContext)
-  const [isModalOpen, setModalOpen] = useState(false)
 
   const handleSourceChange = (value: string | undefined) => {
     setSource(value ?? '')
@@ -64,12 +63,11 @@ export const OpenAPIPanel: FC = () => {
               ))}
             </Dropdown.Menu>
           </Dropdown>
-          <ConfigureModal isOpen={isModalOpen} onChange={setModalOpen} />
+          <ConfigureModal />
         </Menu.Menu>
       </Menu>
       <Segment raised attached="bottom" loading={isLoading} className={codeEditorSegmentStyle}>
         <Editor
-          loading={isLoading}
           height={`calc(100vh - ${HeightSub}px)`}
           theme="light"
           defaultPath={`input.${language}`}
