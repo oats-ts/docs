@@ -6,6 +6,7 @@ import { OpenAPIPanel } from './input/OpenAPIPanel'
 import { TypescriptPanel } from './output/TypescriptPanel'
 import { useGenerator } from './useGenerator'
 import { GeneratorContext } from './GeneratorContext'
+import { usePageTitle } from '../usePageTitle'
 
 const contentContainerStyle = css`
   display: grid;
@@ -20,7 +21,7 @@ const columnStyle = css`
 
 export const GeneratorDemo: FC = () => {
   const context = useGenerator()
-
+  usePageTitle('Demo')
   return (
     <GeneratorContext.Provider value={context}>
       <div className={contentContainerStyle}>
