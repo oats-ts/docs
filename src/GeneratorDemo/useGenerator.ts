@@ -11,9 +11,9 @@ import {
   generator,
   loggers,
 } from '@oats-ts/openapi'
-import { GeneratorContextType, Result, SourceLanguage } from '../types'
+import { GeneratorContextType, Result, SampleFile, SourceLanguage } from '../types'
 import { Options } from 'prettier'
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { isSuccess, Try } from '@oats-ts/try'
 import { GeneratedFile } from '@oats-ts/typescript-writer'
 import { IssueTypes } from '@oats-ts/validators'
@@ -21,6 +21,7 @@ import { OpenAPIGeneratorTarget } from '@oats-ts/openapi-common'
 import debounce from 'lodash/debounce'
 import { storage } from '../storage'
 import { defaultGenerators } from './defaultGenerators'
+import { getSampleFile, getSampleFiles } from './getSampleFiles'
 
 const DUMMY_URL = 'https://dummy.schema.com'
 
@@ -30,11 +31,20 @@ const baseOptions: Options = {
 }
 
 export function useGenerator(): GeneratorContextType {
+  const [samples, setSamples] = useState<SampleFile[]>([])
   const [source, setSource] = useState<string>(() => storage.get('source'))
-  const [sourceType, setSourceType] = useState<SourceLanguage>(() => 'json')
+  const [language, setLanguage] = useState<SourceLanguage>(() => 'json')
   const [generators, setGenerators] = useState<Record<OpenAPIGeneratorTarget, boolean>>(() => defaultGenerators)
+  const [isLoading, setLoading] = useState<boolean>(true)
 
   const [result, setResult] = useState<Result>({ data: '', status: 'success', issues: [] })
+
+  useEffect(() => {
+    setLoading(true)
+    getSampleFiles(['schemas', 'generated-schemas'])
+      .then((fetchedSamples) => setSamples(fetchedSamples))
+      .finally(() => setLoading(false))
+  }, [])
 
   function processResult(output: Try<GeneratedFile[]>): void {
     if (isSuccess(output)) {
@@ -60,13 +70,23 @@ export function useGenerator(): GeneratorContextType {
     }
   }
 
+  const setSourceBySample = useCallback((uri: string): void => {
+    setLoading(true)
+    getSampleFile(uri)
+      .then((source) => {
+        setLanguage('json')
+        setSource(source)
+      })
+      .finally(() => setLoading(false))
+  }, [])
+
   useEffect(
     debounce(() => {
       setResult({ data: '', issues: [], status: 'working' })
       generate({
         logger: loggers.simple(),
         validator: validator(),
-        reader: readers.test[sourceType]({
+        reader: readers.test[language]({
           path: DUMMY_URL,
           content: new Map().set(DUMMY_URL, source),
         }),
@@ -80,16 +100,19 @@ export function useGenerator(): GeneratorContextType {
         }),
       }).then(processResult)
     }, 500),
-    [source, sourceType, generators],
+    [source, language, generators],
   )
 
   return {
     generators,
     result,
     source,
-    language: sourceType,
+    language,
+    samples,
+    isLoading,
     setGenerators,
     setSource,
-    setLanguage: setSourceType,
+    setLanguage,
+    setSourceBySample,
   }
 }

@@ -17,7 +17,8 @@ const editorConfig: editor.IStandaloneEditorConstructionOptions = {
 }
 
 export const OpenAPIPanel: FC = () => {
-  const { source, language, setSource, setLanguage } = useContext(GeneratorContext)
+  const { source, language, samples, isLoading, setSource, setLanguage, setSourceBySample } =
+    useContext(GeneratorContext)
   const [isModalOpen, setModalOpen] = useState(false)
 
   const handleSourceChange = (value: string | undefined) => {
@@ -43,23 +44,32 @@ export const OpenAPIPanel: FC = () => {
     <>
       <Menu attached="top" secondary>
         <Menu.Item header>OpenAPI input</Menu.Item>
-
+        <Dropdown item text={language === 'json' ? 'JSON' : 'YAML'}>
+          <Dropdown.Menu>
+            <Dropdown.Item value="json" active={language === 'json'} onClick={handleLanguageChange('json')}>
+              JSON
+            </Dropdown.Item>
+            <Dropdown.Item value="yaml" active={language === 'yaml'} onClick={handleLanguageChange('yaml')}>
+              YAML
+            </Dropdown.Item>
+          </Dropdown.Menu>
+        </Dropdown>
         <Menu.Menu position="right">
-          <Dropdown item text={language === 'json' ? 'JSON' : 'YAML'}>
+          <Dropdown item text="Samples">
             <Dropdown.Menu>
-              <Dropdown.Item value="json" active={language === 'json'} onClick={handleLanguageChange('json')}>
-                JSON
-              </Dropdown.Item>
-              <Dropdown.Item value="yaml" active={language === 'yaml'} onClick={handleLanguageChange('yaml')}>
-                YAML
-              </Dropdown.Item>
+              {samples.map((sample) => (
+                <Dropdown.Item value={sample.uri} key={sample.uri} onClick={() => setSourceBySample(sample.uri)}>
+                  {sample.name}
+                </Dropdown.Item>
+              ))}
             </Dropdown.Menu>
           </Dropdown>
           <ConfigureModal isOpen={isModalOpen} onChange={setModalOpen} />
         </Menu.Menu>
       </Menu>
-      <Segment raised attached="bottom" className={codeEditorSegmentStyle}>
+      <Segment raised attached="bottom" loading={isLoading} className={codeEditorSegmentStyle}>
         <Editor
+          loading={isLoading}
           height={`calc(100vh - ${HeightSub}px)`}
           theme="light"
           defaultPath={`input.${language}`}

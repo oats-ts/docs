@@ -6,6 +6,8 @@ export const GeneratorContext = createContext<GeneratorContextType>({
   generators: defaultGenerators,
   language: 'json',
   source: '',
+  samples: [],
+  isLoading: true,
   result: {
     data: '',
     issues: [],
@@ -14,4 +16,5 @@ export const GeneratorContext = createContext<GeneratorContextType>({
   setGenerators: () => {},
   setLanguage: () => {},
   setSource: () => {},
+  setSourceBySample: () => {},
 })
