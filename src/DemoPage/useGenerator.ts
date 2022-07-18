@@ -13,7 +13,15 @@ import {
 } from '@oats-ts/openapi'
 import debounce from 'lodash/debounce'
 import isNil from 'lodash/isNil'
-import { GeneratorContextType, Result, SampleFile, SourceLanguage } from '../types'
+import {
+  ExplorerTreeState,
+  FileNode,
+  GeneratorContextType,
+  GeneratorOutput,
+  Result,
+  SampleFile,
+  SourceLanguage,
+} from '../types'
 import { Options } from 'prettier'
 import { useCallback, useEffect, useState } from 'react'
 import { isSuccess, Try } from '@oats-ts/try'
@@ -22,6 +30,7 @@ import { OpenAPIGeneratorTarget } from '@oats-ts/openapi-common'
 import { storage, Ttl } from '../storage'
 import { defaultGenerators } from './defaultGenerators'
 import { getSampleFile, getSampleFiles } from './getSampleFiles'
+import { buildExplorerTree } from '../DemoPage2/buildExplorerTree'
 
 const DUMMY_URL = ''
 
@@ -40,12 +49,20 @@ export function useGenerator(): GeneratorContextType {
   const [isLoading, setLoading] = useState<boolean>(true)
   const [isIssuesPanelOpen, setIssuesPanelOpen] = useState<boolean>(false)
   const [isConfigurationDialogOpen, setConfigurationDialogOpen] = useState<boolean>(false)
-
   const [result, setResult] = useState<Result>({ data: '', status: 'success', issues: [] })
+  const [results, setResults] = useState<GeneratorOutput>({
+    data: { type: 'folder', path: '/', name: '/', children: [] },
+    status: 'success',
+    issues: [],
+  })
+  const [editorInput, setEditorInput] = useState<FileNode>()
+  const [explorerTreeState, setExplorerTreeState] = useState<ExplorerTreeState>({})
 
   function processResult(output: Try<GeneratedFile[]>): void {
+    setExplorerTreeState({})
     if (isSuccess(output)) {
       const { data } = output
+      setResults({ data: buildExplorerTree(data), issues: [], status: 'success' })
       switch (data.length) {
         case 0:
           return setResult((result) => ({ ...result, data: '', status: 'success' }))
@@ -53,6 +70,11 @@ export function useGenerator(): GeneratorContextType {
           return setResult((result) => ({ ...result, data: data[0]?.content!, status: 'success' }))
       }
     } else {
+      setResults({
+        data: { type: 'folder', name: '/', path: '/', children: [] },
+        issues: [],
+        status: 'failure',
+      })
       setResult({ data: '', issues: output.issues, status: 'failure' })
     }
   }
@@ -123,7 +145,7 @@ export function useGenerator(): GeneratorContextType {
         }),
         generator: generator({
           nameProvider: nameProviders.default(),
-          pathProvider: pathProviders.singleFile('test.ts'),
+          pathProvider: pathProviders.default(''),
           children: presets.fullStack({ overrides: generators }),
         }),
         writer: writers.typescript.memory({
@@ -137,12 +159,17 @@ export function useGenerator(): GeneratorContextType {
   return {
     generators,
     result,
+    results,
     source,
     language,
     samples,
     isLoading,
     isConfigurationPanelOpen: isConfigurationDialogOpen,
     isIssuesPanelOpen,
+    editorInput,
+    explorerTreeState,
+    setExplorerTreeState,
+    setEditorInput,
     setIssuesPanelOpen,
     setConfigurationPanelOpen: setConfigurationDialogOpen,
     setGenerators,
