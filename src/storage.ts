@@ -1,6 +1,6 @@
 import { isNil } from 'lodash'
 
-type StorageKey = 'language' | 'source' | 'generators' | 'samples'
+type StorageKey = 'language' | 'source' | 'generators' | 'samples' | 'colorMode'
 
 export const Ttl = {
   seconds: (s: number): number => s * 1000,

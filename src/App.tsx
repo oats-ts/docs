@@ -1,56 +1,36 @@
 import 'semantic-ui-css/semantic.min.css'
 
 import React, { FC } from 'react'
-import { Icon, Menu, Segment } from 'semantic-ui-react'
-import { css } from '@emotion/css'
-import { Route, Routes, useLocation } from 'react-router-dom'
-import { GeneratorDemo } from './GeneratorDemo/GeneratorDemo'
-import { MarkdownView } from './Documentation/MarkdownView'
-import { Documentation } from './Documentation/Documentation'
-import { usePageTitle } from './usePageTitle'
 
-const appStyle = css`
-  background-color: rgba(0, 0, 0, 0.1);
+import { css } from '@emotion/css'
+import { Route, Routes } from 'react-router-dom'
+import { DemoPage } from './DemoPage/DemoPage'
+import { DocumentationPage } from './DocumentationPage/DocumentationPage'
+import { HomePage } from './HomePage/HomePage'
+import { AppMenu } from './AppMenu'
+import { ColorModeContext } from './ColorModeContext'
+import { useWatchColorMode } from './useColorMode'
+import { ColorMode } from './types'
+
+const appContainerStyle = (colorMode: ColorMode) => css`
+  background-color: ${colorMode === 'dark' ? '#252525' : '#fefefe'};
   padding: 16px 16px 0px 16px;
   height: 100vh;
 `
 
-const Home: FC = () => {
-  usePageTitle('Home')
-  return (
-    <Segment raised>
-      <MarkdownView page="Home" />
-    </Segment>
-  )
-}
-
 export const App: FC = () => {
-  const { pathname } = useLocation()
+  const colorCtx = useWatchColorMode()
   return (
-    <div className={appStyle}>
-      <Menu pointing>
-        <Menu.Item header href="#">
-          🌱 oats
-        </Menu.Item>
-        <Menu.Item
-          icon="file alternate outline"
-          name="Documentation"
-          active={pathname.startsWith('/docs')}
-          href="#/docs"
-        />
-        <Menu.Item icon="play circle outline" name="Demo" active={pathname === '/demo'} href="#/demo" />
-        <Menu.Menu position="right">
-          <Menu.Item href="https://github.com/oats-ts/oats-ts">
-            <Icon name="github alternate" /> Github
-          </Menu.Item>
-        </Menu.Menu>
-      </Menu>
-      <Routes>
-        <Route index element={<Home />} />
-        <Route path="demo" element={<GeneratorDemo />} />
-        <Route path="docs" element={<Documentation />} />
-        <Route path="docs/:page" element={<Documentation />} />
-      </Routes>
-    </div>
+    <ColorModeContext.Provider value={colorCtx}>
+      <div className={appContainerStyle(colorCtx.colorMode)}>
+        <AppMenu />
+        <Routes>
+          <Route index element={<HomePage />} />
+          <Route path="demo" element={<DemoPage />} />
+          <Route path="docs" element={<DocumentationPage />} />
+          <Route path="docs/:page" element={<DocumentationPage />} />
+        </Routes>
+      </div>
+    </ColorModeContext.Provider>
   )
 }
