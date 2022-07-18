@@ -1,6 +1,7 @@
 import { OpenAPIGeneratorTarget } from '@oats-ts/openapi-common'
 import { Issue } from '@oats-ts/validators'
 
+export type ColorMode = 'dark' | 'light'
 export type SourceLanguage = 'yaml' | 'json'
 export type GeneratorStatus = 'success' | 'failure' | 'working'
 

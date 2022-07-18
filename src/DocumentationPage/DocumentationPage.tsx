@@ -61,7 +61,7 @@ const menuStyle = css`
   min-height: 0px;
 `
 
-export const Documentation: FC = () => {
+export const DocumentationPage: FC = () => {
   const { page } = useParams<{ page: MarkdowPageName }>()
   const activePage = page ?? 'OpenAPI_Workflow'
   const docPageName = openAPIDocs.find((d) => d.md === activePage)?.name

@@ -1,55 +1,29 @@
 import 'semantic-ui-css/semantic.min.css'
 
 import React, { FC } from 'react'
-import { Icon, Menu, Segment } from 'semantic-ui-react'
-import { css } from '@emotion/css'
-import { Route, Routes, useLocation } from 'react-router-dom'
-import { GeneratorDemo } from './GeneratorDemo/GeneratorDemo'
-import { MarkdownView } from './Documentation/MarkdownView'
-import { Documentation } from './Documentation/Documentation'
-import { usePageTitle } from './usePageTitle'
 
-const appStyle = css`
+import { css } from '@emotion/css'
+import { Route, Routes } from 'react-router-dom'
+import { DemoPage } from './DemoPage/DemoPage'
+import { DocumentationPage } from './DocumentationPage/DocumentationPage'
+import { HomePage } from './HomePage/HomePage'
+import { AppMenu } from './AppMenu'
+
+const appContainerStyle = css`
   background-color: rgba(0, 0, 0, 0.1);
   padding: 16px 16px 0px 16px;
   height: 100vh;
 `
 
-const Home: FC = () => {
-  usePageTitle('Home')
-  return (
-    <Segment raised>
-      <MarkdownView page="Home" />
-    </Segment>
-  )
-}
-
 export const App: FC = () => {
-  const { pathname } = useLocation()
   return (
-    <div className={appStyle}>
-      <Menu pointing>
-        <Menu.Item header href="#">
-          🌱 oats
-        </Menu.Item>
-        <Menu.Item
-          icon="file alternate outline"
-          name="Documentation"
-          active={pathname.startsWith('/docs')}
-          href="#/docs"
-        />
-        <Menu.Item icon="play circle outline" name="Demo" active={pathname === '/demo'} href="#/demo" />
-        <Menu.Menu position="right">
-          <Menu.Item href="https://github.com/oats-ts/oats-ts">
-            <Icon name="github alternate" /> Github
-          </Menu.Item>
-        </Menu.Menu>
-      </Menu>
+    <div className={appContainerStyle}>
+      <AppMenu />
       <Routes>
-        <Route index element={<Home />} />
-        <Route path="demo" element={<GeneratorDemo />} />
-        <Route path="docs" element={<Documentation />} />
-        <Route path="docs/:page" element={<Documentation />} />
+        <Route index element={<HomePage />} />
+        <Route path="demo" element={<DemoPage />} />
+        <Route path="docs" element={<DocumentationPage />} />
+        <Route path="docs/:page" element={<DocumentationPage />} />
       </Routes>
     </div>
   )

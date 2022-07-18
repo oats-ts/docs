@@ -19,7 +19,7 @@ const columnStyle = css`
   background-color: #fff;
 `
 
-export const GeneratorDemo: FC = () => {
+export const DemoPage: FC = () => {
   const context = useGenerator()
   usePageTitle('Demo')
   return (
