@@ -4,6 +4,7 @@ import React, { FC } from 'react'
 import { useParams } from 'react-router-dom'
 import { Menu, Segment } from 'semantic-ui-react'
 import { MarkdowPageName } from '../md/markdown'
+import { useColorMode } from '../useColorMode'
 import { usePageTitle } from '../usePageTitle'
 import { MarkdownView } from './MarkdownView'
 
@@ -65,10 +66,13 @@ export const DocumentationPage: FC = () => {
   const { page } = useParams<{ page: MarkdowPageName }>()
   const activePage = page ?? 'OpenAPI_Workflow'
   const docPageName = openAPIDocs.find((d) => d.md === activePage)?.name
+  const { colorMode } = useColorMode()
+
   usePageTitle(`Documentation${isNil(docPageName) ? '' : ` - ${docPageName}`}`)
+
   return (
     <div className={containerStyle}>
-      <Menu vertical pointing className={menuStyle}>
+      <Menu vertical className={menuStyle} inverted={colorMode === 'dark'}>
         <Menu.Item>
           <Menu.Header>OpenAPI</Menu.Header>
           <Menu.Menu>
@@ -78,7 +82,7 @@ export const DocumentationPage: FC = () => {
           </Menu.Menu>
         </Menu.Item>
       </Menu>
-      <Segment className={mdSegmentStyle}>
+      <Segment className={mdSegmentStyle} inverted={colorMode === 'dark'}>
         <div className={mdContainerStyle}>
           <MarkdownView page={activePage} />
         </div>

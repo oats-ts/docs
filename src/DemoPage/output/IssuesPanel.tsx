@@ -1,6 +1,8 @@
 import { css } from '@emotion/css'
+import { Severity } from '@oats-ts/validators'
 import React, { FC, useContext } from 'react'
-import { Header, Icon, Table } from 'semantic-ui-react'
+import { Icon, Table } from 'semantic-ui-react'
+import { useColorMode } from '../../useColorMode'
 import { GeneratorContext } from '../GeneratorContext'
 
 const issuesContainerStyle = css`
@@ -9,36 +11,29 @@ const issuesContainerStyle = css`
   padding: 16px;
 `
 
-const headerRowStyle = css`
-  display: flex;
-  flex-direction: row;
-`
-
-const headerStyle = css`
-  flex: 1 1 1px;
-  margin-bottom: 0px !important;
-`
-
 const pathCellStyle = css`
   max-width: 200px;
   word-break: break-word;
 `
 
+const SeverityIcon: FC<{ severity: Severity }> = ({ severity }) => {
+  switch (severity) {
+    case 'error':
+      return <Icon name="close" color="red" />
+    case 'warning':
+      return <Icon name="exclamation triangle" color="yellow" />
+    case 'info':
+      return <Icon name="info" color="blue" />
+  }
+}
+
 export const IssuesPanel: FC = () => {
-  const { result, setIssuesPanelOpen } = useContext(GeneratorContext)
+  const { colorMode } = useColorMode()
+  const { result } = useContext(GeneratorContext)
   const { issues } = result
   return (
     <div className={issuesContainerStyle}>
-      <div className={headerRowStyle}>
-        <Header className={headerStyle}>
-          {issues.length} {issues.length === 1 ? 'issue' : 'issues'}
-        </Header>
-        <div onClick={() => setIssuesPanelOpen(false)}>
-          <Icon name="close" />
-        </div>
-      </div>
-
-      <Table>
+      <Table inverted={colorMode === 'dark'}>
         <Table.Header>
           <Table.Row>
             <Table.HeaderCell>Severity</Table.HeaderCell>
@@ -47,10 +42,12 @@ export const IssuesPanel: FC = () => {
           </Table.Row>
         </Table.Header>
         <Table.Body>
-          {issues.map((issue) => {
+          {issues.map((issue, index) => {
             return (
-              <Table.Row error={issue.severity === 'error'} warning={issue.severity === 'warning'}>
-                <Table.Cell>{issue.severity}</Table.Cell>
+              <Table.Row key={index}>
+                <Table.Cell>
+                  <SeverityIcon severity={issue.severity} /> {issue.severity}
+                </Table.Cell>
                 <Table.Cell className={pathCellStyle}>{issue.path}</Table.Cell>
                 <Table.Cell>{issue.message}</Table.Cell>
               </Table.Row>

@@ -7,6 +7,8 @@ import { TypescriptPanel } from './output/TypescriptPanel'
 import { useGenerator } from './useGenerator'
 import { GeneratorContext } from './GeneratorContext'
 import { usePageTitle } from '../usePageTitle'
+import { ColorMode } from '../types'
+import { useColorMode } from '../useColorMode'
 
 const contentContainerStyle = css`
   display: grid;
@@ -14,21 +16,22 @@ const contentContainerStyle = css`
   grid-gap: 16px;
 `
 
-const columnStyle = css`
+const columnStyle = (mode: ColorMode) => css`
   border-radius: 4px;
-  background-color: #fff;
+  background-color: ${mode === 'dark' ? '#1b1c1d' : '#fff'};
 `
 
 export const DemoPage: FC = () => {
   const context = useGenerator()
+  const { colorMode } = useColorMode()
   usePageTitle('Demo')
   return (
     <GeneratorContext.Provider value={context}>
       <div className={contentContainerStyle}>
-        <div className={columnStyle}>
+        <div className={columnStyle(colorMode)}>
           <OpenAPIPanel />
         </div>
-        <div className={columnStyle}>
+        <div className={columnStyle(colorMode)}>
           <TypescriptPanel />
         </div>
       </div>

@@ -1,15 +1,22 @@
-import { useEffect, useState } from 'react'
-import { ColorMode } from './types'
+import { useContext, useState } from 'react'
+import { ColorModeContext } from './ColorModeContext'
+import { storage } from './storage'
+import { ColorMode, ColorModeContextType } from './types'
 
-// https://stackoverflow.com/questions/56393880/how-do-i-detect-dark-mode-using-javascript
-export function useColorMode(): ColorMode {
-  const [colorMode, setColorMode] = useState<ColorMode>(() =>
-    window.matchMedia?.('(prefers-color-scheme: dark)')?.matches ? 'dark' : 'light',
-  )
-  useEffect(() => {
-    window.matchMedia?.('(prefers-color-scheme: dark)')?.addEventListener('change', (event) => {
-      setColorMode(event.matches ? 'dark' : 'light')
-    })
-  }, [])
-  return colorMode
+export function useWatchColorMode(): ColorModeContextType {
+  const [colorMode, _setColorMode] = useState<ColorMode>(storage.get('colorMode', 'light'))
+
+  const setColorMode = (mode: ColorMode) => {
+    _setColorMode(mode)
+    storage.set('colorMode', mode)
+  }
+
+  return {
+    colorMode,
+    setColorMode,
+  }
+}
+
+export function useColorMode(): ColorModeContextType {
+  return useContext(ColorModeContext)
 }
