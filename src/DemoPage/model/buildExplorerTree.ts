@@ -1,5 +1,5 @@
 import { GeneratedFile } from '@oats-ts/typescript-writer'
-import { FsNode, FolderNode } from '../types'
+import { FsNode, FolderNode } from '../../types'
 
 function ensureTreeExists(path: string, segments: string[], content: string, node: FolderNode): void {
   switch (segments.length) {

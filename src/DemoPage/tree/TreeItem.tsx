@@ -1,5 +1,5 @@
 import React, { FC } from 'react'
-import { useGenerator } from '../useGenerator'
+import { useGenerator } from '../model/useGenerator'
 import { EditorInput } from '../../types'
 import { useColorMode } from '../../useColorMode'
 import { FileTreeItem } from './FileTreeItem'

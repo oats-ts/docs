@@ -1,7 +1,7 @@
 import isNil from 'lodash/isNil'
 import React, { FC } from 'react'
 import YAML from 'yamljs'
-import { useGenerator } from '../useGenerator'
+import { useGenerator } from '../model/useGenerator'
 import { OpenAPIInputNode, SourceLanguage } from '../../types'
 import { useColorMode } from '../../useColorMode'
 import { OpenAPIInputEditor } from './input/OpenAPIInputEditor'

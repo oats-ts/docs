@@ -38,7 +38,7 @@ module.exports = ({ WEBPACK_SERVE }, argv) => {
           ],
         },
         {
-          test: /\.(md)$/i,
+          test: /\.(md|yaml)$/i,
           use: 'raw-loader',
         },
       ],

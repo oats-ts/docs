@@ -22,18 +22,18 @@ import {
   IssuesNode,
   OpenAPIInputNode,
   RemoteOpenAPINode,
-} from '../types'
+} from '../../types'
 import { Options } from 'prettier'
 import { useContext, useEffect, useState } from 'react'
 import { isSuccess, Try } from '@oats-ts/try'
 import { GeneratedFile } from '@oats-ts/typescript-writer'
 import { OpenAPIGeneratorTarget } from '@oats-ts/openapi-common'
-import { storage, Ttl } from '../storage'
+import { storage, Ttl } from '../../storage'
 import { defaultGenerators } from './defaultGenerators'
 import { getSampleFiles } from './getSampleFiles'
 import { buildExplorerTree } from './buildExplorerTree'
-import { GeneratorContext } from './GeneratorContext'
-import { demoDoc } from './demoDoc'
+import { GeneratorContext } from '../GeneratorContext'
+import petStore from './pet-store.yaml'
 
 const baseOptions: Options = {
   parser: 'typescript',
@@ -56,14 +56,14 @@ export function useGeneratorContext(): GeneratorContextType {
   const [samples, setSamples] = useState<string[]>([])
   const [inlineSource, setInlineSource] = useState<InlineOpenAPINode>({
     type: 'inline-openapi',
-    content: demoDoc,
-    language: 'json',
+    content: petStore,
+    language: 'yaml',
   })
   const [remoteSource, setRemoteSource] = useState<RemoteOpenAPINode>({
     type: 'remote-openapi',
-    language: 'mixed',
-    path: '',
-    protocol: 'mixed',
+    language: 'yaml',
+    path: 'https://raw.githubusercontent.com/oats-ts/oats-schemas/master/schemas/pet-store.yaml',
+    protocol: 'https',
   })
   const [source, _setSource] = useState<OpenAPIInputNode>(inlineSource)
   const [generators, setGenerators] = useState<Record<OpenAPIGeneratorTarget, boolean>>(() =>
