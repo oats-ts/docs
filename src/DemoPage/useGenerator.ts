@@ -14,50 +14,70 @@ import {
 import debounce from 'lodash/debounce'
 import isNil from 'lodash/isNil'
 import {
+  EditorInput,
   ExplorerTreeState,
-  FileNode,
   GeneratorContextType,
   GeneratorOutput,
-  Result,
-  SampleFile,
-  SourceLanguage,
+  InlineOpenAPINode,
+  OpenAPIInputNode,
+  RemoteOpenAPINode,
 } from '../types'
 import { Options } from 'prettier'
-import { useCallback, useContext, useEffect, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import { isSuccess, Try } from '@oats-ts/try'
 import { GeneratedFile } from '@oats-ts/typescript-writer'
 import { OpenAPIGeneratorTarget } from '@oats-ts/openapi-common'
 import { storage, Ttl } from '../storage'
 import { defaultGenerators } from './defaultGenerators'
-import { getSampleFile, getSampleFiles } from './getSampleFiles'
-import { buildExplorerTree } from '../DemoPage2/buildExplorerTree'
+import { getSampleFiles } from './getSampleFiles'
+import { buildExplorerTree } from './buildExplorerTree'
 import { GeneratorContext } from './GeneratorContext'
-import { demoDoc } from '../DemoPage2/demoDoc'
-
-const DUMMY_URL = ''
+import { demoDoc } from './demoDoc'
 
 const baseOptions: Options = {
   parser: 'typescript',
   plugins: [typescriptParser],
 }
 
+function createReader(input: OpenAPIInputNode) {
+  switch (input.type) {
+    case 'inline-openapi':
+      return readers.test[input.language]({
+        path: '',
+        content: new Map().set('', input.content),
+      })
+    case 'remote-openapi':
+      return readers[input.protocol][input.language](input.path)
+  }
+}
+
 export function useGeneratorContext(): GeneratorContextType {
-  const [samples, setSamples] = useState<SampleFile[]>([])
-  const [source, setSource] = useState<string>(() => storage.get('source', demoDoc))
-  const [language, setLanguage] = useState<SourceLanguage>(() => storage.get('language', 'json'))
+  const [samples, setSamples] = useState<string[]>([])
+  const [inlineSource, setInlineSource] = useState<InlineOpenAPINode>({
+    type: 'inline-openapi',
+    content: demoDoc,
+    language: 'json',
+  })
+  const [remoteSource, setRemoteSource] = useState<RemoteOpenAPINode>({
+    type: 'remote-openapi',
+    language: 'mixed',
+    path: '',
+    protocol: 'mixed',
+  })
+  const [source, _setSource] = useState<OpenAPIInputNode>(inlineSource)
   const [generators, setGenerators] = useState<Record<OpenAPIGeneratorTarget, boolean>>(() =>
     storage.get('generators', defaultGenerators),
   )
-  const [isLoading, setLoading] = useState<boolean>(true)
+  const [isSamplesLoading, setSamplesLoading] = useState<boolean>(true)
+  const [isGenerating, setGenerating] = useState<boolean>(true)
   const [isIssuesPanelOpen, setIssuesPanelOpen] = useState<boolean>(false)
-  const [isConfigurationDialogOpen, setConfigurationDialogOpen] = useState<boolean>(false)
-  const [result, setResult] = useState<Result>({ data: '', status: 'success', issues: [] })
+  const [isConfigurationPanelOpen, setConfigurationPanelOpen] = useState<boolean>(false)
   const [results, setResults] = useState<GeneratorOutput>({
     data: { type: 'folder', path: '/', name: '/', children: [] },
     status: 'success',
     issues: [],
   })
-  const [editorInput, setEditorInput] = useState<FileNode>()
+  const [editorInput, setEditorInput] = useState<EditorInput | undefined>(source)
   const [explorerTreeState, setExplorerTreeState] = useState<ExplorerTreeState>({})
 
   function processResult(output: Try<GeneratedFile[]>): void {
@@ -65,45 +85,24 @@ export function useGeneratorContext(): GeneratorContextType {
     if (isSuccess(output)) {
       const { data } = output
       setResults({ data: buildExplorerTree(data), issues: [], status: 'success' })
-      switch (data.length) {
-        case 0:
-          return setResult((result) => ({ ...result, data: '', status: 'success' }))
-        default:
-          return setResult((result) => ({ ...result, data: data[0]?.content!, status: 'success' }))
-      }
     } else {
       setResults({
         data: { type: 'folder', name: '/', path: '/', children: [] },
         issues: [],
         status: 'failure',
       })
-      setResult({ data: '', issues: output.issues, status: 'failure' })
     }
   }
 
-  const setSourceBySample = useCallback((uri: string): void => {
-    setLoading(true)
-    getSampleFile(uri)
-      .then((source) => {
-        setLanguage('json')
-        setSource(source)
-      })
-      .finally(() => setLoading(false))
-  }, [])
-
-  useEffect(
-    debounce(() => {
-      storage.set('source', source, Ttl.days(1))
-    }, 1000),
-    [source],
-  )
-
-  useEffect(
-    debounce(() => {
-      storage.set('language', language, Ttl.days(1))
-    }, 1000),
-    [language],
-  )
+  function setSource(input: OpenAPIInputNode): void {
+    _setSource(input)
+    if (input.type === 'inline-openapi') {
+      setInlineSource(input)
+    } else {
+      setRemoteSource(input)
+    }
+    setEditorInput(input)
+  }
 
   useEffect(
     debounce(() => {
@@ -113,38 +112,40 @@ export function useGeneratorContext(): GeneratorContextType {
   )
 
   useEffect(() => {
-    setLoading(true)
-    const inStorage = storage.get<SampleFile[]>('samples')
+    setSamplesLoading(true)
+    const inStorage = storage.get<string[]>('samples')
     if (!isNil(inStorage) && Array.isArray(inStorage)) {
       setSamples(inStorage)
-      setLoading(false)
+      setSamplesLoading(false)
     } else {
       getSampleFiles(['schemas', 'generated-schemas'])
         .then((fetchedSamples) => {
           setSamples(fetchedSamples)
           storage.set('samples', fetchedSamples, Ttl.hours(1))
         })
-        .finally(() => setLoading(false))
+        .finally(() => setSamplesLoading(false))
     }
   }, [])
 
   useEffect(
     debounce(() => {
-      setResult({ data: '', issues: [], status: 'working' })
+      setGenerating(true)
+      setResults({
+        data: { type: 'folder', children: [], name: '/', path: '/' },
+        issues: [],
+        status: 'working',
+      })
       // TODO warnings not emmited for some reason
       const logger: Logger = (emitter) => {
         loggers.simple()(emitter)
         emitter.addListener('validator-step-completed', ({ issues }) => {
-          setResult((result) => ({ ...result, issues }))
+          setResults((results) => ({ ...results, issues }))
         })
       }
       generate({
         logger,
         validator: validator(),
-        reader: readers.test[language]({
-          path: DUMMY_URL,
-          content: new Map().set(DUMMY_URL, source),
-        }),
+        reader: createReader(source),
         generator: generator({
           nameProvider: nameProviders.default(),
           pathProvider: pathProviders.default(''),
@@ -153,31 +154,33 @@ export function useGeneratorContext(): GeneratorContextType {
         writer: writers.typescript.memory({
           format: formatters.prettier({ ...baseOptions }),
         }),
-      }).then(processResult)
+      })
+        .then(processResult)
+        .finally(() => setGenerating(false))
     }, 500),
-    [source, language, generators],
+    [generators, source],
   )
 
   return {
     generators,
-    result,
+    inlineSource,
+    remoteSource,
     results,
-    source,
-    language,
     samples,
-    isLoading,
-    isConfigurationPanelOpen: isConfigurationDialogOpen,
+    isLoading: isSamplesLoading || isGenerating,
+    isConfigurationPanelOpen,
     isIssuesPanelOpen,
     editorInput,
     explorerTreeState,
+    source,
+    setSource,
+    setInlineSource,
+    setRemoteSource,
     setExplorerTreeState,
     setEditorInput,
     setIssuesPanelOpen,
-    setConfigurationPanelOpen: setConfigurationDialogOpen,
+    setConfigurationPanelOpen,
     setGenerators,
-    setSource,
-    setLanguage,
-    setSourceBySample,
   }
 }
 

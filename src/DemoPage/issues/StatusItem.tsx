@@ -3,8 +3,8 @@ import { Icon, Menu } from 'semantic-ui-react'
 import { GeneratorContext } from '../GeneratorContext'
 
 export const StatusItem: FC = () => {
-  const { result } = useContext(GeneratorContext)
-  const { status } = result
+  const { results } = useContext(GeneratorContext)
+  const { status } = results
   switch (status) {
     case 'working':
       return (

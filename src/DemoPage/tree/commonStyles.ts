@@ -6,8 +6,9 @@ export const treeItemStyle = (active: boolean, isDark: boolean) => css`
   flex-shrink: 0;
   flex-grow: 0px;
   flex-basis: 1px;
-  padding: 4px;
+  padding: 4px 8px;
   border-radius: 4px;
+  white-space: nowrap;
   cursor: pointer;
   font-size: 0.85714286em;
   user-select: none;

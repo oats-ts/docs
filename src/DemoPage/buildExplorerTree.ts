@@ -1,5 +1,5 @@
 import { GeneratedFile } from '@oats-ts/typescript-writer'
-import { FileOrFolderNode, FolderNode } from '../types'
+import { FsNode, FolderNode } from '../types'
 
 function ensureTreeExists(path: string, segments: string[], content: string, node: FolderNode): void {
   switch (segments.length) {
@@ -34,11 +34,11 @@ function buildExplorerTreeInternal(file: GeneratedFile, root: FolderNode): void 
   ensureTreeExists(file.path, segments, file.content, root)
 }
 
-function nameComparator(a: FileOrFolderNode, b: FileOrFolderNode): number {
+function nameComparator(a: FsNode, b: FsNode): number {
   return a.name.localeCompare(b.name)
 }
 
-function sortChildren(node: FileOrFolderNode): void {
+function sortChildren(node: FsNode): void {
   if (node.type === 'folder') {
     node.children.sort(nameComparator)
     node.children.forEach(sortChildren)

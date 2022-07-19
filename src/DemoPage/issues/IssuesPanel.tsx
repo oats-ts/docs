@@ -29,8 +29,8 @@ const SeverityIcon: FC<{ severity: Severity }> = ({ severity }) => {
 
 export const IssuesPanel: FC = () => {
   const { colorMode } = useColorMode()
-  const { result } = useContext(GeneratorContext)
-  const { issues } = result
+  const { results } = useContext(GeneratorContext)
+  const { issues } = results
   return (
     <div className={issuesContainerStyle}>
       <Table inverted={colorMode === 'dark'}>

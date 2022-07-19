@@ -2,14 +2,9 @@ import { OpenAPIGeneratorTarget } from '@oats-ts/openapi-common'
 import { Issue } from '@oats-ts/validators'
 
 export type ColorMode = 'dark' | 'light'
-export type SourceLanguage = 'yaml' | 'json'
+export type SourceLanguage = 'yaml' | 'json' | 'mixed'
+export type RemoteProtocol = 'http' | 'https' | 'mixed'
 export type GeneratorStatus = 'success' | 'failure' | 'working'
-
-export type Result = {
-  status: GeneratorStatus
-  data: string
-  issues: Issue[]
-}
 
 export type GeneratorOutput = {
   status: GeneratorStatus
@@ -37,23 +32,23 @@ export type ExplorerTreeState = {
 
 export type GeneratorContextType = {
   generators: Record<OpenAPIGeneratorTarget, boolean>
-  language: SourceLanguage
-  source: string
-  result: Result
+  source: OpenAPIInputNode
+  inlineSource: InlineOpenAPINode
+  remoteSource: RemoteOpenAPINode
+  editorInput?: EditorInput
   results: GeneratorOutput
-  samples: SampleFile[]
+  samples: string[]
   isLoading: boolean
   isIssuesPanelOpen: boolean
   isConfigurationPanelOpen: boolean
-  editorInput?: FileNode
   explorerTreeState: ExplorerTreeState
   setIssuesPanelOpen: (isOpen: boolean) => void
   setConfigurationPanelOpen: (isOpen: boolean) => void
-  setSourceBySample: (sampleUrl: string) => void
   setGenerators: (generators: Record<OpenAPIGeneratorTarget, boolean>) => void
-  setLanguage: (lang: SourceLanguage) => void
-  setSource: (source: string) => void
-  setEditorInput: (file?: FileNode) => void
+  setSource: (source: OpenAPIInputNode) => void
+  setInlineSource: (source: InlineOpenAPINode) => void
+  setRemoteSource: (source: RemoteOpenAPINode) => void
+  setEditorInput: (file?: EditorInput) => void
   setExplorerTreeState: (state: ExplorerTreeState) => void
 }
 
@@ -73,7 +68,24 @@ export type FolderNode = {
   type: 'folder'
   path: string
   name: string
-  children: FileOrFolderNode[]
+  children: FsNode[]
 }
 
-export type FileOrFolderNode = FileNode | FolderNode
+export type FsNode = FileNode | FolderNode
+
+export type InlineOpenAPINode = {
+  type: 'inline-openapi'
+  language: SourceLanguage
+  content: string
+}
+
+export type RemoteOpenAPINode = {
+  type: 'remote-openapi'
+  language: SourceLanguage
+  protocol: RemoteProtocol
+  path: string
+}
+
+export type OpenAPIInputNode = InlineOpenAPINode | RemoteOpenAPINode
+
+export type EditorInput = FsNode | OpenAPIInputNode

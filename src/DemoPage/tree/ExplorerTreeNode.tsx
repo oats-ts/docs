@@ -1,7 +1,7 @@
 import { css } from '@emotion/css'
 import React, { FC, useContext } from 'react'
-import { GeneratorContext } from '../../DemoPage/GeneratorContext'
-import { FileOrFolderNode } from '../../types'
+import { GeneratorContext } from '../GeneratorContext'
+import { EditorInput } from '../../types'
 import { TreeItem } from './TreeItem'
 
 const treeItemContainerStyle = (level: number) => css`
@@ -11,7 +11,7 @@ const treeItemContainerStyle = (level: number) => css`
 `
 
 type ExplorerTreeNodeProps = {
-  node: FileOrFolderNode
+  node: EditorInput
   level: number
 }
 
