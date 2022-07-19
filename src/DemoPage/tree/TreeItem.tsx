@@ -5,6 +5,8 @@ import { useColorMode } from '../../useColorMode'
 import { FileTreeItem } from './FileTreeItem'
 import { FolderTreeItem } from './FolderTreeItem'
 import { OpenAPIInputTreeItem } from './OpenAPIInputTreeItem'
+import { IssuesTreeItem } from './IssuesTreeItem'
+import { isOk } from '@oats-ts/validators'
 
 export type TreeItemProps = {
   node: EditorInput
@@ -25,11 +27,12 @@ export const TreeItem: FC<TreeItemProps> = ({ node }) => {
   const { explorerTreeState, editorInput, setEditorInput, setExplorerTreeState } = useGenerator()
   const { colorMode } = useColorMode()
   const isDark = colorMode === 'dark'
+  const defaultOnClick = () => setEditorInput(node)
+
   switch (node.type) {
     case 'file': {
       const isActive = Boolean(editorInput && editorInput.type === 'file' && editorInput.path === node.path)
-      const onClick = () => setEditorInput(node)
-      return <FileTreeItem isDark={isDark} name={node.name} isActive={isActive} onClick={onClick} />
+      return <FileTreeItem isDark={isDark} name={node.name} isActive={isActive} onClick={defaultOnClick} />
     }
     case 'folder': {
       const isOpen = Boolean(explorerTreeState[node.path])
@@ -37,16 +40,36 @@ export const TreeItem: FC<TreeItemProps> = ({ node }) => {
       return <FolderTreeItem isDark={isDark} name={node.name} isOpen={isOpen} onClick={onClick} />
     }
     case 'inline-openapi': {
-      const onClick = () => setEditorInput(node)
       const isActive = Boolean(editorInput && editorInput.type === 'inline-openapi')
       const name = `openapi.${node.language}`
-      return <OpenAPIInputTreeItem onClick={onClick} isDark={isDark} isInline={true} isActive={isActive} name={name} />
+      return (
+        <OpenAPIInputTreeItem
+          onClick={defaultOnClick}
+          isDark={isDark}
+          isInline={true}
+          isActive={isActive}
+          name={name}
+        />
+      )
     }
     case 'remote-openapi': {
-      const onClick = () => setEditorInput(node)
       const isActive = Boolean(editorInput && editorInput.type === 'remote-openapi')
       const name = computeNameForUri(node.path)
-      return <OpenAPIInputTreeItem onClick={onClick} isDark={isDark} isInline={false} isActive={isActive} name={name} />
+      return (
+        <OpenAPIInputTreeItem
+          onClick={defaultOnClick}
+          isDark={isDark}
+          isInline={false}
+          isActive={isActive}
+          name={name}
+        />
+      )
+    }
+    case 'issues': {
+      const isActive = Boolean(editorInput && editorInput.type === 'issues')
+      const _isOk = isOk(node.issues, ['error'])
+      const name = `issues (${node.issues.length})`
+      return <IssuesTreeItem onClick={defaultOnClick} isDark={isDark} isActive={isActive} isOk={_isOk} name={name} />
     }
   }
 }

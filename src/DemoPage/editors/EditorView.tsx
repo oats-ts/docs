@@ -7,6 +7,7 @@ import { useColorMode } from '../../useColorMode'
 import { OpenAPIInputEditor } from './input/OpenAPIInputEditor'
 import { NoEditor } from './NoEditor'
 import { ReadonlyTypescriptEditor } from './ReadonlyTypescriptEditor'
+import { IssuesPanel } from './IssuesPanel'
 
 export const EditorView: FC = () => {
   const { editorInput, samples, inlineSource, remoteSource, source, isLoading, setSource, setEditorInput } =
@@ -36,11 +37,11 @@ export const EditorView: FC = () => {
         if (source.type !== 'inline-openapi') {
           return
         }
-        if (language !== inlineSource.language) {
+        if (language !== source.language) {
           if (language === 'json') {
             try {
               setSource({
-                ...inlineSource,
+                ...source,
                 content: JSON.stringify(YAML.parse(source.content), null, 2),
                 language: 'json',
               })
@@ -50,7 +51,7 @@ export const EditorView: FC = () => {
           } else if (language === 'yaml') {
             try {
               setSource({
-                ...inlineSource,
+                ...source,
                 content: YAML.stringify(JSON.parse(source.content), 10000, 2),
                 language: 'yaml',
               })
@@ -71,6 +72,9 @@ export const EditorView: FC = () => {
           onInlineInputLanguageChange={onInlineInputLanguageChange}
         />
       )
+    }
+    case 'issues': {
+      return <IssuesPanel isLoading={isLoading} isDark={isDark} node={editorInput} />
     }
     default:
       throw new TypeError(`Unexpected input of type "${editorInput.type}"`)

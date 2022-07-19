@@ -6,12 +6,6 @@ export type SourceLanguage = 'yaml' | 'json' | 'mixed'
 export type RemoteProtocol = 'http' | 'https' | 'mixed'
 export type GeneratorStatus = 'success' | 'failure' | 'working'
 
-export type GeneratorOutput = {
-  status: GeneratorStatus
-  data: FolderNode
-  issues: Issue[]
-}
-
 export type GhFileDescriptor = {
   path: string
   mode: string
@@ -36,7 +30,8 @@ export type GeneratorContextType = {
   inlineSource: InlineOpenAPINode
   remoteSource: RemoteOpenAPINode
   editorInput?: EditorInput
-  results: GeneratorOutput
+  output: FolderNode
+  issues: IssuesNode
   samples: string[]
   isLoading: boolean
   isIssuesPanelOpen: boolean
@@ -46,8 +41,6 @@ export type GeneratorContextType = {
   setConfigurationPanelOpen: (isOpen: boolean) => void
   setGenerators: (generators: Record<OpenAPIGeneratorTarget, boolean>) => void
   setSource: (source: OpenAPIInputNode) => void
-  setInlineSource: (source: InlineOpenAPINode) => void
-  setRemoteSource: (source: RemoteOpenAPINode) => void
   setEditorInput: (file?: EditorInput) => void
   setExplorerTreeState: (state: ExplorerTreeState) => void
 }
@@ -88,4 +81,9 @@ export type RemoteOpenAPINode = {
 
 export type OpenAPIInputNode = InlineOpenAPINode | RemoteOpenAPINode
 
-export type EditorInput = FsNode | OpenAPIInputNode
+export type IssuesNode = {
+  type: 'issues'
+  issues: Issue[]
+}
+
+export type EditorInput = FsNode | OpenAPIInputNode | IssuesNode

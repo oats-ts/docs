@@ -5,25 +5,35 @@ import { GeneratorContext } from '../GeneratorContext'
 import { useColorMode } from '../../useColorMode'
 import { darkSegmentStyle } from '../commonStyles'
 import { ExplorerTreeNode } from './ExplorerTreeNode'
+import { TreeHeader } from './TreeHeader'
+import { TreeSection } from './TreeSection'
 
 const baseStyle = css`
   min-width: 250px !important;
   max-width: 250px !important;
   width: 250px !important;
+  padding: 0px !important;
   height: 100%;
   overflow: auto;
 `
 
 export const ExplorerTree: FC = () => {
-  const { results, source, isLoading } = useContext(GeneratorContext)
+  const { output, source, issues, isLoading } = useContext(GeneratorContext)
   const { colorMode } = useColorMode()
   const explorerTreeStyle = cx(baseStyle, colorMode === 'dark' ? darkSegmentStyle : undefined)
   return (
     <Segment loading={isLoading} inverted={colorMode === 'dark'} className={explorerTreeStyle}>
-      <ExplorerTreeNode key="source" node={source} level={0} />
-      {results.data.children.map((node) => (
-        <ExplorerTreeNode key={node.path} node={node} level={0} />
-      ))}
+      <TreeSection>
+        <TreeHeader label="Input" />
+        <ExplorerTreeNode key="source" node={source} level={0} />
+        <ExplorerTreeNode key="issues" node={issues} level={0} />
+      </TreeSection>
+      <TreeSection>
+        <TreeHeader label="Output" />
+        {output.children.map((node) => (
+          <ExplorerTreeNode key={node.path} node={node} level={0} />
+        ))}
+      </TreeSection>
     </Segment>
   )
 }

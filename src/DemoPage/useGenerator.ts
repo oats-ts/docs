@@ -16,9 +16,10 @@ import isNil from 'lodash/isNil'
 import {
   EditorInput,
   ExplorerTreeState,
+  FolderNode,
   GeneratorContextType,
-  GeneratorOutput,
   InlineOpenAPINode,
+  IssuesNode,
   OpenAPIInputNode,
   RemoteOpenAPINode,
 } from '../types'
@@ -72,11 +73,8 @@ export function useGeneratorContext(): GeneratorContextType {
   const [isGenerating, setGenerating] = useState<boolean>(true)
   const [isIssuesPanelOpen, setIssuesPanelOpen] = useState<boolean>(false)
   const [isConfigurationPanelOpen, setConfigurationPanelOpen] = useState<boolean>(false)
-  const [results, setResults] = useState<GeneratorOutput>({
-    data: { type: 'folder', path: '/', name: '/', children: [] },
-    status: 'success',
-    issues: [],
-  })
+  const [output, setOutput] = useState<FolderNode>({ type: 'folder', path: '/', name: '/', children: [] })
+  const [issues, setIssues] = useState<IssuesNode>({ type: 'issues', issues: [] })
   const [editorInput, setEditorInput] = useState<EditorInput | undefined>(source)
   const [explorerTreeState, setExplorerTreeState] = useState<ExplorerTreeState>({})
 
@@ -84,13 +82,10 @@ export function useGeneratorContext(): GeneratorContextType {
     setExplorerTreeState({})
     if (isSuccess(output)) {
       const { data } = output
-      setResults({ data: buildExplorerTree(data), issues: [], status: 'success' })
+      setOutput(buildExplorerTree(data))
     } else {
-      setResults({
-        data: { type: 'folder', name: '/', path: '/', children: [] },
-        issues: [],
-        status: 'failure',
-      })
+      setOutput({ type: 'folder', name: '/', path: '/', children: [] })
+      setIssues({ type: 'issues', issues: output.issues })
     }
   }
 
@@ -102,6 +97,7 @@ export function useGeneratorContext(): GeneratorContextType {
       setRemoteSource(input)
     }
     setEditorInput(input)
+    setIssues({ type: 'issues', issues: [] })
   }
 
   useEffect(
@@ -130,16 +126,13 @@ export function useGeneratorContext(): GeneratorContextType {
   useEffect(
     debounce(() => {
       setGenerating(true)
-      setResults({
-        data: { type: 'folder', children: [], name: '/', path: '/' },
-        issues: [],
-        status: 'working',
-      })
+      setIssues({ type: 'issues', issues: [] })
+      setOutput({ type: 'folder', children: [], name: '/', path: '/' })
       // TODO warnings not emmited for some reason
       const logger: Logger = (emitter) => {
         loggers.simple()(emitter)
         emitter.addListener('validator-step-completed', ({ issues }) => {
-          setResults((results) => ({ ...results, issues }))
+          setIssues((existing) => ({ ...existing, issues: [...existing.issues, ...issues] }))
         })
       }
       generate({
@@ -165,7 +158,8 @@ export function useGeneratorContext(): GeneratorContextType {
     generators,
     inlineSource,
     remoteSource,
-    results,
+    output,
+    issues,
     samples,
     isLoading: isSamplesLoading || isGenerating,
     isConfigurationPanelOpen,
@@ -174,8 +168,6 @@ export function useGeneratorContext(): GeneratorContextType {
     explorerTreeState,
     source,
     setSource,
-    setInlineSource,
-    setRemoteSource,
     setExplorerTreeState,
     setEditorInput,
     setIssuesPanelOpen,
