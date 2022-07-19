@@ -1,14 +1,14 @@
 import Editor from '@monaco-editor/react'
 import { editor } from 'monaco-editor'
 import React, { FC } from 'react'
-import { ReaderNode } from '../../../types'
+import { ReaderConfiguration } from '../../../types'
 
 const HeightSub = 130
 
 type InlineReaderEditorProps = {
   isDark: boolean
-  input: ReaderNode
-  onChange: (node: ReaderNode) => void
+  input: ReaderConfiguration
+  onChange: (node: ReaderConfiguration) => void
 }
 
 const editorConfig: editor.IStandaloneEditorConstructionOptions = {

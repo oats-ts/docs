@@ -6,6 +6,7 @@ export type SourceLanguage = 'yaml' | 'json' | 'mixed'
 export type RemoteProtocol = 'http' | 'https' | 'mixed'
 export type GeneratorPreset = 'fullStack' | 'client' | 'server'
 export type PathProviderType = 'default' | 'singleFile' | 'byTarget' | 'byName'
+export type GeneratorConfigurationStyle = 'preset' | 'generators'
 
 export type GhFileDescriptor = {
   path: string
@@ -27,8 +28,7 @@ export type ExplorerTreeState = {
 
 export type GeneratorContextType = {
   // Configuration
-  reader: ReaderNode
-  generator: GeneratorNode
+  configuration: ConfigurationNode
   editorInput?: EditorInput
   explorerTreeState: ExplorerTreeState
   samples: string[]
@@ -36,14 +36,14 @@ export type GeneratorContextType = {
   output: FolderNode
   issues: IssuesNode
   isLoading: boolean
+  generatorSource: string
   // Cosmetic stuff
   isIssuesPanelOpen: boolean
   isConfigurationPanelOpen: boolean
   // Setters
   setIssuesPanelOpen: (isOpen: boolean) => void
   setConfigurationPanelOpen: (isOpen: boolean) => void
-  setReader: (source: ReaderNode) => void
-  setGenerator: (generator: GeneratorNode) => void
+  setConfiguration: (node: ConfigurationNode) => void
   setEditorInput: (file?: EditorInput) => void
   setExplorerTreeState: (state: ExplorerTreeState) => void
 }
@@ -67,8 +67,12 @@ export type FolderNode = {
   children: FsNode[]
 }
 
-export type ReaderNode = {
-  type: 'reader'
+export type IssuesNode = {
+  type: 'issues'
+  issues: Issue[]
+}
+
+export type ReaderConfiguration = {
   readerType: 'inline' | 'remote'
   inlineLanguage: SourceLanguage
   inlineContent: string
@@ -77,21 +81,21 @@ export type ReaderNode = {
   remotePath: string
 }
 
-export type IssuesNode = {
-  type: 'issues'
-  issues: Issue[]
-}
-
-export type GeneratorNode = {
-  type: 'generator'
+export type GeneratorConfiguration = {
+  configurationStyle: GeneratorConfigurationStyle
   pathProviderType: PathProviderType
   rootPath: string
-  preset?: GeneratorPreset
-  generators?: OpenAPIGeneratorTarget[]
+  preset: GeneratorPreset
+  generators: OpenAPIGeneratorTarget[]
+}
+
+export type ConfigurationNode = {
+  type: 'configuration'
+  active: 'inline-reader' | 'remote-reader' | 'generator' | 'generator-source'
+  reader: ReaderConfiguration
+  generator: GeneratorConfiguration
 }
 
 export type FsNode = FileNode | FolderNode
 
-export type InputNode = ReaderNode | GeneratorNode
-
-export type EditorInput = FsNode | ReaderNode | IssuesNode | GeneratorNode
+export type EditorInput = FsNode | ConfigurationNode | IssuesNode

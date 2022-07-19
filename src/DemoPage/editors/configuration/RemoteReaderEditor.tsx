@@ -1,16 +1,19 @@
 import { css } from '@emotion/css'
 import React, { FC, useMemo } from 'react'
 import { Dropdown, DropdownProps, Form, StrictDropdownItemProps } from 'semantic-ui-react'
-import { ReaderNode, RemoteProtocol, SourceLanguage } from '../../../types'
+import { ReaderConfiguration, RemoteProtocol, SourceLanguage } from '../../../types'
 
 type RemoteReaderEditorProps = {
   isDark: boolean
-  input: ReaderNode
+  input: ReaderConfiguration
   samples: string[]
-  onChange: (node: ReaderNode) => void
+  onChange: (node: ReaderConfiguration) => void
 }
 
-const languageOptions: StrictDropdownItemProps[] = [
+type JsonDropdownItemProps = StrictDropdownItemProps & { value: SourceLanguage }
+type ProtocolDropdownItemProps = StrictDropdownItemProps & { value: RemoteProtocol }
+
+const languageOptions: JsonDropdownItemProps[] = [
   {
     text: 'JSON',
     value: 'json',
@@ -25,7 +28,7 @@ const languageOptions: StrictDropdownItemProps[] = [
   },
 ]
 
-const protocolOption: StrictDropdownItemProps[] = [
+const protocolOption: ProtocolDropdownItemProps[] = [
   {
     text: 'HTTPS',
     value: 'https',

@@ -18,14 +18,14 @@ const baseStyle = css`
 `
 
 export const ExplorerTree: FC = () => {
-  const { output, reader: source, issues, isLoading } = useContext(GeneratorContext)
+  const { output, configuration, issues, isLoading } = useContext(GeneratorContext)
   const { colorMode } = useColorMode()
   const explorerTreeStyle = cx(baseStyle, colorMode === 'dark' ? darkSegmentStyle : undefined)
   return (
     <Segment loading={isLoading} inverted={colorMode === 'dark'} className={explorerTreeStyle}>
       <TreeSection>
         <TreeHeader label="Input" />
-        <ExplorerTreeNode key="source" node={source} level={0} />
+        <ExplorerTreeNode key="configuration" node={configuration} level={0} />
         <ExplorerTreeNode key="issues" node={issues} level={0} />
       </TreeSection>
       <TreeSection>

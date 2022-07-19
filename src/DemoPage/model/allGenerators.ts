@@ -31,4 +31,4 @@ const generatorsMap: Record<OpenAPIGeneratorTarget, boolean> = {
   'openapi/sdk-type': true,
 }
 
-export const generators = Object.keys(generatorsMap) as OpenAPIGeneratorTarget[]
+export const allGenerators = Object.keys(generatorsMap) as OpenAPIGeneratorTarget[]

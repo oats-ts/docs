@@ -2,7 +2,7 @@ import isNil from 'lodash/isNil'
 import React, { FC } from 'react'
 import { useGenerator } from '../model/useGenerator'
 import { useColorMode } from '../../useColorMode'
-import { InputEditorWrapper } from './input/InputEditorWrapper'
+import { InputEditorWrapper } from './configuration/InputEditorWrapper'
 import { NoEditor } from './NoEditor'
 import { ReadonlyTypescriptEditor } from './ReadonlyTypescriptEditor'
 import { IssuesPanel } from './IssuesPanel'
@@ -19,8 +19,7 @@ export const EditorView: FC = () => {
     case 'file': {
       return <ReadonlyTypescriptEditor input={editorInput} isDark={isDark} isLoading={isLoading} />
     }
-    case 'reader':
-    case 'generator': {
+    case 'configuration': {
       return <InputEditorWrapper />
     }
     case 'issues': {
