@@ -18,7 +18,7 @@ const baseStyle = css`
 `
 
 export const ExplorerTree: FC = () => {
-  const { output, source, issues, isLoading } = useContext(GeneratorContext)
+  const { output, reader: source, issues, isLoading } = useContext(GeneratorContext)
   const { colorMode } = useColorMode()
   const explorerTreeStyle = cx(baseStyle, colorMode === 'dark' ? darkSegmentStyle : undefined)
   return (

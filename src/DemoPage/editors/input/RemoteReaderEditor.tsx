@@ -1,13 +1,13 @@
 import { css } from '@emotion/css'
 import React, { FC, useMemo } from 'react'
 import { Dropdown, DropdownProps, Form, StrictDropdownItemProps } from 'semantic-ui-react'
-import { RemoteOpenAPINode, RemoteProtocol, SourceLanguage } from '../../../types'
+import { ReaderNode, RemoteProtocol, SourceLanguage } from '../../../types'
 
-type RemoteInputEditorProps = {
+type RemoteReaderEditorProps = {
   isDark: boolean
-  input: RemoteOpenAPINode
+  input: ReaderNode
   samples: string[]
-  onChange: (node: RemoteOpenAPINode) => void
+  onChange: (node: ReaderNode) => void
 }
 
 const languageOptions: StrictDropdownItemProps[] = [
@@ -44,29 +44,29 @@ const formStyle = css`
   padding: 16px;
 `
 
-export const RemoteInputEditor: FC<RemoteInputEditorProps> = ({ input, isDark, samples, onChange }) => {
+export const RemoteReaderEditor: FC<RemoteReaderEditorProps> = ({ input, isDark, samples, onChange }) => {
   const sampleOptions = useMemo<StrictDropdownItemProps[]>(
     () => samples.map((path): StrictDropdownItemProps => ({ text: path, value: path })),
     [samples],
   )
 
-  const pathOptions = samples.includes(input.path)
+  const pathOptions = samples.includes(input.remotePath)
     ? sampleOptions
-    : [{ text: input.path, value: input.path }, ...sampleOptions]
+    : [{ text: input.remotePath, value: input.remotePath }, ...sampleOptions]
 
   const handleLanguageChange = (_: any, data: DropdownProps) => {
-    const language = data.value! as SourceLanguage
-    onChange({ ...input, language })
+    const remoteLanguage = data.value! as SourceLanguage
+    onChange({ ...input, remoteLanguage })
   }
 
   const handlePathChange = (_: any, { value }: DropdownProps) => {
-    const path = value! as string
-    onChange({ ...input, path })
+    const remotePath = value! as string
+    onChange({ ...input, remotePath })
   }
 
   const handleProtocolChange = (_: any, { value }: DropdownProps) => {
-    const protocol = value! as RemoteProtocol
-    onChange({ ...input, protocol })
+    const remoteProtocol = value! as RemoteProtocol
+    onChange({ ...input, remoteProtocol })
   }
 
   return (
@@ -79,7 +79,7 @@ export const RemoteInputEditor: FC<RemoteInputEditorProps> = ({ input, isDark, s
           search
           selection
           fluid
-          value={input.language}
+          value={input.remoteLanguage}
           onChange={handleLanguageChange}
         />
       </Form.Field>
@@ -91,7 +91,7 @@ export const RemoteInputEditor: FC<RemoteInputEditorProps> = ({ input, isDark, s
           search
           selection
           fluid
-          value={input.protocol}
+          value={input.remoteProtocol}
           onChange={handleProtocolChange}
         />
       </Form.Field>
@@ -106,7 +106,7 @@ export const RemoteInputEditor: FC<RemoteInputEditorProps> = ({ input, isDark, s
           allowAdditions
           additionLabel="Custom URI: "
           onAddItem={handlePathChange}
-          value={input.path}
+          value={input.remotePath}
           onChange={handlePathChange}
         />
       </Form.Field>

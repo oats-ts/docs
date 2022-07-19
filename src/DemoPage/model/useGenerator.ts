@@ -8,8 +8,9 @@ import {
   presets,
   nameProviders,
   pathProviders,
-  generator,
+  generator as oatsGenerator,
   loggers,
+  generators,
 } from '@oats-ts/openapi'
 import debounce from 'lodash/debounce'
 import isNil from 'lodash/isNil'
@@ -18,18 +19,15 @@ import {
   ExplorerTreeState,
   FolderNode,
   GeneratorContextType,
-  InlineOpenAPINode,
+  GeneratorNode,
   IssuesNode,
-  OpenAPIInputNode,
-  RemoteOpenAPINode,
+  ReaderNode,
 } from '../../types'
 import { Options } from 'prettier'
 import { useContext, useEffect, useState } from 'react'
 import { isSuccess, Try } from '@oats-ts/try'
 import { GeneratedFile } from '@oats-ts/typescript-writer'
-import { OpenAPIGeneratorTarget } from '@oats-ts/openapi-common'
 import { storage, Ttl } from '../../storage'
-import { defaultGenerators } from './defaultGenerators'
 import { getSampleFiles } from './getSampleFiles'
 import { buildExplorerTree } from './buildExplorerTree'
 import { GeneratorContext } from '../GeneratorContext'
@@ -40,42 +38,60 @@ const baseOptions: Options = {
   plugins: [typescriptParser],
 }
 
-function createReader(input: OpenAPIInputNode) {
-  switch (input.type) {
-    case 'inline-openapi':
-      return readers.test[input.language]({
+function createReader(input: ReaderNode) {
+  switch (input.readerType) {
+    case 'inline':
+      return readers.test[input.inlineLanguage]({
         path: '',
-        content: new Map().set('', input.content),
+        content: new Map().set('', input.inlineContent),
       })
-    case 'remote-openapi':
-      return readers[input.protocol][input.language](input.path)
+    case 'remote':
+      return readers[input.remoteProtocol][input.remoteLanguage](input.remotePath)
   }
+}
+
+function createGeneratorChildren(input: GeneratorNode) {
+  if (!isNil(input.preset)) {
+    return presets[input.preset]()
+  }
+  if (!isNil(input.generators)) {
+    return input.generators.map((target) => generators.create(target))
+  }
+  return []
+}
+
+function createGenerator(input: GeneratorNode) {
+  return oatsGenerator({
+    nameProvider: nameProviders.default(),
+    pathProvider: pathProviders[input.pathProviderType](input.rootPath),
+    children: createGeneratorChildren(input),
+  })
 }
 
 export function useGeneratorContext(): GeneratorContextType {
   const [samples, setSamples] = useState<string[]>([])
-  const [inlineSource, setInlineSource] = useState<InlineOpenAPINode>({
-    type: 'inline-openapi',
-    content: petStore,
-    language: 'yaml',
+  const [reader, _setReader] = useState<ReaderNode>({
+    type: 'reader',
+    readerType: 'inline',
+    inlineContent: petStore,
+    inlineLanguage: 'yaml',
+    remoteLanguage: 'yaml',
+    remotePath: 'https://raw.githubusercontent.com/oats-ts/oats-schemas/master/schemas/pet-store.yaml',
+    remoteProtocol: 'https',
   })
-  const [remoteSource, setRemoteSource] = useState<RemoteOpenAPINode>({
-    type: 'remote-openapi',
-    language: 'yaml',
-    path: 'https://raw.githubusercontent.com/oats-ts/oats-schemas/master/schemas/pet-store.yaml',
-    protocol: 'https',
+  const [generator, setGenerator] = useState<GeneratorNode>({
+    type: 'generator',
+    preset: 'fullStack',
+    pathProviderType: 'default',
+    rootPath: '',
   })
-  const [source, _setSource] = useState<OpenAPIInputNode>(inlineSource)
-  const [generators, setGenerators] = useState<Record<OpenAPIGeneratorTarget, boolean>>(() =>
-    storage.get('generators', defaultGenerators),
-  )
   const [isSamplesLoading, setSamplesLoading] = useState<boolean>(true)
   const [isGenerating, setGenerating] = useState<boolean>(true)
   const [isIssuesPanelOpen, setIssuesPanelOpen] = useState<boolean>(false)
   const [isConfigurationPanelOpen, setConfigurationPanelOpen] = useState<boolean>(false)
   const [output, setOutput] = useState<FolderNode>({ type: 'folder', path: '/', name: '/', children: [] })
   const [issues, setIssues] = useState<IssuesNode>({ type: 'issues', issues: [] })
-  const [editorInput, setEditorInput] = useState<EditorInput | undefined>(source)
+  const [editorInput, setEditorInput] = useState<EditorInput | undefined>(reader)
   const [explorerTreeState, setExplorerTreeState] = useState<ExplorerTreeState>({})
 
   function processResult(output: Try<GeneratedFile[]>): void {
@@ -89,23 +105,11 @@ export function useGeneratorContext(): GeneratorContextType {
     }
   }
 
-  function setSource(input: OpenAPIInputNode): void {
-    _setSource(input)
-    if (input.type === 'inline-openapi') {
-      setInlineSource(input)
-    } else {
-      setRemoteSource(input)
-    }
+  function setReader(input: ReaderNode): void {
+    _setReader(input)
     setEditorInput(input)
     setIssues({ type: 'issues', issues: [] })
   }
-
-  useEffect(
-    debounce(() => {
-      storage.set('generators', generators, Ttl.days(1))
-    }, 1000),
-    [generators],
-  )
 
   useEffect(() => {
     setSamplesLoading(true)
@@ -138,12 +142,8 @@ export function useGeneratorContext(): GeneratorContextType {
       generate({
         logger,
         validator: validator(),
-        reader: createReader(source),
-        generator: generator({
-          nameProvider: nameProviders.default(),
-          pathProvider: pathProviders.default(''),
-          children: presets.fullStack({ overrides: generators }),
-        }),
+        reader: createReader(reader),
+        generator: createGenerator(generator),
         writer: writers.typescript.memory({
           format: formatters.prettier({ ...baseOptions }),
         }),
@@ -151,13 +151,11 @@ export function useGeneratorContext(): GeneratorContextType {
         .then(processResult)
         .finally(() => setGenerating(false))
     }, 500),
-    [generators, source],
+    [reader, generator],
   )
 
   return {
-    generators,
-    inlineSource,
-    remoteSource,
+    generator,
     output,
     issues,
     samples,
@@ -166,13 +164,13 @@ export function useGeneratorContext(): GeneratorContextType {
     isIssuesPanelOpen,
     editorInput,
     explorerTreeState,
-    source,
-    setSource,
+    reader,
+    setReader,
     setExplorerTreeState,
     setEditorInput,
     setIssuesPanelOpen,
     setConfigurationPanelOpen,
-    setGenerators,
+    setGenerator,
   }
 }
 

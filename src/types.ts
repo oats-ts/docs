@@ -4,7 +4,8 @@ import { Issue } from '@oats-ts/validators'
 export type ColorMode = 'dark' | 'light'
 export type SourceLanguage = 'yaml' | 'json' | 'mixed'
 export type RemoteProtocol = 'http' | 'https' | 'mixed'
-export type GeneratorStatus = 'success' | 'failure' | 'working'
+export type GeneratorPreset = 'fullStack' | 'client' | 'server'
+export type PathProviderType = 'default' | 'singleFile' | 'byTarget' | 'byName'
 
 export type GhFileDescriptor = {
   path: string
@@ -25,22 +26,24 @@ export type ExplorerTreeState = {
 }
 
 export type GeneratorContextType = {
-  generators: Record<OpenAPIGeneratorTarget, boolean>
-  source: OpenAPIInputNode
-  inlineSource: InlineOpenAPINode
-  remoteSource: RemoteOpenAPINode
+  // Configuration
+  reader: ReaderNode
+  generator: GeneratorNode
   editorInput?: EditorInput
+  explorerTreeState: ExplorerTreeState
+  samples: string[]
+  // Generator output
   output: FolderNode
   issues: IssuesNode
-  samples: string[]
   isLoading: boolean
+  // Cosmetic stuff
   isIssuesPanelOpen: boolean
   isConfigurationPanelOpen: boolean
-  explorerTreeState: ExplorerTreeState
+  // Setters
   setIssuesPanelOpen: (isOpen: boolean) => void
   setConfigurationPanelOpen: (isOpen: boolean) => void
-  setGenerators: (generators: Record<OpenAPIGeneratorTarget, boolean>) => void
-  setSource: (source: OpenAPIInputNode) => void
+  setReader: (source: ReaderNode) => void
+  setGenerator: (generator: GeneratorNode) => void
   setEditorInput: (file?: EditorInput) => void
   setExplorerTreeState: (state: ExplorerTreeState) => void
 }
@@ -64,26 +67,31 @@ export type FolderNode = {
   children: FsNode[]
 }
 
-export type FsNode = FileNode | FolderNode
-
-export type InlineOpenAPINode = {
-  type: 'inline-openapi'
-  language: SourceLanguage
-  content: string
+export type ReaderNode = {
+  type: 'reader'
+  readerType: 'inline' | 'remote'
+  inlineLanguage: SourceLanguage
+  inlineContent: string
+  remoteProtocol: RemoteProtocol
+  remoteLanguage: SourceLanguage
+  remotePath: string
 }
-
-export type RemoteOpenAPINode = {
-  type: 'remote-openapi'
-  language: SourceLanguage
-  protocol: RemoteProtocol
-  path: string
-}
-
-export type OpenAPIInputNode = InlineOpenAPINode | RemoteOpenAPINode
 
 export type IssuesNode = {
   type: 'issues'
   issues: Issue[]
 }
 
-export type EditorInput = FsNode | OpenAPIInputNode | IssuesNode
+export type GeneratorNode = {
+  type: 'generator'
+  pathProviderType: PathProviderType
+  rootPath: string
+  preset?: GeneratorPreset
+  generators?: OpenAPIGeneratorTarget[]
+}
+
+export type FsNode = FileNode | FolderNode
+
+export type InputNode = ReaderNode | GeneratorNode
+
+export type EditorInput = FsNode | ReaderNode | IssuesNode | GeneratorNode

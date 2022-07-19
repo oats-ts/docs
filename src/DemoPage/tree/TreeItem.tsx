@@ -4,23 +4,12 @@ import { EditorInput } from '../../types'
 import { useColorMode } from '../../useColorMode'
 import { FileTreeItem } from './FileTreeItem'
 import { FolderTreeItem } from './FolderTreeItem'
-import { OpenAPIInputTreeItem } from './OpenAPIInputTreeItem'
+import { InputTreeItem } from './InputTreeItem'
 import { IssuesTreeItem } from './IssuesTreeItem'
 import { isOk } from '@oats-ts/validators'
 
 export type TreeItemProps = {
   node: EditorInput
-}
-
-function computeNameForUri(uri: string) {
-  const parts = uri.split('/')
-  if (uri.length === 0) {
-    return 'unknown'
-  }
-  if (parts.length < 2) {
-    return uri
-  }
-  return `/${parts[parts.length - 1]}`
 }
 
 export const TreeItem: FC<TreeItemProps> = ({ node }) => {
@@ -39,31 +28,10 @@ export const TreeItem: FC<TreeItemProps> = ({ node }) => {
       const onClick = () => setExplorerTreeState({ ...explorerTreeState, [node.path]: !isOpen })
       return <FolderTreeItem isDark={isDark} name={node.name} isOpen={isOpen} onClick={onClick} />
     }
-    case 'inline-openapi': {
-      const isActive = Boolean(editorInput && editorInput.type === 'inline-openapi')
-      const name = `openapi.${node.language}`
-      return (
-        <OpenAPIInputTreeItem
-          onClick={defaultOnClick}
-          isDark={isDark}
-          isInline={true}
-          isActive={isActive}
-          name={name}
-        />
-      )
-    }
-    case 'remote-openapi': {
-      const isActive = Boolean(editorInput && editorInput.type === 'remote-openapi')
-      const name = computeNameForUri(node.path)
-      return (
-        <OpenAPIInputTreeItem
-          onClick={defaultOnClick}
-          isDark={isDark}
-          isInline={false}
-          isActive={isActive}
-          name={name}
-        />
-      )
+    case 'reader':
+    case 'generator': {
+      const isActive = Boolean(editorInput && (editorInput.type === 'reader' || editorInput.type === 'generator'))
+      return <InputTreeItem onClick={defaultOnClick} isDark={isDark} isActive={isActive} />
     }
     case 'issues': {
       const isActive = Boolean(editorInput && editorInput.type === 'issues')

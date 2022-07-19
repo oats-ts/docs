@@ -1,6 +1,6 @@
 import { OpenAPIGeneratorTarget } from '@oats-ts/openapi-common'
 
-export const defaultGenerators: Record<OpenAPIGeneratorTarget, boolean> = {
+const generatorsMap: Record<OpenAPIGeneratorTarget, boolean> = {
   'json-schema/type': true,
   'json-schema/type-guard': true,
   'json-schema/type-validator': true,
@@ -30,3 +30,5 @@ export const defaultGenerators: Record<OpenAPIGeneratorTarget, boolean> = {
   'openapi/sdk-impl': true,
   'openapi/sdk-type': true,
 }
+
+export const generators = Object.keys(generatorsMap) as OpenAPIGeneratorTarget[]
