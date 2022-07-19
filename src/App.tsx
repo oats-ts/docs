@@ -9,7 +9,7 @@ import { DocumentationPage } from './DocumentationPage/DocumentationPage'
 import { HomePage } from './HomePage/HomePage'
 import { AppMenu } from './AppMenu'
 import { ColorModeContext } from './ColorModeContext'
-import { useWatchColorMode } from './useColorMode'
+import { useColorModeContext } from './useColorMode'
 import { ColorMode } from './types'
 import { DemoPage2 } from './DemoPage2/DemoPage2'
 
@@ -20,7 +20,7 @@ const appContainerStyle = (colorMode: ColorMode) => css`
 `
 
 export const App: FC = () => {
-  const colorCtx = useWatchColorMode()
+  const colorCtx = useColorModeContext()
   return (
     <ColorModeContext.Provider value={colorCtx}>
       <div className={appContainerStyle(colorCtx.colorMode)}>

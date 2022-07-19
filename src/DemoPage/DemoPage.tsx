@@ -4,7 +4,7 @@ import React, { FC } from 'react'
 import { css } from '@emotion/css'
 import { OpenAPIPanel } from './input/OpenAPIPanel'
 import { TypescriptPanel } from './output/TypescriptPanel'
-import { useGenerator } from './useGenerator'
+import { useGeneratorContext } from './useGenerator'
 import { GeneratorContext } from './GeneratorContext'
 import { usePageTitle } from '../usePageTitle'
 import { ColorMode } from '../types'
@@ -22,7 +22,7 @@ const columnStyle = (mode: ColorMode) => css`
 `
 
 export const DemoPage: FC = () => {
-  const context = useGenerator()
+  const context = useGeneratorContext()
   const { colorMode } = useColorMode()
   usePageTitle('Demo')
   return (

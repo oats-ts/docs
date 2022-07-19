@@ -18,7 +18,7 @@ export const GeneratorContext = createContext<GeneratorContextType>({
   results: {
     data: { type: 'folder', name: '/', path: '/', children: [] },
     issues: [],
-    status: 'success',
+    status: 'working',
   },
   editorInput: undefined,
   explorerTreeState: {},

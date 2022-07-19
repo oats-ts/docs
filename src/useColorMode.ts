@@ -3,7 +3,7 @@ import { ColorModeContext } from './ColorModeContext'
 import { storage } from './storage'
 import { ColorMode, ColorModeContextType } from './types'
 
-export function useWatchColorMode(): ColorModeContextType {
+export function useColorModeContext(): ColorModeContextType {
   const [colorMode, _setColorMode] = useState<ColorMode>(storage.get('colorMode', 'light'))
 
   const setColorMode = (mode: ColorMode) => {

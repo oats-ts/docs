@@ -23,7 +23,7 @@ import {
   SourceLanguage,
 } from '../types'
 import { Options } from 'prettier'
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useContext, useEffect, useState } from 'react'
 import { isSuccess, Try } from '@oats-ts/try'
 import { GeneratedFile } from '@oats-ts/typescript-writer'
 import { OpenAPIGeneratorTarget } from '@oats-ts/openapi-common'
@@ -31,6 +31,8 @@ import { storage, Ttl } from '../storage'
 import { defaultGenerators } from './defaultGenerators'
 import { getSampleFile, getSampleFiles } from './getSampleFiles'
 import { buildExplorerTree } from '../DemoPage2/buildExplorerTree'
+import { GeneratorContext } from './GeneratorContext'
+import { demoDoc } from '../DemoPage2/demoDoc'
 
 const DUMMY_URL = ''
 
@@ -39,9 +41,9 @@ const baseOptions: Options = {
   plugins: [typescriptParser],
 }
 
-export function useGenerator(): GeneratorContextType {
+export function useGeneratorContext(): GeneratorContextType {
   const [samples, setSamples] = useState<SampleFile[]>([])
-  const [source, setSource] = useState<string>(() => storage.get('source', ''))
+  const [source, setSource] = useState<string>(() => storage.get('source', demoDoc))
   const [language, setLanguage] = useState<SourceLanguage>(() => storage.get('language', 'json'))
   const [generators, setGenerators] = useState<Record<OpenAPIGeneratorTarget, boolean>>(() =>
     storage.get('generators', defaultGenerators),
@@ -177,4 +179,8 @@ export function useGenerator(): GeneratorContextType {
     setLanguage,
     setSourceBySample,
   }
+}
+
+export function useGenerator(): GeneratorContextType {
+  return useContext(GeneratorContext)
 }
