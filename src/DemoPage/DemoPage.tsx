@@ -1,40 +1,33 @@
-import 'semantic-ui-css/semantic.min.css'
-
+import { css, cx } from '@emotion/css'
 import React, { FC } from 'react'
-import { css } from '@emotion/css'
-import { OpenAPIPanel } from './input/OpenAPIPanel'
-import { TypescriptPanel } from './output/TypescriptPanel'
-import { useGenerator } from './useGenerator'
+import { SegmentGroup } from 'semantic-ui-react'
 import { GeneratorContext } from './GeneratorContext'
-import { usePageTitle } from '../usePageTitle'
-import { ColorMode } from '../types'
+import { useGeneratorContext } from './model/useGenerator'
 import { useColorMode } from '../useColorMode'
+import { EditorView } from './editors/EditorView'
+import { ExplorerTree } from './tree/ExplorerTree'
 
-const contentContainerStyle = css`
-  display: grid;
-  grid-template-columns: minmax(0px, 1fr) minmax(0px, 1fr);
-  grid-gap: 16px;
+const segmentGroupStyle = css`
+  height: calc(100vh - 86px);
 `
 
-const columnStyle = (mode: ColorMode) => css`
-  border-radius: 4px;
-  background-color: ${mode === 'dark' ? '#1b1c1d' : '#fff'};
+const darkSegmentGroupStyle = css`
+  background-color: #1b1c1d !important;
+  border: none !important;
+  border-radius: 4px !important;
+  overflow: hidden !important;
 `
 
 export const DemoPage: FC = () => {
-  const context = useGenerator()
   const { colorMode } = useColorMode()
-  usePageTitle('Demo')
+  const context = useGeneratorContext()
+  const groupStyle = cx(segmentGroupStyle, colorMode === 'dark' ? darkSegmentGroupStyle : undefined)
   return (
     <GeneratorContext.Provider value={context}>
-      <div className={contentContainerStyle}>
-        <div className={columnStyle(colorMode)}>
-          <OpenAPIPanel />
-        </div>
-        <div className={columnStyle(colorMode)}>
-          <TypescriptPanel />
-        </div>
-      </div>
+      <SegmentGroup horizontal className={groupStyle}>
+        <ExplorerTree />
+        <EditorView />
+      </SegmentGroup>
     </GeneratorContext.Provider>
   )
 }

@@ -20,6 +20,12 @@
       }
     },
     {
+      "files": "*.yaml",
+      "options": {
+        "parser": "yaml"
+      }
+    },
+    {
       "files": "*.html",
       "options": {
         "parser": "html"

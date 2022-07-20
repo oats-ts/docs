@@ -4,13 +4,14 @@ import React, { FC } from 'react'
 
 import { css } from '@emotion/css'
 import { Route, Routes } from 'react-router-dom'
-import { DemoPage } from './DemoPage/DemoPage'
+// import { DemoPage } from './DemoPage/DemoPage'
 import { DocumentationPage } from './DocumentationPage/DocumentationPage'
 import { HomePage } from './HomePage/HomePage'
 import { AppMenu } from './AppMenu'
 import { ColorModeContext } from './ColorModeContext'
-import { useWatchColorMode } from './useColorMode'
+import { useColorModeContext } from './useColorMode'
 import { ColorMode } from './types'
+import { DemoPage } from './DemoPage/DemoPage'
 
 const appContainerStyle = (colorMode: ColorMode) => css`
   background-color: ${colorMode === 'dark' ? '#252525' : '#fefefe'};
@@ -19,7 +20,7 @@ const appContainerStyle = (colorMode: ColorMode) => css`
 `
 
 export const App: FC = () => {
-  const colorCtx = useWatchColorMode()
+  const colorCtx = useColorModeContext()
   return (
     <ColorModeContext.Provider value={colorCtx}>
       <div className={appContainerStyle(colorCtx.colorMode)}>

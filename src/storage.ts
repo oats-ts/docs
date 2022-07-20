@@ -1,6 +1,6 @@
 import { isNil } from 'lodash'
 
-type StorageKey = 'language' | 'source' | 'generators' | 'samples' | 'colorMode'
+type StorageKey = 'configuration' | 'samples' | 'colorMode'
 
 export const Ttl = {
   seconds: (s: number): number => s * 1000,
@@ -16,22 +16,24 @@ type ValueWithTtl<T> = {
 
 export type Storage = {
   get<T>(key: StorageKey): T | undefined
-  get<T>(key: StorageKey, defaultValue: T): T
+  get<T>(key: StorageKey, defaultValue: T, verify?: (readValue: T) => boolean): T
   set<T>(key: StorageKey, value: T, ttl?: number): void
 }
 
 export const storage: Storage = {
-  get<T>(key: StorageKey, defaultValue?: T): T | undefined {
+  get<T>(key: StorageKey, defaultValue?: T, verify?: (readValue: T) => boolean): T | undefined {
     const rawValue = localStorage.getItem(key)
     if (isNil(rawValue)) {
       return defaultValue
     }
     try {
       const { value, ttl } = JSON.parse(rawValue) as ValueWithTtl<T>
-      if (isNil(ttl) || Date.now() < ttl) {
+      if ((isNil(ttl) || Date.now() < ttl) && verify?.(value)) {
         return value
+      } else {
+        localStorage.removeItem(key)
+        return defaultValue
       }
-      return defaultValue
     } catch (e) {
       console.error(e)
       return defaultValue
