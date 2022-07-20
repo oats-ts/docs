@@ -44,6 +44,7 @@
   },
   "dependencies": {
     "@emotion/css": "11.9.0",
+    "@emotion/react": "11.9.3",
     "@monaco-editor/react": "4.4.5",
     "@oats-ts/oats-ts": "0.0.30",
     "@oats-ts/openapi-common": "0.0.30",
