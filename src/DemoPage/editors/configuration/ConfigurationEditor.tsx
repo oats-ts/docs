@@ -2,7 +2,7 @@ import { isNil } from 'lodash'
 import React, { FC } from 'react'
 import { GeneratorConfiguration, ReaderConfiguration, WriterConfiguration } from '../../../types'
 import { useColorMode } from '../../../useColorMode'
-import { useGenerator } from '../../model/useGenerator'
+import { useGeneratorContext } from '../../model/useGenerator'
 import { ReadonlyGeneratorSourceEditor } from '../ReadonlyGeneratorSourceEditor'
 import { GeneratorEditor } from './GeneratorEditor'
 import { InlineReaderEditor } from './InlineReaderEditor'
@@ -10,7 +10,7 @@ import { RemoteReaderEditor } from './RemoteReaderEditor'
 import { WriterEditor } from './WriterEditor'
 
 export const ConfigurationEditor: FC = () => {
-  const { editorInput, samples, configuration, generatorSource, setConfiguration } = useGenerator()
+  const { editorInput, samples, configuration, generatorSource, setConfiguration } = useGeneratorContext()
   const { colorMode } = useColorMode()
   const isDark = colorMode === 'dark'
   if (isNil(editorInput) || editorInput.type !== 'configuration') {

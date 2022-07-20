@@ -1,5 +1,5 @@
 import React, { FC } from 'react'
-import { useGenerator } from '../model/useGenerator'
+import { useGeneratorContext } from '../model/useGenerator'
 import { EditorInput } from '../../types'
 import { useColorMode } from '../../useColorMode'
 import { FileTreeItem } from './FileTreeItem'
@@ -13,7 +13,7 @@ export type TreeItemProps = {
 }
 
 export const TreeItem: FC<TreeItemProps> = ({ node }) => {
-  const { explorerTreeState, editorInput, setEditorInput, setExplorerTreeState } = useGenerator()
+  const { explorerTreeState, editorInput, setEditorInput, setExplorerTreeState } = useGeneratorContext()
   const { colorMode } = useColorMode()
   const isDark = colorMode === 'dark'
   const defaultOnClick = () => setEditorInput(node)

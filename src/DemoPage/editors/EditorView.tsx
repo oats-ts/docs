@@ -1,6 +1,6 @@
 import isNil from 'lodash/isNil'
 import React, { FC } from 'react'
-import { useGenerator } from '../model/useGenerator'
+import { useGeneratorContext } from '../model/useGenerator'
 import { useColorMode } from '../../useColorMode'
 import { ConfigurationEditorWrapper } from './configuration/ConfigurationEditorWrapper'
 import { NoEditor } from './NoEditor'
@@ -8,7 +8,7 @@ import { ReadonlyTypescriptEditor } from './ReadonlyTypescriptEditor'
 import { IssuesPanel } from './IssuesPanel'
 
 export const EditorView: FC = () => {
-  const { editorInput, isLoading } = useGenerator()
+  const { editorInput, isLoading } = useGeneratorContext()
   const { colorMode } = useColorMode()
   const isDark = colorMode === 'dark'
 

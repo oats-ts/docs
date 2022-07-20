@@ -22,8 +22,9 @@ import { useDebounceEffect } from './useDebounceEffect'
 import { getGeneratorSource } from './getGeneratorSource'
 import { createGenerator, createReader, createWriter } from './oatsFactories'
 import { verifyConfiguration } from './verifyConfiguration'
+import { filterExplorerTree } from './filterExplorerTree'
 
-export function useGeneratorContext(): GeneratorContextType {
+export function _useGenerator(): GeneratorContextType {
   const [samples, setSamples] = useState<string[]>([])
   const [configuration, _setConfiguration] = useState<ConfigurationNode>(() =>
     storage.get<ConfigurationNode>(
@@ -59,14 +60,16 @@ export function useGeneratorContext(): GeneratorContextType {
   )
   const [generatorSource, _setGeneratorSource] = useState<string>('')
 
+  const [treeFilter, setTreeFilter] = useState<string>('')
   const [isSamplesLoading, setSamplesLoading] = useState<boolean>(true)
   const [isGenerating, setGenerating] = useState<boolean>(true)
   const [isIssuesPanelOpen, setIssuesPanelOpen] = useState<boolean>(false)
   const [isConfigurationPanelOpen, setConfigurationPanelOpen] = useState<boolean>(false)
-  const [output, setOutput] = useState<FolderNode>({ type: 'folder', path: '/', name: '/', children: [] })
+  const [_output, setOutput] = useState<FolderNode>({ type: 'folder', path: '/', name: '/', children: [] })
   const [issues, setIssues] = useState<IssuesNode>({ type: 'issues', issues: [] })
-  const [editorInput, _setEditorInput] = useState<EditorInput | undefined>(configuration)
+  const [editorInput, _setEditorInput] = useState<EditorInput | undefined>(undefined)
   const [explorerTreeState, setExplorerTreeState] = useState<ExplorerTreeState>({})
+  const [filteredOutput, setFilteredOutput] = useState(_output)
 
   function processResult(output: Try<GeneratedFile[]>): void {
     if (isSuccess(output)) {
@@ -139,8 +142,12 @@ export function useGeneratorContext(): GeneratorContextType {
 
   useDebounceEffect(updateConfigurationStorage, 200)
 
+  useEffect(() => {
+    setFilteredOutput(filterExplorerTree(_output, treeFilter))
+  }, [_output, treeFilter])
+
   return {
-    output,
+    output: filteredOutput,
     issues,
     samples,
     isLoading: isSamplesLoading || isGenerating,
@@ -150,14 +157,16 @@ export function useGeneratorContext(): GeneratorContextType {
     explorerTreeState,
     configuration,
     generatorSource,
+    treeFilter,
     setExplorerTreeState,
     setEditorInput,
     setIssuesPanelOpen,
     setConfigurationPanelOpen,
     setConfiguration,
+    setTreeFilter,
   }
 }
 
-export function useGenerator(): GeneratorContextType {
+export function useGeneratorContext(): GeneratorContextType {
   return useContext(GeneratorContext)
 }

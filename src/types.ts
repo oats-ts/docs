@@ -34,6 +34,7 @@ export type GeneratorContextType = {
   editorInput?: EditorInput
   explorerTreeState: ExplorerTreeState
   samples: string[]
+  treeFilter: string
   // Generator output
   output: FolderNode
   issues: IssuesNode
@@ -43,6 +44,7 @@ export type GeneratorContextType = {
   isIssuesPanelOpen: boolean
   isConfigurationPanelOpen: boolean
   // Setters
+  setTreeFilter: (filter: string) => void
   setIssuesPanelOpen: (isOpen: boolean) => void
   setConfigurationPanelOpen: (isOpen: boolean) => void
   setConfiguration: (node: ConfigurationNode) => void
