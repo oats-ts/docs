@@ -1,7 +1,7 @@
-import { css } from '@emotion/css'
 import React, { FC, useMemo } from 'react'
 import { Dropdown, DropdownProps, Form, StrictDropdownItemProps } from 'semantic-ui-react'
 import { ReaderConfiguration, RemoteProtocol, SourceLanguage } from '../../../types'
+import { wrapperStyle } from '../commonStyles'
 
 type RemoteReaderEditorProps = {
   isDark: boolean
@@ -47,10 +47,6 @@ const protocolOption: ProtocolDropdownItemProps[] = [
   },
 ]
 
-const formStyle = css`
-  padding: 16px;
-`
-
 export const RemoteReaderEditor: FC<RemoteReaderEditorProps> = ({ input, isDark, samples, onChange }) => {
   const sampleOptions = useMemo<StrictDropdownItemProps[]>(
     () => samples.map((path): StrictDropdownItemProps => ({ text: path, value: path })),
@@ -77,46 +73,48 @@ export const RemoteReaderEditor: FC<RemoteReaderEditorProps> = ({ input, isDark,
   }
 
   return (
-    <Form inverted={isDark} className={formStyle}>
-      <Form.Field>
-        <label>Language</label>
-        <Dropdown
-          options={languageOptions}
-          placeholder="Choose language"
-          search
-          selection
-          fluid
-          value={input.remoteLanguage}
-          onChange={handleLanguageChange}
-        />
-      </Form.Field>
-      <Form.Field>
-        <label>Protocol</label>
-        <Dropdown
-          options={protocolOption}
-          placeholder="Choose protocol"
-          search
-          selection
-          fluid
-          value={input.remoteProtocol}
-          onChange={handleProtocolChange}
-        />
-      </Form.Field>
-      <Form.Field>
-        <label>OpenAPI document URI</label>
-        <Dropdown
-          options={pathOptions}
-          placeholder="OpenAPI document URI"
-          search
-          selection
-          fluid
-          allowAdditions
-          additionLabel="Custom URI: "
-          onAddItem={handlePathChange}
-          value={input.remotePath}
-          onChange={handlePathChange}
-        />
-      </Form.Field>
-    </Form>
+    <div className={wrapperStyle}>
+      <Form inverted={isDark}>
+        <Form.Field>
+          <label>Language</label>
+          <Dropdown
+            options={languageOptions}
+            placeholder="Choose language"
+            search
+            selection
+            fluid
+            value={input.remoteLanguage}
+            onChange={handleLanguageChange}
+          />
+        </Form.Field>
+        <Form.Field>
+          <label>Protocol</label>
+          <Dropdown
+            options={protocolOption}
+            placeholder="Choose protocol"
+            search
+            selection
+            fluid
+            value={input.remoteProtocol}
+            onChange={handleProtocolChange}
+          />
+        </Form.Field>
+        <Form.Field>
+          <label>OpenAPI document URI</label>
+          <Dropdown
+            options={pathOptions}
+            placeholder="OpenAPI document URI"
+            search
+            selection
+            fluid
+            allowAdditions
+            additionLabel="Custom URI: "
+            onAddItem={handlePathChange}
+            value={input.remotePath}
+            onChange={handlePathChange}
+          />
+        </Form.Field>
+      </Form>
+    </div>
   )
 }

@@ -1,7 +1,9 @@
-import { ConfigurationNode, GeneratorConfiguration, ReaderConfiguration } from '../../types'
+import { ConfigurationNode, GeneratorConfiguration, ReaderConfiguration, WriterConfiguration } from '../../types'
 import { createPrinter, factory, NewLineKind, NodeFlags, SyntaxKind } from 'typescript'
 import typescriptParser from 'prettier/parser-typescript'
 import prettier from 'prettier/standalone'
+import { isNil } from 'lodash'
+import { CommentConfig } from '@oats-ts/typescript-writer'
 
 function getInlineReaderAst(reader: ReaderConfiguration) {
   const dummyPath = `dummy.${reader.inlineLanguage}`
@@ -122,7 +124,80 @@ function getGeneratorAst(generator: GeneratorConfiguration) {
   ])
 }
 
-function getWriterAst() {
+function getLiteral(input: number | string | boolean) {
+  switch (typeof input) {
+    case 'boolean':
+      return input ? factory.createTrue() : factory.createFalse()
+    case 'number':
+      return factory.createNumericLiteral(input)
+    case 'string':
+      return factory.createStringLiteral(input)
+  }
+}
+
+function getFormatterAst(writer: WriterConfiguration) {
+  return factory.createCallExpression(
+    factory.createPropertyAccessExpression(
+      factory.createIdentifier('formatters'),
+      factory.createIdentifier('prettier'),
+    ),
+    undefined,
+    [
+      factory.createObjectLiteralExpression(
+        [
+          factory.createPropertyAssignment(
+            factory.createIdentifier('parser'),
+            factory.createStringLiteral('typescript'),
+          ),
+          ...Object.entries(writer.prettier)
+            .filter(([, value]) => !isNil(value))
+            .map(([key, value]) => factory.createPropertyAssignment(factory.createIdentifier(key), getLiteral(value))),
+        ],
+        false,
+      ),
+    ],
+  )
+}
+
+function getLeadingOrTrailingCommentsAst(comments: CommentConfig[]) {
+  return factory.createArrayLiteralExpression(
+    comments.map((comment) =>
+      factory.createObjectLiteralExpression(
+        [
+          factory.createPropertyAssignment(factory.createIdentifier('type'), factory.createStringLiteral(comment.type)),
+          factory.createPropertyAssignment(factory.createIdentifier('text'), factory.createStringLiteral(comment.text)),
+        ],
+        false,
+      ),
+    ),
+  )
+}
+
+function getCommentsAst(comments: WriterConfiguration) {
+  return factory.createObjectLiteralExpression(
+    [
+      ...(comments.leadingComments.length > 0
+        ? [
+            factory.createPropertyAssignment(
+              factory.createIdentifier('leadingComments'),
+              getLeadingOrTrailingCommentsAst(comments.leadingComments),
+            ),
+          ]
+        : []),
+      ...(comments.trailingComments.length > 0
+        ? [
+            factory.createPropertyAssignment(
+              factory.createIdentifier('trailingComments'),
+              getLeadingOrTrailingCommentsAst(comments.trailingComments),
+            ),
+          ]
+        : []),
+    ],
+    true,
+  )
+}
+
+function getWriterAst(writer: WriterConfiguration) {
   return factory.createCallExpression(
     factory.createPropertyAccessExpression(
       factory.createPropertyAccessExpression(
@@ -135,27 +210,12 @@ function getWriterAst() {
     [
       factory.createObjectLiteralExpression(
         [
-          factory.createPropertyAssignment(
-            factory.createIdentifier('format'),
-            factory.createCallExpression(
-              factory.createPropertyAccessExpression(
-                factory.createIdentifier('formatters'),
-                factory.createIdentifier('prettier'),
-              ),
-              undefined,
-              [
-                factory.createObjectLiteralExpression(
-                  [
-                    factory.createPropertyAssignment(
-                      factory.createIdentifier('parser'),
-                      factory.createStringLiteral('typescript'),
-                    ),
-                  ],
-                  false,
-                ),
-              ],
-            ),
-          ),
+          ...(writer.useFormatter
+            ? [factory.createPropertyAssignment(factory.createIdentifier('format'), getFormatterAst(writer))]
+            : []),
+          ...(writer.leadingComments.length > 0 || writer.trailingComments.length > 0
+            ? [factory.createPropertyAssignment(factory.createIdentifier('comments'), getCommentsAst(writer))]
+            : []),
         ],
         true,
       ),
@@ -185,7 +245,7 @@ function getGenerateCallAst(config: ConfigurationNode) {
           ),
           factory.createPropertyAssignment(factory.createIdentifier('reader'), getReaderAst(config.reader)),
           factory.createPropertyAssignment(factory.createIdentifier('generator'), getGeneratorAst(config.generator)),
-          factory.createPropertyAssignment(factory.createIdentifier('writer'), getWriterAst()),
+          factory.createPropertyAssignment(factory.createIdentifier('writer'), getWriterAst(config.writer)),
         ],
         true,
       ),
@@ -193,7 +253,7 @@ function getGenerateCallAst(config: ConfigurationNode) {
   )
 }
 
-function getImportDeclarations(config: ConfigurationNode) {
+function getImportDeclarations({ writer, generator }: ConfigurationNode) {
   const openApiImports = [
     'formatters',
     'generator',
@@ -206,9 +266,8 @@ function getImportDeclarations(config: ConfigurationNode) {
     'validator',
     'writers',
   ]
-    .filter((name) =>
-      config.generator.configurationStyle === 'generators' ? name !== 'presets' : name !== 'generators',
-    )
+    .filter((name) => (name === 'formatters' ? writer.useFormatter : true))
+    .filter((name) => (generator.configurationStyle === 'generators' ? name !== 'presets' : name !== 'generators'))
     .map((name) => factory.createImportSpecifier(false, undefined, factory.createIdentifier(name)))
 
   const openApiImport = factory.createImportDeclaration(

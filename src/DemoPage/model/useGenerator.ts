@@ -1,6 +1,6 @@
 import { generate, Logger } from '@oats-ts/oats-ts'
-import typescriptParser from 'prettier/parser-typescript'
-import { formatters, validator, writers, loggers } from '@oats-ts/openapi'
+
+import { validator, loggers } from '@oats-ts/openapi'
 import isNil from 'lodash/isNil'
 import {
   EditorInput,
@@ -10,7 +10,6 @@ import {
   IssuesNode,
   ConfigurationNode,
 } from '../../types'
-import { Options } from 'prettier'
 import { useCallback, useContext, useEffect, useState } from 'react'
 import { isSuccess, Try } from '@oats-ts/try'
 import { GeneratedFile } from '@oats-ts/typescript-writer'
@@ -21,18 +20,13 @@ import { GeneratorContext } from '../GeneratorContext'
 import petStore from './pet-store.yaml'
 import { useDebounceEffect } from './useDebounceEffect'
 import { getGeneratorSource } from './getGeneratorSource'
-import { createGenerator, createReader } from './oatsFactories'
+import { createGenerator, createReader, createWriter } from './oatsFactories'
 import { verifyConfiguration } from './verifyConfiguration'
-
-const baseOptions: Options = {
-  parser: 'typescript',
-  plugins: [typescriptParser],
-}
 
 export function useGeneratorContext(): GeneratorContextType {
   const [samples, setSamples] = useState<string[]>([])
   const [configuration, _setConfiguration] = useState<ConfigurationNode>(() =>
-    storage.get(
+    storage.get<ConfigurationNode>(
       'configuration',
       {
         type: 'configuration',
@@ -51,6 +45,13 @@ export function useGeneratorContext(): GeneratorContextType {
           remoteLanguage: 'yaml',
           remotePath: 'https://raw.githubusercontent.com/oats-ts/oats-schemas/master/schemas/pet-store.yaml',
           remoteProtocol: 'https',
+        },
+        writer: {
+          lineSeparator: '\n',
+          useFormatter: true,
+          leadingComments: [],
+          trailingComments: [],
+          prettier: {},
         },
       },
       verifyConfiguration,
@@ -118,19 +119,17 @@ export function useGeneratorContext(): GeneratorContextType {
       validator: validator(),
       reader: createReader(configuration.reader),
       generator: createGenerator(configuration.generator),
-      writer: writers.typescript.memory({
-        format: formatters.prettier({ ...baseOptions }),
-      }),
+      writer: createWriter(configuration.writer),
     })
       .then(processResult)
       .finally(() => setGenerating(false))
-  }, [configuration.reader, configuration.generator])
+  }, [configuration.reader, configuration.generator, configuration.writer])
 
   useDebounceEffect(runGenerator, 1000)
 
   const computeGeneratorSource = useCallback(() => {
     _setGeneratorSource(getGeneratorSource(configuration))
-  }, [configuration.reader, configuration.generator])
+  }, [configuration.reader, configuration.generator, configuration.writer])
 
   useDebounceEffect(computeGeneratorSource, 1000)
 

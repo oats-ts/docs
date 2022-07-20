@@ -1,12 +1,42 @@
-import { array, DefaultConfig, items, literal, object, shape, string, union } from '@oats-ts/validators'
+import { CommentConfig } from '@oats-ts/typescript-writer'
+import {
+  array,
+  boolean,
+  DefaultConfig,
+  items,
+  literal,
+  number,
+  object,
+  optional,
+  shape,
+  string,
+  union,
+} from '@oats-ts/validators'
 
-import { ConfigurationNode, GeneratorConfiguration, ReaderConfiguration } from '../../types'
+import {
+  ConfigurationNode,
+  GeneratorConfiguration,
+  ReaderConfiguration,
+  WriterConfiguration,
+  PrettierConfiguration,
+} from '../../types'
 
 const languageValidator = union({
   json: literal('json'),
   yaml: literal('yaml'),
   mixed: literal('mixed'),
 })
+
+const commentConfigValidator = object(
+  shape<CommentConfig>({
+    text: string(),
+    type: union({
+      jsdoc: literal('jsdoc'),
+      block: literal('block'),
+      line: literal('line'),
+    }),
+  }),
+)
 
 const readerConfigValidator = object(
   shape<ReaderConfiguration>({
@@ -48,16 +78,68 @@ const generatorConfigValidator = object(
     rootPath: string(),
   }),
 )
+
+const writerConfigurationValidator = object(
+  shape<WriterConfiguration>({
+    lineSeparator: union({
+      LF: literal('\n'),
+      CRLF: literal('\r\n'),
+    }),
+    useFormatter: boolean(),
+    leadingComments: array(items(commentConfigValidator)),
+    trailingComments: array(items(commentConfigValidator)),
+    prettier: object(
+      shape<PrettierConfiguration>({
+        arrowParens: optional(
+          union({
+            avoid: literal('avoid'),
+            always: literal('always'),
+          }),
+        ),
+        bracketSameLine: optional(boolean()),
+        bracketSpacing: optional(boolean()),
+        endOfLine: optional(
+          union({
+            lf: literal('lf'),
+            crlf: literal('crlf'),
+          }),
+        ),
+        printWidth: optional(number()),
+        tabWidth: optional(number()),
+        useTabs: optional(boolean()),
+        quoteProps: optional(
+          union({
+            'as-needed': literal('as-needed'),
+            consistent: literal('consistent'),
+            preserve: literal('preserve'),
+          }),
+        ),
+        semi: optional(boolean()),
+        singleQuote: optional(boolean()),
+        trailingComma: optional(
+          union({
+            none: literal('none'),
+            es5: literal('es5'),
+            all: literal('all'),
+          }),
+        ),
+      }),
+    ),
+  }),
+)
+
 const configurationValidator = object(
   shape<ConfigurationNode>({
     type: literal('configuration'),
     active: union({
       reader: literal('reader'),
       generator: literal('generator'),
+      writer: literal('writer'),
       'generator-source': literal('generator-source'),
     }),
     reader: readerConfigValidator,
     generator: generatorConfigValidator,
+    writer: writerConfigurationValidator,
   }),
 )
 

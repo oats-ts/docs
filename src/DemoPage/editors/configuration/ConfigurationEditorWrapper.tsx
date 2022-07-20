@@ -77,7 +77,7 @@ export const ConfigurationEditorWrapper: FC = () => {
             active={active === 'generator-source'}
             onClick={() => setConfiguration({ ...configuration, active: 'generator-source' })}
           >
-            <Icon name="code" /> Generator source
+            <Icon name="code" /> generate.ts
           </Menu.Item>
           <Menu.Item
             active={active === 'reader'}
@@ -89,9 +89,12 @@ export const ConfigurationEditorWrapper: FC = () => {
             active={active === 'generator'}
             onClick={() => setConfiguration({ ...configuration, active: 'generator' })}
           >
-            <Icon name="rocket" /> Generators
+            <Icon name="rocket" /> Generator
           </Menu.Item>
-          <Menu.Item>
+          <Menu.Item
+            active={active === 'writer'}
+            onClick={() => setConfiguration({ ...configuration, active: 'writer' })}
+          >
             <Icon name="write" /> Writer
           </Menu.Item>
         </Menu.Menu>

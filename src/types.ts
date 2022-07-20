@@ -91,8 +91,24 @@ export type GeneratorConfiguration = {
   generators: OpenAPIGeneratorTarget[]
 }
 
+export type PrettierConfiguration = Pick<
+  Options,
+  | 'arrowParens'
+  | 'bracketSameLine'
+  | 'bracketSpacing'
+  | 'endOfLine'
+  | 'printWidth'
+  | 'tabWidth'
+  | 'useTabs'
+  | 'quoteProps'
+  | 'semi'
+  | 'singleQuote'
+  | 'trailingComma'
+>
+
 export type WriterConfiguration = {
-  prettier: Options
+  prettier: PrettierConfiguration
+  useFormatter: boolean
   leadingComments: CommentConfig[]
   trailingComments: CommentConfig[]
   lineSeparator: '\n' | '\r\n'
@@ -100,9 +116,10 @@ export type WriterConfiguration = {
 
 export type ConfigurationNode = {
   type: 'configuration'
-  active: 'reader' | 'generator' | 'generator-source'
+  active: 'generator-source' | 'reader' | 'generator' | 'writer'
   reader: ReaderConfiguration
   generator: GeneratorConfiguration
+  writer: WriterConfiguration
 }
 
 export type FsNode = FileNode | FolderNode

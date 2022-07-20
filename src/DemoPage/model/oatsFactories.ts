@@ -1,5 +1,15 @@
-import { generators, presets, readers, generator, nameProviders, pathProviders } from '@oats-ts/openapi'
-import { GeneratorConfiguration, ReaderConfiguration } from '../../types'
+import {
+  generators,
+  presets,
+  readers,
+  generator,
+  nameProviders,
+  pathProviders,
+  writers,
+  formatters,
+} from '@oats-ts/openapi'
+import { GeneratorConfiguration, ReaderConfiguration, WriterConfiguration } from '../../types'
+import typescriptParser from 'prettier/parser-typescript'
 
 export function createReader(input: ReaderConfiguration) {
   switch (input.readerType) {
@@ -29,5 +39,22 @@ export function createGenerator(input: GeneratorConfiguration) {
     nameProvider: nameProviders.default(),
     pathProvider: pathProviders[input.pathProviderType](input.rootPath),
     children: createGeneratorChildren(input),
+  })
+}
+
+export function createWriter(input: WriterConfiguration) {
+  return writers.typescript.memory({
+    comments: {
+      leadingComments: input.leadingComments ?? [],
+      trailingComments: input.trailingComments ?? [],
+      lineSeparator: input.lineSeparator,
+    },
+    format: input.useFormatter
+      ? formatters.prettier({
+          ...input.prettier,
+          parser: 'typescript',
+          plugins: [typescriptParser],
+        })
+      : undefined,
   })
 }

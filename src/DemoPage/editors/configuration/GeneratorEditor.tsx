@@ -1,13 +1,9 @@
-import { css } from '@emotion/css'
 import { OpenAPIGeneratorTarget } from '@oats-ts/openapi-common'
 import React, { FC } from 'react'
 import { Dropdown, DropdownProps, Form, Input, InputOnChangeData, StrictDropdownItemProps } from 'semantic-ui-react'
 import { GeneratorConfigurationStyle, GeneratorConfiguration, GeneratorPreset, PathProviderType } from '../../../types'
 import { allGenerators } from '../../model/allGenerators'
-
-const formStyle = css`
-  padding: 16px;
-`
+import { wrapperStyle } from '../commonStyles'
 
 type ConfigStyleDropdownItemProps = StrictDropdownItemProps & { value: GeneratorConfigurationStyle }
 type GeneratorDropdownItemProps = StrictDropdownItemProps & { value: OpenAPIGeneratorTarget }
@@ -66,62 +62,64 @@ export const GeneratorEditor: FC<GeneratorEditorProps> = ({ isDark, input, onCha
   }
 
   return (
-    <Form inverted={isDark} className={formStyle}>
-      <Form.Field>
-        <label>Configuration style</label>
-        <Dropdown
-          placeholder="Configuration style"
-          fluid
-          selection
-          options={configurationStyleOptions}
-          onChange={onConfigurationStyleChange}
-          value={input.configurationStyle}
-        />
-      </Form.Field>
-      {input.configurationStyle === 'preset' && (
+    <div className={wrapperStyle}>
+      <Form inverted={isDark}>
         <Form.Field>
-          <label>Preset</label>
+          <label>Configuration style</label>
           <Dropdown
-            placeholder="Preset"
+            placeholder="Configuration style"
             fluid
             selection
-            options={presetOptions}
-            onChange={onPresetChange}
-            value={input.preset}
+            options={configurationStyleOptions}
+            onChange={onConfigurationStyleChange}
+            value={input.configurationStyle}
           />
         </Form.Field>
-      )}
-      {input.configurationStyle === 'generators' && (
+        {input.configurationStyle === 'preset' && (
+          <Form.Field>
+            <label>Preset</label>
+            <Dropdown
+              placeholder="Preset"
+              fluid
+              selection
+              options={presetOptions}
+              onChange={onPresetChange}
+              value={input.preset}
+            />
+          </Form.Field>
+        )}
+        {input.configurationStyle === 'generators' && (
+          <Form.Field>
+            <label>Generators</label>
+            <Dropdown
+              placeholder="Generators"
+              fluid
+              multiple
+              search
+              selection
+              clearable
+              options={generatorOptions}
+              onChange={onGeneratorsChange}
+              value={input.generators}
+            />
+          </Form.Field>
+        )}
         <Form.Field>
-          <label>Generators</label>
+          <label>Path provider type</label>
           <Dropdown
-            placeholder="Generators"
+            placeholder="Path provider type"
             fluid
-            multiple
-            search
             selection
-            clearable
-            options={generatorOptions}
-            onChange={onGeneratorsChange}
-            value={input.generators}
+            options={pathProviderTypeOptions}
+            onChange={onPathProviderTypeChange}
+            value={input.pathProviderType}
           />
         </Form.Field>
-      )}
-      <Form.Field>
-        <label>Path provider type</label>
-        <Dropdown
-          placeholder="Path provider type"
-          fluid
-          selection
-          options={pathProviderTypeOptions}
-          onChange={onPathProviderTypeChange}
-          value={input.pathProviderType}
-        />
-      </Form.Field>
-      <Form.Field>
-        <label>Root path</label>
-        <Input placeholder="Root path" fluid onChange={onPathRootChange} value={input.rootPath} />
-      </Form.Field>
-    </Form>
+        <Form.Field>
+          <label>Root path</label>
+          <Input placeholder="Root path" fluid onChange={onPathRootChange} value={input.rootPath} />
+        </Form.Field>
+      </Form>
+    </div>
   )
 }

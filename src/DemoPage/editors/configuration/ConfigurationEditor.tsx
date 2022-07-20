@@ -1,12 +1,13 @@
 import { isNil } from 'lodash'
 import React, { FC } from 'react'
-import { GeneratorConfiguration, ReaderConfiguration } from '../../../types'
+import { GeneratorConfiguration, ReaderConfiguration, WriterConfiguration } from '../../../types'
 import { useColorMode } from '../../../useColorMode'
 import { useGenerator } from '../../model/useGenerator'
 import { ReadonlyGeneratorSourceEditor } from '../ReadonlyGeneratorSourceEditor'
 import { GeneratorEditor } from './GeneratorEditor'
 import { InlineReaderEditor } from './InlineReaderEditor'
 import { RemoteReaderEditor } from './RemoteReaderEditor'
+import { WriterEditor } from './WriterEditor'
 
 export const ConfigurationEditor: FC = () => {
   const { editorInput, samples, configuration, generatorSource, setConfiguration } = useGenerator()
@@ -16,6 +17,9 @@ export const ConfigurationEditor: FC = () => {
     return null
   }
   switch (editorInput.active) {
+    case 'generator-source': {
+      return <ReadonlyGeneratorSourceEditor source={generatorSource} isDark={isDark} />
+    }
     case 'reader': {
       const onChange = (reader: ReaderConfiguration) => setConfiguration({ ...configuration, active: 'reader', reader })
       return editorInput.reader.readerType === 'inline' ? (
@@ -29,8 +33,9 @@ export const ConfigurationEditor: FC = () => {
         setConfiguration({ ...configuration, active: 'generator', generator })
       return <GeneratorEditor input={editorInput.generator} isDark={isDark} onChange={onChange} />
     }
-    case 'generator-source': {
-      return <ReadonlyGeneratorSourceEditor source={generatorSource} isDark={isDark} />
+    case 'writer': {
+      const onChange = (writer: WriterConfiguration) => setConfiguration({ ...configuration, active: 'writer', writer })
+      return <WriterEditor isDark={isDark} input={editorInput.writer} onChange={onChange} />
     }
   }
 }

@@ -1,7 +1,6 @@
 import React, { FC } from 'react'
+import { HeightSub } from './commonStyles'
 import { ReadonlyTypescriptMonaco } from './ReadonlyTypescriptMonaco'
-
-const HeightSub = 130
 
 type ReadonlyGeneratorSourceEditorProps = {
   isDark: boolean
