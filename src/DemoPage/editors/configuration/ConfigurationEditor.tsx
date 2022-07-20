@@ -8,7 +8,7 @@ import { GeneratorEditor } from './GeneratorEditor'
 import { InlineReaderEditor } from './InlineReaderEditor'
 import { RemoteReaderEditor } from './RemoteReaderEditor'
 
-export const InputEditor: FC = () => {
+export const ConfigurationEditor: FC = () => {
   const { editorInput, samples, configuration, generatorSource, setConfiguration } = useGenerator()
   const { colorMode } = useColorMode()
   const isDark = colorMode === 'dark'
@@ -16,15 +16,13 @@ export const InputEditor: FC = () => {
     return null
   }
   switch (editorInput.active) {
-    case 'inline-reader': {
-      const onChange = (reader: ReaderConfiguration) =>
-        setConfiguration({ ...configuration, active: 'inline-reader', reader })
-      return <InlineReaderEditor input={editorInput.reader} isDark={isDark} onChange={onChange} />
-    }
-    case 'remote-reader': {
-      const onChange = (reader: ReaderConfiguration) =>
-        setConfiguration({ ...configuration, active: 'remote-reader', reader })
-      return <RemoteReaderEditor input={editorInput.reader} isDark={isDark} onChange={onChange} samples={samples} />
+    case 'reader': {
+      const onChange = (reader: ReaderConfiguration) => setConfiguration({ ...configuration, active: 'reader', reader })
+      return editorInput.reader.readerType === 'inline' ? (
+        <InlineReaderEditor input={editorInput.reader} isDark={isDark} onChange={onChange} />
+      ) : (
+        <RemoteReaderEditor input={editorInput.reader} isDark={isDark} onChange={onChange} samples={samples} />
+      )
     }
     case 'generator': {
       const onChange = (generator: GeneratorConfiguration) =>

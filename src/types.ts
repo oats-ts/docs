@@ -1,9 +1,11 @@
 import { OpenAPIGeneratorTarget } from '@oats-ts/openapi-common'
 import { Issue } from '@oats-ts/validators'
+import { CommentConfig } from '@oats-ts/typescript-writer'
+import { Options } from 'prettier'
 
 export type ColorMode = 'dark' | 'light'
 export type SourceLanguage = 'yaml' | 'json' | 'mixed'
-export type RemoteProtocol = 'http' | 'https' | 'mixed'
+export type RemoteProtocol = 'http' | 'https' | 'file' | 'mixed'
 export type GeneratorPreset = 'fullStack' | 'client' | 'server'
 export type PathProviderType = 'default' | 'singleFile' | 'byTarget' | 'byName'
 export type GeneratorConfigurationStyle = 'preset' | 'generators'
@@ -89,9 +91,16 @@ export type GeneratorConfiguration = {
   generators: OpenAPIGeneratorTarget[]
 }
 
+export type WriterConfiguration = {
+  prettier: Options
+  leadingComments: CommentConfig[]
+  trailingComments: CommentConfig[]
+  lineSeparator: '\n' | '\r\n'
+}
+
 export type ConfigurationNode = {
   type: 'configuration'
-  active: 'inline-reader' | 'remote-reader' | 'generator' | 'generator-source'
+  active: 'reader' | 'generator' | 'generator-source'
   reader: ReaderConfiguration
   generator: GeneratorConfiguration
 }

@@ -1,13 +1,13 @@
 import { css, cx } from '@emotion/css'
 import { isNil } from 'lodash'
 import React, { FC } from 'react'
-import { Dropdown, Menu, Segment } from 'semantic-ui-react'
+import { Dropdown, Icon, Menu, Segment } from 'semantic-ui-react'
 import YAML from 'yamljs'
 import { SourceLanguage } from '../../../types'
 import { useColorMode } from '../../../useColorMode'
 import { darkBottomMenuStyle, darkSegmentStyle, segmentStyle } from '../../commonStyles'
 import { useGenerator } from '../../model/useGenerator'
-import { InputEditor } from './InputEditor'
+import { ConfigurationEditor } from './ConfigurationEditor'
 
 const containerStyle = css`
   display: flex;
@@ -22,7 +22,7 @@ const oaSegmentStyle = css`
   border-top-width: 0px !important;
 `
 
-export const InputEditorWrapper: FC = () => {
+export const ConfigurationEditorWrapper: FC = () => {
   const { colorMode } = useColorMode()
   const { editorInput, configuration, setConfiguration } = useGenerator()
   const isDark = colorMode === 'dark'
@@ -69,7 +69,7 @@ export const InputEditorWrapper: FC = () => {
   return (
     <div className={containerStyle}>
       <Segment inverted={isDark} className={fullSegmentStyle} attached="top">
-        <InputEditor />
+        <ConfigurationEditor />
       </Segment>
       <Menu attached="bottom" inverted={isDark} className={isDark ? darkBottomMenuStyle : undefined}>
         <Menu.Menu position="left">
@@ -77,66 +77,76 @@ export const InputEditorWrapper: FC = () => {
             active={active === 'generator-source'}
             onClick={() => setConfiguration({ ...configuration, active: 'generator-source' })}
           >
-            Generator source
+            <Icon name="code" /> Generator source
           </Menu.Item>
-          <Dropdown item text={`Reader (${active === 'inline-reader' ? 'Inline' : 'Remote'})`}>
-            <Dropdown.Menu>
-              <Dropdown.Item
-                active={active === 'inline-reader'}
-                onClick={() =>
-                  setConfiguration({
-                    ...configuration,
-                    reader: { ...reader, readerType: 'inline' },
-                    active: 'inline-reader',
-                  })
-                }
-              >
-                Inline
-              </Dropdown.Item>
-              <Dropdown.Item
-                active={active === 'inline-reader'}
-                onClick={() =>
-                  setConfiguration({
-                    ...configuration,
-                    reader: { ...reader, readerType: 'remote' },
-                    active: 'remote-reader',
-                  })
-                }
-              >
-                Remote
-              </Dropdown.Item>
-            </Dropdown.Menu>
-          </Dropdown>
+          <Menu.Item
+            active={active === 'reader'}
+            onClick={() => setConfiguration({ ...configuration, active: 'reader' })}
+          >
+            <Icon name="book" /> Reader
+          </Menu.Item>
           <Menu.Item
             active={active === 'generator'}
             onClick={() => setConfiguration({ ...configuration, active: 'generator' })}
           >
-            Generators
+            <Icon name="rocket" /> Generators
           </Menu.Item>
-          <Menu.Item>Writer</Menu.Item>
+          <Menu.Item>
+            <Icon name="write" /> Writer
+          </Menu.Item>
         </Menu.Menu>
-        {active === 'inline-reader' ? (
+        {active === 'reader' && (
           <Menu.Menu position="right">
-            <Dropdown item text={reader.inlineLanguage === 'json' ? 'JSON' : 'YAML'}>
+            {reader.readerType === 'inline' && (
+              <Dropdown item text={reader.inlineLanguage === 'json' ? 'JSON' : 'YAML'}>
+                <Dropdown.Menu>
+                  <Dropdown.Item
+                    value="json"
+                    active={reader.inlineLanguage === 'json'}
+                    onClick={() => onInlineInputLanguageChange('json')}
+                  >
+                    JSON
+                  </Dropdown.Item>
+                  <Dropdown.Item
+                    value="yaml"
+                    active={reader.inlineLanguage === 'yaml'}
+                    onClick={() => onInlineInputLanguageChange('yaml')}
+                  >
+                    YAML
+                  </Dropdown.Item>
+                </Dropdown.Menu>
+              </Dropdown>
+            )}
+            <Dropdown item text={reader.readerType === 'inline' ? 'Inline' : 'Remote'}>
               <Dropdown.Menu>
                 <Dropdown.Item
-                  value="json"
-                  active={reader.inlineLanguage === 'json'}
-                  onClick={() => onInlineInputLanguageChange('json')}
+                  active={reader.readerType === 'inline'}
+                  onClick={() =>
+                    setConfiguration({
+                      ...configuration,
+                      reader: { ...reader, readerType: 'inline' },
+                      active: 'reader',
+                    })
+                  }
                 >
-                  JSON
+                  Inline
                 </Dropdown.Item>
                 <Dropdown.Item
-                  value="yaml"
-                  active={reader.inlineLanguage === 'yaml'}
-                  onClick={() => onInlineInputLanguageChange('yaml')}
+                  active={reader.readerType === 'remote'}
+                  onClick={() =>
+                    setConfiguration({
+                      ...configuration,
+                      reader: { ...reader, readerType: 'remote' },
+                      active: 'reader',
+                    })
+                  }
                 >
-                  YAML
+                  Remote
                 </Dropdown.Item>
               </Dropdown.Menu>
             </Dropdown>
           </Menu.Menu>
-        ) : null}
+        )}
       </Menu>
     </div>
   )

@@ -4,6 +4,7 @@ import React, { FC } from 'react'
 import { Icon, Segment, Table } from 'semantic-ui-react'
 import { IssuesNode } from '../../types'
 import { darkSegmentStyle } from '../commonStyles'
+import { IssuePath } from './IssuePath'
 
 const issuesContainerStyle = css`
   height: 100%;
@@ -41,7 +42,7 @@ export const IssuesPanel: FC<IssuesPanelProps> = ({ isDark, isLoading, node }) =
       <Table inverted={isDark}>
         <Table.Header>
           <Table.Row>
-            <Table.HeaderCell>Severity</Table.HeaderCell>
+            <Table.HeaderCell></Table.HeaderCell>
             <Table.HeaderCell>Path</Table.HeaderCell>
             <Table.HeaderCell>Message</Table.HeaderCell>
           </Table.Row>
@@ -49,13 +50,14 @@ export const IssuesPanel: FC<IssuesPanelProps> = ({ isDark, isLoading, node }) =
         <Table.Body>
           {node.issues.length > 0 ? (
             node.issues.map((issue, index) => {
-              const path = issue.path.includes('#') ? `#${issue.path.split('#')[1]}` : issue.path
               return (
                 <Table.Row key={index}>
                   <Table.Cell>
-                    <SeverityIcon severity={issue.severity} /> {issue.severity}
+                    <SeverityIcon severity={issue.severity} />
                   </Table.Cell>
-                  <Table.Cell className={pathCellStyle}>{path}</Table.Cell>
+                  <Table.Cell className={pathCellStyle}>
+                    <IssuePath path={issue.path} isDark={isDark} />
+                  </Table.Cell>
                   <Table.Cell>{issue.message}</Table.Cell>
                 </Table.Row>
               )

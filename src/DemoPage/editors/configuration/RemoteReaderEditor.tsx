@@ -38,6 +38,10 @@ const protocolOption: ProtocolDropdownItemProps[] = [
     value: 'http',
   },
   {
+    text: "File (won't work in the browser)",
+    value: 'file',
+  },
+  {
     text: 'Mixed',
     value: 'mixed',
   },

@@ -1,26 +1,13 @@
 import { generate, Logger } from '@oats-ts/oats-ts'
 import typescriptParser from 'prettier/parser-typescript'
-import {
-  formatters,
-  validator,
-  readers,
-  writers,
-  presets,
-  nameProviders,
-  pathProviders,
-  generator as oatsGenerator,
-  loggers,
-  generators,
-} from '@oats-ts/openapi'
+import { formatters, validator, writers, loggers } from '@oats-ts/openapi'
 import isNil from 'lodash/isNil'
 import {
   EditorInput,
   ExplorerTreeState,
   FolderNode,
   GeneratorContextType,
-  GeneratorConfiguration,
   IssuesNode,
-  ReaderConfiguration,
   ConfigurationNode,
 } from '../../types'
 import { Options } from 'prettier'
@@ -34,64 +21,41 @@ import { GeneratorContext } from '../GeneratorContext'
 import petStore from './pet-store.yaml'
 import { useDebounceEffect } from './useDebounceEffect'
 import { getGeneratorSource } from './getGeneratorSource'
+import { createGenerator, createReader } from './oatsFactories'
+import { verifyConfiguration } from './verifyConfiguration'
 
 const baseOptions: Options = {
   parser: 'typescript',
   plugins: [typescriptParser],
 }
 
-function createReader(input: ReaderConfiguration) {
-  switch (input.readerType) {
-    case 'inline':
-      return readers.test[input.inlineLanguage]({
-        path: '',
-        content: new Map().set('', input.inlineContent),
-      })
-    case 'remote':
-      return readers[input.remoteProtocol][input.remoteLanguage](input.remotePath)
-  }
-}
-
-function createGeneratorChildren(input: GeneratorConfiguration) {
-  switch (input.configurationStyle) {
-    case 'generators':
-      return input.generators.map((target) => generators.create(target))
-    case 'preset':
-      return presets[input.preset]()
-    default:
-      return []
-  }
-}
-
-function createGenerator(input: GeneratorConfiguration) {
-  return oatsGenerator({
-    nameProvider: nameProviders.default(),
-    pathProvider: pathProviders[input.pathProviderType](input.rootPath),
-    children: createGeneratorChildren(input),
-  })
-}
-
 export function useGeneratorContext(): GeneratorContextType {
   const [samples, setSamples] = useState<string[]>([])
-  const [configuration, _setConfiguration] = useState<ConfigurationNode>({
-    type: 'configuration',
-    active: 'generator-source',
-    generator: {
-      preset: 'fullStack',
-      pathProviderType: 'default',
-      rootPath: '/',
-      configurationStyle: 'preset',
-      generators: [],
-    },
-    reader: {
-      readerType: 'inline',
-      inlineContent: petStore,
-      inlineLanguage: 'yaml',
-      remoteLanguage: 'yaml',
-      remotePath: 'https://raw.githubusercontent.com/oats-ts/oats-schemas/master/schemas/pet-store.yaml',
-      remoteProtocol: 'https',
-    },
-  })
+  const [configuration, _setConfiguration] = useState<ConfigurationNode>(() =>
+    storage.get(
+      'configuration',
+      {
+        type: 'configuration',
+        active: 'generator-source',
+        generator: {
+          preset: 'fullStack',
+          pathProviderType: 'default',
+          rootPath: '/',
+          configurationStyle: 'preset',
+          generators: [],
+        },
+        reader: {
+          readerType: 'inline',
+          inlineContent: petStore,
+          inlineLanguage: 'yaml',
+          remoteLanguage: 'yaml',
+          remotePath: 'https://raw.githubusercontent.com/oats-ts/oats-schemas/master/schemas/pet-store.yaml',
+          remoteProtocol: 'https',
+        },
+      },
+      verifyConfiguration,
+    ),
+  )
   const [generatorSource, _setGeneratorSource] = useState<string>('')
 
   const [isSamplesLoading, setSamplesLoading] = useState<boolean>(true)
@@ -102,8 +66,6 @@ export function useGeneratorContext(): GeneratorContextType {
   const [issues, setIssues] = useState<IssuesNode>({ type: 'issues', issues: [] })
   const [editorInput, _setEditorInput] = useState<EditorInput | undefined>(configuration)
   const [explorerTreeState, setExplorerTreeState] = useState<ExplorerTreeState>({})
-
-  console.log(configuration)
 
   function processResult(output: Try<GeneratedFile[]>): void {
     if (isSuccess(output)) {
@@ -171,6 +133,12 @@ export function useGeneratorContext(): GeneratorContextType {
   }, [configuration.reader, configuration.generator])
 
   useDebounceEffect(computeGeneratorSource, 1000)
+
+  const updateConfigurationStorage = useCallback(() => {
+    storage.set('configuration', configuration)
+  }, [configuration])
+
+  useDebounceEffect(updateConfigurationStorage, 200)
 
   return {
     output,
