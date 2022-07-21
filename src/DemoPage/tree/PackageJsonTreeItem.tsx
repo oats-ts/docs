@@ -2,22 +2,22 @@ import React, { FC } from 'react'
 import { Icon, Popup } from 'semantic-ui-react'
 import { treeItemStyle } from './commonStyles'
 
-export type GeneratorSourceTreeItemProps = {
+export type PackageJsonTreeItemProps = {
   isDark: boolean
   isActive: boolean
   onClick: () => void
 }
 
-const tooltip = 'You can use this source code to generate the same result, as what you see in the file explorer'
+const tooltip = 'This sample package.json file shows what you need to install to make this example work'
 
-export const GeneratorSourceTreeItem: FC<GeneratorSourceTreeItemProps> = ({ isDark, isActive, onClick }) => {
+export const PackageJsonTreeItem: FC<PackageJsonTreeItemProps> = ({ isDark, isActive, onClick }) => {
   return (
     <Popup
       content={tooltip}
       position="right center"
       trigger={
         <div className={treeItemStyle(isActive, isDark)} onClick={onClick}>
-          <Icon name="file outline" /> generate.ts
+          <Icon name="file outline" /> package.json
         </div>
       }
     />

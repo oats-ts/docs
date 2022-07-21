@@ -29,6 +29,7 @@
     "@types/react": "18.0.15",
     "@types/urijs": "1.19.19",
     "@types/valid-url": "1.0.3",
+    "type-fest": "2.17.0",
     "clean-webpack-plugin": "4.0.0",
     "css-loader": "6.7.1",
     "file-loader": "6.2.0",

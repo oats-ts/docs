@@ -22,7 +22,8 @@ const searchStyle = css`
 `
 
 export const ExplorerTree: FC = () => {
-  const { output, configuration, issues, isLoading, generatorSource, setTreeFilter } = useContext(GeneratorContext)
+  const { output, configuration, issues, isLoading, generatorSource, packageJson, setTreeFilter } =
+    useContext(GeneratorContext)
   const { colorMode } = useColorMode()
   const explorerTreeStyle = cx(baseStyle, colorMode === 'dark' ? darkSegmentStyle : undefined)
   return (
@@ -31,7 +32,7 @@ export const ExplorerTree: FC = () => {
         <TreeHeader label="Input" />
         <ExplorerTreeNode key="configuration" node={configuration} level={0} />
         <ExplorerTreeNode key="source" node={generatorSource} level={0} />
-        <ExplorerTreeNode key="issues" node={issues} level={0} />
+        <ExplorerTreeNode key="package.json" node={packageJson} level={0} />
       </TreeSection>
       <TreeSection>
         <Input
@@ -43,6 +44,7 @@ export const ExplorerTree: FC = () => {
           onChange={(_: any, { value }) => setTreeFilter(value ?? '')}
         />
         <TreeHeader label="Output" />
+        {issues.issues.length > 0 && <ExplorerTreeNode key="issues" node={issues} level={0} />}
         {output.children.map((node) => (
           <ExplorerTreeNode key={node.path} node={node} level={0} />
         ))}

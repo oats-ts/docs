@@ -8,6 +8,7 @@ import { ConfigurationTreeItem } from './ConfigurationTreeItem'
 import { IssuesTreeItem } from './IssuesTreeItem'
 import { isOk } from '@oats-ts/validators'
 import { GeneratorSourceTreeItem } from './GeneratorSourceTreeItem'
+import { PackageJsonTreeItem } from './PackageJsonTreeItem'
 
 export type TreeItemProps = {
   node: EditorInput
@@ -36,6 +37,10 @@ export const TreeItem: FC<TreeItemProps> = ({ node }) => {
     case 'generator-source': {
       const isActive = Boolean(editorInput && editorInput.type === 'generator-source')
       return <GeneratorSourceTreeItem onClick={defaultOnClick} isDark={isDark} isActive={isActive} />
+    }
+    case 'package-json': {
+      const isActive = Boolean(editorInput && editorInput.type === 'package-json')
+      return <PackageJsonTreeItem onClick={defaultOnClick} isDark={isDark} isActive={isActive} />
     }
     case 'issues': {
       const isActive = Boolean(editorInput && editorInput.type === 'issues')

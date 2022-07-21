@@ -10,6 +10,7 @@ import {
   IssuesNode,
   ConfigurationNode,
   GeneratorSourceNode,
+  PackageJsonNode,
 } from '../../types'
 import { useCallback, useContext, useEffect, useState } from 'react'
 import { isSuccess, Try } from '@oats-ts/try'
@@ -24,6 +25,7 @@ import { getGeneratorSource } from './getGeneratorSource'
 import { createGenerator, createReader, createWriter } from './oatsFactories'
 import { verifyConfiguration } from './verifyConfiguration'
 import { filterExplorerTree } from './filterExplorerTree'
+import { getPackageJsonSource } from './getPackageJsonSource'
 
 export function _useGenerator(): GeneratorContextType {
   const [samples, setSamples] = useState<string[]>([])
@@ -60,15 +62,16 @@ export function _useGenerator(): GeneratorContextType {
     ),
   )
   const [generatorSource, _setGeneratorSource] = useState<GeneratorSourceNode>({ type: 'generator-source', source: '' })
+  const [packageJson, _setPackageJson] = useState<PackageJsonNode>({ type: 'package-json', source: '' })
+  const [issues, _setIssues] = useState<IssuesNode>({ type: 'issues', issues: [] })
+  const [_output, _setOutput] = useState<FolderNode>({ type: 'folder', path: '/', name: '/', children: [] })
 
   const [treeFilter, setTreeFilter] = useState<string>('')
   const [isSamplesLoading, setSamplesLoading] = useState<boolean>(true)
   const [isGenerating, setGenerating] = useState<boolean>(true)
   const [isIssuesPanelOpen, setIssuesPanelOpen] = useState<boolean>(false)
   const [isConfigurationPanelOpen, setConfigurationPanelOpen] = useState<boolean>(false)
-  const [_output, setOutput] = useState<FolderNode>({ type: 'folder', path: '/', name: '/', children: [] })
-  const [issues, setIssues] = useState<IssuesNode>({ type: 'issues', issues: [] })
-  const [editorInput, _setEditorInput] = useState<EditorInput | undefined>(undefined)
+  const [editorInput, setEditorInput] = useState<EditorInput | undefined>(undefined)
   const [explorerTreeState, setExplorerTreeState] = useState<ExplorerTreeState>({})
   const [filteredOutput, setFilteredOutput] = useState(_output)
 
@@ -82,8 +85,18 @@ export function _useGenerator(): GeneratorContextType {
     }
   }
 
-  function setEditorInput(input?: EditorInput): void {
-    _setEditorInput(input)
+  function setOutput(node: FolderNode) {
+    _setOutput(node)
+    if (editorInput?.type === 'file' || editorInput?.type === 'folder') {
+      setEditorInput(undefined)
+    }
+  }
+
+  function setIssues(node: IssuesNode) {
+    _setIssues(node)
+    if (editorInput?.type === 'issues') {
+      setEditorInput(node)
+    }
   }
 
   function setConfiguration(configuration: ConfigurationNode) {
@@ -97,6 +110,13 @@ export function _useGenerator(): GeneratorContextType {
     _setGeneratorSource(source)
     if (editorInput?.type === 'generator-source') {
       setEditorInput(source)
+    }
+  }
+
+  function setPackageJson(pkg: PackageJsonNode) {
+    _setPackageJson(pkg)
+    if (editorInput?.type === 'package-json') {
+      setEditorInput(pkg)
     }
   }
 
@@ -123,8 +143,11 @@ export function _useGenerator(): GeneratorContextType {
     // TODO warnings not emmited for some reason
     const logger: Logger = (emitter) => {
       loggers.simple()(emitter)
-      emitter.addListener('validator-step-completed', ({ issues }) => {
-        setIssues((existing) => ({ ...existing, issues: [...existing.issues, ...issues] }))
+      emitter.addListener('validator-step-completed', ({ issues: validatorIssues }) => {
+        setIssues({ type: 'issues', issues: validatorIssues })
+      })
+      emitter.addListener('generator-completed', ({ dependencies }) => {
+        setPackageJson({ ...packageJson, source: getPackageJsonSource(dependencies) })
       })
     }
     generate({
@@ -171,6 +194,7 @@ export function _useGenerator(): GeneratorContextType {
     configuration,
     generatorSource,
     treeFilter,
+    packageJson,
     setExplorerTreeState,
     setEditorInput,
     setIssuesPanelOpen,

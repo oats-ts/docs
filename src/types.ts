@@ -40,6 +40,7 @@ export type GeneratorContextType = {
   issues: IssuesNode
   isLoading: boolean
   generatorSource: GeneratorSourceNode
+  packageJson: PackageJsonNode
   // Cosmetic stuff
   isIssuesPanelOpen: boolean
   isConfigurationPanelOpen: boolean
@@ -59,6 +60,11 @@ export type ColorModeContextType = {
 
 export type GeneratorSourceNode = {
   type: 'generator-source'
+  source: string
+}
+
+export type PackageJsonNode = {
+  type: 'package-json'
   source: string
 }
 
@@ -131,4 +137,4 @@ export type ConfigurationNode = {
 
 export type FsNode = FileNode | FolderNode
 
-export type EditorInput = FsNode | ConfigurationNode | IssuesNode | GeneratorSourceNode
+export type EditorInput = FsNode | ConfigurationNode | IssuesNode | GeneratorSourceNode | PackageJsonNode

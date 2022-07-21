@@ -22,7 +22,7 @@ export const NoEditor: FC<NoEditorProps> = ({ isDark, isLoading }) => {
   return (
     <Segment loading={isLoading} inverted={isDark} className={fullSegmentStyle}>
       <Header icon>
-        <Icon name="file code outline" />
+        <Icon name="file outline" />
         No editor open. Use the explorer on the left!
       </Header>
     </Segment>
