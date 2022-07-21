@@ -12,7 +12,7 @@ export type FileTreeItemProps = {
 export const FileTreeItem: FC<FileTreeItemProps> = ({ name, isActive, isDark, onClick }) => {
   return (
     <div className={treeItemStyle(isActive, isDark)} onClick={onClick}>
-      <Icon name="file code outline" /> {name}
+      <Icon name="file outline" /> {name}
     </div>
   )
 }

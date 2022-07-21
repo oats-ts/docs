@@ -19,17 +19,12 @@ function getInlineReaderAst(reader: ReaderConfiguration) {
           factory.createPropertyAssignment(factory.createIdentifier('path'), factory.createStringLiteral(dummyPath)),
           factory.createPropertyAssignment(
             factory.createIdentifier('content'),
-            factory.createCallExpression(
-              factory.createPropertyAccessExpression(
-                factory.createNewExpression(factory.createIdentifier('Map'), undefined, []),
-                factory.createIdentifier('set'),
-              ),
-              undefined,
-              [
+            factory.createObjectLiteralExpression([
+              factory.createPropertyAssignment(
                 factory.createStringLiteral(dummyPath),
                 factory.createStringLiteral(`<${reader.inlineLanguage.toUpperCase()} source>`),
-              ],
-            ),
+              ),
+            ]),
           ),
         ],
         true,

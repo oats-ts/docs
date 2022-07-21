@@ -28,7 +28,7 @@ export const storage: Storage = {
     }
     try {
       const { value, ttl } = JSON.parse(rawValue) as ValueWithTtl<T>
-      if ((isNil(ttl) || Date.now() < ttl) && verify?.(value)) {
+      if ((isNil(ttl) || Date.now() < ttl) && (verify === undefined || verify?.(value))) {
         return value
       } else {
         localStorage.removeItem(key)

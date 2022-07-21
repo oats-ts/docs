@@ -1,19 +1,21 @@
 import React, { FC } from 'react'
-import { useGenerator } from '../model/useGenerator'
+import { useGeneratorContext } from '../model/useGenerator'
 import { EditorInput } from '../../types'
 import { useColorMode } from '../../useColorMode'
 import { FileTreeItem } from './FileTreeItem'
 import { FolderTreeItem } from './FolderTreeItem'
-import { InputTreeItem } from './ConfigurationTreeItem'
+import { ConfigurationTreeItem } from './ConfigurationTreeItem'
 import { IssuesTreeItem } from './IssuesTreeItem'
 import { isOk } from '@oats-ts/validators'
+import { GeneratorSourceTreeItem } from './GeneratorSourceTreeItem'
+import { PackageJsonTreeItem } from './PackageJsonTreeItem'
 
 export type TreeItemProps = {
   node: EditorInput
 }
 
 export const TreeItem: FC<TreeItemProps> = ({ node }) => {
-  const { explorerTreeState, editorInput, setEditorInput, setExplorerTreeState } = useGenerator()
+  const { explorerTreeState, editorInput, setEditorInput, setExplorerTreeState } = useGeneratorContext()
   const { colorMode } = useColorMode()
   const isDark = colorMode === 'dark'
   const defaultOnClick = () => setEditorInput(node)
@@ -30,7 +32,15 @@ export const TreeItem: FC<TreeItemProps> = ({ node }) => {
     }
     case 'configuration': {
       const isActive = Boolean(editorInput && editorInput.type === 'configuration')
-      return <InputTreeItem onClick={defaultOnClick} isDark={isDark} isActive={isActive} />
+      return <ConfigurationTreeItem onClick={defaultOnClick} isDark={isDark} isActive={isActive} />
+    }
+    case 'generator-source': {
+      const isActive = Boolean(editorInput && editorInput.type === 'generator-source')
+      return <GeneratorSourceTreeItem onClick={defaultOnClick} isDark={isDark} isActive={isActive} />
+    }
+    case 'package-json': {
+      const isActive = Boolean(editorInput && editorInput.type === 'package-json')
+      return <PackageJsonTreeItem onClick={defaultOnClick} isDark={isDark} isActive={isActive} />
     }
     case 'issues': {
       const isActive = Boolean(editorInput && editorInput.type === 'issues')

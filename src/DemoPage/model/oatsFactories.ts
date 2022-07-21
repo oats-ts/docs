@@ -16,7 +16,7 @@ export function createReader(input: ReaderConfiguration) {
     case 'inline':
       return readers.test[input.inlineLanguage]({
         path: '',
-        content: new Map().set('', input.inlineContent),
+        content: { '': input.inlineContent },
       })
     case 'remote':
       return readers[input.remoteProtocol][input.remoteLanguage](input.remotePath)

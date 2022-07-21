@@ -1,17 +1,25 @@
 import React, { FC } from 'react'
-import { Icon } from 'semantic-ui-react'
+import { Icon, Popup } from 'semantic-ui-react'
 import { treeItemStyle } from './commonStyles'
 
-export type InputTreeItemProps = {
+export type ConfigurationTreeItemProps = {
   isDark: boolean
   isActive: boolean
   onClick: () => void
 }
 
-export const InputTreeItem: FC<InputTreeItemProps> = ({ isDark, isActive, onClick }) => {
+const tooltip = 'You can find all input configuration here. When opened, check the bottom tabs for more information.'
+
+export const ConfigurationTreeItem: FC<ConfigurationTreeItemProps> = ({ isDark, isActive, onClick }) => {
   return (
-    <div className={treeItemStyle(isActive, isDark)} onClick={onClick}>
-      <Icon name="file code outline" /> generate.ts
-    </div>
+    <Popup
+      content={tooltip}
+      position="right center"
+      trigger={
+        <div className={treeItemStyle(isActive, isDark)} onClick={onClick}>
+          <Icon name="cog" /> configuration
+        </div>
+      }
+    />
   )
 }

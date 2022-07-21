@@ -34,15 +34,18 @@ export type GeneratorContextType = {
   editorInput?: EditorInput
   explorerTreeState: ExplorerTreeState
   samples: string[]
+  treeFilter: string
   // Generator output
   output: FolderNode
   issues: IssuesNode
   isLoading: boolean
-  generatorSource: string
+  generatorSource: GeneratorSourceNode
+  packageJson: PackageJsonNode
   // Cosmetic stuff
   isIssuesPanelOpen: boolean
   isConfigurationPanelOpen: boolean
   // Setters
+  setTreeFilter: (filter: string) => void
   setIssuesPanelOpen: (isOpen: boolean) => void
   setConfigurationPanelOpen: (isOpen: boolean) => void
   setConfiguration: (node: ConfigurationNode) => void
@@ -53,6 +56,16 @@ export type GeneratorContextType = {
 export type ColorModeContextType = {
   colorMode: ColorMode
   setColorMode: (colorMode: ColorMode) => void
+}
+
+export type GeneratorSourceNode = {
+  type: 'generator-source'
+  source: string
+}
+
+export type PackageJsonNode = {
+  type: 'package-json'
+  source: string
 }
 
 export type FileNode = {
@@ -116,7 +129,7 @@ export type WriterConfiguration = {
 
 export type ConfigurationNode = {
   type: 'configuration'
-  active: 'generator-source' | 'reader' | 'generator' | 'writer'
+  active: 'reader' | 'generator' | 'writer'
   reader: ReaderConfiguration
   generator: GeneratorConfiguration
   writer: WriterConfiguration
@@ -124,4 +137,4 @@ export type ConfigurationNode = {
 
 export type FsNode = FileNode | FolderNode
 
-export type EditorInput = FsNode | ConfigurationNode | IssuesNode
+export type EditorInput = FsNode | ConfigurationNode | IssuesNode | GeneratorSourceNode | PackageJsonNode

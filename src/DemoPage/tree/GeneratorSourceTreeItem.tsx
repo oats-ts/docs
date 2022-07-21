@@ -2,24 +2,22 @@ import React, { FC } from 'react'
 import { Icon, Popup } from 'semantic-ui-react'
 import { treeItemStyle } from './commonStyles'
 
-export type IssuesTreeItemProps = {
-  name: string
-  isActive: boolean
+export type GeneratorSourceTreeItemProps = {
   isDark: boolean
-  isOk: boolean
+  isActive: boolean
   onClick: () => void
 }
 
-const tooltip = 'You can find all issues that happened during code generation here.'
+const tooltip = 'You can use this source code to generate the same result, as what you see in the file explorer'
 
-export const IssuesTreeItem: FC<IssuesTreeItemProps> = ({ name, isActive, isDark, isOk, onClick }) => {
+export const GeneratorSourceTreeItem: FC<GeneratorSourceTreeItemProps> = ({ isDark, isActive, onClick }) => {
   return (
     <Popup
       content={tooltip}
       position="right center"
       trigger={
         <div className={treeItemStyle(isActive, isDark)} onClick={onClick}>
-          <Icon name={isOk ? 'check circle outline' : 'exclamation triangle'} /> {name}
+          <Icon name="file outline" /> generate.ts
         </div>
       }
     />

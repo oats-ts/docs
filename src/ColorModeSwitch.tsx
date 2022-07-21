@@ -1,6 +1,6 @@
 import { css } from '@emotion/css'
 import React, { FC } from 'react'
-import { Checkbox, Icon } from 'semantic-ui-react'
+import { Checkbox, Icon, Popup } from 'semantic-ui-react'
 import { useColorMode } from './useColorMode'
 
 const containerStyle = css`
@@ -20,14 +20,19 @@ const iconStyle = css`
 export const ColorModeSwitch: FC = () => {
   const { colorMode, setColorMode } = useColorMode()
   return (
-    <div className={containerStyle}>
-      <Icon name="sun" color={colorMode === 'dark' ? 'grey' : 'black'} fitted className={iconStyle} />
-      <Checkbox
-        toggle
-        checked={colorMode === 'dark'}
-        onChange={(_, { checked }) => setColorMode(checked ? 'dark' : 'light')}
-      />
-      <Icon name="moon" color={colorMode === 'dark' ? 'grey' : 'black'} fitted className={iconStyle} />
-    </div>
+    <Popup
+      content="WARNING: Dark mode is still experimental, some styles are not perfect!"
+      trigger={
+        <div className={containerStyle}>
+          <Icon name="sun" color={colorMode === 'dark' ? 'grey' : 'black'} fitted className={iconStyle} />
+          <Checkbox
+            toggle
+            checked={colorMode === 'dark'}
+            onChange={(_, { checked }) => setColorMode(checked ? 'dark' : 'light')}
+          />
+          <Icon name="moon" color={colorMode === 'dark' ? 'grey' : 'black'} fitted className={iconStyle} />
+        </div>
+      }
+    />
   )
 }
