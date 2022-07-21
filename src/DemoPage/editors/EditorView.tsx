@@ -6,6 +6,7 @@ import { ConfigurationEditorWrapper } from './configuration/ConfigurationEditorW
 import { NoEditor } from './NoEditor'
 import { ReadonlyTypescriptEditor } from './ReadonlyTypescriptEditor'
 import { IssuesPanel } from './IssuesPanel'
+import { ReadonlyGeneratorSourceEditor } from './ReadonlyGeneratorSourceEditor'
 
 export const EditorView: FC = () => {
   const { editorInput, isLoading } = useGeneratorContext()
@@ -25,7 +26,11 @@ export const EditorView: FC = () => {
     case 'issues': {
       return <IssuesPanel isLoading={isLoading} isDark={isDark} node={editorInput} />
     }
-    default:
+    case 'generator-source': {
+      return <ReadonlyGeneratorSourceEditor isDark={isDark} source={editorInput.source} />
+    }
+    case 'folder': {
       throw new TypeError(`Unexpected input of type "${editorInput.type}"`)
+    }
   }
 }

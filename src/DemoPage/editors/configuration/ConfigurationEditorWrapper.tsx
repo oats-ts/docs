@@ -88,18 +88,6 @@ export const ConfigurationEditorWrapper: FC = () => {
       <Menu attached="bottom" inverted={isDark} className={isDark ? darkBottomMenuStyle : undefined}>
         <Menu.Menu position="left">
           <Popup
-            content={tooltips.generateTs}
-            trigger={
-              <Menu.Item
-                active={active === 'generator-source'}
-                onClick={() => setConfiguration({ ...configuration, active: 'generator-source' })}
-              >
-                <Icon name="code" /> generate.ts
-              </Menu.Item>
-            }
-          />
-
-          <Popup
             content={tooltips.reader}
             trigger={
               <Menu.Item

@@ -4,9 +4,10 @@ import { EditorInput } from '../../types'
 import { useColorMode } from '../../useColorMode'
 import { FileTreeItem } from './FileTreeItem'
 import { FolderTreeItem } from './FolderTreeItem'
-import { InputTreeItem } from './ConfigurationTreeItem'
+import { ConfigurationTreeItem } from './ConfigurationTreeItem'
 import { IssuesTreeItem } from './IssuesTreeItem'
 import { isOk } from '@oats-ts/validators'
+import { GeneratorSourceTreeItem } from './GeneratorSourceTreeItem'
 
 export type TreeItemProps = {
   node: EditorInput
@@ -30,7 +31,11 @@ export const TreeItem: FC<TreeItemProps> = ({ node }) => {
     }
     case 'configuration': {
       const isActive = Boolean(editorInput && editorInput.type === 'configuration')
-      return <InputTreeItem onClick={defaultOnClick} isDark={isDark} isActive={isActive} />
+      return <ConfigurationTreeItem onClick={defaultOnClick} isDark={isDark} isActive={isActive} />
+    }
+    case 'generator-source': {
+      const isActive = Boolean(editorInput && editorInput.type === 'generator-source')
+      return <GeneratorSourceTreeItem onClick={defaultOnClick} isDark={isDark} isActive={isActive} />
     }
     case 'issues': {
       const isActive = Boolean(editorInput && editorInput.type === 'issues')

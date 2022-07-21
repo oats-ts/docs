@@ -3,23 +3,19 @@ import React, { FC } from 'react'
 import { GeneratorConfiguration, ReaderConfiguration, WriterConfiguration } from '../../../types'
 import { useColorMode } from '../../../useColorMode'
 import { useGeneratorContext } from '../../model/useGenerator'
-import { ReadonlyGeneratorSourceEditor } from '../ReadonlyGeneratorSourceEditor'
 import { GeneratorEditor } from './GeneratorEditor'
 import { InlineReaderEditor } from './InlineReaderEditor'
 import { RemoteReaderEditor } from './RemoteReaderEditor'
 import { WriterEditor } from './WriterEditor'
 
 export const ConfigurationEditor: FC = () => {
-  const { editorInput, samples, configuration, generatorSource, setConfiguration } = useGeneratorContext()
+  const { editorInput, samples, configuration, setConfiguration } = useGeneratorContext()
   const { colorMode } = useColorMode()
   const isDark = colorMode === 'dark'
   if (isNil(editorInput) || editorInput.type !== 'configuration') {
     return null
   }
   switch (editorInput.active) {
-    case 'generator-source': {
-      return <ReadonlyGeneratorSourceEditor source={generatorSource} isDark={isDark} />
-    }
     case 'reader': {
       const onChange = (reader: ReaderConfiguration) => setConfiguration({ ...configuration, active: 'reader', reader })
       return editorInput.reader.readerType === 'inline' ? (

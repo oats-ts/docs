@@ -22,7 +22,7 @@ const searchStyle = css`
 `
 
 export const ExplorerTree: FC = () => {
-  const { output, configuration, issues, isLoading, setTreeFilter } = useContext(GeneratorContext)
+  const { output, configuration, issues, isLoading, generatorSource, setTreeFilter } = useContext(GeneratorContext)
   const { colorMode } = useColorMode()
   const explorerTreeStyle = cx(baseStyle, colorMode === 'dark' ? darkSegmentStyle : undefined)
   return (
@@ -30,6 +30,7 @@ export const ExplorerTree: FC = () => {
       <TreeSection>
         <TreeHeader label="Input" />
         <ExplorerTreeNode key="configuration" node={configuration} level={0} />
+        <ExplorerTreeNode key="source" node={generatorSource} level={0} />
         <ExplorerTreeNode key="issues" node={issues} level={0} />
       </TreeSection>
       <TreeSection>

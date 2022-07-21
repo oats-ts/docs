@@ -39,7 +39,7 @@ export type GeneratorContextType = {
   output: FolderNode
   issues: IssuesNode
   isLoading: boolean
-  generatorSource: string
+  generatorSource: GeneratorSourceNode
   // Cosmetic stuff
   isIssuesPanelOpen: boolean
   isConfigurationPanelOpen: boolean
@@ -55,6 +55,11 @@ export type GeneratorContextType = {
 export type ColorModeContextType = {
   colorMode: ColorMode
   setColorMode: (colorMode: ColorMode) => void
+}
+
+export type GeneratorSourceNode = {
+  type: 'generator-source'
+  source: string
 }
 
 export type FileNode = {
@@ -118,7 +123,7 @@ export type WriterConfiguration = {
 
 export type ConfigurationNode = {
   type: 'configuration'
-  active: 'generator-source' | 'reader' | 'generator' | 'writer'
+  active: 'reader' | 'generator' | 'writer'
   reader: ReaderConfiguration
   generator: GeneratorConfiguration
   writer: WriterConfiguration
@@ -126,4 +131,4 @@ export type ConfigurationNode = {
 
 export type FsNode = FileNode | FolderNode
 
-export type EditorInput = FsNode | ConfigurationNode | IssuesNode
+export type EditorInput = FsNode | ConfigurationNode | IssuesNode | GeneratorSourceNode

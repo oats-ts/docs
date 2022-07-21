@@ -9,6 +9,7 @@ import {
   GeneratorContextType,
   IssuesNode,
   ConfigurationNode,
+  GeneratorSourceNode,
 } from '../../types'
 import { useCallback, useContext, useEffect, useState } from 'react'
 import { isSuccess, Try } from '@oats-ts/try'
@@ -31,7 +32,7 @@ export function _useGenerator(): GeneratorContextType {
       'configuration',
       {
         type: 'configuration',
-        active: 'generator-source',
+        active: 'reader',
         generator: {
           preset: 'fullStack',
           pathProviderType: 'default',
@@ -58,7 +59,7 @@ export function _useGenerator(): GeneratorContextType {
       verifyConfiguration,
     ),
   )
-  const [generatorSource, _setGeneratorSource] = useState<string>('')
+  const [generatorSource, _setGeneratorSource] = useState<GeneratorSourceNode>({ type: 'generator-source', source: '' })
 
   const [treeFilter, setTreeFilter] = useState<string>('')
   const [isSamplesLoading, setSamplesLoading] = useState<boolean>(true)
@@ -87,7 +88,16 @@ export function _useGenerator(): GeneratorContextType {
 
   function setConfiguration(configuration: ConfigurationNode) {
     _setConfiguration(configuration)
-    setEditorInput(configuration)
+    if (editorInput?.type === 'configuration') {
+      setEditorInput(configuration)
+    }
+  }
+
+  function setGeneratorSource(source: GeneratorSourceNode) {
+    _setGeneratorSource(source)
+    if (editorInput?.type === 'generator-source') {
+      setEditorInput(source)
+    }
   }
 
   useEffect(() => {
@@ -131,7 +141,10 @@ export function _useGenerator(): GeneratorContextType {
   useDebounceEffect(runGenerator, 1000)
 
   const computeGeneratorSource = useCallback(() => {
-    _setGeneratorSource(getGeneratorSource(configuration))
+    setGeneratorSource({
+      type: 'generator-source',
+      source: getGeneratorSource(configuration),
+    })
   }, [configuration.reader, configuration.generator, configuration.writer])
 
   useDebounceEffect(computeGeneratorSource, 1000)
