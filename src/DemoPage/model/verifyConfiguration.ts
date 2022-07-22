@@ -85,6 +85,10 @@ const writerConfigurationValidator = object(
       LF: literal('\n'),
       CRLF: literal('\r\n'),
     }),
+    writerType: union({
+      file: literal('file'),
+      memory: literal('memory'),
+    }),
     useFormatter: boolean(),
     leadingComments: array(items(commentConfigValidator)),
     trailingComments: array(items(commentConfigValidator)),

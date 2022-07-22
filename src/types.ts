@@ -9,6 +9,7 @@ export type RemoteProtocol = 'http' | 'https' | 'file' | 'mixed'
 export type GeneratorPreset = 'fullStack' | 'client' | 'server'
 export type PathProviderType = 'default' | 'singleFile' | 'byTarget' | 'byName'
 export type GeneratorConfigurationStyle = 'preset' | 'generators'
+export type WriterType = 'file' | 'memory'
 
 export type EditorInputKey =
   | ConfigurationNode['type']
@@ -117,6 +118,7 @@ export type PrettierConfiguration = Pick<
 >
 
 export type WriterConfiguration = {
+  writerType: WriterType
   prettier: PrettierConfiguration
   useFormatter: boolean
   leadingComments: CommentConfig[]

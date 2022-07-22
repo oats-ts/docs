@@ -46,7 +46,7 @@ export function useGenerator(): GeneratorContextType {
           generators: [],
         },
         reader: {
-          readerType: 'inline',
+          readerType: 'remote',
           inlineContent: petStore,
           inlineLanguage: 'yaml',
           remoteLanguage: 'yaml',
@@ -54,6 +54,7 @@ export function useGenerator(): GeneratorContextType {
           remoteProtocol: 'https',
         },
         writer: {
+          writerType: 'file',
           lineSeparator: '\n',
           useFormatter: true,
           leadingComments: [],

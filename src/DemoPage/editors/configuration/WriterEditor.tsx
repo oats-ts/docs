@@ -1,8 +1,16 @@
 import { css } from '@emotion/css'
 import { CommentConfig } from '@oats-ts/typescript-writer'
 import React, { FC } from 'react'
-import { Button, Checkbox, CheckboxProps, Header } from 'semantic-ui-react'
-import { PrettierConfiguration, WriterConfiguration } from '../../../types'
+import {
+  Button,
+  Checkbox,
+  CheckboxProps,
+  Dropdown,
+  DropdownProps,
+  Header,
+  StrictDropdownItemProps,
+} from 'semantic-ui-react'
+import { PrettierConfiguration, WriterConfiguration, WriterType } from '../../../types'
 import { defaultPrettierConfig } from '../../model/deafultPrettierConfig'
 import { wrapperStyle } from '../commonStyles'
 import { CommentsTable } from './CommentsTable'
@@ -19,6 +27,7 @@ const headerStyle = css`
   align-items: center;
   gap: 16px;
   margin-bottom: 16px;
+  margin-top: 24px;
 `
 
 const headerLabelStyle = css`
@@ -26,6 +35,13 @@ const headerLabelStyle = css`
   margin: 0px !important;
   padding: 0px !important;
 `
+
+type WriterTypeDropownItemProps = StrictDropdownItemProps & { value: WriterType }
+
+const writerTypeOptions: WriterTypeDropownItemProps[] = [
+  { value: 'file', text: 'File' },
+  { value: 'memory', text: 'Memory' },
+]
 
 export const WriterEditor: FC<WriterEditor> = ({ isDark, input, onChange }) => {
   const onPrettierConfigurationChange = (prettier: PrettierConfiguration) => onChange({ ...input, prettier })
@@ -41,8 +57,21 @@ export const WriterEditor: FC<WriterEditor> = ({ isDark, input, onChange }) => {
   const onTrailingCommentsChange = (trailingComments: CommentConfig[]) => {
     onChange({ ...input, trailingComments })
   }
+  const onWriterTypeChange = (_: any, data: DropdownProps) => {
+    const writerType = data.value! as WriterType
+    onChange({ ...input, writerType })
+  }
   return (
     <div className={wrapperStyle}>
+      <Header as="h3">Type</Header>
+      <Dropdown
+        placeholder="Type"
+        fluid
+        selection
+        options={writerTypeOptions}
+        onChange={onWriterTypeChange}
+        value={input.writerType}
+      />
       <div className={headerStyle}>
         <Checkbox toggle checked={input.useFormatter} onChange={onPrettierToggled} />
         <Header as="h3" className={headerLabelStyle}>
@@ -56,7 +85,7 @@ export const WriterEditor: FC<WriterEditor> = ({ isDark, input, onChange }) => {
       <PrettierConfigurationEditor
         disabled={!input.useFormatter}
         isDark={isDark}
-        value={input.prettier}
+        value={{ ...defaultPrettierConfig, ...input.prettier }}
         onChange={onPrettierConfigurationChange}
       />
       <Header as="h3">Leading comments</Header>

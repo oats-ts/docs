@@ -1,13 +1,51 @@
-import { ConfigurationNode, GeneratorConfiguration, ReaderConfiguration, WriterConfiguration } from '../../types'
-import { createPrinter, factory, NewLineKind, NodeFlags, SyntaxKind } from 'typescript'
+import {
+  ConfigurationNode,
+  GeneratorConfiguration,
+  ReaderConfiguration,
+  SourceLanguage,
+  WriterConfiguration,
+} from '../../types'
+import { createPrinter, factory, NewLineKind, NodeFlags, Statement, SyntaxKind } from 'typescript'
 import typescriptParser from 'prettier/parser-typescript'
 import prettier from 'prettier/standalone'
 import { isNil } from 'lodash'
 import { CommentConfig } from '@oats-ts/typescript-writer'
 import { defaultPrettierConfig } from './deafultPrettierConfig'
+import YAML from 'yamljs'
+
+function getCompressedSource(source: string, language: SourceLanguage): string {
+  try {
+    if (language === 'yaml') {
+      return YAML.stringify(YAML.parse(source))
+    } else if (language === 'json') {
+      return JSON.stringify(JSON.parse(source))
+    }
+  } catch (e) {
+    console.error(e)
+  }
+  return source
+}
+
+function getInlineVariable(reader: ReaderConfiguration) {
+  const compressedSource = getCompressedSource(reader.inlineContent, reader.inlineLanguage)
+  return factory.createVariableStatement(
+    undefined,
+    factory.createVariableDeclarationList(
+      [
+        factory.createVariableDeclaration(
+          factory.createIdentifier(`${reader.inlineLanguage}Source`),
+          undefined,
+          undefined,
+          factory.createNoSubstitutionTemplateLiteral(compressedSource, compressedSource),
+        ),
+      ],
+      NodeFlags.Const,
+    ),
+  )
+}
 
 function getInlineReaderAst(reader: ReaderConfiguration) {
-  const dummyPath = `dummy.${reader.inlineLanguage}`
+  const inlinePath = `inline.${reader.inlineLanguage}`
   return factory.createCallExpression(
     factory.createPropertyAccessExpression(
       factory.createPropertyAccessExpression(factory.createIdentifier('readers'), factory.createIdentifier('test')),
@@ -17,13 +55,13 @@ function getInlineReaderAst(reader: ReaderConfiguration) {
     [
       factory.createObjectLiteralExpression(
         [
-          factory.createPropertyAssignment(factory.createIdentifier('path'), factory.createStringLiteral(dummyPath)),
+          factory.createPropertyAssignment(factory.createIdentifier('path'), factory.createStringLiteral(inlinePath)),
           factory.createPropertyAssignment(
             factory.createIdentifier('content'),
             factory.createObjectLiteralExpression([
               factory.createPropertyAssignment(
-                factory.createStringLiteral(dummyPath),
-                factory.createStringLiteral(`<${reader.inlineLanguage.toUpperCase()} source>`),
+                factory.createStringLiteral(inlinePath),
+                factory.createIdentifier(`${reader.inlineLanguage}Source`),
               ),
             ]),
           ),
@@ -149,7 +187,7 @@ function getFormatterAst(writer: WriterConfiguration) {
             .filter(([key, value]) => !isNil(value) && value !== (defaultPrettierConfig as Record<string, any>)[key])
             .map(([key, value]) => factory.createPropertyAssignment(factory.createIdentifier(key), getLiteral(value))),
         ],
-        false,
+        true,
       ),
     ],
   )
@@ -200,7 +238,7 @@ function getWriterAst(writer: WriterConfiguration) {
         factory.createIdentifier('writers'),
         factory.createIdentifier('typescript'),
       ),
-      factory.createIdentifier('memory'),
+      factory.createIdentifier(writer.writerType),
     ),
     undefined,
     [
@@ -292,24 +330,24 @@ function getImportDeclarations({ writer, generator }: ConfigurationNode) {
 }
 
 export function getGeneratorSource(config: ConfigurationNode): string {
-  const imports = factory.createSourceFile(
+  const contents: Statement[][] = [
     getImportDeclarations(config),
-    factory.createToken(SyntaxKind.EndOfFileToken),
-    NodeFlags.None,
-  )
-
-  const fnCall = factory.createSourceFile(
+    config.reader.readerType === 'inline' ? [getInlineVariable(config.reader)] : [],
     [getGenerateCallAst(config)],
-    factory.createToken(SyntaxKind.EndOfFileToken),
-    NodeFlags.None,
-  )
+  ]
+
+  const sourceFiles = contents
+    .filter((statements) => statements.length > 0)
+    .map((statements) =>
+      factory.createSourceFile(statements, factory.createToken(SyntaxKind.EndOfFileToken), NodeFlags.None),
+    )
 
   const printer = createPrinter({
     newLine: NewLineKind.LineFeed,
     removeComments: false,
   })
 
-  return prettier.format([printer.printFile(imports), printer.printFile(fnCall)].join('\n\n'), {
+  return prettier.format(sourceFiles.map((file) => printer.printFile(file)).join('\n\n'), {
     parser: 'typescript',
     plugins: [typescriptParser],
   })
