@@ -3,6 +3,7 @@ import { CommentConfig } from '@oats-ts/typescript-writer'
 import React, { FC } from 'react'
 import { Button, Checkbox, CheckboxProps, Header } from 'semantic-ui-react'
 import { PrettierConfiguration, WriterConfiguration } from '../../../types'
+import { defaultPrettierConfig } from '../../model/deafultPrettierConfig'
 import { wrapperStyle } from '../commonStyles'
 import { CommentsTable } from './CommentsTable'
 import { PrettierConfigurationEditor } from './PrettierConfigurationEditor'
@@ -32,7 +33,7 @@ export const WriterEditor: FC<WriterEditor> = ({ isDark, input, onChange }) => {
     onChange({ ...input, useFormatter: Boolean(data.checked) })
   }
   const onPrettierReset = () => {
-    onChange({ ...input, prettier: {} })
+    onChange({ ...input, prettier: defaultPrettierConfig })
   }
   const onLeadingCommentsChange = (leadingComments: CommentConfig[]) => {
     onChange({ ...input, leadingComments })

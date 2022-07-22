@@ -28,6 +28,7 @@ import { verifyConfiguration } from './verifyConfiguration'
 import { filterExplorerTree } from './filterExplorerTree'
 import { getPackageJsonSource } from './getPackageJsonSource'
 import { findFileByPath } from './findFileByPath'
+import { defaultPrettierConfig } from './deafultPrettierConfig'
 
 export function useGenerator(): GeneratorContextType {
   const [samples, setSamples] = useState<string[]>([])
@@ -57,7 +58,7 @@ export function useGenerator(): GeneratorContextType {
           useFormatter: true,
           leadingComments: [],
           trailingComments: [],
-          prettier: {},
+          prettier: defaultPrettierConfig,
         },
       },
       verifyConfiguration,
