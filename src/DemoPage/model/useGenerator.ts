@@ -11,8 +11,9 @@ import {
   ConfigurationNode,
   GeneratorSourceNode,
   PackageJsonNode,
+  EditorInputKey,
 } from '../../types'
-import { useCallback, useContext, useEffect, useState } from 'react'
+import { useCallback, useContext, useEffect, useMemo, useState } from 'react'
 import { isSuccess, Try } from '@oats-ts/try'
 import { GeneratedFile } from '@oats-ts/typescript-writer'
 import { storage, Ttl } from '../../storage'
@@ -26,10 +27,11 @@ import { createGenerator, createReader, createWriter } from './oatsFactories'
 import { verifyConfiguration } from './verifyConfiguration'
 import { filterExplorerTree } from './filterExplorerTree'
 import { getPackageJsonSource } from './getPackageJsonSource'
+import { findFileByPath } from './findFileByPath'
 
-export function _useGenerator(): GeneratorContextType {
+export function useGenerator(): GeneratorContextType {
   const [samples, setSamples] = useState<string[]>([])
-  const [configuration, _setConfiguration] = useState<ConfigurationNode>(() =>
+  const [configuration, setConfiguration] = useState<ConfigurationNode>(() =>
     storage.get<ConfigurationNode>(
       'configuration',
       {
@@ -61,19 +63,39 @@ export function _useGenerator(): GeneratorContextType {
       verifyConfiguration,
     ),
   )
-  const [generatorSource, _setGeneratorSource] = useState<GeneratorSourceNode>({ type: 'generator-source', source: '' })
-  const [packageJson, _setPackageJson] = useState<PackageJsonNode>({ type: 'package-json', source: '' })
-  const [issues, _setIssues] = useState<IssuesNode>({ type: 'issues', issues: [] })
-  const [_output, _setOutput] = useState<FolderNode>({ type: 'folder', path: '/', name: '/', children: [] })
+  const [generatorSource, setGeneratorSource] = useState<GeneratorSourceNode>({ type: 'generator-source', source: '' })
+  const [packageJson, setPackageJson] = useState<PackageJsonNode>({ type: 'package-json', source: '' })
+  const [issues, setIssues] = useState<IssuesNode>({ type: 'issues', issues: [] })
+  const [_output, setOutput] = useState<FolderNode>({ type: 'folder', path: '/', name: '/', children: [] })
 
   const [treeFilter, setTreeFilter] = useState<string>('')
   const [isSamplesLoading, setSamplesLoading] = useState<boolean>(true)
   const [isGenerating, setGenerating] = useState<boolean>(true)
-  const [isIssuesPanelOpen, setIssuesPanelOpen] = useState<boolean>(false)
-  const [isConfigurationPanelOpen, setConfigurationPanelOpen] = useState<boolean>(false)
-  const [editorInput, setEditorInput] = useState<EditorInput | undefined>(undefined)
   const [explorerTreeState, setExplorerTreeState] = useState<ExplorerTreeState>({})
   const [filteredOutput, setFilteredOutput] = useState(_output)
+  const [editorInputKey, setEditorInputKey] = useState<EditorInputKey | undefined>(() => storage.get('editorInput'))
+
+  const editorInput = useMemo((): EditorInput | undefined => {
+    if (isNil(editorInputKey)) {
+      return undefined
+    }
+    if (editorInputKey.startsWith('file')) {
+      const [, path] = editorInputKey.split('::')
+      return findFileByPath(path!, _output)
+    }
+    switch (editorInputKey) {
+      case 'configuration':
+        return configuration
+      case 'generator-source':
+        return generatorSource
+      case 'issues':
+        return issues
+      case 'package-json':
+        return packageJson
+      default:
+        return undefined
+    }
+  }, [editorInputKey, generatorSource, issues, packageJson, _output, configuration])
 
   function processResult(output: Try<GeneratedFile[]>): void {
     if (isSuccess(output)) {
@@ -82,41 +104,6 @@ export function _useGenerator(): GeneratorContextType {
     } else {
       setOutput({ type: 'folder', name: '/', path: '/', children: [] })
       setIssues({ type: 'issues', issues: output.issues })
-    }
-  }
-
-  function setOutput(node: FolderNode) {
-    _setOutput(node)
-    if (editorInput?.type === 'file' || editorInput?.type === 'folder') {
-      setEditorInput(undefined)
-    }
-  }
-
-  function setIssues(node: IssuesNode) {
-    _setIssues(node)
-    if (editorInput?.type === 'issues') {
-      setEditorInput(node)
-    }
-  }
-
-  function setConfiguration(configuration: ConfigurationNode) {
-    _setConfiguration(configuration)
-    if (editorInput?.type === 'configuration') {
-      setEditorInput(configuration)
-    }
-  }
-
-  function setGeneratorSource(source: GeneratorSourceNode) {
-    _setGeneratorSource(source)
-    if (editorInput?.type === 'generator-source') {
-      setEditorInput(source)
-    }
-  }
-
-  function setPackageJson(pkg: PackageJsonNode) {
-    _setPackageJson(pkg)
-    if (editorInput?.type === 'package-json') {
-      setEditorInput(pkg)
     }
   }
 
@@ -178,6 +165,12 @@ export function _useGenerator(): GeneratorContextType {
 
   useDebounceEffect(updateConfigurationStorage, 200)
 
+  const updateEditorInputStorage = useCallback(() => {
+    storage.set('editorInput', editorInputKey)
+  }, [editorInputKey])
+
+  useDebounceEffect(updateEditorInputStorage, 200)
+
   useEffect(() => {
     setFilteredOutput(filterExplorerTree(_output, treeFilter))
   }, [_output, treeFilter])
@@ -187,8 +180,6 @@ export function _useGenerator(): GeneratorContextType {
     issues,
     samples,
     isLoading: isSamplesLoading || isGenerating,
-    isConfigurationPanelOpen,
-    isIssuesPanelOpen,
     editorInput,
     explorerTreeState,
     configuration,
@@ -196,9 +187,7 @@ export function _useGenerator(): GeneratorContextType {
     treeFilter,
     packageJson,
     setExplorerTreeState,
-    setEditorInput,
-    setIssuesPanelOpen,
-    setConfigurationPanelOpen,
+    setEditorInput: setEditorInputKey,
     setConfiguration,
     setTreeFilter,
   }

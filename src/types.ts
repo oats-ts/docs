@@ -10,6 +10,13 @@ export type GeneratorPreset = 'fullStack' | 'client' | 'server'
 export type PathProviderType = 'default' | 'singleFile' | 'byTarget' | 'byName'
 export type GeneratorConfigurationStyle = 'preset' | 'generators'
 
+export type EditorInputKey =
+  | ConfigurationNode['type']
+  | IssuesNode['type']
+  | GeneratorSourceNode['type']
+  | PackageJsonNode['type']
+  | `${FileNode['type']}::${string}`
+
 export type GhFileDescriptor = {
   path: string
   mode: string
@@ -17,11 +24,6 @@ export type GhFileDescriptor = {
   sha: string
   size: number
   url: string
-}
-
-export type SampleFile = {
-  name: string
-  uri: string
 }
 
 export type ExplorerTreeState = {
@@ -41,15 +43,10 @@ export type GeneratorContextType = {
   isLoading: boolean
   generatorSource: GeneratorSourceNode
   packageJson: PackageJsonNode
-  // Cosmetic stuff
-  isIssuesPanelOpen: boolean
-  isConfigurationPanelOpen: boolean
   // Setters
   setTreeFilter: (filter: string) => void
-  setIssuesPanelOpen: (isOpen: boolean) => void
-  setConfigurationPanelOpen: (isOpen: boolean) => void
   setConfiguration: (node: ConfigurationNode) => void
-  setEditorInput: (file?: EditorInput) => void
+  setEditorInput: (key?: EditorInputKey) => void
   setExplorerTreeState: (state: ExplorerTreeState) => void
 }
 

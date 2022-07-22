@@ -1,4 +1,7 @@
+import { cx } from '@emotion/css'
 import React, { FC } from 'react'
+import { Segment } from 'semantic-ui-react'
+import { darkSegmentStyle, segmentStyle } from '../commonStyles'
 import { ReadonlyTypescriptMonaco } from './ReadonlyTypescriptMonaco'
 
 type ReadonlyGeneratorSourceEditorProps = {
@@ -7,5 +10,10 @@ type ReadonlyGeneratorSourceEditorProps = {
 }
 
 export const ReadonlyGeneratorSourceEditor: FC<ReadonlyGeneratorSourceEditorProps> = ({ source, isDark }) => {
-  return <ReadonlyTypescriptMonaco height="100%" isDark={isDark} path={'generate.ts'} value={source} />
+  const fullSegmentStyle = cx(segmentStyle, isDark ? darkSegmentStyle : undefined)
+  return (
+    <Segment inverted={isDark} className={fullSegmentStyle}>
+      <ReadonlyTypescriptMonaco height="100%" isDark={isDark} path={'generate.ts'} value={source} />
+    </Segment>
+  )
 }

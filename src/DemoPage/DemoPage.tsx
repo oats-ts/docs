@@ -2,7 +2,7 @@ import { css, cx } from '@emotion/css'
 import React, { FC } from 'react'
 import { SegmentGroup } from 'semantic-ui-react'
 import { GeneratorContext } from './GeneratorContext'
-import { _useGenerator } from './model/useGenerator'
+import { useGenerator } from './model/useGenerator'
 import { useColorMode } from '../useColorMode'
 import { EditorView } from './editors/EditorView'
 import { ExplorerTree } from './tree/ExplorerTree'
@@ -20,7 +20,7 @@ const darkSegmentGroupStyle = css`
 
 export const DemoPage: FC = () => {
   const { colorMode } = useColorMode()
-  const context = _useGenerator()
+  const context = useGenerator()
   const groupStyle = cx(segmentGroupStyle, colorMode === 'dark' ? darkSegmentGroupStyle : undefined)
   return (
     <GeneratorContext.Provider value={context}>
