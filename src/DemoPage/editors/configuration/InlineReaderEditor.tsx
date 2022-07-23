@@ -6,6 +6,7 @@ import { HeightSub } from '../commonStyles'
 
 type InlineReaderEditorProps = {
   isDark: boolean
+  isLoading: boolean
   input: ReaderConfiguration
   onChange: (node: ReaderConfiguration) => void
 }

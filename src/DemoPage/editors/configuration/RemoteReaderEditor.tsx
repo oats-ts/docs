@@ -1,13 +1,19 @@
+import { css } from '@emotion/css'
 import React, { FC, useMemo } from 'react'
-import { Dropdown, DropdownProps, Form, StrictDropdownItemProps } from 'semantic-ui-react'
+import { Button, Dropdown, DropdownProps, Form, Icon, StrictDropdownItemProps } from 'semantic-ui-react'
 import { ReaderConfiguration, RemoteProtocol, SourceLanguage } from '../../../types'
 import { wrapperStyle } from '../commonStyles'
+
+const loadButtonStyle = css`
+  margin-top: 16px !important;
+`
 
 type RemoteReaderEditorProps = {
   isDark: boolean
   input: ReaderConfiguration
   samples: string[]
   onChange: (node: ReaderConfiguration) => void
+  onLoadRemote: () => void
 }
 
 type JsonDropdownItemProps = StrictDropdownItemProps & { value: SourceLanguage }
@@ -47,7 +53,7 @@ const protocolOption: ProtocolDropdownItemProps[] = [
   },
 ]
 
-export const RemoteReaderEditor: FC<RemoteReaderEditorProps> = ({ input, isDark, samples, onChange }) => {
+export const RemoteReaderEditor: FC<RemoteReaderEditorProps> = ({ input, isDark, samples, onChange, onLoadRemote }) => {
   const sampleOptions = useMemo<StrictDropdownItemProps[]>(
     () => samples.map((path): StrictDropdownItemProps => ({ text: path, value: path })),
     [samples],
@@ -113,6 +119,9 @@ export const RemoteReaderEditor: FC<RemoteReaderEditorProps> = ({ input, isDark,
             value={input.remotePath}
             onChange={handlePathChange}
           />
+          <Button className={loadButtonStyle} onClick={onLoadRemote}>
+            <Icon name="cloud download" /> Load as inline
+          </Button>
         </Form.Field>
       </Form>
     </div>

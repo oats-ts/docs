@@ -9,7 +9,8 @@ import { RemoteReaderEditor } from './RemoteReaderEditor'
 import { WriterEditor } from './WriterEditor'
 
 export const ConfigurationEditor: FC = () => {
-  const { editorInput, samples, configuration, setConfiguration } = useGeneratorContext()
+  const { editorInput, samples, configuration, isRemoteSampleLoading, setConfiguration, loadRemoteAsInline } =
+    useGeneratorContext()
   const { colorMode } = useColorMode()
   const isDark = colorMode === 'dark'
   if (isNil(editorInput) || editorInput.type !== 'configuration') {
@@ -19,9 +20,20 @@ export const ConfigurationEditor: FC = () => {
     case 'reader': {
       const onChange = (reader: ReaderConfiguration) => setConfiguration({ ...configuration, active: 'reader', reader })
       return editorInput.reader.readerType === 'inline' ? (
-        <InlineReaderEditor input={editorInput.reader} isDark={isDark} onChange={onChange} />
+        <InlineReaderEditor
+          isLoading={isRemoteSampleLoading}
+          input={editorInput.reader}
+          isDark={isDark}
+          onChange={onChange}
+        />
       ) : (
-        <RemoteReaderEditor input={editorInput.reader} isDark={isDark} onChange={onChange} samples={samples} />
+        <RemoteReaderEditor
+          input={editorInput.reader}
+          isDark={isDark}
+          samples={samples}
+          onChange={onChange}
+          onLoadRemote={loadRemoteAsInline}
+        />
       )
     }
     case 'generator': {

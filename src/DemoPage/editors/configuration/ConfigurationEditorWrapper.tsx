@@ -36,9 +36,29 @@ const tooltips = {
     'You can configure the language of the in-memory generator input here. Valid documents will be automatically converted between the 2 possible languages.',
 }
 
+function tryTransformSource(from: SourceLanguage, to: SourceLanguage, code: string): string {
+  if (from !== to) {
+    if (to === 'json') {
+      try {
+        return JSON.stringify(YAML.parse(code), null, 2)
+      } catch (e) {
+        return code
+      }
+    }
+    if (to === 'yaml') {
+      try {
+        return YAML.stringify(JSON.parse(code), 10000, 2)
+      } catch (e) {
+        return code
+      }
+    }
+  }
+  return code
+}
+
 export const ConfigurationEditorWrapper: FC = () => {
   const { colorMode } = useColorMode()
-  const { editorInput, configuration, setConfiguration } = useGeneratorContext()
+  const { editorInput, configuration, isRemoteSampleLoading, setConfiguration } = useGeneratorContext()
   const isDark = colorMode === 'dark'
   const fullSegmentStyle = cx(segmentStyle, oaSegmentStyle, isDark ? darkSegmentStyle : undefined)
   const { reader, active } = configuration
@@ -52,37 +72,21 @@ export const ConfigurationEditorWrapper: FC = () => {
       return
     }
     if (language !== reader.inlineLanguage) {
-      if (language === 'json') {
-        try {
-          setConfiguration({
-            ...configuration,
-            reader: {
-              ...reader,
-              readerType: 'inline',
-              inlineContent: JSON.stringify(YAML.parse(reader.inlineContent), null, 2),
-              inlineLanguage: 'json',
-            },
-          })
-        } catch (e) {}
-      } else if (language === 'yaml') {
-        try {
-          setConfiguration({
-            ...configuration,
-            reader: {
-              ...reader,
-              readerType: 'inline',
-              inlineContent: YAML.stringify(JSON.parse(reader.inlineContent), 10000, 2),
-              inlineLanguage: 'yaml',
-            },
-          })
-        } catch (e) {}
-      }
+      setConfiguration({
+        ...configuration,
+        reader: {
+          ...reader,
+          readerType: 'inline',
+          inlineContent: tryTransformSource(reader.inlineLanguage, language, reader.inlineContent),
+          inlineLanguage: language,
+        },
+      })
     }
   }
 
   return (
     <div className={containerStyle}>
-      <Segment inverted={isDark} className={fullSegmentStyle} attached="top">
+      <Segment inverted={isDark} className={fullSegmentStyle} loading={isRemoteSampleLoading} attached="top">
         <ConfigurationEditor />
       </Segment>
       <Menu attached="bottom" inverted={isDark} className={isDark ? darkBottomMenuStyle : undefined}>
@@ -91,6 +95,7 @@ export const ConfigurationEditorWrapper: FC = () => {
             content={tooltips.reader}
             trigger={
               <Menu.Item
+                disabled={isRemoteSampleLoading}
                 active={active === 'reader'}
                 onClick={() => setConfiguration({ ...configuration, active: 'reader' })}
               >
@@ -103,6 +108,7 @@ export const ConfigurationEditorWrapper: FC = () => {
             content={tooltips.generator}
             trigger={
               <Menu.Item
+                disabled={isRemoteSampleLoading}
                 active={active === 'generator'}
                 onClick={() => setConfiguration({ ...configuration, active: 'generator' })}
               >
@@ -115,6 +121,7 @@ export const ConfigurationEditorWrapper: FC = () => {
             content={tooltips.writer}
             trigger={
               <Menu.Item
+                disabled={isRemoteSampleLoading}
                 active={active === 'writer'}
                 onClick={() => setConfiguration({ ...configuration, active: 'writer' })}
               >
@@ -126,63 +133,55 @@ export const ConfigurationEditorWrapper: FC = () => {
         {active === 'reader' && (
           <Menu.Menu position="right">
             {reader.readerType === 'inline' && (
-              <Popup
-                content={tooltips.readerLanguage}
-                trigger={
-                  <Dropdown item text={reader.inlineLanguage === 'json' ? 'JSON' : 'YAML'}>
-                    <Dropdown.Menu>
-                      <Dropdown.Item
-                        value="json"
-                        active={reader.inlineLanguage === 'json'}
-                        onClick={() => onInlineInputLanguageChange('json')}
-                      >
-                        JSON
-                      </Dropdown.Item>
-                      <Dropdown.Item
-                        value="yaml"
-                        active={reader.inlineLanguage === 'yaml'}
-                        onClick={() => onInlineInputLanguageChange('yaml')}
-                      >
-                        YAML
-                      </Dropdown.Item>
-                    </Dropdown.Menu>
-                  </Dropdown>
-                }
-              />
+              <Dropdown item text={reader.inlineLanguage === 'json' ? 'JSON' : 'YAML'}>
+                <Dropdown.Menu>
+                  <Dropdown.Item
+                    disabled={isRemoteSampleLoading}
+                    value="json"
+                    active={reader.inlineLanguage === 'json'}
+                    onClick={() => onInlineInputLanguageChange('json')}
+                  >
+                    JSON
+                  </Dropdown.Item>
+                  <Dropdown.Item
+                    disabled={isRemoteSampleLoading}
+                    value="yaml"
+                    active={reader.inlineLanguage === 'yaml'}
+                    onClick={() => onInlineInputLanguageChange('yaml')}
+                  >
+                    YAML
+                  </Dropdown.Item>
+                </Dropdown.Menu>
+              </Dropdown>
             )}
-            <Popup
-              content={tooltips.readerMode}
-              trigger={
-                <Dropdown item text={reader.readerType === 'inline' ? 'Inline' : 'Remote'}>
-                  <Dropdown.Menu>
-                    <Dropdown.Item
-                      active={reader.readerType === 'inline'}
-                      onClick={() =>
-                        setConfiguration({
-                          ...configuration,
-                          reader: { ...reader, readerType: 'inline' },
-                          active: 'reader',
-                        })
-                      }
-                    >
-                      Inline
-                    </Dropdown.Item>
-                    <Dropdown.Item
-                      active={reader.readerType === 'remote'}
-                      onClick={() =>
-                        setConfiguration({
-                          ...configuration,
-                          reader: { ...reader, readerType: 'remote' },
-                          active: 'reader',
-                        })
-                      }
-                    >
-                      Remote
-                    </Dropdown.Item>
-                  </Dropdown.Menu>
-                </Dropdown>
-              }
-            />
+            <Dropdown item text={reader.readerType === 'inline' ? 'Inline' : 'Remote'}>
+              <Dropdown.Menu>
+                <Dropdown.Item
+                  active={reader.readerType === 'inline'}
+                  onClick={() =>
+                    setConfiguration({
+                      ...configuration,
+                      reader: { ...reader, readerType: 'inline' },
+                      active: 'reader',
+                    })
+                  }
+                >
+                  Inline
+                </Dropdown.Item>
+                <Dropdown.Item
+                  active={reader.readerType === 'remote'}
+                  onClick={() =>
+                    setConfiguration({
+                      ...configuration,
+                      reader: { ...reader, readerType: 'remote' },
+                      active: 'reader',
+                    })
+                  }
+                >
+                  Remote
+                </Dropdown.Item>
+              </Dropdown.Menu>
+            </Dropdown>
           </Menu.Menu>
         )}
       </Menu>

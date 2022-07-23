@@ -41,6 +41,7 @@ export type GeneratorContextType = {
   // Generator output
   output: FolderNode
   issues: IssuesNode
+  isRemoteSampleLoading: boolean
   isLoading: boolean
   generatorSource: GeneratorSourceNode
   packageJson: PackageJsonNode
@@ -49,6 +50,7 @@ export type GeneratorContextType = {
   setConfiguration: (node: ConfigurationNode) => void
   setEditorInput: (key?: EditorInputKey) => void
   setExplorerTreeState: (state: ExplorerTreeState) => void
+  loadRemoteAsInline: () => void
 }
 
 export type ColorModeContextType = {

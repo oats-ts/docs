@@ -12,3 +12,8 @@ export async function getSampleFiles(folders: string[]): Promise<string[]> {
     .map((file) => file.path)
     .map((path) => `https://raw.githubusercontent.com/${REPO}/master/${path}`)
 }
+
+export async function fetchSampleFile(path: string): Promise<string> {
+  const response = await fetch(path)
+  return response.text()
+}

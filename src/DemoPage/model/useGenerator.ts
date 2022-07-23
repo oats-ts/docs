@@ -17,10 +17,9 @@ import { useCallback, useContext, useEffect, useMemo, useState } from 'react'
 import { isSuccess, Try } from '@oats-ts/try'
 import { GeneratedFile } from '@oats-ts/typescript-writer'
 import { storage, Ttl } from '../../storage'
-import { getSampleFiles } from './getSampleFiles'
+import { fetchSampleFile, getSampleFiles } from './getSampleFiles'
 import { buildExplorerTree } from './buildExplorerTree'
 import { GeneratorContext } from '../GeneratorContext'
-import petStore from './pet-store.yaml'
 import { useDebounceEffect } from './useDebounceEffect'
 import { getGeneratorSource } from './getGeneratorSource'
 import { createGenerator, createReader, createWriter } from './oatsFactories'
@@ -47,10 +46,10 @@ export function useGenerator(): GeneratorContextType {
         },
         reader: {
           readerType: 'remote',
-          inlineContent: petStore,
-          inlineLanguage: 'yaml',
-          remoteLanguage: 'yaml',
-          remotePath: 'https://raw.githubusercontent.com/oats-ts/oats-schemas/master/schemas/pet-store.yaml',
+          inlineContent: '',
+          inlineLanguage: 'json',
+          remoteLanguage: 'json',
+          remotePath: 'https://raw.githubusercontent.com/oats-ts/oats-schemas/master/schemas/book-store.json',
           remoteProtocol: 'https',
         },
         writer: {
@@ -72,6 +71,7 @@ export function useGenerator(): GeneratorContextType {
 
   const [treeFilter, setTreeFilter] = useState<string>('')
   const [isSamplesLoading, setSamplesLoading] = useState<boolean>(true)
+  const [isRemoteSampleLoading, setRemoteSampleLoading] = useState<boolean>(false)
   const [isGenerating, setGenerating] = useState<boolean>(true)
   const [explorerTreeState, setExplorerTreeState] = useState<ExplorerTreeState>({})
   const [filteredOutput, setFilteredOutput] = useState(_output)
@@ -177,17 +177,38 @@ export function useGenerator(): GeneratorContextType {
     setFilteredOutput(filterExplorerTree(_output, treeFilter))
   }, [_output, treeFilter])
 
+  const loadRemoteAsInline = async () => {
+    setRemoteSampleLoading(true)
+    try {
+      setConfiguration({
+        ...configuration,
+        reader: {
+          ...configuration.reader,
+          readerType: 'inline',
+          inlineContent: await fetchSampleFile(configuration.reader.remotePath),
+          inlineLanguage: configuration.reader.remoteLanguage,
+        },
+      })
+      setEditorInputKey('configuration')
+    } catch (e) {
+    } finally {
+      setRemoteSampleLoading(false)
+    }
+  }
+
   return {
     output: filteredOutput,
     issues,
     samples,
-    isLoading: isSamplesLoading || isGenerating,
+    isLoading: isSamplesLoading || isGenerating || isRemoteSampleLoading,
+    isRemoteSampleLoading,
     editorInput,
     explorerTreeState,
     configuration,
     generatorSource,
     treeFilter,
     packageJson,
+    loadRemoteAsInline,
     setExplorerTreeState,
     setEditorInput: setEditorInputKey,
     setConfiguration,
