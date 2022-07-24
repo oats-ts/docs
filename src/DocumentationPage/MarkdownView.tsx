@@ -17,7 +17,6 @@ const markdownKeys = Object.keys(markdown)
 
 const customUriTransformer = (uri: string) => {
   if (markdownKeys.some((key) => uri.startsWith(key))) {
-    console.log(uri)
     if (uri === 'Home') {
       return '#'
     }

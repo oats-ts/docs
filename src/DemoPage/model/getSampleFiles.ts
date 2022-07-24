@@ -1,4 +1,5 @@
-import { GhFileDescriptor } from '../../types'
+import YAML from 'yamljs'
+import { GhFileDescriptor, SourceLanguage } from '../../types'
 
 const REPO = 'oats-ts/oats-schemas'
 
@@ -16,4 +17,17 @@ export async function getSampleFiles(folders: string[]): Promise<string[]> {
 export async function fetchSampleFile(path: string): Promise<string> {
   const response = await fetch(path)
   return response.text()
+}
+
+export function guessLanguage(source: string): SourceLanguage | undefined {
+  try {
+    JSON.parse(source)
+    return 'json'
+  } catch (e) {
+    try {
+      YAML.parse(source)
+      return 'yaml'
+    } catch (e) {}
+  }
+  return undefined
 }

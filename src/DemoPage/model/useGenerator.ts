@@ -17,7 +17,7 @@ import { useCallback, useContext, useEffect, useMemo, useState } from 'react'
 import { isSuccess, Try } from '@oats-ts/try'
 import { GeneratedFile } from '@oats-ts/typescript-writer'
 import { storage, Ttl } from '../../storage'
-import { fetchSampleFile, getSampleFiles } from './getSampleFiles'
+import { fetchSampleFile, getSampleFiles, guessLanguage } from './getSampleFiles'
 import { buildExplorerTree } from './buildExplorerTree'
 import { GeneratorContext } from '../GeneratorContext'
 import { useDebounceEffect } from './useDebounceEffect'
@@ -48,7 +48,7 @@ export function useGenerator(): GeneratorContextType {
           readerType: 'remote',
           inlineContent: '',
           inlineLanguage: 'json',
-          remoteLanguage: 'json',
+          remoteLanguage: 'mixed',
           remotePath: 'https://raw.githubusercontent.com/oats-ts/oats-schemas/master/schemas/book-store.json',
           remoteProtocol: 'https',
         },
@@ -179,14 +179,16 @@ export function useGenerator(): GeneratorContextType {
 
   const loadRemoteAsInline = async () => {
     setRemoteSampleLoading(true)
+
     try {
+      const content = await fetchSampleFile(configuration.reader.remotePath)
       setConfiguration({
         ...configuration,
         reader: {
           ...configuration.reader,
           readerType: 'inline',
-          inlineContent: await fetchSampleFile(configuration.reader.remotePath),
-          inlineLanguage: configuration.reader.remoteLanguage,
+          inlineContent: content,
+          inlineLanguage: guessLanguage(content) ?? configuration.reader.inlineLanguage,
         },
       })
       setEditorInputKey('configuration')
