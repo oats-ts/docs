@@ -13,6 +13,7 @@ type InlineReaderEditorProps = {
 
 const editorConfig: editor.IStandaloneEditorConstructionOptions = {
   minimap: { enabled: false },
+  tabSize: 2,
 }
 
 export const InlineReaderEditor: FC<InlineReaderEditorProps> = ({ input, isDark, onChange }) => {

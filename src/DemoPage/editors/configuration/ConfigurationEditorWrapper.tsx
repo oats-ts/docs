@@ -10,6 +10,7 @@ import { useGeneratorContext } from '../../model/useGenerator'
 import { ConfigurationEditor } from './ConfigurationEditor'
 
 const containerStyle = css`
+  position: relative;
   display: flex;
   flex-direction: column;
   flex: 1 1 1px;
@@ -20,6 +21,13 @@ const oaSegmentStyle = css`
   border-top-left-radius: 0px !important;
   border-bottom-left-radius: 0px !important;
   border-top-width: 0px !important;
+`
+
+const topRightMenuContainerStyle = css`
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  z-index: 1000;
 `
 
 const tooltips = {
@@ -86,52 +94,9 @@ export const ConfigurationEditorWrapper: FC = () => {
 
   return (
     <div className={containerStyle}>
-      <Segment inverted={isDark} className={fullSegmentStyle} loading={isRemoteSampleLoading} attached="top">
-        <ConfigurationEditor />
-      </Segment>
-      <Menu attached="bottom" inverted={isDark} className={isDark ? darkBottomMenuStyle : undefined}>
-        <Menu.Menu position="left">
-          <Popup
-            content={tooltips.reader}
-            trigger={
-              <Menu.Item
-                disabled={isRemoteSampleLoading}
-                active={active === 'reader'}
-                onClick={() => setConfiguration({ ...configuration, active: 'reader' })}
-              >
-                <Icon name="book" /> Reader
-              </Menu.Item>
-            }
-          />
-
-          <Popup
-            content={tooltips.generator}
-            trigger={
-              <Menu.Item
-                disabled={isRemoteSampleLoading}
-                active={active === 'generator'}
-                onClick={() => setConfiguration({ ...configuration, active: 'generator' })}
-              >
-                <Icon name="rocket" /> Generator
-              </Menu.Item>
-            }
-          />
-
-          <Popup
-            content={tooltips.writer}
-            trigger={
-              <Menu.Item
-                disabled={isRemoteSampleLoading}
-                active={active === 'writer'}
-                onClick={() => setConfiguration({ ...configuration, active: 'writer' })}
-              >
-                <Icon name="write" /> Writer
-              </Menu.Item>
-            }
-          />
-        </Menu.Menu>
-        {active === 'reader' && (
-          <Menu.Menu position="right">
+      {active === 'reader' && (
+        <div className={topRightMenuContainerStyle}>
+          <Menu>
             {reader.readerType === 'inline' && (
               <Dropdown item text={reader.inlineLanguage === 'json' ? 'JSON' : 'YAML'}>
                 <Dropdown.Menu>
@@ -182,8 +147,53 @@ export const ConfigurationEditorWrapper: FC = () => {
                 </Dropdown.Item>
               </Dropdown.Menu>
             </Dropdown>
-          </Menu.Menu>
-        )}
+          </Menu>
+        </div>
+      )}
+      <Segment inverted={isDark} className={fullSegmentStyle} loading={isRemoteSampleLoading} attached>
+        <ConfigurationEditor />
+      </Segment>
+      <Menu attached="bottom" inverted={isDark} className={isDark ? darkBottomMenuStyle : undefined}>
+        <Menu.Menu position="left">
+          <Popup
+            content={tooltips.reader}
+            trigger={
+              <Menu.Item
+                disabled={isRemoteSampleLoading}
+                active={active === 'reader'}
+                onClick={() => setConfiguration({ ...configuration, active: 'reader' })}
+              >
+                <Icon name="book" /> Reader
+              </Menu.Item>
+            }
+          />
+
+          <Popup
+            content={tooltips.generator}
+            trigger={
+              <Menu.Item
+                disabled={isRemoteSampleLoading}
+                active={active === 'generator'}
+                onClick={() => setConfiguration({ ...configuration, active: 'generator' })}
+              >
+                <Icon name="rocket" /> Generator
+              </Menu.Item>
+            }
+          />
+
+          <Popup
+            content={tooltips.writer}
+            trigger={
+              <Menu.Item
+                disabled={isRemoteSampleLoading}
+                active={active === 'writer'}
+                onClick={() => setConfiguration({ ...configuration, active: 'writer' })}
+              >
+                <Icon name="write" /> Writer
+              </Menu.Item>
+            }
+          />
+        </Menu.Menu>
       </Menu>
     </div>
   )

@@ -9,8 +9,12 @@ const globalStyles = css`
     background-color: rgba(255, 255, 255, 0.1) !important;
     z-index: 10000;
   }
-  .ui.inverted h3 {
-    color: #fff;
+  .ui.inverted {
+    h1,
+    h2,
+    h3 {
+      color: #fff;
+    }
   }
 `
 
