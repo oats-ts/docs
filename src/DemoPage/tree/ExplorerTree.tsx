@@ -15,6 +15,8 @@ const baseStyle = css`
   padding: 0px !important;
   height: 100%;
   overflow: auto;
+  border-right: 1px solid #383738 !important;
+  margin-right: 1px !important;
 `
 
 const searchStyle = css`

@@ -5,7 +5,7 @@ import { Dropdown, Icon, Menu, Popup, Segment } from 'semantic-ui-react'
 import YAML from 'yamljs'
 import { SourceLanguage } from '../../../types'
 import { useColorMode } from '../../../useColorMode'
-import { darkBottomMenuStyle, darkSegmentStyle, segmentStyle } from '../../commonStyles'
+import { darkSegmentStyle, segmentStyle } from '../../commonStyles'
 import { useGeneratorContext } from '../../model/useGenerator'
 import { ConfigurationEditor } from './ConfigurationEditor'
 
@@ -28,6 +28,10 @@ const topRightMenuContainerStyle = css`
   top: 16px;
   right: 16px;
   z-index: 1000;
+`
+
+const menuStyle = css`
+  border-top: 1px solid #383738 !important;
 `
 
 const tooltips = {
@@ -153,7 +157,7 @@ export const ConfigurationEditorWrapper: FC = () => {
       <Segment inverted={isDark} className={fullSegmentStyle} loading={isRemoteSampleLoading} attached>
         <ConfigurationEditor />
       </Segment>
-      <Menu attached="bottom" inverted={isDark} className={isDark ? darkBottomMenuStyle : undefined}>
+      <Menu attached="bottom" inverted={isDark} className={isDark ? menuStyle : undefined}>
         <Menu.Menu position="left">
           <Popup
             content={tooltips.reader}
