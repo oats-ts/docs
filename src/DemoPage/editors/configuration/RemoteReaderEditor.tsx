@@ -1,6 +1,6 @@
 import { css } from '@emotion/css'
 import React, { FC, useMemo } from 'react'
-import { Button, Dropdown, DropdownProps, Form, Icon, StrictDropdownItemProps } from 'semantic-ui-react'
+import { Button, Dropdown, DropdownProps, Form, Header, Icon, StrictDropdownItemProps } from 'semantic-ui-react'
 import { ReaderConfiguration, RemoteProtocol, SourceLanguage } from '../../../types'
 import { wrapperStyle } from '../commonStyles'
 
@@ -80,6 +80,7 @@ export const RemoteReaderEditor: FC<RemoteReaderEditorProps> = ({ input, isDark,
 
   return (
     <div className={wrapperStyle}>
+      <Header as="h2">Reader settings</Header>
       <Form inverted={isDark}>
         <Form.Field>
           <label>Language</label>

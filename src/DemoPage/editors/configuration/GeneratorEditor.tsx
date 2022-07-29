@@ -1,6 +1,14 @@
 import { OpenAPIGeneratorTarget } from '@oats-ts/openapi-common'
 import React, { FC } from 'react'
-import { Dropdown, DropdownProps, Form, Input, InputOnChangeData, StrictDropdownItemProps } from 'semantic-ui-react'
+import {
+  Dropdown,
+  DropdownProps,
+  Form,
+  Header,
+  Input,
+  InputOnChangeData,
+  StrictDropdownItemProps,
+} from 'semantic-ui-react'
 import { GeneratorConfigurationStyle, GeneratorConfiguration, GeneratorPreset, PathProviderType } from '../../../types'
 import { allGenerators } from '../../model/allGenerators'
 import { wrapperStyle } from '../commonStyles'
@@ -63,6 +71,7 @@ export const GeneratorEditor: FC<GeneratorEditorProps> = ({ isDark, input, onCha
 
   return (
     <div className={wrapperStyle}>
+      <Header as="h2">Generator settings</Header>
       <Form inverted={isDark}>
         <Form.Field>
           <label>Configuration style</label>

@@ -63,6 +63,7 @@ export const WriterEditor: FC<WriterEditor> = ({ isDark, input, onChange }) => {
   }
   return (
     <div className={wrapperStyle}>
+      <Header as="h2">Writer settings</Header>
       <Header as="h3">Type</Header>
       <Dropdown
         placeholder="Type"
