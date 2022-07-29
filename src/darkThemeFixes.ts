@@ -105,5 +105,14 @@ export const darkThemeFixes = css`
       // Really ugly hack, not sure how to overwrite otherwise
       border-left: none !important;
     }
+
+    .button {
+      background-color: ${colors.dark.button};
+      color: ${colors.dark.text};
+      &:hover {
+        background-color: ${colors.dark.buttonHighlight};
+        color: ${colors.dark.text};
+      }
+    }
   }
 `

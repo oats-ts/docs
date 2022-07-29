@@ -15,8 +15,11 @@ const baseStyle = css`
   padding: 0px !important;
   height: 100%;
   overflow: auto;
-  border-right: 1px solid #383738 !important;
   margin-right: 1px !important;
+`
+
+const darkBorderStyle = css`
+  border-right: 1px solid #383738 !important;
 `
 
 const searchStyle = css`
@@ -27,7 +30,7 @@ export const ExplorerTree: FC = () => {
   const { output, configuration, issues, isLoading, generatorSource, packageJson, setTreeFilter } =
     useContext(GeneratorContext)
   const { colorMode } = useColorMode()
-  const explorerTreeStyle = cx(baseStyle, colorMode === 'dark' ? darkSegmentStyle : undefined)
+  const explorerTreeStyle = cx(baseStyle, ...(colorMode === 'dark' ? [darkSegmentStyle, darkBorderStyle] : []))
   return (
     <Segment loading={isLoading} inverted={colorMode === 'dark'} className={explorerTreeStyle}>
       <TreeSection>
