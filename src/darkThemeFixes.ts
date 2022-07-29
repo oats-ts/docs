@@ -1,7 +1,5 @@
 import { css } from '@emotion/react'
-
-export const INPUT_COLOR = '#272829'
-export const HIGHLIGHT_INPUT_COLOR = '#3a3b3d'
+import { colors } from './colors'
 
 export const darkThemeFixes = css`
   .ui.inverted,
@@ -9,6 +7,7 @@ export const darkThemeFixes = css`
     &.loading.segment:before {
       background-color: rgba(70, 70, 70, 0.9) !important;
       z-index: 10000;
+      border-radius: 0px !important;
     }
 
     h1,
@@ -21,14 +20,17 @@ export const darkThemeFixes = css`
     .checkbox:active,
     .checkbox:hover,
     .checkbox:checked {
-      label {
+      label,
+      label:hover {
         &::before,
         &::before {
-          background-color: ${INPUT_COLOR};
-          outline: none !important;
+          background-color: ${colors.dark.input};
+          border-color: ${colors.dark.input};
+          color: ${colors.dark.text};
+          outline: none;
           &:hover {
-            background-color: ${HIGHLIGHT_INPUT_COLOR};
-            outline: none !important;
+            border-color: ${colors.dark.inputHightlight};
+            outline: none;
           }
         }
       }
@@ -36,16 +38,16 @@ export const darkThemeFixes = css`
 
     .dropdown {
       color: #fff;
-      background-color: ${INPUT_COLOR};
+      background-color: ${colors.dark.input};
       outline: none;
 
       &:focus,
       &:active,
       &:hover {
-        border: 1px solid ${HIGHLIGHT_INPUT_COLOR} !important;
-        background-color: ${HIGHLIGHT_INPUT_COLOR} !important;
+        border: 1px solid ${colors.dark.inputHightlight} !important;
+        background-color: ${colors.dark.inputHightlight} !important;
         .menu {
-          background-color: ${HIGHLIGHT_INPUT_COLOR};
+          background-color: ${colors.dark.inputHightlight};
         }
         .icon {
           background-color: transparent;
@@ -59,14 +61,14 @@ export const darkThemeFixes = css`
       }
       .menu {
         outline: none;
-        background-color: ${INPUT_COLOR};
+        background-color: ${colors.dark.input};
         border: 1px solid transparent !important;
         border-right: none !important;
         .item {
           border: 1px solid transparent !important;
           &:focus,
           &:hover {
-            background-color: rgba(255, 255, 255, 0.1);
+            background-color: ${colors.dark.itemHighlight};
           }
         }
       }
@@ -80,15 +82,15 @@ export const darkThemeFixes = css`
     .input {
       input {
         color: #fff;
-        border: 1px solid ${INPUT_COLOR};
-        background-color: ${INPUT_COLOR};
+        border: 1px solid ${colors.dark.input};
+        background-color: ${colors.dark.input};
 
         &:focus,
         &:active,
         &:hover {
           color: #fff;
-          border: 1px solid ${HIGHLIGHT_INPUT_COLOR};
-          background-color: ${HIGHLIGHT_INPUT_COLOR};
+          border: 1px solid ${colors.dark.inputHightlight};
+          background-color: ${colors.dark.inputHightlight};
         }
       }
       .icon {
