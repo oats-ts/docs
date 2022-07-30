@@ -13,7 +13,7 @@ export const darkThemeFixes = css`
     h1,
     h2,
     h3 {
-      color: #fff;
+      color: ${colors.dark.text};
     }
     .checkbox,
     .checkbox:focus,
@@ -36,10 +36,15 @@ export const darkThemeFixes = css`
       }
     }
 
-    .dropdown {
-      color: #fff;
+    .dropdown, .dropdown.active {
+      color: ${colors.dark.text};
+      border: 1px solid ${colors.dark.input} !important;
       background-color: ${colors.dark.input};
       outline: none;
+
+      input {
+        color: ${colors.dark.text};
+      }
 
       &:focus,
       &:active,
@@ -57,7 +62,7 @@ export const darkThemeFixes = css`
       }
 
       .text {
-        color: #fff !important;
+        color: ${colors.dark.text} !important;
       }
       .menu {
         outline: none;
@@ -81,21 +86,21 @@ export const darkThemeFixes = css`
 
     .input {
       input {
-        color: #fff;
+        color: ${colors.dark.text};
         border: 1px solid ${colors.dark.input};
         background-color: ${colors.dark.input};
 
         &:focus,
         &:active,
         &:hover {
-          color: #fff;
+          color: ${colors.dark.text};
           border: 1px solid ${colors.dark.inputHightlight};
           background-color: ${colors.dark.inputHightlight};
         }
       }
       .icon {
         &::before {
-          color: #fff;
+          color: ${colors.dark.text};
         }
       }
     }
