@@ -55,7 +55,7 @@ export const CommentsTable: FC<CommentsTableProps> = ({ value, isDark, onChange 
           </Table.Row>
         ) : (
           value.map((comment, index) => (
-            <Table.Row key={`${index}_${comment.type}_${comment.text}`}>
+            <Table.Row key={index}>
               <Table.Cell>
                 <Input placeholder="Text" fluid onChange={onTextChange(index)} value={comment.text} />
               </Table.Cell>

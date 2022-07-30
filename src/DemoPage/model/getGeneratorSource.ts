@@ -5,13 +5,43 @@ import {
   SourceLanguage,
   WriterConfiguration,
 } from '../../types'
-import { createPrinter, factory, NewLineKind, NodeFlags, Statement, SyntaxKind } from 'typescript'
+import {
+  createPrinter,
+  factory,
+  NewLineKind,
+  NodeFlags,
+  Statement,
+  SyntaxKind,
+  addSyntheticLeadingComment,
+  Node,
+} from 'typescript'
 import typescriptParser from 'prettier/parser-typescript'
 import prettier from 'prettier/standalone'
 import { isNil } from 'lodash'
 import { CommentConfig } from '@oats-ts/typescript-writer'
 import { defaultPrettierConfig } from './deafultPrettierConfig'
 import YAML from 'yamljs'
+
+function comment<T extends Node>(node: T, comment: string): T {
+  return addSyntheticLeadingComment(node, SyntaxKind.SingleLineCommentTrivia, ` ${comment}`, true)
+}
+
+function getReaderComment(reader: ReaderConfiguration): string {
+  const language = reader.readerType === 'inline' ? reader.inlineLanguage : reader.remoteLanguage
+  const docText = language === 'mixed' ? `document` : `${language.toUpperCase()} document`
+  const commonTxt = `resolves it's references, structurally validates it, and exposes it for the next step.`
+  if (reader.readerType === 'inline') {
+    return `Reads your inline ${docText}, ${commonTxt}`
+  }
+  switch (reader.remoteProtocol) {
+    case 'file':
+      return `Reads your document from the file system, ${commonTxt}`
+    case 'mixed':
+      return `Reads your ${docText}, ${commonTxt}`
+    default:
+      return `Reads your ${docText} from ${reader.remoteProtocol.toUpperCase()}, ${commonTxt}`
+  }
+}
 
 function getCompressedSource(source: string, language: SourceLanguage): string {
   try {
@@ -28,19 +58,22 @@ function getCompressedSource(source: string, language: SourceLanguage): string {
 
 function getInlineVariable(reader: ReaderConfiguration) {
   const compressedSource = getCompressedSource(reader.inlineContent, reader.inlineLanguage)
-  return factory.createVariableStatement(
-    undefined,
-    factory.createVariableDeclarationList(
-      [
-        factory.createVariableDeclaration(
-          factory.createIdentifier(`${reader.inlineLanguage}Source`),
-          undefined,
-          undefined,
-          factory.createNoSubstitutionTemplateLiteral(compressedSource, compressedSource),
-        ),
-      ],
-      NodeFlags.Const,
+  return comment(
+    factory.createVariableStatement(
+      undefined,
+      factory.createVariableDeclarationList(
+        [
+          factory.createVariableDeclaration(
+            factory.createIdentifier(`${reader.inlineLanguage}Source`),
+            undefined,
+            undefined,
+            factory.createNoSubstitutionTemplateLiteral(compressedSource, compressedSource),
+          ),
+        ],
+        NodeFlags.Const,
+      ),
     ),
+    `The source of your inline OpenAPI document in ${reader.inlineLanguage.toUpperCase()} format.`,
   )
 }
 
@@ -55,15 +88,21 @@ function getInlineReaderAst(reader: ReaderConfiguration) {
     [
       factory.createObjectLiteralExpression(
         [
-          factory.createPropertyAssignment(factory.createIdentifier('path'), factory.createStringLiteral(inlinePath)),
-          factory.createPropertyAssignment(
-            factory.createIdentifier('content'),
-            factory.createObjectLiteralExpression([
-              factory.createPropertyAssignment(
-                factory.createStringLiteral(inlinePath),
-                factory.createIdentifier(`${reader.inlineLanguage}Source`),
-              ),
-            ]),
+          comment(
+            factory.createPropertyAssignment(factory.createIdentifier('path'), factory.createStringLiteral(inlinePath)),
+            `The URI to the main inline document.`,
+          ),
+          comment(
+            factory.createPropertyAssignment(
+              factory.createIdentifier('content'),
+              factory.createObjectLiteralExpression([
+                factory.createPropertyAssignment(
+                  factory.createStringLiteral(inlinePath),
+                  factory.createIdentifier(`${reader.inlineLanguage}Source`),
+                ),
+              ]),
+            ),
+            `The mapping between inline document URI and content. Documents can reference each outher by the key URI.`,
           ),
         ],
         true,
@@ -129,29 +168,40 @@ function getGeneratorAst(generator: GeneratorConfiguration) {
   return factory.createCallExpression(factory.createIdentifier('generator'), undefined, [
     factory.createObjectLiteralExpression(
       [
-        factory.createPropertyAssignment(
-          factory.createIdentifier('nameProvider'),
-          factory.createCallExpression(
-            factory.createPropertyAccessExpression(
-              factory.createIdentifier('nameProviders'),
-              factory.createIdentifier('default'),
+        comment(
+          factory.createPropertyAssignment(
+            factory.createIdentifier('nameProvider'),
+            factory.createCallExpression(
+              factory.createPropertyAccessExpression(
+                factory.createIdentifier('nameProviders'),
+                factory.createIdentifier('default'),
+              ),
+              undefined,
+              [],
             ),
-            undefined,
-            [],
           ),
+          `Provides a name for each generated artifact.`,
         ),
-        factory.createPropertyAssignment(
-          factory.createIdentifier('pathProvider'),
-          factory.createCallExpression(
-            factory.createPropertyAccessExpression(
-              factory.createIdentifier('pathProviders'),
-              factory.createIdentifier(generator.pathProviderType),
+        comment(
+          factory.createPropertyAssignment(
+            factory.createIdentifier('pathProvider'),
+            factory.createCallExpression(
+              factory.createPropertyAccessExpression(
+                factory.createIdentifier('pathProviders'),
+                factory.createIdentifier(generator.pathProviderType),
+              ),
+              undefined,
+              [factory.createStringLiteral(generator.rootPath)],
             ),
-            undefined,
-            [factory.createStringLiteral(generator.rootPath)],
           ),
+          `Provides a path in the file system for each generated artifact with "${generator.rootPath}" as root.`,
         ),
-        factory.createPropertyAssignment(factory.createIdentifier('children'), getGeneratorChildren(generator)),
+        comment(
+          factory.createPropertyAssignment(factory.createIdentifier('children'), getGeneratorChildren(generator)),
+          `${
+            generator.configurationStyle === 'preset' ? 'Generator preset' : 'Individual generators'
+          } responsible for generating the output AST.`,
+        ),
       ],
       true,
     ),
@@ -212,17 +262,23 @@ function getCommentsAst(comments: WriterConfiguration) {
     [
       ...(comments.leadingComments.length > 0
         ? [
-            factory.createPropertyAssignment(
-              factory.createIdentifier('leadingComments'),
-              getLeadingOrTrailingCommentsAst(comments.leadingComments),
+            comment(
+              factory.createPropertyAssignment(
+                factory.createIdentifier('leadingComments'),
+                getLeadingOrTrailingCommentsAst(comments.leadingComments),
+              ),
+              `Comment(s) appearing in the beginning of the file, before the first statement.`,
             ),
           ]
         : []),
       ...(comments.trailingComments.length > 0
         ? [
-            factory.createPropertyAssignment(
-              factory.createIdentifier('trailingComments'),
-              getLeadingOrTrailingCommentsAst(comments.trailingComments),
+            comment(
+              factory.createPropertyAssignment(
+                factory.createIdentifier('trailingComments'),
+                getLeadingOrTrailingCommentsAst(comments.trailingComments),
+              ),
+              `Comment(s) appearing in the end of the file, after the last statement.`,
             ),
           ]
         : []),
@@ -232,6 +288,14 @@ function getCommentsAst(comments: WriterConfiguration) {
 }
 
 function getWriterAst(writer: WriterConfiguration) {
+  const formatter = comment(
+    factory.createPropertyAssignment(factory.createIdentifier('format'), getFormatterAst(writer)),
+    `Formats each generated source using prettier.`,
+  )
+  const comments = comment(
+    factory.createPropertyAssignment(factory.createIdentifier('comments'), getCommentsAst(writer)),
+    `Adds leading/trailing comments to each generated file. Ideal for disabling linters or warning not to edit these files.`,
+  )
   return factory.createCallExpression(
     factory.createPropertyAccessExpression(
       factory.createPropertyAccessExpression(
@@ -244,12 +308,8 @@ function getWriterAst(writer: WriterConfiguration) {
     [
       factory.createObjectLiteralExpression(
         [
-          ...(writer.useFormatter
-            ? [factory.createPropertyAssignment(factory.createIdentifier('format'), getFormatterAst(writer))]
-            : []),
-          ...(writer.leadingComments.length > 0 || writer.trailingComments.length > 0
-            ? [factory.createPropertyAssignment(factory.createIdentifier('comments'), getCommentsAst(writer))]
-            : []),
+          ...(writer.useFormatter ? [formatter] : []),
+          ...(writer.leadingComments.length > 0 || writer.trailingComments.length > 0 ? [comments] : []),
         ],
         true,
       ),
@@ -262,24 +322,41 @@ function getGenerateCallAst(config: ConfigurationNode) {
     factory.createCallExpression(factory.createIdentifier('generate'), undefined, [
       factory.createObjectLiteralExpression(
         [
-          factory.createPropertyAssignment(
-            factory.createIdentifier('logger'),
-            factory.createCallExpression(
-              factory.createPropertyAccessExpression(
-                factory.createIdentifier('loggers'),
-                factory.createIdentifier('simple'),
+          comment(
+            factory.createPropertyAssignment(
+              factory.createIdentifier('logger'),
+              factory.createCallExpression(
+                factory.createPropertyAccessExpression(
+                  factory.createIdentifier('loggers'),
+                  factory.createIdentifier('simple'),
+                ),
+                undefined,
+                [],
               ),
-              undefined,
-              [],
             ),
+            `Logs generator events as they happen. Use logger.verbose() for more detailed log output.`,
           ),
-          factory.createPropertyAssignment(
-            factory.createIdentifier('validator'),
-            factory.createCallExpression(factory.createIdentifier('validator'), undefined, []),
+          comment(
+            factory.createPropertyAssignment(factory.createIdentifier('reader'), getReaderAst(config.reader)),
+            getReaderComment(config.reader),
           ),
-          factory.createPropertyAssignment(factory.createIdentifier('reader'), getReaderAst(config.reader)),
-          factory.createPropertyAssignment(factory.createIdentifier('generator'), getGeneratorAst(config.generator)),
-          factory.createPropertyAssignment(factory.createIdentifier('writer'), getWriterAst(config.writer)),
+          comment(
+            factory.createPropertyAssignment(
+              factory.createIdentifier('validator'),
+              factory.createCallExpression(factory.createIdentifier('validator'), undefined, []),
+            ),
+            `Takes the structurally validated output of the read step, and semantically validates it.`,
+          ),
+          comment(
+            factory.createPropertyAssignment(factory.createIdentifier('generator'), getGeneratorAst(config.generator)),
+            `Takes the validated output of the read steps, and coordinates child code generators.`,
+          ),
+          comment(
+            factory.createPropertyAssignment(factory.createIdentifier('writer'), getWriterAst(config.writer)),
+            `Takes the output of generator step, stringifies it, and ${
+              config.writer.writerType === 'memory' ? 'returns it' : 'writes it to the disk'
+            }.`,
+          ),
         ],
         true,
       ),

@@ -87,7 +87,6 @@ export const RemoteReaderEditor: FC<RemoteReaderEditorProps> = ({ input, isDark,
           <Dropdown
             options={languageOptions}
             placeholder="Choose language"
-            search
             selection
             fluid
             value={input.remoteLanguage}
@@ -99,7 +98,6 @@ export const RemoteReaderEditor: FC<RemoteReaderEditorProps> = ({ input, isDark,
           <Dropdown
             options={protocolOption}
             placeholder="Choose protocol"
-            search
             selection
             fluid
             value={input.remoteProtocol}
