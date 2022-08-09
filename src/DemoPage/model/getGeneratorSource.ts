@@ -81,31 +81,23 @@ function getInlineReaderAst(reader: ReaderConfiguration) {
   const inlinePath = `inline.${reader.inlineLanguage}`
   return factory.createCallExpression(
     factory.createPropertyAccessExpression(
-      factory.createPropertyAccessExpression(factory.createIdentifier('readers'), factory.createIdentifier('test')),
+      factory.createPropertyAccessExpression(
+        factory.createPropertyAccessExpression(factory.createIdentifier('readers'), factory.createIdentifier('memory')),
+        factory.createIdentifier('mixed'),
+      ),
       factory.createIdentifier(reader.inlineLanguage),
     ),
     undefined,
     [
-      factory.createObjectLiteralExpression(
-        [
-          comment(
-            factory.createPropertyAssignment(factory.createIdentifier('path'), factory.createStringLiteral(inlinePath)),
-            `The URI to the main inline document.`,
+      comment(factory.createStringLiteral(inlinePath), `The URI to the main inline document.`),
+      comment(
+        factory.createObjectLiteralExpression([
+          factory.createPropertyAssignment(
+            factory.createStringLiteral(inlinePath),
+            factory.createIdentifier(`${reader.inlineLanguage}Source`),
           ),
-          comment(
-            factory.createPropertyAssignment(
-              factory.createIdentifier('content'),
-              factory.createObjectLiteralExpression([
-                factory.createPropertyAssignment(
-                  factory.createStringLiteral(inlinePath),
-                  factory.createIdentifier(`${reader.inlineLanguage}Source`),
-                ),
-              ]),
-            ),
-            `The mapping between inline document URI and content. Documents can reference each outher by the key URI.`,
-          ),
-        ],
-        true,
+        ]),
+        `The mapping between inline document URI and content. Documents can reference each outher by the key URI.`,
       ),
     ],
   )

@@ -14,10 +14,7 @@ import typescriptParser from 'prettier/parser-typescript'
 export function createReader(input: ReaderConfiguration) {
   switch (input.readerType) {
     case 'inline':
-      return readers.test[input.inlineLanguage]({
-        path: '',
-        content: { '': input.inlineContent },
-      })
+      return readers.memory.mixed[input.inlineLanguage]('', { '': input.inlineContent })
     case 'remote':
       return readers[input.remoteProtocol][input.remoteLanguage](input.remotePath)
   }
