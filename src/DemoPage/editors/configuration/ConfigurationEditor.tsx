@@ -1,11 +1,17 @@
 import { isNil } from 'lodash'
 import React, { FC } from 'react'
-import { GeneratorConfiguration, ReaderConfiguration, WriterConfiguration } from '../../../types'
+import {
+  GeneratorConfiguration,
+  ReaderConfiguration,
+  ValidatorConfiguration,
+  WriterConfiguration,
+} from '../../../types'
 import { useColorMode } from '../../../useColorMode'
 import { useGeneratorContext } from '../../model/useGenerator'
 import { GeneratorEditor } from './GeneratorEditor'
 import { InlineReaderEditor } from './InlineReaderEditor'
 import { RemoteReaderEditor } from './RemoteReaderEditor'
+import { ValidatorEditor } from './ValidatorEditor'
 import { WriterEditor } from './WriterEditor'
 
 export const ConfigurationEditor: FC = () => {
@@ -35,6 +41,11 @@ export const ConfigurationEditor: FC = () => {
           onLoadRemote={loadRemoteAsInline}
         />
       )
+    }
+    case 'validator': {
+      const onChange = (validator: ValidatorConfiguration) =>
+        setConfiguration({ ...configuration, active: 'validator', validator })
+      return <ValidatorEditor input={editorInput.validator} onChange={onChange} isDark={isDark} />
     }
     case 'generator': {
       const onChange = (generator: GeneratorConfiguration) =>

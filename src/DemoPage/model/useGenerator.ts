@@ -37,12 +37,8 @@ export function useGenerator(): GeneratorContextType {
       {
         type: 'configuration',
         active: 'reader',
-        generator: {
-          preset: 'fullStack',
-          pathProviderType: 'default',
-          rootPath: '/',
-          configurationStyle: 'preset',
-          generators: [],
+        validator: {
+          enabled: true,
         },
         reader: {
           readerType: 'remote',
@@ -51,6 +47,13 @@ export function useGenerator(): GeneratorContextType {
           remoteLanguage: 'mixed',
           remotePath: 'https://raw.githubusercontent.com/oats-ts/oats-schemas/master/schemas/book-store.json',
           remoteProtocol: 'https',
+        },
+        generator: {
+          preset: 'fullStack',
+          pathProviderType: 'default',
+          rootPath: '/',
+          configurationStyle: 'preset',
+          generators: [],
         },
         writer: {
           writerType: 'file',
@@ -141,14 +144,14 @@ export function useGenerator(): GeneratorContextType {
     }
     generate({
       logger,
-      validator: validator(),
+      validator: configuration.validator.enabled ? validator() : undefined,
       reader: createReader(configuration.reader),
       generator: createGenerator(configuration.generator),
       writer: createWriter(configuration.writer),
     })
       .then(processResult)
       .finally(() => setGenerating(false))
-  }, [configuration.reader, configuration.generator, configuration.writer])
+  }, [configuration.reader, configuration.validator, configuration.generator, configuration.writer])
 
   useDebounceEffect(runGenerator, 1000)
 
@@ -157,7 +160,7 @@ export function useGenerator(): GeneratorContextType {
       type: 'generator-source',
       source: getGeneratorSource(configuration),
     })
-  }, [configuration.reader, configuration.generator, configuration.writer])
+  }, [configuration.reader, configuration.validator, configuration.generator, configuration.writer])
 
   useDebounceEffect(computeGeneratorSource, 1000)
 

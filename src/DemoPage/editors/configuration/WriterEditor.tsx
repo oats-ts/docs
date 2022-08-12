@@ -16,7 +16,7 @@ import { wrapperStyle } from '../commonStyles'
 import { CommentsTable } from './CommentsTable'
 import { PrettierConfigurationEditor } from './PrettierConfigurationEditor'
 
-export type WriterEditor = {
+export type WriterEditorProps = {
   isDark: boolean
   input: WriterConfiguration
   onChange: (node: WriterConfiguration) => void
@@ -43,7 +43,7 @@ const writerTypeOptions: WriterTypeDropownItemProps[] = [
   { value: 'memory', text: 'Memory' },
 ]
 
-export const WriterEditor: FC<WriterEditor> = ({ isDark, input, onChange }) => {
+export const WriterEditor: FC<WriterEditorProps> = ({ isDark, input, onChange }) => {
   const onPrettierConfigurationChange = (prettier: PrettierConfiguration) => onChange({ ...input, prettier })
   const onPrettierToggled = (_: any, data: CheckboxProps) => {
     onChange({ ...input, useFormatter: Boolean(data.checked) })

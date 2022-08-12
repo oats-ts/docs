@@ -83,17 +83,6 @@ export const RemoteReaderEditor: FC<RemoteReaderEditorProps> = ({ input, isDark,
       <Header as="h2">Reader settings</Header>
       <Form inverted={isDark}>
         <Form.Field>
-          <label>Language</label>
-          <Dropdown
-            options={languageOptions}
-            placeholder="Choose language"
-            selection
-            fluid
-            value={input.remoteLanguage}
-            onChange={handleLanguageChange}
-          />
-        </Form.Field>
-        <Form.Field>
           <label>Protocol</label>
           <Dropdown
             options={protocolOption}
@@ -102,6 +91,17 @@ export const RemoteReaderEditor: FC<RemoteReaderEditorProps> = ({ input, isDark,
             fluid
             value={input.remoteProtocol}
             onChange={handleProtocolChange}
+          />
+        </Form.Field>
+        <Form.Field>
+          <label>Language</label>
+          <Dropdown
+            options={languageOptions}
+            placeholder="Choose language"
+            selection
+            fluid
+            value={input.remoteLanguage}
+            onChange={handleLanguageChange}
           />
         </Form.Field>
         <Form.Field>
