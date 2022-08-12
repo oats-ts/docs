@@ -96,6 +96,10 @@ export type ReaderConfiguration = {
   remotePath: string
 }
 
+export type ValidatorConfiguration = {
+  enabled: boolean
+}
+
 export type GeneratorConfiguration = {
   configurationStyle: GeneratorConfigurationStyle
   pathProviderType: PathProviderType
@@ -130,8 +134,9 @@ export type WriterConfiguration = {
 
 export type ConfigurationNode = {
   type: 'configuration'
-  active: 'reader' | 'generator' | 'writer'
+  active: 'reader' | 'validator' | 'generator' | 'writer'
   reader: ReaderConfiguration
+  validator: ValidatorConfiguration
   generator: GeneratorConfiguration
   writer: WriterConfiguration
 }

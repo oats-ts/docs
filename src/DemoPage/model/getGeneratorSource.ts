@@ -332,16 +332,20 @@ function getGenerateCallAst(config: ConfigurationNode) {
             factory.createPropertyAssignment(factory.createIdentifier('reader'), getReaderAst(config.reader)),
             getReaderComment(config.reader),
           ),
-          comment(
-            factory.createPropertyAssignment(
-              factory.createIdentifier('validator'),
-              factory.createCallExpression(factory.createIdentifier('validator'), undefined, []),
-            ),
-            `Takes the structurally validated output of the read step, and semantically validates it.`,
-          ),
+          ...(config.validator.enabled
+            ? [
+                comment(
+                  factory.createPropertyAssignment(
+                    factory.createIdentifier('validator'),
+                    factory.createCallExpression(factory.createIdentifier('validator'), undefined, []),
+                  ),
+                  `Takes the structurally validated output of the read step, and semantically validates it.`,
+                ),
+              ]
+            : []),
           comment(
             factory.createPropertyAssignment(factory.createIdentifier('generator'), getGeneratorAst(config.generator)),
-            `Takes the validated output of the read steps, and coordinates child code generators.`,
+            `Takes the ${config.validator.enabled ? 'validated' : ''}output of the read step, and coordinates child code generators.`,
           ),
           comment(
             factory.createPropertyAssignment(factory.createIdentifier('writer'), getWriterAst(config.writer)),
@@ -356,7 +360,7 @@ function getGenerateCallAst(config: ConfigurationNode) {
   )
 }
 
-function getImportDeclarations({ writer, generator }: ConfigurationNode) {
+function getImportDeclarations({ writer, validator, generator }: ConfigurationNode) {
   const openApiImports = [
     'formatters',
     'generator',
@@ -370,6 +374,7 @@ function getImportDeclarations({ writer, generator }: ConfigurationNode) {
     'writers',
   ]
     .filter((name) => (name === 'formatters' ? writer.useFormatter : true))
+    .filter((name) => (name === 'validator' ? validator.enabled : true))
     .filter((name) => (generator.configurationStyle === 'generators' ? name !== 'presets' : name !== 'generators'))
     .map((name) => factory.createImportSpecifier(false, undefined, factory.createIdentifier(name)))
 

@@ -19,6 +19,7 @@ import {
   ReaderConfiguration,
   WriterConfiguration,
   PrettierConfiguration,
+  ValidatorConfiguration,
 } from '../../types'
 
 const languageValidator = union({
@@ -54,6 +55,12 @@ const readerConfigValidator = object(
       file: literal('file'),
       mixed: literal('mixed'),
     }),
+  }),
+)
+
+const validatorConfigValidator = object(
+  shape<ValidatorConfiguration>({
+    enabled: boolean(),
   }),
 )
 
@@ -137,10 +144,11 @@ const configurationValidator = object(
     type: literal('configuration'),
     active: union({
       reader: literal('reader'),
+      validator: literal('validator'),
       generator: literal('generator'),
       writer: literal('writer'),
-      'generator-source': literal('generator-source'),
     }),
+    validator: validatorConfigValidator,
     reader: readerConfigValidator,
     generator: generatorConfigValidator,
     writer: writerConfigurationValidator,
@@ -151,7 +159,7 @@ export function verifyConfiguration(data?: ConfigurationNode): boolean {
   const issues = configurationValidator(data, '$', DefaultConfig)
   const isValid = issues.length === 0
   if (!isValid) {
-    console.error('Local storage invalid', { data, issues })
+    console.warn('Local storage invalid', { data, issues })
   }
   return isValid
 }

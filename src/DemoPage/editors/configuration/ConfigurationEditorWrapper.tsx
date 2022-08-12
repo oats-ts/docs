@@ -52,7 +52,13 @@ export const ConfigurationEditorWrapper: FC = () => {
           >
             <Icon name="book" /> Reader
           </Menu.Item>
-
+          <Menu.Item
+            disabled={isRemoteSampleLoading}
+            active={active === 'validator'}
+            onClick={() => setConfiguration({ ...configuration, active: 'validator' })}
+          >
+            <Icon name="search" /> Validator
+          </Menu.Item>
           <Menu.Item
             disabled={isRemoteSampleLoading}
             active={active === 'generator'}
