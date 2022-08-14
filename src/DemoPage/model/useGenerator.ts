@@ -28,6 +28,7 @@ import { filterExplorerTree } from './filterExplorerTree'
 import { getPackageJsonSource } from './getPackageJsonSource'
 import { findFileByPath } from './findFileByPath'
 import { defaultPrettierConfig } from './deafultPrettierConfig'
+import { getVersionMap } from './getVersionMap'
 
 export function useGenerator(): GeneratorContextType {
   const [samples, setSamples] = useState<string[]>([])
@@ -132,14 +133,15 @@ export function useGenerator(): GeneratorContextType {
     setGenerating(true)
     setIssues({ type: 'issues', issues: [] })
     setOutput({ type: 'folder', children: [], name: '/', path: '/' })
-    // TODO warnings not emmited for some reason
     const logger: Logger = (emitter) => {
       loggers.simple()(emitter)
       emitter.addListener('validator-step-completed', ({ issues: validatorIssues }) => {
         setIssues({ type: 'issues', issues: validatorIssues })
       })
-      emitter.addListener('generator-completed', ({ dependencies }) => {
-        setPackageJson({ ...packageJson, source: getPackageJsonSource(dependencies) })
+      emitter.addListener('generator-step-completed', ({ dependencies }) => {
+        getVersionMap('typescript', 'ts-node')
+          .then((versionMap) => getPackageJsonSource(dependencies, versionMap))
+          .then((source) => setPackageJson({ ...packageJson, source }))
       })
     }
     generate({

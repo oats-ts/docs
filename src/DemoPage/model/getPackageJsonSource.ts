@@ -1,24 +1,28 @@
 import type { PackageJson } from 'type-fest'
 import pkg from '../../../package.json'
+import { Dep } from '../../types'
 
 const oatsVersion = pkg.dependencies['@oats-ts/oats-ts']
 
-function getDependencyObject(dependencies: string[]): Record<string, string> {
-  return Array.from(dependencies)
-    .sort((a, b) => a.localeCompare(b))
-    .reduce((obj: Record<string, string>, dep: string) => {
-      if (dep.startsWith('@oats-ts/')) {
-        return { ...obj, [dep]: oatsVersion }
-      }
-      if (dep === 'express') {
-        return { ...obj, [dep]: '^4.18.1' }
-      }
-      return { ...obj, [dep]: '*' }
-    }, {})
+// TODO might be worth getting the latest version from non-oats packages?
+function asRuntimeDep(name: string): Dep {
+  if (name.startsWith('@oats-ts/')) {
+    return { name, version: oatsVersion }
+  }
+  if (name === 'express') {
+    return { name, version: '^4.18.1' }
+  }
+  return { name, version: '*' }
 }
 
-export function getPackageJsonSource(deps: string[]): string {
-  const dependencies = getDependencyObject(deps)
+function getDependencyObject(dependencies: Dep[]): Record<string, string> {
+  return Array.from(dependencies)
+    .sort((a, b) => a.name.localeCompare(b.name))
+    .reduce((obj: Record<string, string>, { name, version }: Dep) => ({ ...obj, [name]: version }), {})
+}
+
+export function getPackageJsonSource(deps: string[], versionMap: Record<string, string>): string {
+  const dependencies = getDependencyObject(deps.map(asRuntimeDep))
   const packageJson: PackageJson = {
     name: 'your-project',
     version: '1.0.0',
@@ -27,7 +31,12 @@ export function getPackageJsonSource(deps: string[]): string {
       oats: 'ts-node ./generate.ts',
     },
     ...(deps.length === 0 ? {} : { dependencies }),
-    devDependencies: getDependencyObject(['@oats-ts/oats-ts', '@oats-ts/openapi']),
+    devDependencies: getDependencyObject([
+      { name: '@oats-ts/oats-ts', version: oatsVersion },
+      { name: '@oats-ts/openapi', version: oatsVersion },
+      { name: 'typescript', version: versionMap['typescript']! },
+      { name: 'ts-node', version: versionMap['ts-node']! },
+    ]),
   }
   return JSON.stringify(packageJson, null, 2)
 }
