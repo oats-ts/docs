@@ -22,12 +22,6 @@ import {
   ValidatorConfiguration,
 } from '../../types'
 
-const languageValidator = union({
-  json: literal('json'),
-  yaml: literal('yaml'),
-  mixed: literal('mixed'),
-})
-
 const commentConfigValidator = object(
   shape<CommentConfig>({
     text: string(),
@@ -46,8 +40,15 @@ const readerConfigValidator = object(
       remote: literal('remote'),
     }),
     inlineContent: string(),
-    inlineLanguage: languageValidator,
-    remoteLanguage: languageValidator,
+    inlineLanguage: union({
+      json: literal('json'),
+      yaml: literal('yaml'),
+    }),
+    remoteLanguage: union({
+      json: literal('json'),
+      yaml: literal('yaml'),
+      mixed: literal('mixed'),
+    }),
     remotePath: string(),
     remoteProtocol: union({
       http: literal('http'),

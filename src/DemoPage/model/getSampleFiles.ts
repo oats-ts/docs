@@ -19,7 +19,7 @@ export async function fetchSampleFile(path: string): Promise<string> {
   return response.text()
 }
 
-export function guessLanguage(source: string): SourceLanguage | undefined {
+export function guessLanguage(source: string): Exclude<SourceLanguage, 'mixed'> | undefined {
   try {
     JSON.parse(source)
     return 'json'

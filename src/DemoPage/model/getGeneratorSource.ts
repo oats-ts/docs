@@ -339,13 +339,13 @@ function getGenerateCallAst(config: ConfigurationNode) {
                     factory.createIdentifier('validator'),
                     factory.createCallExpression(factory.createIdentifier('validator'), undefined, []),
                   ),
-                  `Takes the structurally validated output of the read step, and semantically validates it.`,
+                  `Takes the output of the read step, and semantically validates it.`,
                 ),
               ]
             : []),
           comment(
             factory.createPropertyAssignment(factory.createIdentifier('generator'), getGeneratorAst(config.generator)),
-            `Takes the ${config.validator.enabled ? 'validated' : ''}output of the read step, and coordinates child code generators.`,
+            `Takes the ${config.validator.enabled ? 'validated ' : ''}output of the read step, and coordinates child code generators.`,
           ),
           comment(
             factory.createPropertyAssignment(factory.createIdentifier('writer'), getWriterAst(config.writer)),

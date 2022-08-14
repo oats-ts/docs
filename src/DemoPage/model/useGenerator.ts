@@ -45,8 +45,8 @@ export function useGenerator(): GeneratorContextType {
           inlineContent: '',
           inlineLanguage: 'json',
           remoteLanguage: 'mixed',
-          remotePath: 'https://raw.githubusercontent.com/oats-ts/oats-schemas/master/schemas/book-store.json',
-          remoteProtocol: 'https',
+          remotePath: 'https://raw.githubusercontent.com/oats-ts/oats-schemas/master/schemas/pet-store-yaml.yaml',
+          remoteProtocol: 'mixed',
         },
         generator: {
           preset: 'fullStack',

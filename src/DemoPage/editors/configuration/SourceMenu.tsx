@@ -66,7 +66,7 @@ export const SourceMenu: FC = () => {
   const { configuration, isRemoteSampleLoading, setConfiguration } = useGeneratorContext()
   const { reader, active } = configuration
 
-  const onInlineInputLanguageChange = (language: SourceLanguage) => {
+  const onInlineInputLanguageChange = (language: Exclude<SourceLanguage, 'mixed'>) => {
     if (reader.readerType !== 'inline') {
       return
     }
