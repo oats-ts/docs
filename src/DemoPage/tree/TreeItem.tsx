@@ -47,10 +47,11 @@ export const TreeItem: FC<TreeItemProps> = ({ node }) => {
     }
     case 'issues': {
       const isActive = Boolean(editorInput && editorInput.type === 'issues')
-      const _isOk = isOk(node.issues, ['error'])
       const name = `issues (${node.issues.length})`
       const onClick = () => setEditorInput('issues')
-      return <IssuesTreeItem onClick={onClick} isDark={isDark} isActive={isActive} isOk={_isOk} name={name} />
+      return (
+        <IssuesTreeItem onClick={onClick} isDark={isDark} isActive={isActive} isOk={isOk(node.issues)} name={name} />
+      )
     }
   }
 }

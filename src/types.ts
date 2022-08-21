@@ -144,8 +144,3 @@ export type ConfigurationNode = {
 export type FsNode = FileNode | FolderNode
 
 export type EditorInput = FsNode | ConfigurationNode | IssuesNode | GeneratorSourceNode | PackageJsonNode
-
-export type Dep = {
-  name: string
-  version: string
-}

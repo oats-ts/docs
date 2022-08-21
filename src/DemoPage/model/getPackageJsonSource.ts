@@ -1,28 +1,14 @@
+import { RuntimeDependency, version } from '@oats-ts/oats-ts'
 import type { PackageJson } from 'type-fest'
-import pkg from '../../../package.json'
-import { Dep } from '../../types'
 
-const oatsVersion = pkg.dependencies['@oats-ts/oats-ts']
-
-// TODO might be worth getting the latest version from non-oats packages?
-function asRuntimeDep(name: string): Dep {
-  if (name.startsWith('@oats-ts/')) {
-    return { name, version: oatsVersion }
-  }
-  if (name === 'express') {
-    return { name, version: '^4.18.1' }
-  }
-  return { name, version: '*' }
-}
-
-function getDependencyObject(dependencies: Dep[]): Record<string, string> {
+function getDependencyObject(dependencies: RuntimeDependency[]): Record<string, string> {
   return Array.from(dependencies)
     .sort((a, b) => a.name.localeCompare(b.name))
-    .reduce((obj: Record<string, string>, { name, version }: Dep) => ({ ...obj, [name]: version }), {})
+    .reduce((obj: Record<string, string>, { name, version }: RuntimeDependency) => ({ ...obj, [name]: version }), {})
 }
 
-export function getPackageJsonSource(deps: string[], versionMap: Record<string, string>): string {
-  const dependencies = getDependencyObject(deps.map(asRuntimeDep))
+export function getPackageJsonSource(deps: RuntimeDependency[], versionMap: Record<string, string>): string {
+  const dependencies = getDependencyObject(deps)
   const packageJson: PackageJson = {
     name: 'your-project',
     version: '1.0.0',
@@ -32,8 +18,8 @@ export function getPackageJsonSource(deps: string[], versionMap: Record<string, 
     },
     ...(deps.length === 0 ? {} : { dependencies }),
     devDependencies: getDependencyObject([
-      { name: '@oats-ts/oats-ts', version: oatsVersion },
-      { name: '@oats-ts/openapi', version: oatsVersion },
+      { name: '@oats-ts/oats-ts', version },
+      { name: '@oats-ts/openapi', version },
       { name: 'typescript', version: versionMap['typescript']! },
       { name: 'ts-node', version: versionMap['ts-node']! },
     ]),
