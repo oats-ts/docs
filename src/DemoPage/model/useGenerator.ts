@@ -1,4 +1,4 @@
-import { generate, Logger } from '@oats-ts/oats-ts'
+import { generate, Logger, version } from '@oats-ts/oats-ts'
 
 import { validator, loggers } from '@oats-ts/openapi'
 import isNil from 'lodash/isNil'
@@ -38,6 +38,7 @@ export function useGenerator(): GeneratorContextType {
       {
         type: 'configuration',
         active: 'reader',
+        version,
         validator: {
           enabled: true,
         },

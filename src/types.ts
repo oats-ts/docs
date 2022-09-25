@@ -134,6 +134,7 @@ export type WriterConfiguration = {
 
 export type ConfigurationNode = {
   type: 'configuration'
+  version: string
   active: 'reader' | 'validator' | 'generator' | 'writer'
   reader: ReaderConfiguration
   validator: ValidatorConfiguration

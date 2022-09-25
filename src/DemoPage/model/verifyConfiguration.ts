@@ -12,6 +12,7 @@ import {
   string,
   union,
 } from '@oats-ts/validators'
+import { version } from '@oats-ts/oats-ts'
 
 import {
   ConfigurationNode,
@@ -143,6 +144,7 @@ const writerConfigurationValidator = object(
 const configurationValidator = object(
   shape<ConfigurationNode>({
     type: literal('configuration'),
+    version: literal(version),
     active: union({
       reader: literal('reader'),
       validator: literal('validator'),
