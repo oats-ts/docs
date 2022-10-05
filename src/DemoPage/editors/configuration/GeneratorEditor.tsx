@@ -73,61 +73,67 @@ export const GeneratorEditor: FC<GeneratorEditorProps> = ({ isDark, input, onCha
     <div className={wrapperStyle}>
       <Header as="h2">Generator settings</Header>
       <Form inverted={isDark}>
-        <Form.Field>
-          <label>Configuration style</label>
-          <Dropdown
-            placeholder="Configuration style"
-            fluid
-            selection
-            options={configurationStyleOptions}
-            onChange={onConfigurationStyleChange}
-            value={input.configurationStyle}
-          />
-        </Form.Field>
-        {input.configurationStyle === 'preset' && (
+        <Header as="h3">Basic settings</Header>
+        <Form.Group widths="equal">
           <Form.Field>
-            <label>Preset</label>
+            <label>Configuration style</label>
             <Dropdown
-              placeholder="Preset"
+              placeholder="Configuration style"
               fluid
               selection
-              options={presetOptions}
-              onChange={onPresetChange}
-              value={input.preset}
+              options={configurationStyleOptions}
+              onChange={onConfigurationStyleChange}
+              value={input.configurationStyle}
             />
           </Form.Field>
-        )}
-        {input.configurationStyle === 'generators' && (
+          {input.configurationStyle === 'preset' && (
+            <Form.Field>
+              <label>Preset</label>
+              <Dropdown
+                placeholder="Preset"
+                fluid
+                selection
+                options={presetOptions}
+                onChange={onPresetChange}
+                value={input.preset}
+              />
+            </Form.Field>
+          )}
+          {input.configurationStyle === 'generators' && (
+            <Form.Field>
+              <label>Generators</label>
+              <Dropdown
+                placeholder="Generators"
+                fluid
+                multiple
+                search
+                selection
+                clearable
+                options={generatorOptions}
+                onChange={onGeneratorsChange}
+                value={input.generators}
+              />
+            </Form.Field>
+          )}
+        </Form.Group>
+        <Form.Group widths="equal">
           <Form.Field>
-            <label>Generators</label>
+            <label>Path provider type</label>
             <Dropdown
-              placeholder="Generators"
+              placeholder="Path provider type"
               fluid
-              multiple
-              search
               selection
-              clearable
-              options={generatorOptions}
-              onChange={onGeneratorsChange}
-              value={input.generators}
+              options={pathProviderTypeOptions}
+              onChange={onPathProviderTypeChange}
+              value={input.pathProviderType}
             />
           </Form.Field>
-        )}
-        <Form.Field>
-          <label>Path provider type</label>
-          <Dropdown
-            placeholder="Path provider type"
-            fluid
-            selection
-            options={pathProviderTypeOptions}
-            onChange={onPathProviderTypeChange}
-            value={input.pathProviderType}
-          />
-        </Form.Field>
-        <Form.Field>
-          <label>Root path</label>
-          <Input placeholder="Root path" fluid onChange={onPathRootChange} value={input.rootPath} />
-        </Form.Field>
+          <Form.Field>
+            <label>Root path</label>
+            <Input placeholder="Root path" fluid onChange={onPathRootChange} value={input.rootPath} />
+          </Form.Field>
+        </Form.Group>
+        <Header as="h3">Individual generator settings</Header>
       </Form>
     </div>
   )

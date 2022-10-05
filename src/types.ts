@@ -1,5 +1,6 @@
 import { OpenAPIGeneratorTarget } from '@oats-ts/openapi-common'
 import { Issue } from '@oats-ts/validators'
+import { HttpMethod } from '@oats-ts/openapi-http'
 import { CommentConfig } from '@oats-ts/typescript-writer'
 import { Options } from 'prettier'
 
@@ -100,12 +101,26 @@ export type ValidatorConfiguration = {
   enabled: boolean
 }
 
+export type GeneratorOverrides = {
+  documentation: boolean
+  sendCookieHeader: boolean
+  parseSetCookieHeaders: boolean
+  validateClientResponses: boolean
+  allowCredentials: boolean
+  maxAge: number
+  allowedOrigins: boolean | string[]
+  allowedRequestHeaders: boolean | string[]
+  allowedResponseHeaders: boolean | string[]
+  allowedMethods: boolean | HttpMethod[]
+}
+
 export type GeneratorConfiguration = {
   configurationStyle: GeneratorConfigurationStyle
   pathProviderType: PathProviderType
   rootPath: string
   preset: GeneratorPreset
   generators: OpenAPIGeneratorTarget[]
+  overrides: Partial<GeneratorOverrides>
 }
 
 export type PrettierConfiguration = Pick<

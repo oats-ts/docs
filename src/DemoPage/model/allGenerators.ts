@@ -5,9 +5,8 @@ const generatorsMap: Record<OpenAPIGeneratorTarget, boolean> = {
   'oats/type-guard': true,
   'oats/type-validator': true,
   'oats/api-type': true,
-  'oats/express-router': true,
   'oats/express-router-factory': true,
-  'oats/express-routers-type': true,
+  'oats/express-router-factories-type': true,
   'oats/operation': true,
   'oats/path-deserializer': true,
   'oats/path-serializer': true,
@@ -34,6 +33,9 @@ const generatorsMap: Record<OpenAPIGeneratorTarget, boolean> = {
   'oats/response-server-type': true,
   'oats/sdk-impl': true,
   'oats/sdk-type': true,
+  'oats/express-app-router-factory': true,
+  'oats/express-cors-router-factory': true,
+  'oats/express-context-handler-factory': true,
 }
 
 export const allGenerators = Object.keys(generatorsMap) as OpenAPIGeneratorTarget[]

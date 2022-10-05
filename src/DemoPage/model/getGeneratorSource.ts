@@ -14,6 +14,7 @@ import {
   SyntaxKind,
   addSyntheticLeadingComment,
   Node,
+  Expression,
 } from 'typescript'
 import typescriptParser from 'prettier/parser-typescript'
 import prettier from 'prettier/standalone'
@@ -21,6 +22,10 @@ import { isNil } from 'lodash'
 import { CommentConfig } from '@oats-ts/typescript-writer'
 import { defaultPrettierConfig } from './deafultPrettierConfig'
 import YAML from 'yamljs'
+import { presets } from '@oats-ts/openapi'
+import { CompositeGenerator } from '@oats-ts/oats-ts'
+import { OpenAPIGeneratorTarget } from '@oats-ts/openapi-common'
+import { getOverrideConfigAst } from './getOverrideConfigAst'
 
 function comment<T extends Node>(node: T, comment: string): T {
   return addSyntheticLeadingComment(node, SyntaxKind.SingleLineCommentTrivia, ` ${comment}`, true)
@@ -127,28 +132,44 @@ function getReaderAst(reader: ReaderConfiguration) {
 
 function getGenerators(generator: GeneratorConfiguration) {
   return factory.createArrayLiteralExpression(
-    generator.generators.map((target) =>
-      factory.createCallExpression(
+    generator.generators.map((target) => {
+      const overrides = getOverrideConfigAst(target, generator.overrides)
+      return factory.createCallExpression(
         factory.createPropertyAccessExpression(
           factory.createIdentifier('generators'),
           factory.createIdentifier('create'),
         ),
         undefined,
-        [factory.createStringLiteral(target)],
-      ),
-    ),
+        [factory.createStringLiteral(target), ...(isNil(overrides) ? [] : [overrides])],
+      )
+    }),
     true,
   )
 }
 
 function getPreset(generator: GeneratorConfiguration) {
+  const rootGen = presets[generator.preset]() as CompositeGenerator<any, any>
+  const targets = rootGen.children.map((gen) => gen.name() as OpenAPIGeneratorTarget)
+  const overrides = targets
+    .map((target): [OpenAPIGeneratorTarget, Expression | undefined] => [
+      target,
+      getOverrideConfigAst(target, generator.overrides),
+    ])
+    .filter((pair): pair is [OpenAPIGeneratorTarget, Expression] => !isNil(pair[1]))
+
+  const overridesObj = factory.createObjectLiteralExpression(
+    overrides.map(([name, expr]) => factory.createPropertyAssignment(factory.createStringLiteral(name), expr)),
+  )
+
   return factory.createCallExpression(
     factory.createPropertyAccessExpression(
       factory.createIdentifier('presets'),
       factory.createIdentifier(generator.preset),
     ),
     undefined,
-    [],
+    overrides.length === 0
+      ? []
+      : [factory.createObjectLiteralExpression([factory.createPropertyAssignment('overrides', overridesObj)])],
   )
 }
 
@@ -345,7 +366,9 @@ function getGenerateCallAst(config: ConfigurationNode) {
             : []),
           comment(
             factory.createPropertyAssignment(factory.createIdentifier('generator'), getGeneratorAst(config.generator)),
-            `Takes the ${config.validator.enabled ? 'validated ' : ''}output of the read step, and coordinates child code generators.`,
+            `Takes the ${
+              config.validator.enabled ? 'validated ' : ''
+            }output of the read step, and coordinates child code generators.`,
           ),
           comment(
             factory.createPropertyAssignment(factory.createIdentifier('writer'), getWriterAst(config.writer)),

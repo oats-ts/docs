@@ -55,6 +55,7 @@ export function useGenerator(): GeneratorContextType {
           pathProviderType: 'default',
           rootPath: '/',
           configurationStyle: 'preset',
+          overrides: {},
           generators: [],
         },
         writer: {
