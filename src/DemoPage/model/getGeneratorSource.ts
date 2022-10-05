@@ -22,10 +22,9 @@ import { isNil } from 'lodash'
 import { CommentConfig } from '@oats-ts/typescript-writer'
 import { defaultPrettierConfig } from './deafultPrettierConfig'
 import YAML from 'yamljs'
-import { presets } from '@oats-ts/openapi'
-import { CompositeGenerator } from '@oats-ts/oats-ts'
 import { OpenAPIGeneratorTarget } from '@oats-ts/openapi-common'
 import { getOverrideConfigAst } from './getOverrideConfigAst'
+import { getGeneratorTargets } from './getGeneratorTargets'
 
 function comment<T extends Node>(node: T, comment: string): T {
   return addSyntheticLeadingComment(node, SyntaxKind.SingleLineCommentTrivia, ` ${comment}`, true)
@@ -148,9 +147,7 @@ function getGenerators(generator: GeneratorConfiguration) {
 }
 
 function getPreset(generator: GeneratorConfiguration) {
-  const rootGen = presets[generator.preset]() as CompositeGenerator<any, any>
-  const targets = rootGen.children.map((gen) => gen.name() as OpenAPIGeneratorTarget)
-  const overrides = targets
+  const overrides = getGeneratorTargets(generator)
     .map((target): [OpenAPIGeneratorTarget, Expression | undefined] => [
       target,
       getOverrideConfigAst(target, generator.overrides),

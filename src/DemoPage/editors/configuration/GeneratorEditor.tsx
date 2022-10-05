@@ -1,6 +1,8 @@
+import { css } from '@emotion/css'
 import { OpenAPIGeneratorTarget } from '@oats-ts/openapi-common'
 import React, { FC } from 'react'
 import {
+  Button,
   Dropdown,
   DropdownProps,
   Form,
@@ -12,6 +14,21 @@ import {
 import { GeneratorConfigurationStyle, GeneratorConfiguration, GeneratorPreset, PathProviderType } from '../../../types'
 import { allGenerators } from '../../model/allGenerators'
 import { wrapperStyle } from '../commonStyles'
+import { GeneratorOverridesEditor } from './GeneratorOverridesEditor'
+
+const headerWrapperStyle = css`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-bottom: 16px;
+  margin-top: 24px;
+  justify-content: space-between;
+`
+const headerLabelStyle = css`
+  flex: 1 1 1px;
+  margin: 0px !important;
+  padding: 0px !important;
+`
 
 type ConfigStyleDropdownItemProps = StrictDropdownItemProps & { value: GeneratorConfigurationStyle }
 type GeneratorDropdownItemProps = StrictDropdownItemProps & { value: OpenAPIGeneratorTarget }
@@ -64,9 +81,14 @@ export const GeneratorEditor: FC<GeneratorEditorProps> = ({ isDark, input, onCha
     const pathProviderType = data.value! as PathProviderType
     onChange({ ...input, pathProviderType })
   }
+
   const onPathRootChange = (_: any, data: InputOnChangeData) => {
     const rootPath = data.value!
     onChange({ ...input, rootPath })
+  }
+
+  const onResetOverrides = () => {
+    onChange({ ...input, overrides: {} })
   }
 
   return (
@@ -133,7 +155,15 @@ export const GeneratorEditor: FC<GeneratorEditorProps> = ({ isDark, input, onCha
             <Input placeholder="Root path" fluid onChange={onPathRootChange} value={input.rootPath} />
           </Form.Field>
         </Form.Group>
-        <Header as="h3">Individual generator settings</Header>
+        <div className={headerWrapperStyle}>
+          <Header as="h3" className={headerLabelStyle}>
+            Individual generator settings
+          </Header>
+          <Button size="mini" secondary onClick={onResetOverrides}>
+            Reset
+          </Button>
+        </div>
+        <GeneratorOverridesEditor input={input} isDark={isDark} onChange={onChange} />
       </Form>
     </div>
   )

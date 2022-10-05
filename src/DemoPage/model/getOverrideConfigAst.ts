@@ -27,19 +27,25 @@ function booleanOrStringArray(input: boolean | string[]): Expression {
   }
   return factory.createArrayLiteralExpression(input.map((e) => factory.createStringLiteral(e)))
 }
-function booleanOrIncludes(inputName: string, input: boolean | string[]): Expression {
+function booleanOrIncludes(
+  inputName: string,
+  input: boolean | string[],
+  transform: (input: string) => string = (a) => a,
+): Expression {
   if (typeof input === 'boolean') {
     return input === true ? factory.createTrue() : factory.createFalse()
   }
   return getLogicalExpression(
     SyntaxKind.BarBarToken,
-    input.map((value) =>
-      factory.createBinaryExpression(
-        factory.createIdentifier(inputName),
-        SyntaxKind.EqualsEqualsEqualsToken,
-        factory.createStringLiteral(value),
+    input
+      .map(transform)
+      .map((value) =>
+        factory.createBinaryExpression(
+          factory.createIdentifier(inputName),
+          SyntaxKind.EqualsEqualsEqualsToken,
+          factory.createStringLiteral(value),
+        ),
       ),
-    ),
   )
 }
 
@@ -97,7 +103,7 @@ const allowedMethodsAssignment: PropertyAstFactory = (config) => {
   return [
     createFunctionPropertyAssignment(
       'isMethodAllowed',
-      ['_path', 'method', '_operation'],
+      ['_path', typeof config.allowedMethods === 'boolean' ? '_method' : 'method', '_operation'],
       booleanOrIncludes('method', config.allowedMethods),
     ),
   ]
@@ -110,8 +116,21 @@ const allowedRequestHeadersAssignment: PropertyAstFactory = (config) => {
   return [
     createFunctionPropertyAssignment(
       'isRequestHeaderAllowed',
-      ['header', '_path', '_method', '_operation'],
-      booleanOrIncludes('header', config.allowedRequestHeaders),
+      [typeof config.allowedRequestHeaders === 'boolean' ? '_header' : 'header', '_path', '_method', '_operation'],
+      booleanOrIncludes('header', config.allowedRequestHeaders, (header) => header.toLowerCase()),
+    ),
+  ]
+}
+
+const allowedResponseHeadersAssignment: PropertyAstFactory = (config) => {
+  if (isNil(config.allowedResponseHeaders)) {
+    return []
+  }
+  return [
+    createFunctionPropertyAssignment(
+      'isResponseHeaderAllowed',
+      [typeof config.allowedResponseHeaders === 'boolean' ? '_header' : 'header', '_path', '_method', '_operation'],
+      booleanOrIncludes('header', config.allowedResponseHeaders, (header) => header.toLowerCase()),
     ),
   ]
 }
@@ -125,19 +144,6 @@ const maxAgeAssignment: PropertyAstFactory = (config) => {
       'getMaxAge',
       ['_path', '_method', '_operation'],
       factory.createNumericLiteral(config.maxAge),
-    ),
-  ]
-}
-
-const allowedResponseHeadersAssignment: PropertyAstFactory = (config) => {
-  if (isNil(config.allowedResponseHeaders)) {
-    return []
-  }
-  return [
-    createFunctionPropertyAssignment(
-      'isResponseHeaderAllowed',
-      ['header', '_path', '_method', '_operation'],
-      booleanOrIncludes('header', config.allowedResponseHeaders),
     ),
   ]
 }
@@ -159,9 +165,7 @@ const config =
   (...properties: PropertyAstFactory[]): ConfigAstFactory =>
   (config) => {
     const assignments = flatMap(properties, (propertyAssignment) => propertyAssignment(config))
-    return assignments.length === 0
-      ? undefined
-      : factory.createObjectLiteralExpression(assignments, assignments.length > 1)
+    return assignments.length === 0 ? undefined : factory.createObjectLiteralExpression(assignments, true)
   }
 
 const configOverrideAstFactories: Partial<Record<OpenAPIGeneratorTarget, ConfigAstFactory>> = {
@@ -192,7 +196,7 @@ const configOverrideAstFactories: Partial<Record<OpenAPIGeneratorTarget, ConfigA
   'oats/express-router-factory': config(
     allowedOriginsAssignment,
     allowedMethodsAssignment,
-    allowedRequestHeadersAssignment,
+    allowedResponseHeadersAssignment,
     allowedCredentialsAssignment,
   ),
 }

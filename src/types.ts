@@ -114,6 +114,8 @@ export type GeneratorOverrides = {
   allowedMethods: boolean | HttpMethod[]
 }
 
+export type OverrideField = keyof GeneratorOverrides
+
 export type GeneratorConfiguration = {
   configurationStyle: GeneratorConfigurationStyle
   pathProviderType: PathProviderType
