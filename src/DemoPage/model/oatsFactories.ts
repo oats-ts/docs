@@ -10,6 +10,8 @@ import {
 } from '@oats-ts/openapi'
 import { GeneratorConfiguration, ReaderConfiguration, WriterConfiguration } from '../../types'
 import typescriptParser from 'prettier/parser-typescript'
+import { createPresetConfiguration } from './createPresetConfiguration'
+import { isNil } from 'lodash'
 
 export function createReader(input: ReaderConfiguration) {
   switch (input.readerType) {
@@ -24,8 +26,11 @@ function createGeneratorChildren(input: GeneratorConfiguration) {
   switch (input.configurationStyle) {
     case 'generators':
       return input.generators.map((target) => generators.create(target))
-    case 'preset':
-      return presets[input.preset]()
+    case 'preset': {
+      const config = createPresetConfiguration(input.preset, input.presetConfig)
+      const factory = presets[input.preset]
+      return isNil(config) ? factory() : factory(config)
+    }
     default:
       return []
   }

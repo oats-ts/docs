@@ -21,7 +21,7 @@ import {
   WriterConfiguration,
   PrettierConfiguration,
   ValidatorConfiguration,
-  GeneratorOverrides,
+  PresetConfig,
 } from '../../types'
 
 const commentConfigValidator = object(
@@ -72,8 +72,8 @@ const strArrOrBool = union({
   boolean: boolean(),
 })
 
-const overridesValidator = object(
-  shape<GeneratorOverrides>({
+const presetConfigValidator = object(
+  shape<PresetConfig>({
     allowCredentials: optional(boolean()),
     allowedMethods: optional(strArrOrBool),
     allowedOrigins: optional(strArrOrBool),
@@ -81,9 +81,8 @@ const overridesValidator = object(
     allowedResponseHeaders: optional(strArrOrBool),
     documentation: optional(boolean()),
     maxAge: optional(number()),
-    parseSetCookieHeaders: optional(boolean()),
-    sendCookieHeader: optional(boolean()),
-    validateClientResponses: optional(boolean()),
+    debugCookies: optional(boolean()),
+    validateResponses: optional(boolean()),
   }),
 )
 
@@ -106,7 +105,7 @@ const generatorConfigValidator = object(
       server: literal('server'),
     }),
     rootPath: string(),
-    overrides: overridesValidator,
+    presetConfig: presetConfigValidator,
   }),
 )
 

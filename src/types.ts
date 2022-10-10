@@ -101,11 +101,10 @@ export type ValidatorConfiguration = {
   enabled: boolean
 }
 
-export type GeneratorOverrides = {
+export type PresetConfig = {
   documentation: boolean
-  sendCookieHeader: boolean
-  parseSetCookieHeaders: boolean
-  validateClientResponses: boolean
+  debugCookies: boolean
+  validateResponses: boolean
   allowCredentials: boolean
   maxAge: number
   allowedOrigins: boolean | string[]
@@ -114,7 +113,7 @@ export type GeneratorOverrides = {
   allowedMethods: boolean | HttpMethod[]
 }
 
-export type OverrideField = keyof GeneratorOverrides
+export type PresetConfigField = keyof PresetConfig
 
 export type GeneratorConfiguration = {
   configurationStyle: GeneratorConfigurationStyle
@@ -122,7 +121,7 @@ export type GeneratorConfiguration = {
   rootPath: string
   preset: GeneratorPreset
   generators: OpenAPIGeneratorTarget[]
-  overrides: Partial<GeneratorOverrides>
+  presetConfig: Partial<PresetConfig>
 }
 
 export type PrettierConfiguration = Pick<

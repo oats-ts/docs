@@ -55,7 +55,7 @@ export function useGenerator(): GeneratorContextType {
           pathProviderType: 'default',
           rootPath: '/',
           configurationStyle: 'preset',
-          overrides: {},
+          presetConfig: {},
           generators: [],
         },
         writer: {
@@ -140,10 +140,11 @@ export function useGenerator(): GeneratorContextType {
       emitter.addListener('validator-step-completed', ({ issues: validatorIssues }) => {
         setIssues({ type: 'issues', issues: validatorIssues })
       })
-      emitter.addListener('generator-step-completed', ({ dependencies }) => {
+      emitter.addListener('generator-step-completed', ({ dependencies, issues: genIssues }) => {
         getVersionMap('typescript', 'ts-node')
           .then((versionMap) => getPackageJsonSource(dependencies, versionMap))
           .then((source) => setPackageJson({ ...packageJson, source }))
+        setIssues({ ...issues, issues: [...issues.issues, ...genIssues] })
       })
     }
     generate({

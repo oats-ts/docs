@@ -14,7 +14,6 @@ import {
   SyntaxKind,
   addSyntheticLeadingComment,
   Node,
-  Expression,
 } from 'typescript'
 import typescriptParser from 'prettier/parser-typescript'
 import prettier from 'prettier/standalone'
@@ -22,9 +21,7 @@ import { isNil } from 'lodash'
 import { CommentConfig } from '@oats-ts/typescript-writer'
 import { defaultPrettierConfig } from './deafultPrettierConfig'
 import YAML from 'yamljs'
-import { OpenAPIGeneratorTarget } from '@oats-ts/openapi-common'
-import { getOverrideConfigAst } from './getOverrideConfigAst'
-import { getGeneratorTargets } from './getGeneratorTargets'
+import { getPresetConfigAst } from './getPresetConfigAst'
 
 function comment<T extends Node>(node: T, comment: string): T {
   return addSyntheticLeadingComment(node, SyntaxKind.SingleLineCommentTrivia, ` ${comment}`, true)
@@ -132,14 +129,13 @@ function getReaderAst(reader: ReaderConfiguration) {
 function getGenerators(generator: GeneratorConfiguration) {
   return factory.createArrayLiteralExpression(
     generator.generators.map((target) => {
-      const overrides = getOverrideConfigAst(target, generator.overrides)
       return factory.createCallExpression(
         factory.createPropertyAccessExpression(
           factory.createIdentifier('generators'),
           factory.createIdentifier('create'),
         ),
         undefined,
-        [factory.createStringLiteral(target), ...(isNil(overrides) ? [] : [overrides])],
+        [factory.createStringLiteral(target)],
       )
     }),
     true,
@@ -147,26 +143,14 @@ function getGenerators(generator: GeneratorConfiguration) {
 }
 
 function getPreset(generator: GeneratorConfiguration) {
-  const overrides = getGeneratorTargets(generator)
-    .map((target): [OpenAPIGeneratorTarget, Expression | undefined] => [
-      target,
-      getOverrideConfigAst(target, generator.overrides),
-    ])
-    .filter((pair): pair is [OpenAPIGeneratorTarget, Expression] => !isNil(pair[1]))
-
-  const overridesObj = factory.createObjectLiteralExpression(
-    overrides.map(([name, expr]) => factory.createPropertyAssignment(factory.createStringLiteral(name), expr)),
-  )
-
+  const props = getPresetConfigAst(generator.presetConfig, generator.preset)
   return factory.createCallExpression(
     factory.createPropertyAccessExpression(
       factory.createIdentifier('presets'),
       factory.createIdentifier(generator.preset),
     ),
     undefined,
-    overrides.length === 0
-      ? []
-      : [factory.createObjectLiteralExpression([factory.createPropertyAssignment('overrides', overridesObj)])],
+    props.length > 0 ? [factory.createObjectLiteralExpression(props, true)] : [],
   )
 }
 

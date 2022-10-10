@@ -3,7 +3,7 @@ import { Checkbox, Form } from 'semantic-ui-react'
 import { MutedLabel } from '../MutedLabel'
 import { OverrideEditorProps } from './OverrideEditorProps'
 
-export const ValidateClientResponsesEditor: FC<OverrideEditorProps> = ({ data, onChange }) => {
+export const ValidateResponsesEditor: FC<OverrideEditorProps> = ({ data, onChange }) => {
   return (
     <Form.Field>
       <label>
@@ -14,8 +14,8 @@ export const ValidateClientResponsesEditor: FC<OverrideEditorProps> = ({ data, o
         </MutedLabel>
       </label>
       <Checkbox
-        onChange={(_, props) => onChange({ ...data, validateClientResponses: Boolean(props.checked) })}
-        checked={data.validateClientResponses ?? false}
+        onChange={(_, props) => onChange({ ...data, validateResponses: Boolean(props.checked) })}
+        checked={data.validateResponses ?? false}
       />
     </Form.Field>
   )

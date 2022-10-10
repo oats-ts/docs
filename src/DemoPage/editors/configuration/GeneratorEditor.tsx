@@ -14,7 +14,7 @@ import {
 import { GeneratorConfigurationStyle, GeneratorConfiguration, GeneratorPreset, PathProviderType } from '../../../types'
 import { allGenerators } from '../../model/allGenerators'
 import { wrapperStyle } from '../commonStyles'
-import { GeneratorOverridesEditor } from './GeneratorOverridesEditor'
+import { PresetConfigurationEditor } from './PresetConfigurationEditor'
 
 const headerWrapperStyle = css`
   display: flex;
@@ -87,8 +87,8 @@ export const GeneratorEditor: FC<GeneratorEditorProps> = ({ isDark, input, onCha
     onChange({ ...input, rootPath })
   }
 
-  const onResetOverrides = () => {
-    onChange({ ...input, overrides: {} })
+  const onResetPresetConfig = () => {
+    onChange({ ...input, presetConfig: {} })
   }
 
   return (
@@ -96,48 +96,46 @@ export const GeneratorEditor: FC<GeneratorEditorProps> = ({ isDark, input, onCha
       <Header as="h2">Generator settings</Header>
       <Form inverted={isDark}>
         <Header as="h3">Basic settings</Header>
-        <Form.Group widths="equal">
+        <Form.Field>
+          <label>Configuration style</label>
+          <Dropdown
+            placeholder="Configuration style"
+            fluid
+            selection
+            options={configurationStyleOptions}
+            onChange={onConfigurationStyleChange}
+            value={input.configurationStyle}
+          />
+        </Form.Field>
+        {input.configurationStyle === 'preset' && (
           <Form.Field>
-            <label>Configuration style</label>
+            <label>Preset</label>
             <Dropdown
-              placeholder="Configuration style"
+              placeholder="Preset"
               fluid
               selection
-              options={configurationStyleOptions}
-              onChange={onConfigurationStyleChange}
-              value={input.configurationStyle}
+              options={presetOptions}
+              onChange={onPresetChange}
+              value={input.preset}
             />
           </Form.Field>
-          {input.configurationStyle === 'preset' && (
-            <Form.Field>
-              <label>Preset</label>
-              <Dropdown
-                placeholder="Preset"
-                fluid
-                selection
-                options={presetOptions}
-                onChange={onPresetChange}
-                value={input.preset}
-              />
-            </Form.Field>
-          )}
-          {input.configurationStyle === 'generators' && (
-            <Form.Field>
-              <label>Generators</label>
-              <Dropdown
-                placeholder="Generators"
-                fluid
-                multiple
-                search
-                selection
-                clearable
-                options={generatorOptions}
-                onChange={onGeneratorsChange}
-                value={input.generators}
-              />
-            </Form.Field>
-          )}
-        </Form.Group>
+        )}
+        {input.configurationStyle === 'generators' && (
+          <Form.Field>
+            <label>Generators</label>
+            <Dropdown
+              placeholder="Generators"
+              fluid
+              multiple
+              search
+              selection
+              clearable
+              options={generatorOptions}
+              onChange={onGeneratorsChange}
+              value={input.generators}
+            />
+          </Form.Field>
+        )}
         <Form.Group widths="equal">
           <Form.Field>
             <label>Path provider type</label>
@@ -155,15 +153,19 @@ export const GeneratorEditor: FC<GeneratorEditorProps> = ({ isDark, input, onCha
             <Input placeholder="Root path" fluid onChange={onPathRootChange} value={input.rootPath} />
           </Form.Field>
         </Form.Group>
-        <div className={headerWrapperStyle}>
-          <Header as="h3" className={headerLabelStyle}>
-            Individual generator settings
-          </Header>
-          <Button size="mini" secondary onClick={onResetOverrides}>
-            Reset
-          </Button>
-        </div>
-        <GeneratorOverridesEditor input={input} isDark={isDark} onChange={onChange} />
+        {input.configurationStyle === 'preset' ? (
+          <>
+            <div className={headerWrapperStyle}>
+              <Header as="h3" className={headerLabelStyle}>
+                Preset configuration
+              </Header>
+              <Button size="mini" secondary onClick={onResetPresetConfig}>
+                Reset
+              </Button>
+            </div>
+            <PresetConfigurationEditor input={input} isDark={isDark} onChange={onChange} />
+          </>
+        ) : null}
       </Form>
     </div>
   )

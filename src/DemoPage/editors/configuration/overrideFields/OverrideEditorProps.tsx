@@ -1,8 +1,8 @@
-import { GeneratorOverrides, OverrideField } from '../../../../types'
+import { PresetConfig, PresetConfigField } from '../../../../types'
 
 export type OverrideEditorProps = {
   isDark: boolean
-  field: OverrideField
-  data: Partial<GeneratorOverrides>
-  onChange: (data: Partial<GeneratorOverrides>) => void
+  field: PresetConfigField
+  data: Partial<PresetConfig>
+  onChange: (data: Partial<PresetConfig>) => void
 }

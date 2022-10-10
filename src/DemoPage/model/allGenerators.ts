@@ -36,6 +36,7 @@ const generatorsMap: Record<OpenAPIGeneratorTarget, boolean> = {
   'oats/express-app-router-factory': true,
   'oats/express-cors-router-factory': true,
   'oats/express-context-handler-factory': true,
+  'oats/cors-configuration': true,
 }
 
 export const allGenerators = Object.keys(generatorsMap) as OpenAPIGeneratorTarget[]

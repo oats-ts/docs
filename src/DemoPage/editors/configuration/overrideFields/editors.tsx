@@ -1,5 +1,5 @@
 import { FC } from 'react'
-import { OverrideField } from '../../../../types'
+import { PresetConfigField } from '../../../../types'
 import { AllowCredentialsEditor } from './AllowCredentialsEditor'
 import { AllowedMethodsEditor } from './AllowedMethodsEditor'
 import { AllowedOriginsEditor } from './AllowedOriginsEditor'
@@ -8,15 +8,13 @@ import { AllowedResponseHeadersEditor } from './AllowedResponseHeadersEditor'
 import { DocumentationEditor } from './DocumentationEditor'
 import { MaxAgeEditor } from './MaxAgeEditor'
 import { OverrideEditorProps } from './OverrideEditorProps'
-import { ParseSetCookieHeaderEditor } from './ParseSetCookieHeaderEditor'
-import { SetCookieHeaderEditor } from './SetCookieHeaderEditor'
-import { ValidateClientResponsesEditor } from './ValidateClientResponsesEditor'
+import { DebugCookiesEditor } from './DebugCookiesEditor'
+import { ValidateResponsesEditor } from './ValidateResponsesEditor'
 
-export const editors: Record<OverrideField, FC<OverrideEditorProps>> = {
+export const editors: Record<PresetConfigField, FC<OverrideEditorProps>> = {
   documentation: DocumentationEditor,
-  validateClientResponses: ValidateClientResponsesEditor,
-  sendCookieHeader: SetCookieHeaderEditor,
-  parseSetCookieHeaders: ParseSetCookieHeaderEditor,
+  validateResponses: ValidateResponsesEditor,
+  debugCookies: DebugCookiesEditor,
   allowCredentials: AllowCredentialsEditor,
   maxAge: MaxAgeEditor,
   allowedMethods: AllowedMethodsEditor,
