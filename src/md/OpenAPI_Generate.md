@@ -38,20 +38,26 @@ const withDefaults = generator({
 })
 ```
 
-In case the preset mostly suits your needs, but you'd like to override some configurations, you can do that as well:
+Presets offer configuration options, that affect possibly multiple individual generators. In this case we are disabling the documentation for all the generators that support this option:
 
 ```ts
 const withOverrides = generator({
   nameProvider: nameProviders.default(),
   pathProvider: pathProviders.default('src/generated'),
   children: presets.client({
-    overrides: {
-      // Overriding the default configuration of a given generator
-      'oats/type': { documentation: false },
-      // Turn off a generator you don't need (only possible if nothing depends on it)
-      'oats/type-guard': false,
-    },
+    documentation: false,
+    validateResponses: false,
   }),
+})
+```
+
+In case you want to really fine tune presets, you can override the configuration for individual generators as well. In this case we are only generating documentation for types:
+
+```ts
+const withOverrides = generator({
+  nameProvider: nameProviders.default(),
+  pathProvider: pathProviders.default('src/generated'),
+  children: presets.client({ documentation: false }).override({ 'oats/type': { documentation: true } }),
 })
 ```
 
