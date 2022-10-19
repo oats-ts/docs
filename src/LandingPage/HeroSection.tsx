@@ -1,0 +1,67 @@
+import { css, cx } from '@emotion/css'
+import React, { FC } from 'react'
+import { theme } from '../theme'
+import { Button } from './Button'
+import { ctnr } from './css'
+import { GoOctoface } from 'react-icons/go'
+import { HiPlay } from 'react-icons/hi2'
+
+const bannerContainerStyle = css`
+  width: 100%;
+  height: 400px;
+  margin: 0px;
+  padding: 0px;
+`
+
+const bannerContentStyle = css`
+  flex-direction: column;
+  align-items: center;
+  align-content: center;
+  justify-content: center;
+  justify-items: center;
+  gap: 18px;
+  height: 100%;
+`
+
+const calloutText1Style = css`
+  font-size: ${theme.font.hero};
+  color: ${theme.colors.text};
+  margin: 0px;
+  text-align: center;
+`
+
+const calloutText2Style = css`
+  color: ${theme.colors.muted};
+  font-size: ${theme.font.text};
+  font-weight: 400;
+  margin: 0px 0px 20px 0px;
+  width: 70%;
+  text-align: center;
+`
+
+const buttonContainer = css`
+  display: flex;
+  gap: 12px;
+`
+
+export const HeroSection: FC = () => {
+  return (
+    <div className={bannerContainerStyle}>
+      <div className={cx(ctnr, bannerContentStyle)}>
+        <h2 className={calloutText1Style}>TypeScript from OpenAPI, that makes sense.</h2>
+        <h3 className={calloutText2Style}>
+          Customizable, extensible and open source code generators, <br />
+          that output quality TypeScript, from your OpenAPI definitions.
+        </h3>
+        <div className={buttonContainer}>
+          <Button variant="primary">
+            <HiPlay /> Get Started
+          </Button>
+          <Button>
+            <GoOctoface /> Github
+          </Button>
+        </div>
+      </div>
+    </div>
+  )
+}
