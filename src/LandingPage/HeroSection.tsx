@@ -2,16 +2,21 @@ import { css, cx } from '@emotion/css'
 import React, { FC } from 'react'
 import { theme } from '../theme'
 import { Button } from './Button'
-import { ctnr } from './css'
+import { breakpoints, ctnr } from './css'
 import { GoOctoface } from 'react-icons/go'
 import { HiPlay } from 'react-icons/hi2'
 import { Link } from './Link'
 
 const bannerContainerStyle = css`
   width: 100%;
-  height: 400px;
   margin: 0px;
-  padding: 0px;
+  padding: 80px 0px;
+  ${breakpoints.desktop} {
+    padding: 150px 0px;
+  }
+  ${breakpoints.tablet} {
+    padding: 100px 0px;
+  }
 `
 
 const bannerContentStyle = css`
@@ -38,6 +43,7 @@ const calloutText2Style = css`
   margin: 0px 0px 20px 0px;
   width: 70%;
   text-align: center;
+  flex-shrink: 0;
 `
 
 const buttonContainer = css`

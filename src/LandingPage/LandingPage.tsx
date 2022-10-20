@@ -5,10 +5,12 @@ import { Content } from './Content'
 import { Headlines } from './Headlines'
 import { HeroSection } from './HeroSection'
 import { Menu } from './Menu/Menu'
+import { QuickStart } from './QuickStart'
 
 const containerStyle = css`
   width: 100vw;
   height: 100vh;
+  overflow: auto;
   display: flex;
   flex-direction: column;
   margin: 0px;
@@ -23,6 +25,7 @@ export const LandingPage: FC = () => {
       <HeroSection />
       <Content>
         <Headlines />
+        <QuickStart />
       </Content>
     </div>
   )

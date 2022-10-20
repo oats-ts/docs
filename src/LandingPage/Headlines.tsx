@@ -12,6 +12,7 @@ const containerStyle = css`
 
   ${breakpoints.phone} {
     flex-direction: column;
+    gap: 50px;
   }
 `
 

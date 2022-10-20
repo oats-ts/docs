@@ -2,8 +2,8 @@ import { css } from '@emotion/css'
 
 export const breakpoints = {
   desktop: `@media (min-width: 1201px)`,
-  tablet: `@media (min-width: 577px) and (max-width: 1200px) `,
-  phone: `@media (max-width: 576px) `,
+  tablet: `@media (min-width: 651px) and (max-width: 1200px) `,
+  phone: `@media (max-width: 650px) `,
 }
 
 export const ctnr = css`

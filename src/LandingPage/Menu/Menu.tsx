@@ -2,7 +2,7 @@ import { css, cx } from '@emotion/css'
 import React, { FC } from 'react'
 import { HiCog6Tooth, HiDocument, HiHome } from 'react-icons/hi2'
 import { theme } from '../../theme'
-import { ctnr } from '../css'
+import { breakpoints, ctnr } from '../css'
 import { MenuItem } from './MenuItem'
 import { MenuLogo } from './MenuLogo'
 
@@ -24,6 +24,10 @@ const menuContentContainerStyle = css`
 const menuItemsContainerStyle = css`
   display: flex;
   flex-direction: row;
+  ${breakpoints.phone} {
+    /* TODO */
+    display: none;
+  }
 `
 
 export const Menu: FC = () => {

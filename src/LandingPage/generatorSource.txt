@@ -1,0 +1,21 @@
+import * as oats from '@oats-ts/openapi'
+
+const generatorConfig: oats.GeneratorConfig = {
+  logger: oats.loggers.simple(),
+  reader: oats.readers.https.json('https://your.openapi.doc'),
+  // Or if you are generating from a local file:
+  // reader: oats.readers.file.json('openapi.json'),
+  validator: oats.validator(),
+  generator: oats.generator({
+    nameProvider: oats.nameProviders.default(),
+    pathProvider: oats.pathProviders.default('src/generated'),
+    children: oats.presets.fullStack(),
+  }),
+  writer: oats.writers.typescript.file({
+    format: oats.formatters.prettier({
+      parser: 'typescript',
+    }),
+  }),
+}
+
+export default generatorConfig

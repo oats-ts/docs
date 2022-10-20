@@ -11,6 +11,7 @@ export const theme = {
   },
 
   font: {
+    code: '17px',
     text: '18px',
     logo: '24px',
     hero: '28px',
