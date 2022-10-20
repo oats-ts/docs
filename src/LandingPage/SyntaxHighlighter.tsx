@@ -1,26 +1,40 @@
 import { css } from '@emotion/css'
 import React, { CSSProperties, FC, useState } from 'react'
 import { Prism } from 'react-syntax-highlighter'
-import { atomDark } from 'react-syntax-highlighter/dist/esm/styles/prism'
+import * as themes from 'react-syntax-highlighter/dist/esm/styles/prism'
 import { CopyToClipboard } from 'react-copy-to-clipboard'
 import { theme } from '../theme'
 import { HiClipboard, HiCheck } from 'react-icons/hi2'
-import { cloneDeep, isNil, merge } from 'lodash'
+import { cloneDeep, isNil, merge, values } from 'lodash'
 
 export type SyntaxHighlighterProps = {
   children: string
   language?: string
 }
 
-const themeOverrides: Record<string, CSSProperties> = {
-  'pre[class*="language-"]': {
-    backgroundColor: theme.colors.dark1,
-    borderRadius: '10px',
-    width: '100%',
-  },
+function createTheme(baseTheme: Record<string, CSSProperties>): Record<string, CSSProperties> {
+  const themeOverrides: Record<string, CSSProperties> = {
+    'pre[class*="language-"]': {
+      backgroundColor: theme.colors.dark1,
+      borderRadius: '10px',
+      padding: '18px',
+      width: '100%',
+      maxWidth: '100%',
+      borderWidth: '0px',
+    },
+  }
+
+  const clonedTheme = cloneDeep(baseTheme)
+  values(clonedTheme).forEach((field) => {
+    delete field.background
+    delete field.backgroundColor
+    field.textShadow = 'rgb(0 0 0 / 30%) 0px 1px'
+  })
+
+  return merge(clonedTheme, themeOverrides)
 }
 
-const prismTheme = merge(cloneDeep(atomDark), themeOverrides)
+const prismTheme = createTheme(themes.vscDarkPlus)
 
 const copyButtonStyle = css`
   top: 10px;
@@ -35,7 +49,7 @@ const copyButtonStyle = css`
   border-radius: 8px;
   font-weight: 400;
   cursor: pointer;
-  font-size: ${theme.font.text};
+  font-size: ${theme.font.m};
   background-color: ${theme.colors.dark2};
   color: ${theme.colors.text};
   box-shadow: rgba(0, 0, 0, 0.05) 0px 5px 8px;

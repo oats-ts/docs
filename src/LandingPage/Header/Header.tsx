@@ -6,19 +6,18 @@ import { breakpoints, ctnr } from '../css'
 import { MenuItem } from './MenuItem'
 import { MenuLogo } from './MenuLogo'
 
-const menuStyle = css`
+const headerStyle = css`
   width: 100%;
-  height: 80px;
   margin: 0px;
   padding: 0px;
 `
 
-const menuContentContainerStyle = css`
-  height: 100%;
+const containerStyle = css`
+  height: 90px;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  font-size: ${theme.font.text};
+  font-size: ${theme.font.m};
 `
 
 const menuItemsContainerStyle = css`
@@ -30,10 +29,10 @@ const menuItemsContainerStyle = css`
   }
 `
 
-export const Menu: FC = () => {
+export const Header: FC = () => {
   return (
-    <header className={menuStyle}>
-      <div className={cx(menuContentContainerStyle, ctnr)}>
+    <header className={headerStyle}>
+      <div className={cx(containerStyle, ctnr)}>
         <MenuLogo href="" />
         <ul className={menuItemsContainerStyle}>
           <MenuItem label="Home" icon={HiHome} href="" active={true} />

@@ -32,18 +32,18 @@ const circleStyle = css`
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: ${theme.font.logo};
+  font-size: ${theme.font.l};
 `
 
 const titleStyle = css`
-  font-size: ${theme.font.text};
+  font-size: ${theme.font.m};
   color: ${theme.colors.text};
   text-transform: uppercase;
 `
 
 const contentStyle = css`
   color: ${theme.colors.muted};
-  font-size: ${theme.font.text};
+  font-size: ${theme.font.m};
 `
 
 const contentContainerStyle = css`

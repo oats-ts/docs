@@ -13,7 +13,7 @@ const containerStyle = css`
 `
 
 const titleStyle = css`
-  font-size: ${theme.font.hero};
+  font-size: ${theme.font.xl};
   color: ${theme.colors.text};
   margin-top: 70px;
   margin-bottom: 0px;
@@ -30,7 +30,7 @@ export const QuickStart: FC = () => {
         <IoRocketSharp /> Quick start
       </h2>
       <div className={containerStyle}>
-        <QuickStartItem index={1} title="The OpenAPI document">
+        <QuickStartItem index={1} title="Prepare your OpenAPI document">
           You need an OpenAPI document to start with. In case you don't have one already, try this example:
           <SyntaxHighlighter>
             https://raw.githubusercontent.com/oats-ts/oats-schemas/master/schemas/book-store.json

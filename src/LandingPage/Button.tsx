@@ -36,7 +36,7 @@ const buttonStyle = css`
   position: relative;
   font-weight: 400;
   cursor: pointer;
-  font-size: ${theme.font.text};
+  font-size: ${theme.font.m};
   box-shadow: rgba(0, 0, 0, 0.05) 0px 5px 8px;
   &:hover {
     box-shadow: rgba(0, 0, 0, 0.2) 0px 5px 18px;

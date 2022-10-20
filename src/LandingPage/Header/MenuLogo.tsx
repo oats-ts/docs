@@ -14,7 +14,7 @@ const oatsLabelStyle = css`
   font-weight: 700;
   margin: 0px;
   padding: 0px;
-  font-size: ${theme.font.logo};
+  font-size: ${theme.font.l};
   color: ${theme.colors.text};
 `
 

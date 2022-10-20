@@ -15,11 +15,11 @@ const heightToWidth = height / width
 
 function getDimensions(w?: number, h?: number): [number, number] {
   if (w !== undefined && h === undefined) {
-    return [w, widthToHeight * w]
+    return [w, heightToWidth * w]
   }
 
   if (h !== undefined && w === undefined) {
-    return [h, heightToWidth * h]
+    return [h, widthToHeight * h]
   }
 
   if (w !== undefined && h !== undefined) {

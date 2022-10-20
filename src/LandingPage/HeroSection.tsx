@@ -12,10 +12,10 @@ const bannerContainerStyle = css`
   margin: 0px;
   padding: 80px 0px;
   ${breakpoints.desktop} {
-    padding: 150px 0px;
+    padding: 100px 0px;
   }
   ${breakpoints.tablet} {
-    padding: 100px 0px;
+    padding: 80px 0px;
   }
 `
 
@@ -30,7 +30,7 @@ const bannerContentStyle = css`
 `
 
 const calloutText1Style = css`
-  font-size: ${theme.font.hero};
+  font-size: ${theme.font.xl};
   color: ${theme.colors.text};
   margin: 0px;
   text-align: center;
@@ -38,7 +38,7 @@ const calloutText1Style = css`
 
 const calloutText2Style = css`
   color: ${theme.colors.muted};
-  font-size: ${theme.font.text};
+  font-size: ${theme.font.m};
   font-weight: 400;
   margin: 0px 0px 20px 0px;
   width: 70%;

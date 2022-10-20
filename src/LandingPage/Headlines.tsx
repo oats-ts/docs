@@ -18,7 +18,7 @@ const containerStyle = css`
 
 const itemContainerStyle = css`
   color: ${theme.colors.muted};
-  font-size: ${theme.font.text};
+  font-size: ${theme.font.m};
 `
 
 const itemHeaderStyle = css`
@@ -27,7 +27,7 @@ const itemHeaderStyle = css`
   gap: 6px;
   text-transform: uppercase;
   color: ${theme.colors.text};
-  font-size: ${theme.font.text};
+  font-size: ${theme.font.m};
   margin-top: 0px;
 `
 

@@ -14,5 +14,5 @@ const contentStyle = css`
 `
 
 export const Content: FC<ContentProps> = ({ children }) => {
-  return <div className={cx(contentStyle, ctnr)}>{children}</div>
+  return <main className={cx(contentStyle, ctnr)}>{children}</main>
 }
