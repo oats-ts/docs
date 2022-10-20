@@ -5,6 +5,7 @@ import { Button } from './Button'
 import { ctnr } from './css'
 import { GoOctoface } from 'react-icons/go'
 import { HiPlay } from 'react-icons/hi2'
+import { Link } from './Link'
 
 const bannerContainerStyle = css`
   width: 100%;
@@ -48,10 +49,11 @@ export const HeroSection: FC = () => {
   return (
     <div className={bannerContainerStyle}>
       <div className={cx(ctnr, bannerContentStyle)}>
-        <h2 className={calloutText1Style}>TypeScript from OpenAPI, that makes sense.</h2>
+        <h2 className={calloutText1Style}>Generate TypeScript from OpenAPI, that makes sense.</h2>
         <h3 className={calloutText2Style}>
-          Customizable, extensible and open source code generators, <br />
-          that output quality TypeScript, from your OpenAPI definitions.
+          Customizable, extensible and <b>open source</b> code generators, that output quality{' '}
+          <Link href="https://www.typescriptlang.org">TypeScript</Link>, from your{' '}
+          <Link href="https://www.openapis.org">OpenAPI</Link> definitions.
         </h3>
         <div className={buttonContainer}>
           <Button variant="primary">

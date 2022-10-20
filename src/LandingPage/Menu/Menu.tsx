@@ -8,7 +8,7 @@ import { MenuLogo } from './MenuLogo'
 
 const menuStyle = css`
   width: 100%;
-  height: 70px;
+  height: 80px;
   margin: 0px;
   padding: 0px;
 `
@@ -28,7 +28,7 @@ const menuItemsContainerStyle = css`
 
 export const Menu: FC = () => {
   return (
-    <div className={menuStyle}>
+    <header className={menuStyle}>
       <div className={cx(menuContentContainerStyle, ctnr)}>
         <MenuLogo href="" />
         <ul className={menuItemsContainerStyle}>
@@ -37,6 +37,6 @@ export const Menu: FC = () => {
           <MenuItem label="Editor" icon={HiCog6Tooth} href="" />
         </ul>
       </div>
-    </div>
+    </header>
   )
 }

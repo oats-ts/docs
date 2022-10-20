@@ -1,5 +1,6 @@
 import React, { FC, PropsWithChildren } from 'react'
-import { css } from '@emotion/css'
+import { css, cx } from '@emotion/css'
+import { ctnr } from './css'
 
 export type ContentProps = PropsWithChildren
 
@@ -8,8 +9,10 @@ const contentStyle = css`
   flex: 1 1 1px;
   margin: 0px;
   padding: 0px;
+  display: flex;
+  flex-direction: column;
 `
 
-export const Content: FC = () => {
-  return <div className={contentStyle}></div>
+export const Content: FC<ContentProps> = ({ children }) => {
+  return <div className={cx(contentStyle, ctnr)}>{children}</div>
 }

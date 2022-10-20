@@ -30,7 +30,7 @@ const anchorStyle = css`
     bottom: -4px;
     left: 0;
     width: 100%;
-    height: 0.1em;
+    height: 2px;
     background-color: ${theme.colors.text};
     opacity: 0;
     transition: opacity 300ms, transform 300ms;

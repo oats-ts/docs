@@ -2,6 +2,7 @@ import { css } from '@emotion/css'
 import React, { FC } from 'react'
 import { theme } from '../theme'
 import { Content } from './Content'
+import { Headlines } from './Headlines'
 import { HeroSection } from './HeroSection'
 import { Menu } from './Menu/Menu'
 
@@ -20,7 +21,9 @@ export const LandingPage: FC = () => {
     <div className={containerStyle}>
       <Menu />
       <HeroSection />
-      <Content />
+      <Content>
+        <Headlines />
+      </Content>
     </div>
   )
 }
