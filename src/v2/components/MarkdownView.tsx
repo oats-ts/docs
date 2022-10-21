@@ -22,6 +22,45 @@ const h3Style = css`
   font-size: ${theme.font.m};
 `
 
+const codeStyle = css`
+  font-size: ${theme.font.code};
+  color: ${theme.colors.text};
+  background-color: ${theme.colors.dark1};
+  padding: 2px 4px;
+  border-radius: 6px;
+`
+const tableContainerStyle = css`
+  border-radius: 10px;
+  overflow: hidden;
+  border: 2px solid ${theme.colors.dark1};
+  margin: 1px;
+`
+
+const tableStyle = css`
+  border-collapse: collapse;
+`
+
+const headerRowStyle = css`
+  background-color: ${theme.colors.dark1};
+`
+
+const tdStyle = css`
+  padding: 10px;
+`
+
+const thStyle = css`
+  color: ${theme.colors.text};
+  padding: 18px 10px;
+  text-align: left;
+  border: 2px solid ${theme.colors.dark1};
+`
+
+const trStyle = css`
+  border: 2px solid ${theme.colors.dark1};
+  border-left-width: 0px;
+  border-right-width: 0px;
+`
+
 export type MarkdownViewProps = {
   page?: keyof typeof markdown
 }
@@ -50,8 +89,21 @@ const components: Options['components'] = {
   h3({ children }) {
     return <h3 className={h3Style}>{children}</h3>
   },
-  table({ className, children }) {
-    return <table className={className}>{children}</table>
+  table({ children }) {
+    return (
+      <div className={tableContainerStyle}>
+        <table className={tableStyle}>{children}</table>
+      </div>
+    )
+  },
+  tr({ children, isHeader }) {
+    return <tr className={isHeader ? headerRowStyle : trStyle}>{children}</tr>
+  },
+  th({ children }) {
+    return <th className={thStyle}>{children}</th>
+  },
+  td({ children }) {
+    return <td className={tdStyle}>{children}</td>
   },
   a({ href, children }) {
     return <Link href={href}>{children}</Link>
@@ -62,7 +114,7 @@ const components: Options['components'] = {
       return <SyntaxHighlighter language={match[1]}>{String(children).replace(/\n$/, '')}</SyntaxHighlighter>
     }
     return (
-      <code className={className} {...props}>
+      <code className={codeStyle} {...props}>
         {children}
       </code>
     )

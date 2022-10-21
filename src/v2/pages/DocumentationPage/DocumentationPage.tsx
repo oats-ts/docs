@@ -1,10 +1,14 @@
-import { css } from '@emotion/css'
+import { css, cx } from '@emotion/css'
 import { version } from '@oats-ts/oats-ts'
-import React, { FC } from 'react'
+import React, { FC, Fragment } from 'react'
+import { HiChevronRight } from 'react-icons/hi2'
+import { useParams } from 'react-router-dom'
+import { MarkdowPageName } from '../../../md/markdown'
 import { AppContainer } from '../../components/AppContainer'
 import { Logo } from '../../components/Logo'
 import { MarkdownView } from '../../components/MarkdownView'
 import { theme } from '../../theme'
+import { sections } from './sections'
 
 const menuStyle = css`
   label: documentation-menu;
@@ -12,6 +16,7 @@ const menuStyle = css`
   display: flex;
   flex-direction: column;
   padding: 14px;
+  overflow: auto;
 `
 
 const logoContainerStyle = css`
@@ -46,16 +51,36 @@ const versionLabelStyle = css`
   font-size: ${theme.font.s};
   color: ${theme.colors.muted};
 `
+
+const sectionContainerStyle = css`
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-bottom: 20px;
+`
+
 const docItemStyle = css`
+  display: flex;
+  flex-direction: row;
   font-size: ${theme.font.m};
   color: ${theme.colors.muted};
   padding: 10px 14px;
-  transition: background-color 150ms linear;
+  transition: background-color 150ms linear, color 150ms linear;
   border-radius: 12px;
   cursor: pointer;
+  text-decoration: none;
   &:hover {
     background-color: ${theme.colors.dark1};
   }
+`
+
+const docItemLabelStyle = css`
+  flex: 1 1 1px;
+`
+
+const activeDocItemStyle = css`
+  background-color: ${theme.colors.dark1};
+  color: ${theme.colors.text};
 `
 
 const sectionTitleStyle = css`
@@ -69,13 +94,22 @@ const sectionTitleStyle = css`
 const contentContainerStyle = css`
   flex: 1 1 1px;
   overflow: auto;
-  padding: 14px;
+  padding: 20px 20px 20px 10px;
   color: ${theme.colors.muted};
+  font-size: ${theme.font.m};
+  line-height: 140%;
+`
+
+const containerStyle = css`
+  overflow: hidden;
 `
 
 export const DocumentationPage: FC = () => {
+  const { page } = useParams<{ page: MarkdowPageName }>()
+  const activePage = page ?? 'OpenAPI_GettingStarted'
+
   return (
-    <AppContainer direction="horizontal">
+    <AppContainer direction="horizontal" className={containerStyle}>
       <div className={menuStyle}>
         <a className={logoContainerStyle} href="#">
           <Logo width={60} />
@@ -86,19 +120,26 @@ export const DocumentationPage: FC = () => {
             <span className={versionLabelStyle}>v{version}</span>
           </div>
         </a>
-        <div className={sectionTitleStyle}>Guides</div>
-        <div className={docItemStyle}>Getting started</div>
-        <div className={docItemStyle}>Build an SDK</div>
-        <div className={docItemStyle}>Build the backend</div>
-        <div className={docItemStyle}>Custom generators</div>
-        <div className={sectionTitleStyle}>API</div>
-        <div className={docItemStyle}>Getting started</div>
-        <div className={docItemStyle}>Build an SDK</div>
-        <div className={docItemStyle}>Build the backend</div>
-        <div className={docItemStyle}>Customize generators</div>
+        {sections.map((section) => (
+          <Fragment key={section.name}>
+            <div className={sectionTitleStyle}>{section.name}</div>
+            <div className={sectionContainerStyle}>
+              {section.items.map((item) => {
+                const href = `#/documentation/${item.md}`
+                const isActive = item.md === activePage
+                const itemClassName = isActive ? cx(docItemStyle, activeDocItemStyle) : docItemStyle
+                return (
+                  <a href={href} className={itemClassName}>
+                    <span className={docItemLabelStyle}>{item.name}</span> {isActive && <HiChevronRight />}
+                  </a>
+                )
+              })}
+            </div>
+          </Fragment>
+        ))}
       </div>
       <div className={contentContainerStyle}>
-        <MarkdownView page="OpenAPI_Read" />
+        <MarkdownView page={activePage} />
       </div>
     </AppContainer>
   )

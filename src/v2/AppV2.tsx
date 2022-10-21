@@ -9,6 +9,7 @@ export const AppV2: FC = () => {
     <Routes>
       <Route index element={<LandingPage />} />
       <Route path="documentation" element={<DocumentationPage />} />
+      <Route path="documentation/:page" element={<DocumentationPage />} />
     </Routes>
   )
 }

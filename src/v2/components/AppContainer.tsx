@@ -27,9 +27,10 @@ const horizontalStyle = css`
 
 export type AppContainerProps = PropsWithChildren & {
   direction: 'vertical' | 'horizontal'
+  className?: string
 }
 
-export const AppContainer: FC<AppContainerProps> = ({ children, direction }) => {
-  const clsName = cx(containerStyle, direction === 'horizontal' ? horizontalStyle : verticalStyle)
+export const AppContainer: FC<AppContainerProps> = ({ children, direction, className }) => {
+  const clsName = cx(containerStyle, direction === 'horizontal' ? horizontalStyle : verticalStyle, className)
   return <div className={clsName}>{children}</div>
 }
