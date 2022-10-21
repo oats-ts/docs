@@ -38,9 +38,9 @@ export const Header: FC = () => {
       <div className={cx(containerStyle, ctnr)}>
         <MenuLogo href="" />
         <ul className={menuItemsContainerStyle}>
-          <MenuItem label="Home" icon={HiHome} href="" active={true} />
-          <MenuItem label="Documentation" icon={HiDocument} href="" />
-          <MenuItem label="Editor" icon={HiCog6Tooth} href="" />
+          <MenuItem label="Home" icon={HiHome} href="#/" active={true} />
+          <MenuItem label="Documentation" icon={HiDocument} href="#/documentation" />
+          <MenuItem label="Configuration Editor" icon={HiCog6Tooth} href="#/" />
         </ul>
       </div>
     </header>

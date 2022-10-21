@@ -4,7 +4,7 @@ import { theme } from '../theme'
 import { Button } from './Button'
 import { breakpoints, ctnr } from '../css'
 import { GoOctoface } from 'react-icons/go'
-import { HiPlay } from 'react-icons/hi2'
+import { HiCog6Tooth, HiPlay } from 'react-icons/hi2'
 import { Link } from './Link'
 
 const heroSectionStyle = css`
@@ -69,6 +69,9 @@ export const HeroSection: FC = () => {
         <div className={buttonContainer}>
           <Button variant="primary">
             <HiPlay /> Get Started
+          </Button>
+          <Button>
+            <HiCog6Tooth /> Try Editor
           </Button>
           <Button>
             <GoOctoface /> Github

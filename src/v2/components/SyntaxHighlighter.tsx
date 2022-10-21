@@ -93,7 +93,7 @@ export const SyntaxHighlighter: FC<SyntaxHighlighterProps> = ({ children, langua
 
   return (
     <div className={containerStyle} onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave}>
-      <Prism language={language} style={prismTheme}>
+      <Prism language={language} style={prismTheme} wrapLongLines={true}>
         {children}
       </Prism>
       <CopyToClipboard text={children} onCopy={onCopy}>

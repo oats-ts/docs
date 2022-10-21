@@ -73,7 +73,7 @@ export const MenuItem: FC<MenuItemProps> = ({ label, active, href, icon: Icon })
   const fullAnchorStyle = cx(anchorStyle, active ? activeStyle : undefined)
   return (
     <li className={menuItemStyle}>
-      <a href={`#${href}`} className={fullAnchorStyle}>
+      <a href={href} className={fullAnchorStyle}>
         <Icon size="20px" />
         <span>{label}</span>
       </a>
