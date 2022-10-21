@@ -20,13 +20,11 @@ const oatsLabelStyle = css`
   color: ${theme.colors.text};
 `
 
-type MenuLogoProps = {
-  href: string
-}
+type MenuLogoProps = {}
 
-export const MenuLogo: FC<MenuLogoProps> = ({ href }) => {
+export const MenuLogo: FC<MenuLogoProps> = () => {
   return (
-    <a className={logoContainerStyle} href={`#${href}`}>
+    <a className={logoContainerStyle} href="#">
       <Logo width={60} />
       <h1 className={oatsLabelStyle}>Oats</h1>
     </a>

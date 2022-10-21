@@ -11,10 +11,10 @@ export const theme = {
   },
 
   font: {
-    code: '1.1em',
-    s: '0.8em',
-    m: '1.2em',
-    l: '1.8em',
-    xl: '2em',
+    code: '1.1rem',
+    s: '1rem',
+    m: '1.2rem',
+    l: '1.8rem',
+    xl: '2rem',
   },
 }

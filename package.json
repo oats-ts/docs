@@ -68,7 +68,7 @@
     "react-dom": "18.2.0",
     "react-icons": "4.6.0",
     "react-markdown": "8.0.3",
-    "react-router-dom": "6.3.0",
+    "react-router-dom": "6.4.2",
     "react-syntax-highlighter": "15.5.0",
     "remark-gfm": "3.0.1",
     "semantic-ui-css": "2.4.1",
