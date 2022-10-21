@@ -4,10 +4,12 @@ import { IconType } from 'react-icons'
 import { theme } from '../theme'
 
 const activeStyle = css`
+  label: active-menu-item;
   color: ${theme.colors.text};
 `
 
 const anchorStyle = css`
+  label: menu-item-anchor;
   position: relative;
   text-decoration: none;
   color: ${theme.colors.muted};
@@ -51,6 +53,7 @@ const anchorStyle = css`
 `
 
 const menuItemStyle = css`
+  label: menu-item;
   height: 100%;
   padding: 0px 24px;
   color: ${theme.colors.text};

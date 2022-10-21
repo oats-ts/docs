@@ -9,10 +9,12 @@ import { Link } from './Link'
 import generatorSource from 'raw-loader!./generatorSource.txt'
 
 const containerStyle = css`
+  label: quick-start;
   margin-bottom: 40px;
 `
 
 const titleStyle = css`
+  label: quick-start-title;
   font-size: ${theme.font.xl};
   color: ${theme.colors.text};
   margin-top: 70px;

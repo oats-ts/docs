@@ -5,6 +5,7 @@ import { theme } from '../theme'
 import { Link } from './Link'
 
 const footerStyle = css`
+  label: footer;
   background-color: ${theme.colors.dark1};
   box-sizing: border-box;
   width: 100%;

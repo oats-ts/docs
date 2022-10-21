@@ -6,6 +6,7 @@ import { Button } from './Button'
 import { breakpoints } from '../css'
 
 const containerStyle = css`
+  label: headlines;
   display: flex;
   flex-direction: row;
   gap: 24px;
@@ -17,11 +18,13 @@ const containerStyle = css`
 `
 
 const itemContainerStyle = css`
+  label: headlines-items-container;
   color: ${theme.colors.muted};
   font-size: ${theme.font.m};
 `
 
 const itemHeaderStyle = css`
+  label: headlines-item-header;
   display: flex;
   align-items: center;
   gap: 6px;
@@ -32,6 +35,7 @@ const itemHeaderStyle = css`
 `
 
 const itemContentStyle = css`
+  label: headlines-item-content;
   margin-bottom: 24px;
   flex: 1 1 1px;
 `

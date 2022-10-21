@@ -8,6 +8,7 @@ type ButtonProps = PropsWithChildren & {
 }
 
 const secondaryButtonStyle = css`
+  label: secondary-button;
   color: ${theme.colors.text};
   background-color: ${theme.colors.dark1};
 
@@ -17,6 +18,7 @@ const secondaryButtonStyle = css`
 `
 
 const primaryButtonStyle = css`
+  label: primary-button;
   color: ${theme.colors.text};
   background-color: ${theme.colors.green};
 
@@ -26,6 +28,7 @@ const primaryButtonStyle = css`
 `
 
 const buttonStyle = css`
+  label: button;
   display: flex;
   gap: 8px;
   align-items: center;

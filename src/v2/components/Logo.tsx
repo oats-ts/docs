@@ -1,5 +1,6 @@
 import React, { FC } from 'react'
 import { theme } from '../theme'
+import { getSizeWithAspectRatio } from './getSizeWithAspectRatio'
 
 type LogoProps = {
   color?: string
@@ -7,30 +8,8 @@ type LogoProps = {
   height?: number
 }
 
-const width = 172.439
-const height = 111.543
-
-const widthToHeight = width / height
-const heightToWidth = height / width
-
-function getDimensions(w?: number, h?: number): [number, number] {
-  if (w !== undefined && h === undefined) {
-    return [w, heightToWidth * w]
-  }
-
-  if (h !== undefined && w === undefined) {
-    return [h, widthToHeight * h]
-  }
-
-  if (w !== undefined && h !== undefined) {
-    return [w, h]
-  }
-
-  return [width, height]
-}
-
 export const Logo: FC<LogoProps> = ({ color = theme.colors.green, width, height }) => {
-  const [w, h] = getDimensions(width, height)
+  const [w, h] = getSizeWithAspectRatio(172.439, 111.543, width, height)
 
   return (
     <svg width={w} height={h} viewBox="0 0 45.624 29.512" xmlSpace="preserve" xmlns="http://www.w3.org/2000/svg">

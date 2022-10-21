@@ -7,12 +7,14 @@ import { MenuItem } from './MenuItem'
 import { MenuLogo } from './MenuLogo'
 
 const headerStyle = css`
+  label: header;
   width: 100%;
   margin: 0px;
   padding: 0px;
 `
 
 const containerStyle = css`
+  label: header-content;
   height: 90px;
   display: flex;
   flex-direction: row;
@@ -21,6 +23,7 @@ const containerStyle = css`
 `
 
 const menuItemsContainerStyle = css`
+  label: header-menu-items-container;
   display: flex;
   flex-direction: row;
   ${breakpoints.phone} {

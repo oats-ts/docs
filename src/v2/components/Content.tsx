@@ -5,6 +5,7 @@ import { ctnr } from '../css'
 export type ContentProps = PropsWithChildren
 
 const contentStyle = css`
+  label: content;
   width: 100%;
   flex: 1 1 1px;
   margin: 0px;

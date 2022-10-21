@@ -37,6 +37,7 @@ function createTheme(baseTheme: Record<string, CSSProperties>): Record<string, C
 const prismTheme = createTheme(themes.vscDarkPlus)
 
 const copyButtonStyle = css`
+  label: syntax-hl-copy;
   top: 10px;
   right: 10px;
   position: absolute;
@@ -56,6 +57,7 @@ const copyButtonStyle = css`
 `
 
 const containerStyle = css`
+  label: syntax-hl;
   position: relative;
   * {
     font-family: 'Source Code Pro', monospace;
