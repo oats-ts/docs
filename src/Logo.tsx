@@ -1,5 +1,5 @@
 import React, { FC } from 'react'
-import { theme } from './theme'
+import { theme } from './v2/theme'
 
 type LogoProps = {
   color?: string

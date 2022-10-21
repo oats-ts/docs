@@ -1,7 +1,7 @@
 import { css, cx } from '@emotion/css'
 import React, { FC } from 'react'
 import { HiCog6Tooth, HiDocument, HiHome } from 'react-icons/hi2'
-import { theme } from '../../theme'
+import { theme } from '../theme'
 import { breakpoints, ctnr } from '../css'
 import { MenuItem } from './MenuItem'
 import { MenuLogo } from './MenuLogo'

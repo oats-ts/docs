@@ -1,6 +1,6 @@
 import React, { FC, PropsWithChildren } from 'react'
 import { css, cx } from '@emotion/css'
-import { ctnr } from './css'
+import { ctnr } from '../css'
 
 export type ContentProps = PropsWithChildren
 

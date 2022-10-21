@@ -3,7 +3,7 @@ import React, { FC } from 'react'
 import { HiBookOpen, HiPuzzlePiece, HiServerStack, HiWrenchScrewdriver } from 'react-icons/hi2'
 import { theme } from '../theme'
 import { Button } from './Button'
-import { breakpoints } from './css'
+import { breakpoints } from '../css'
 
 const containerStyle = css`
   display: flex;

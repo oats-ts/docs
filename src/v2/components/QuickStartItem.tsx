@@ -1,7 +1,7 @@
 import { css } from '@emotion/css'
 import React, { FC, PropsWithChildren } from 'react'
 import { theme } from '../theme'
-import { breakpoints } from './css'
+import { breakpoints } from '../css'
 
 type QuickStartItemProps = PropsWithChildren & {
   index: number

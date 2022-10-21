@@ -4,9 +4,9 @@ import { IoRocketSharp } from 'react-icons/io5'
 import { theme } from '../theme'
 import { QuickStartItem } from './QuickStartItem'
 import { SyntaxHighlighter } from './SyntaxHighlighter'
+import { Link } from './Link'
 // @ts-ignore
 import generatorSource from 'raw-loader!./generatorSource.txt'
-import { Link } from './Link'
 
 const containerStyle = css`
   margin-bottom: 40px;

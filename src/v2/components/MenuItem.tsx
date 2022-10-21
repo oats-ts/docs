@@ -1,14 +1,10 @@
 import { css, cx } from '@emotion/css'
 import React, { FC } from 'react'
 import { IconType } from 'react-icons'
-import { theme } from '../../theme'
+import { theme } from '../theme'
 
 const activeStyle = css`
   color: ${theme.colors.text};
-  /* &::after {
-    transform: scale(1) !important;
-    background-color: ${theme.colors.text};
-  } */
 `
 
 const anchorStyle = css`

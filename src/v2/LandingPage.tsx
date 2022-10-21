@@ -1,12 +1,12 @@
 import { css } from '@emotion/css'
 import React, { FC } from 'react'
-import { theme } from '../theme'
-import { Content } from './Content'
-import { Footer } from './Footer'
-import { Headlines } from './Headlines'
-import { HeroSection } from './HeroSection'
-import { Header } from './Header/Header'
-import { QuickStart } from './QuickStart'
+import { theme } from './theme'
+import { Content } from './components/Content'
+import { Footer } from './components/Footer'
+import { Headlines } from './components/Headlines'
+import { HeroSection } from './components/HeroSection'
+import { Header } from './components/Header'
+import { QuickStart } from './components/QuickStart'
 
 const containerStyle = css`
   max-width: 100vw;

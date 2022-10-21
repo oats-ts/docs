@@ -1,7 +1,7 @@
 import { css } from '@emotion/css'
 import React, { FC } from 'react'
 import { Logo } from '../../Logo'
-import { theme } from '../../theme'
+import { theme } from '../theme'
 
 const logoContainerStyle = css`
   display: flex;
