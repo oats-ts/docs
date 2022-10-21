@@ -1,7 +1,7 @@
 import React, { FC } from 'react'
 
 import { Route, Routes } from 'react-router-dom'
-import { LandingPage } from './LandingPage'
+import { LandingPage } from './pages/LandingPage/LandingPage'
 
 export const AppV2: FC = () => {
   return (
