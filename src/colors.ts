@@ -5,6 +5,6 @@ export const colors = {
     button: '#3a3b3d',
     buttonHighlight: '#4d4e51',
     text: '#ffffff',
-    itemHighlight: 'rgba(255, 255, 255, 0.1)'
+    itemHighlight: 'rgba(255, 255, 255, 0.1)',
   },
 }
