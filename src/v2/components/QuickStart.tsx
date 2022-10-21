@@ -4,15 +4,17 @@ import { IoRocketSharp } from 'react-icons/io5'
 import { theme } from '../theme'
 import { QuickStartItem } from './QuickStartItem'
 import { SyntaxHighlighter } from './SyntaxHighlighter'
+import { Link } from './Link'
 // @ts-ignore
 import generatorSource from 'raw-loader!./generatorSource.txt'
-import { Link } from './Link'
 
 const containerStyle = css`
+  label: quick-start;
   margin-bottom: 40px;
 `
 
 const titleStyle = css`
+  label: quick-start-title;
   font-size: ${theme.font.xl};
   color: ${theme.colors.text};
   margin-top: 70px;
@@ -51,7 +53,7 @@ export const QuickStart: FC = () => {
         </QuickStartItem>
         <QuickStartItem index={5} title="What now?">
           Check out the <Link href="#">documentation</Link>, where you can learn how to use the generator output, create
-          custom generators and more. Also have a look at the <Link href="#">configuration builder</Link>, where you can
+          custom generators and more. Also have a look at the <Link href="#">configuration editor</Link>, where you can
           put together your Oats configuration right in the browser, while observing the generated output (without
           downloading or installing anything).
         </QuickStartItem>

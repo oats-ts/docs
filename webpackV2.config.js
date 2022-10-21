@@ -4,7 +4,7 @@ const { ProvidePlugin } = require('webpack')
 
 module.exports = ({ WEBPACK_SERVE }, argv) => {
   return {
-    entry: './src/indexV2.tsx',
+    entry: './src/v2/indexV2.tsx',
     devtool: 'cheap-source-map',
     mode: argv.mode ?? 'development',
     output: {

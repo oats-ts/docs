@@ -1,7 +1,7 @@
 import { css } from '@emotion/css'
 import React, { FC, PropsWithChildren } from 'react'
 import { theme } from '../theme'
-import { breakpoints } from './css'
+import { breakpoints } from '../css'
 
 type QuickStartItemProps = PropsWithChildren & {
   index: number
@@ -9,6 +9,7 @@ type QuickStartItemProps = PropsWithChildren & {
 }
 
 const containerStyle = css`
+  label: quick-start-item;
   display: flex;
   flex-direction: row;
   gap: 20px;
@@ -17,6 +18,7 @@ const containerStyle = css`
 `
 
 const circleStyle = css`
+  label: quick-start-item-circle;
   ${breakpoints.phone} {
     /* TODO */
     display: none;
@@ -36,17 +38,20 @@ const circleStyle = css`
 `
 
 const titleStyle = css`
+  label: quick-start-item-title;
   font-size: ${theme.font.m};
   color: ${theme.colors.text};
   text-transform: uppercase;
 `
 
 const contentStyle = css`
+  label: quick-start-item-content;
   color: ${theme.colors.muted};
   font-size: ${theme.font.m};
 `
 
 const contentContainerStyle = css`
+  label: quick-start-item-container;
   width: 100%;
 `
 

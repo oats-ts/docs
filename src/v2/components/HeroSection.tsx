@@ -2,12 +2,13 @@ import { css, cx } from '@emotion/css'
 import React, { FC } from 'react'
 import { theme } from '../theme'
 import { Button } from './Button'
-import { breakpoints, ctnr } from './css'
+import { breakpoints, ctnr } from '../css'
 import { GoOctoface } from 'react-icons/go'
-import { HiPlay } from 'react-icons/hi2'
+import { HiCog6Tooth, HiPlay } from 'react-icons/hi2'
 import { Link } from './Link'
 
-const bannerContainerStyle = css`
+const heroSectionStyle = css`
+  label: hero-section;
   width: 100%;
   margin: 0px;
   padding: 80px 0px;
@@ -19,7 +20,8 @@ const bannerContainerStyle = css`
   }
 `
 
-const bannerContentStyle = css`
+const contentStyle = css`
+  label: hero-section-content;
   flex-direction: column;
   align-items: center;
   align-content: center;
@@ -29,14 +31,16 @@ const bannerContentStyle = css`
   height: 100%;
 `
 
-const calloutText1Style = css`
+const heroText1Style = css`
+  label: hero-text-1;
   font-size: ${theme.font.xl};
   color: ${theme.colors.text};
   margin: 0px;
   text-align: center;
 `
 
-const calloutText2Style = css`
+const heroText2Style = css`
+  label: hero-text-2;
   color: ${theme.colors.muted};
   font-size: ${theme.font.m};
   font-weight: 400;
@@ -47,16 +51,17 @@ const calloutText2Style = css`
 `
 
 const buttonContainer = css`
+  label: hero-button-container;
   display: flex;
   gap: 12px;
 `
 
 export const HeroSection: FC = () => {
   return (
-    <div className={bannerContainerStyle}>
-      <div className={cx(ctnr, bannerContentStyle)}>
-        <h2 className={calloutText1Style}>Generate TypeScript from OpenAPI, that makes sense.</h2>
-        <h3 className={calloutText2Style}>
+    <div className={heroSectionStyle}>
+      <div className={cx(ctnr, contentStyle)}>
+        <h2 className={heroText1Style}>Generate TypeScript from OpenAPI, that makes sense.</h2>
+        <h3 className={heroText2Style}>
           Customizable, extensible and <b>open source</b> code generators, that output quality{' '}
           <Link href="https://www.typescriptlang.org">TypeScript</Link>, from your{' '}
           <Link href="https://www.openapis.org">OpenAPI</Link> definitions.
@@ -64,6 +69,9 @@ export const HeroSection: FC = () => {
         <div className={buttonContainer}>
           <Button variant="primary">
             <HiPlay /> Get Started
+          </Button>
+          <Button>
+            <HiCog6Tooth /> Try Editor
           </Button>
           <Button>
             <GoOctoface /> Github

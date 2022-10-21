@@ -7,6 +7,7 @@ export const breakpoints = {
 }
 
 export const ctnr = css`
+  label: container;
   display: flex;
 
   ${breakpoints.desktop} {

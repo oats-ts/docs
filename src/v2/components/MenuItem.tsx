@@ -1,17 +1,15 @@
 import { css, cx } from '@emotion/css'
 import React, { FC } from 'react'
 import { IconType } from 'react-icons'
-import { theme } from '../../theme'
+import { theme } from '../theme'
 
 const activeStyle = css`
+  label: active-menu-item;
   color: ${theme.colors.text};
-  /* &::after {
-    transform: scale(1) !important;
-    background-color: ${theme.colors.text};
-  } */
 `
 
 const anchorStyle = css`
+  label: menu-item-anchor;
   position: relative;
   text-decoration: none;
   color: ${theme.colors.muted};
@@ -55,6 +53,7 @@ const anchorStyle = css`
 `
 
 const menuItemStyle = css`
+  label: menu-item;
   height: 100%;
   padding: 0px 24px;
   color: ${theme.colors.text};
@@ -74,7 +73,7 @@ export const MenuItem: FC<MenuItemProps> = ({ label, active, href, icon: Icon })
   const fullAnchorStyle = cx(anchorStyle, active ? activeStyle : undefined)
   return (
     <li className={menuItemStyle}>
-      <a href={`#${href}`} className={fullAnchorStyle}>
+      <a href={href} className={fullAnchorStyle}>
         <Icon size="20px" />
         <span>{label}</span>
       </a>
