@@ -15,8 +15,12 @@
   "scripts": {
     "test": "echo 'TODO'",
     "typecheck": "tsc --noEmit",
-    "build": "webpack -c webpack.config.js --mode=production",
-    "start": "webpack-dev-server -c webpack.config.js --mode=development",
+    "clean": "rm -rf docs",
+    "build-v1": "webpack -c webpackV1.config.js --mode=production",
+    "build-v2": "webpack -c webpackV2.config.js --mode=production",
+    "build": "npm run clean && npm run build-v1 && npm run build-v2",
+    "start-v1": "webpack-dev-server -c webpackV1.config.js --mode=development",
+    "start-v2": "webpack-dev-server -c webpackV2.config.js --mode=development",
     "postinstall": "semantic-ui-css-patch"
   },
   "devDependencies": {

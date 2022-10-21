@@ -1,6 +1,5 @@
 const path = require('path')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
-const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 const { ProvidePlugin } = require('webpack')
 
 module.exports = ({ WEBPACK_SERVE }, argv) => {
@@ -54,9 +53,6 @@ module.exports = ({ WEBPACK_SERVE }, argv) => {
       },
     },
     plugins: [
-      new CleanWebpackPlugin({
-        dry: Boolean(WEBPACK_SERVE),
-      }),
       new HtmlWebpackPlugin({
         template: path.resolve('src/index.html'),
       }),
