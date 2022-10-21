@@ -36,7 +36,7 @@ export const Header: FC = () => {
   return (
     <header className={headerStyle}>
       <div className={cx(containerStyle, ctnr)}>
-        <MenuLogo href="" />
+        <MenuLogo />
         <ul className={menuItemsContainerStyle}>
           <MenuItem label="Home" icon={HiHome} href="#/" active={true} />
           <MenuItem label="Documentation" icon={HiDocument} href="#/documentation" />

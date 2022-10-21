@@ -33,7 +33,7 @@ const buttonStyle = css`
   gap: 8px;
   align-items: center;
   transition: background-color 150ms linear, color 150ms linear, box-shadow 200ms linear;
-  padding: 12px 20px;
+  padding: 16px 20px;
   border: unset;
   border-radius: 14px;
   position: relative;

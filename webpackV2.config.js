@@ -55,7 +55,7 @@ module.exports = ({ WEBPACK_SERVE }, argv) => {
     plugins: [
       new HtmlWebpackPlugin({
         template: path.resolve('src/index.html'),
-        filename: 'v2.html',
+        filename: WEBPACK_SERVE ? 'index.html' : 'v2.html',
       }),
       new ProvidePlugin({
         process: 'process/browser',
