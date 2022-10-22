@@ -1,8 +1,11 @@
 import { css } from '@emotion/react'
+import { theme } from './theme'
 
 export const globalStyles = css`
   * {
-    font-family: 'Montserrat', sans-serif;
     box-sizing: border-box;
+  }
+  body {
+    font-family: ${theme.fontFamily.sansSerif};
   }
 `

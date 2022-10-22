@@ -6,7 +6,6 @@ const sideBarStyle = css`
   width: 300px;
   display: flex;
   flex-direction: column;
-  padding: 14px;
   overflow: auto;
 `
 

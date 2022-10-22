@@ -15,7 +15,7 @@ const containerStyle = css`
 
 const titleStyle = css`
   label: quick-start-title;
-  font-size: ${theme.font.xl};
+  font-size: ${theme.fontSize.xl};
   color: ${theme.colors.text};
   margin-top: 70px;
   margin-bottom: 0px;

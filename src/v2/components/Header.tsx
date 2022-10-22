@@ -19,7 +19,7 @@ const containerStyle = css`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  font-size: ${theme.font.m};
+  font-size: ${theme.fontSize.m};
 `
 
 const menuItemsContainerStyle = css`

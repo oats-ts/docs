@@ -20,7 +20,7 @@ const containerStyle = css`
 const itemContainerStyle = css`
   label: headlines-items-container;
   color: ${theme.colors.muted};
-  font-size: ${theme.font.m};
+  font-size: ${theme.fontSize.m};
 `
 
 const itemHeaderStyle = css`
@@ -30,7 +30,7 @@ const itemHeaderStyle = css`
   gap: 6px;
   text-transform: uppercase;
   color: ${theme.colors.text};
-  font-size: ${theme.font.m};
+  font-size: ${theme.fontSize.m};
   margin-top: 0px;
 `
 

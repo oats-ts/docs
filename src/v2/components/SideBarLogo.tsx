@@ -27,7 +27,7 @@ const oatsLabelStyle = css`
   font-weight: 700;
   margin: 0px;
   padding: 0px;
-  font-size: ${theme.font.l};
+  font-size: ${theme.fontSize.l};
   color: ${theme.colors.text};
 `
 
@@ -36,7 +36,7 @@ const docLabelStyle = css`
 `
 
 const versionLabelStyle = css`
-  font-size: ${theme.font.s};
+  font-size: ${theme.fontSize.s};
   color: ${theme.colors.muted};
 `
 

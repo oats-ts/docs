@@ -9,12 +9,15 @@ export const theme = {
     button: '#eeeeee',
     buttonHover: '#444444',
   },
-
-  font: {
+  fontSize: {
     code: '1.1rem',
     s: '1rem',
     m: '1.2rem',
     l: '1.8rem',
     xl: '2rem',
+  },
+  fontFamily: {
+    monospace: "'Source Code Pro', monospace",
+    sansSerif: "'Montserrat', sans-serif",
   },
 }

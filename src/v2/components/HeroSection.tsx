@@ -33,7 +33,7 @@ const contentStyle = css`
 
 const heroText1Style = css`
   label: hero-text-1;
-  font-size: ${theme.font.xl};
+  font-size: ${theme.fontSize.xl};
   color: ${theme.colors.text};
   margin: 0px;
   text-align: center;
@@ -42,7 +42,7 @@ const heroText1Style = css`
 const heroText2Style = css`
   label: hero-text-2;
   color: ${theme.colors.muted};
-  font-size: ${theme.font.m};
+  font-size: ${theme.fontSize.m};
   font-weight: 400;
   margin: 0px 0px 20px 0px;
   width: 70%;

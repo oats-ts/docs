@@ -11,7 +11,7 @@ export type SideBarMenuItemProps = PropsWithChildren & {
 const docItemStyle = css`
   display: flex;
   flex-direction: row;
-  font-size: ${theme.font.m};
+  font-size: ${theme.fontSize.m};
   color: ${theme.colors.muted};
   padding: 10px 14px;
   transition: background-color 150ms linear, color 150ms linear;

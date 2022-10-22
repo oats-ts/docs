@@ -50,7 +50,7 @@ const copyButtonStyle = css`
   border-radius: 8px;
   font-weight: 400;
   cursor: pointer;
-  font-size: ${theme.font.m};
+  font-size: ${theme.fontSize.m};
   background-color: ${theme.colors.dark2};
   color: ${theme.colors.text};
   box-shadow: rgba(0, 0, 0, 0.05) 0px 5px 8px;
@@ -61,7 +61,7 @@ const containerStyle = css`
   position: relative;
   * {
     font-family: 'Source Code Pro', monospace;
-    font-size: ${theme.font.code};
+    font-size: ${theme.fontSize.code};
   }
 `
 

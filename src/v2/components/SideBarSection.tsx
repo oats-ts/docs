@@ -7,7 +7,7 @@ export type SideBarSectionProps = PropsWithChildren & {
 }
 
 const sectionTitleStyle = css`
-  font-size: ${theme.font.m};
+  font-size: ${theme.fontSize.m};
   color: ${theme.colors.text};
   text-transform: uppercase;
   font-weight: bold;

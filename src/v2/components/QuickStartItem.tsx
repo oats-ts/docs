@@ -34,12 +34,12 @@ const circleStyle = css`
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: ${theme.font.l};
+  font-size: ${theme.fontSize.l};
 `
 
 const titleStyle = css`
   label: quick-start-item-title;
-  font-size: ${theme.font.m};
+  font-size: ${theme.fontSize.m};
   color: ${theme.colors.text};
   text-transform: uppercase;
 `
@@ -47,7 +47,7 @@ const titleStyle = css`
 const contentStyle = css`
   label: quick-start-item-content;
   color: ${theme.colors.muted};
-  font-size: ${theme.font.m};
+  font-size: ${theme.fontSize.m};
 `
 
 const contentContainerStyle = css`

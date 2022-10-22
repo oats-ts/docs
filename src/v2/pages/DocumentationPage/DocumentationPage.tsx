@@ -16,12 +16,16 @@ const contentContainerStyle = css`
   overflow: auto;
   padding: 20px 20px 20px 10px;
   color: ${theme.colors.muted};
-  font-size: ${theme.font.m};
+  font-size: ${theme.fontSize.m};
   line-height: 140%;
 `
 
 const containerStyle = css`
   overflow: hidden;
+`
+
+const sideBarContent = css`
+  padding: 14px;
 `
 
 export const DocumentationPage: FC = () => {
@@ -31,18 +35,20 @@ export const DocumentationPage: FC = () => {
   return (
     <AppContainer direction="horizontal" className={containerStyle}>
       <SideBar>
-        <SideBarLogo name="docs" />
-        {sections.map((section) => (
-          <Fragment key={section.name}>
-            <SideBarSection title={section.name}>
-              {section.items.map((item) => (
-                <SideBarMenuItem href={`#/documentation/${item.md}`} active={item.md === activePage}>
-                  {item.name}
-                </SideBarMenuItem>
-              ))}
-            </SideBarSection>
-          </Fragment>
-        ))}
+        <div className={sideBarContent}>
+          <SideBarLogo name="docs" />
+          {sections.map((section) => (
+            <Fragment key={section.name}>
+              <SideBarSection title={section.name}>
+                {section.items.map((item) => (
+                  <SideBarMenuItem href={`#/documentation/${item.md}`} active={item.md === activePage}>
+                    {item.name}
+                  </SideBarMenuItem>
+                ))}
+              </SideBarSection>
+            </Fragment>
+          ))}
+        </div>
       </SideBar>
       <div className={contentContainerStyle}>
         <MarkdownView page={activePage} />

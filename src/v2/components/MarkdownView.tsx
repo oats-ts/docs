@@ -10,20 +10,20 @@ import { SyntaxHighlighter } from './SyntaxHighlighter'
 
 const h1Style = css`
   color: ${theme.colors.text};
-  font-size: ${theme.font.l};
+  font-size: ${theme.fontSize.l};
   margin-top: 0px;
 `
 const h2Style = css`
   color: ${theme.colors.text};
-  font-size: ${theme.font.m};
+  font-size: ${theme.fontSize.m};
 `
 const h3Style = css`
   color: ${theme.colors.text};
-  font-size: ${theme.font.m};
+  font-size: ${theme.fontSize.m};
 `
 
 const codeStyle = css`
-  font-size: ${theme.font.code};
+  font-size: ${theme.fontSize.code};
   color: ${theme.colors.text};
   background-color: ${theme.colors.dark1};
   padding: 2px 4px;
