@@ -6,9 +6,9 @@ import { AppContainer } from '../../components/AppContainer'
 import { MarkdownView } from '../../components/MarkdownView'
 import { SideBar } from '../../components/SideBar'
 import { SideBarLogo } from '../../components/SideBarLogo'
-import { SideBarMenuItem } from '../../components/SideBarMenuItem'
 import { SideBarSection } from '../../components/SideBarSection'
 import { theme } from '../../theme'
+import { DocumentationTreeRoot } from './DocumentationTreeRoot'
 import { sections } from './sections'
 
 const contentContainerStyle = css`
@@ -24,10 +24,6 @@ const containerStyle = css`
   overflow: hidden;
 `
 
-const sideBarContent = css`
-  padding: 14px;
-`
-
 export const DocumentationPage: FC = () => {
   const { page } = useParams<{ page: MarkdowPageName }>()
   const activePage = page ?? 'OpenAPI_GettingStarted'
@@ -35,20 +31,19 @@ export const DocumentationPage: FC = () => {
   return (
     <AppContainer direction="horizontal" className={containerStyle}>
       <SideBar>
-        <div className={sideBarContent}>
-          <SideBarLogo name="docs" />
-          {sections.map((section) => (
-            <Fragment key={section.name}>
-              <SideBarSection title={section.name}>
-                {section.items.map((item) => (
-                  <SideBarMenuItem href={`#/documentation/${item.md}`} active={item.md === activePage}>
-                    {item.name}
-                  </SideBarMenuItem>
-                ))}
-              </SideBarSection>
-            </Fragment>
-          ))}
-        </div>
+        <SideBarLogo name="docs" />
+        {sections.map((section) => (
+          <Fragment key={section.name}>
+            <SideBarSection title={section.name}>
+              {section.items.map((item) => (
+                <DocumentationTreeRoot node={item} key={item.md} />
+                // <SideBarMenuItem href={`#/documentation/${item.md}`} active={item.md === activePage}>
+                //   {item.name}
+                // </SideBarMenuItem>
+              ))}
+            </SideBarSection>
+          </Fragment>
+        ))}
       </SideBar>
       <div className={contentContainerStyle}>
         <MarkdownView page={activePage} />

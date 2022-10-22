@@ -1,12 +1,12 @@
 import { flatMap } from 'lodash'
 import { MarkdowPageName } from '../../../md/markdown'
 
-type DocumentationItem = {
+export type DocumentationItem = {
   name: string
   md: MarkdowPageName
 }
 
-type DocumentationSection = {
+export type DocumentationSection = {
   name: string
   items: DocumentationItem[]
 }

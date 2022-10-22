@@ -17,7 +17,6 @@ const sectionTitleStyle = css`
 const sectionContainerStyle = css`
   display: flex;
   flex-direction: column;
-  gap: 4px;
   margin-bottom: 20px;
 `
 

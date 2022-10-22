@@ -3,7 +3,7 @@ import React, { FC, PropsWithChildren } from 'react'
 
 const sideBarStyle = css`
   label: side-bar;
-  width: 300px;
+  width: 350px;
   display: flex;
   flex-direction: column;
   overflow: auto;

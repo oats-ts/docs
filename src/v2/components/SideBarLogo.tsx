@@ -14,7 +14,7 @@ const logoContainerStyle = css`
   gap: 10px;
   align-items: center;
   text-decoration: none;
-  margin-bottom: 40px;
+  margin: 14px 14px 40px 14px;
 `
 
 const labelWrapperStyle = css`
