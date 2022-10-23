@@ -1,6 +1,7 @@
 import isNil from 'lodash/isNil'
 import React, { FC } from 'react'
 import { useGeneratorContext } from '../../model/useGenerator'
+import { ConfigurationEditor } from './ConfigurationEditor/ConfigurationEditor'
 import { IssuesPanel } from './IssuesPanel'
 import { NoEditor } from './NoEditor'
 import { PackageJsonEditor } from './PackageJsonEditor'
@@ -19,9 +20,9 @@ export const EditorView: FC = () => {
     case 'issues': {
       return <IssuesPanel isLoading={isLoading} node={editorInput} />
     }
-    // case 'configuration': {
-    //   return <ConfigurationEditorWrapper />
-    // }
+    case 'configuration': {
+      return <ConfigurationEditor />
+    }
     case 'generator-source': {
       return <ReadonlyTypescriptMonaco value={editorInput.source} path="package.json" />
     }

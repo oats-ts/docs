@@ -56,16 +56,21 @@ const menuItemStyle = css`
   label: menu-item;
   height: 100%;
   padding: 0px 24px;
-  color: ${theme.colors.text};
   display: flex;
   gap: 8px;
   align-items: center;
+  cursor: pointer;
+  color: ${theme.colors.text};
+  font-size: ${theme.fontSize.m};
+  &:first-of-type {
+    padding-left: 0px;
+  }
 `
 
 export type MenuItemProps = {
   active?: boolean
   label: string
-  href: string
+  href?: string
   icon: IconType
 }
 
@@ -74,7 +79,7 @@ export const MenuItem: FC<MenuItemProps> = ({ label, active, href, icon: Icon })
   return (
     <li className={menuItemStyle}>
       <a href={href} className={fullAnchorStyle}>
-        <Icon size="20px" />
+        <Icon />
         <span>{label}</span>
       </a>
     </li>

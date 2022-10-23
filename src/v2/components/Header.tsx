@@ -1,10 +1,10 @@
 import { css, cx } from '@emotion/css'
 import React, { FC } from 'react'
 import { HiCog6Tooth, HiDocument, HiHome } from 'react-icons/hi2'
-import { theme } from '../theme'
-import { breakpoints, ctnr } from '../css'
+import { ctnr } from '../css'
 import { MenuItem } from './MenuItem'
 import { MenuLogo } from './MenuLogo'
+import { MenuBar } from './MenuBar'
 
 const headerStyle = css`
   label: header;
@@ -19,17 +19,6 @@ const containerStyle = css`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  font-size: ${theme.fontSize.m};
-`
-
-const menuItemsContainerStyle = css`
-  label: header-menu-items-container;
-  display: flex;
-  flex-direction: row;
-  ${breakpoints.phone} {
-    /* TODO */
-    display: none;
-  }
 `
 
 export const Header: FC = () => {
@@ -37,11 +26,11 @@ export const Header: FC = () => {
     <header className={headerStyle}>
       <div className={cx(containerStyle, ctnr)}>
         <MenuLogo />
-        <ul className={menuItemsContainerStyle}>
+        <MenuBar>
           <MenuItem label="Home" icon={HiHome} href="#/" active={true} />
           <MenuItem label="Documentation" icon={HiDocument} href="#/documentation" />
           <MenuItem label="Configuration Editor" icon={HiCog6Tooth} href="#/editor" />
-        </ul>
+        </MenuBar>
       </div>
     </header>
   )
