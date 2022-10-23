@@ -75,16 +75,6 @@ export function useGenerator(): GeneratorContextType {
   const [issues, setIssues] = useState<IssuesNode>({ type: 'issues', issues: [] })
   const [_output, setOutput] = useState<FolderNode>({ type: 'folder', path: '/', name: '/', children: [] })
 
-  // const setIssues = (issues: IssuesNode) => {
-  //   if (issues.issues.length === 0) {
-  //     try {
-  //       throw new TypeError('hi')
-  //     } catch (e) {
-  //       console.error(e)
-  //     }
-  //   }
-  // }
-
   const [treeFilter, setTreeFilter] = useState<string>('')
   const [isSamplesLoading, setSamplesLoading] = useState<boolean>(true)
   const [isRemoteSampleLoading, setRemoteSampleLoading] = useState<boolean>(false)
@@ -168,7 +158,10 @@ export function useGenerator(): GeneratorContextType {
       .finally(() => setGenerating(false))
   }, [configuration.reader, configuration.validator, configuration.generator, configuration.writer])
 
-  useDebounceEffect(runGenerator, 1000)
+  // TODO remove if
+  if (false) {
+    useDebounceEffect(runGenerator, 1000)
+  }
 
   const computeGeneratorSource = useCallback(() => {
     setGeneratorSource({
