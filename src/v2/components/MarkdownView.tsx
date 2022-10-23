@@ -7,6 +7,7 @@ import { markdown } from '../../md/markdown'
 import { theme } from '../theme'
 import { Link } from './Link'
 import { SyntaxHighlighter } from './SyntaxHighlighter'
+import { Table, Td, Th, Tr } from './Table'
 
 const h1Style = css`
   color: ${theme.colors.text};
@@ -28,37 +29,6 @@ const codeStyle = css`
   background-color: ${theme.colors.dark1};
   padding: 2px 4px;
   border-radius: 6px;
-`
-const tableContainerStyle = css`
-  border-radius: 10px;
-  overflow: hidden;
-  border: 2px solid ${theme.colors.dark1};
-  margin: 1px;
-`
-
-const tableStyle = css`
-  border-collapse: collapse;
-`
-
-const headerRowStyle = css`
-  background-color: ${theme.colors.dark1};
-`
-
-const tdStyle = css`
-  padding: 10px;
-`
-
-const thStyle = css`
-  color: ${theme.colors.text};
-  padding: 18px 10px;
-  text-align: left;
-  border: 2px solid ${theme.colors.dark1};
-`
-
-const trStyle = css`
-  border: 2px solid ${theme.colors.dark1};
-  border-left-width: 0px;
-  border-right-width: 0px;
 `
 
 export type MarkdownViewProps = {
@@ -90,20 +60,16 @@ const components: Options['components'] = {
     return <h3 className={h3Style}>{children}</h3>
   },
   table({ children }) {
-    return (
-      <div className={tableContainerStyle}>
-        <table className={tableStyle}>{children}</table>
-      </div>
-    )
+    return <Table>{children}</Table>
   },
   tr({ children, isHeader }) {
-    return <tr className={isHeader ? headerRowStyle : trStyle}>{children}</tr>
+    return <Tr isHeader={isHeader}>{children}</Tr>
   },
   th({ children }) {
-    return <th className={thStyle}>{children}</th>
+    return <Th>{children}</Th>
   },
   td({ children }) {
-    return <td className={tdStyle}>{children}</td>
+    return <Td>{children}</Td>
   },
   a({ href, children }) {
     return <Link href={href}>{children}</Link>

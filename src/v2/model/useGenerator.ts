@@ -75,6 +75,16 @@ export function useGenerator(): GeneratorContextType {
   const [issues, setIssues] = useState<IssuesNode>({ type: 'issues', issues: [] })
   const [_output, setOutput] = useState<FolderNode>({ type: 'folder', path: '/', name: '/', children: [] })
 
+  // const setIssues = (issues: IssuesNode) => {
+  //   if (issues.issues.length === 0) {
+  //     try {
+  //       throw new TypeError('hi')
+  //     } catch (e) {
+  //       console.error(e)
+  //     }
+  //   }
+  // }
+
   const [treeFilter, setTreeFilter] = useState<string>('')
   const [isSamplesLoading, setSamplesLoading] = useState<boolean>(true)
   const [isRemoteSampleLoading, setRemoteSampleLoading] = useState<boolean>(false)
@@ -138,13 +148,13 @@ export function useGenerator(): GeneratorContextType {
     const logger: Logger = (emitter) => {
       loggers.simple()(emitter)
       emitter.addListener('validator-step-completed', ({ issues: validatorIssues }) => {
-        setIssues({ type: 'issues', issues: validatorIssues })
+        setIssues((i) => ({ ...i, issues: [...i.issues, ...validatorIssues] }))
       })
       emitter.addListener('generator-step-completed', ({ dependencies, issues: genIssues }) => {
         getVersionMap('typescript', 'ts-node')
           .then((versionMap) => getPackageJsonSource(dependencies, versionMap))
           .then((source) => setPackageJson({ ...packageJson, source }))
-        setIssues({ ...issues, issues: [...issues.issues, ...genIssues] })
+        setIssues((i) => ({ ...i, issues: [...i.issues, ...genIssues] }))
       })
     }
     generate({

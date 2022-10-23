@@ -1,21 +1,21 @@
 import React, { FC, useContext } from 'react'
 import { SideBarSection } from '../../components/SideBarSection'
 import { GeneratorContext } from '../../model/GeneratorContext'
-import { ExplorerTreeFsRoot } from './ExplorerTreeFsRoot'
+import { ExplorerTreeItem } from './ExplorerTreeItem'
 
 export const ExplorerTree: FC = () => {
-  const { output } = useContext(GeneratorContext)
+  const { output, configuration, generatorSource, packageJson, issues } = useContext(GeneratorContext)
   return (
     <>
       <SideBarSection title="Input">
-        {/* <ExplorerTreeNode key="configuration" node={configuration} level={0} />
-        <ExplorerTreeNode key="source" node={generatorSource} level={0} />
-        <ExplorerTreeNode key="package.json" node={packageJson} level={0} /> */}
+        <ExplorerTreeItem key="configuration" value={configuration} />
+        <ExplorerTreeItem key="source" value={generatorSource} />
+        <ExplorerTreeItem key="package.json" value={packageJson} />
       </SideBarSection>
       <SideBarSection title="Output">
-        {/* {issues.issues.length > 0 && <ExplorerTreeNode key="issues" node={issues} level={0} />} */}
+        <ExplorerTreeItem key="issues" value={issues} />
         {output.children.map((node) => (
-          <ExplorerTreeFsRoot key={node.path} node={node} />
+          <ExplorerTreeItem key={node.path} value={node} />
         ))}
       </SideBarSection>
     </>

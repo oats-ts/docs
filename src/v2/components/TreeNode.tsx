@@ -1,5 +1,6 @@
 import { css, cx } from '@emotion/css'
 import React, { FC } from 'react'
+import { IconType } from 'react-icons'
 import { HiChevronDown, HiChevronLeft, HiChevronRight } from 'react-icons/hi2'
 import { theme } from '../theme'
 
@@ -52,6 +53,7 @@ export type TreeNodeProps<T> = {
   value: T
   level: number
   getLabel: (value: T) => string
+  getIcon?: (value: T) => IconType | undefined
   getHref?: (value: T) => string | undefined
   getChildren?: (value: T) => T[]
   isOpen?: (value: T) => boolean
@@ -86,11 +88,13 @@ export function TreeNode<T>({
   getChildren = () => [],
   onClick = () => undefined,
   getHref = () => undefined,
+  getIcon = () => undefined,
 }: TreeNodeProps<T>) {
   const children = getChildren(value)
   const open = isOpen(value)
   const active = isActive(value)
   const container = isContainer(value)
+  const Icon = getIcon(value)
   const className = container && open ? cx(treeNodeStyle, openableStyle(level)) : treeNodeStyle
   const href = getHref(value)
   const label = getLabel(value)
@@ -101,6 +105,7 @@ export function TreeNode<T>({
       <a className={treeNodeContentStyle(level, active)} href={href} onClick={handleClick}>
         <span className={itemLabelStyle}>
           <TreeNodeChevron isContainer={container} isEmpty={children.length === 0} isOpen={open} />
+          {Icon === undefined ? null : <Icon />}
           {label}
         </span>
       </a>

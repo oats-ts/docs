@@ -5,6 +5,7 @@ import { SideBar } from '../../components/SideBar'
 import { SideBarLogo } from '../../components/SideBarLogo'
 import { GeneratorContext } from '../../model/GeneratorContext'
 import { useGenerator } from '../../model/useGenerator'
+import { theme } from '../../theme'
 import { EditorView } from './EditorView'
 import { ExplorerTree } from './ExplorerTree'
 
@@ -14,6 +15,8 @@ const containerStyle = css`
 
 const editorContainerStyle = css`
   flex: 1 1 1px;
+  background-color: ${theme.colors.dark3};
+  overflow: auto;
 `
 
 export const ConfigurationEditorPage: FC = () => {

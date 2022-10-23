@@ -1,8 +1,10 @@
 import isNil from 'lodash/isNil'
 import React, { FC } from 'react'
 import { useGeneratorContext } from '../../model/useGenerator'
+import { IssuesPanel } from './IssuesPanel'
 import { NoEditor } from './NoEditor'
-import { ReadonlyTypescriptEditor } from './ReadonlyTypescriptEditor'
+import { PackageJsonEditor } from './PackageJsonEditor'
+import { ReadonlyTypescriptMonaco } from './ReadonlyTypescriptMonaco'
 
 export const EditorView: FC = () => {
   const { editorInput, isLoading } = useGeneratorContext()
@@ -12,23 +14,23 @@ export const EditorView: FC = () => {
   }
   switch (editorInput?.type) {
     case 'file': {
-      return <ReadonlyTypescriptEditor input={editorInput} isLoading={isLoading} />
+      return <ReadonlyTypescriptMonaco value={editorInput.content} path={editorInput.path} />
+    }
+    case 'issues': {
+      return <IssuesPanel isLoading={isLoading} node={editorInput} />
     }
     // case 'configuration': {
     //   return <ConfigurationEditorWrapper />
     // }
-    // case 'issues': {
-    //   return <IssuesPanel isLoading={isLoading} isDark={isDark} node={editorInput} />
-    // }
-    // case 'generator-source': {
-    //   return <ReadonlyGeneratorSourceEditor isDark={isDark} source={editorInput.source} />
-    // }
-    // case 'package-json': {
-    //   return <PackageJsonEditor isDark={isDark} source={editorInput.source} />
-    // }
-    // case 'folder': {
-    //   throw new TypeError(`Unexpected input of type "${editorInput.type}"`)
-    // }
+    case 'generator-source': {
+      return <ReadonlyTypescriptMonaco value={editorInput.source} path="package.json" />
+    }
+    case 'package-json': {
+      return <PackageJsonEditor source={editorInput.source} />
+    }
+    case 'folder': {
+      throw new TypeError(`Unexpected input of type "${editorInput.type}"`)
+    }
   }
   return <NoEditor />
 }
