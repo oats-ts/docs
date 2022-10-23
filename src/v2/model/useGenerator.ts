@@ -53,7 +53,7 @@ export function useGenerator(): GeneratorContextType {
         generator: {
           preset: 'fullStack',
           pathProviderType: 'default',
-          rootPath: '/',
+          rootPath: '/src/generated',
           configurationStyle: 'preset',
           presetConfig: {},
           generators: [],

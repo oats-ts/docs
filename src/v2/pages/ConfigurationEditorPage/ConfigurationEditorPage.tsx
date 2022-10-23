@@ -5,18 +5,14 @@ import { SideBar } from '../../components/SideBar'
 import { SideBarLogo } from '../../components/SideBarLogo'
 import { GeneratorContext } from '../../model/GeneratorContext'
 import { useGenerator } from '../../model/useGenerator'
+import { EditorView } from './EditorView'
 import { ExplorerTree } from './ExplorerTree'
-import { ReadonlyTypescriptMonaco } from './ReadonlyTypescriptMonaco'
 
 const containerStyle = css`
   overflow: hidden;
 `
 
-const titleWrapper = css`
-  padding: 14px 14px 0px 14px;
-`
-
-const monacoWrapper = css`
+const editorContainerStyle = css`
   flex: 1 1 1px;
 `
 
@@ -26,13 +22,11 @@ export const ConfigurationEditorPage: FC = () => {
     <GeneratorContext.Provider value={context}>
       <AppContainer direction="horizontal" className={containerStyle}>
         <SideBar>
-          <div className={titleWrapper}>
-            <SideBarLogo name="editor" />
-          </div>
+          <SideBarLogo name="editor" />
           <ExplorerTree />
         </SideBar>
-        <div className={`no-font-override ${monacoWrapper}`}>
-          <ReadonlyTypescriptMonaco height="100%" path="/foo" value="const x = 10;" />
+        <div className={editorContainerStyle}>
+          <EditorView />
         </div>
       </AppContainer>
     </GeneratorContext.Provider>

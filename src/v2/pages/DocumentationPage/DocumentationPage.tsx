@@ -14,10 +14,12 @@ import { sections } from './sections'
 const contentContainerStyle = css`
   flex: 1 1 1px;
   overflow: auto;
-  padding: 20px 20px 20px 10px;
+  padding: 20px;
+  line-height: 140%;
+
   color: ${theme.colors.muted};
   font-size: ${theme.fontSize.m};
-  line-height: 140%;
+  background-color: ${theme.colors.dark3};
 `
 
 const containerStyle = css`
@@ -37,9 +39,6 @@ export const DocumentationPage: FC = () => {
             <SideBarSection title={section.name}>
               {section.items.map((item) => (
                 <DocumentationTreeRoot node={item} key={item.md} />
-                // <SideBarMenuItem href={`#/documentation/${item.md}`} active={item.md === activePage}>
-                //   {item.name}
-                // </SideBarMenuItem>
               ))}
             </SideBarSection>
           </Fragment>

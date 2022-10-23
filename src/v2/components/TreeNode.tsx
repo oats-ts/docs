@@ -34,7 +34,6 @@ const treeNodeContentStyle = (level: number, active: boolean) => css`
   padding-left: ${Padding + Padding * level}px;
   font-size: ${theme.fontSize.m};
   background-color: ${active ? theme.colors.dark1 : theme.colors.transparent};
-  font-weight: ${active ? 700 : 400};
   color: ${active ? theme.colors.text : theme.colors.muted};
   &:hover {
     background-color: ${theme.colors.dark1};

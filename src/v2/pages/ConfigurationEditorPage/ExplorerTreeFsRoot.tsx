@@ -9,17 +9,17 @@ export type ExplorerTreeFsRootProps = {
 
 export const ExplorerTreeFsRoot: FC<ExplorerTreeFsRootProps> = ({ node }) => {
   const { explorerTreeState, editorInput, setEditorInput, setExplorerTreeState } = useContext(GeneratorContext)
-  const isOpen = (n: FsNode) => n.type === 'folder' && Boolean(explorerTreeState[node.path])
+  const isOpen = (n: FsNode) => n.type === 'folder' && explorerTreeState[n.path] === true
   const isActive = (n: FsNode) => editorInput?.type === 'file' && editorInput?.path === n.path
   const isContainer = (n: FsNode) => n.type === 'folder'
   const getChildren = (n: FsNode) => (n.type === 'folder' ? n.children : [])
   const getLabel = (n: FsNode) => n.name
-  const onClick = (n: FsNode, isOpen: boolean) => {
+  const onClick = (n: FsNode, open: boolean) => {
     switch (n.type) {
       case 'file':
         return setEditorInput(`file::${n.path}`)
       case 'folder':
-        return setExplorerTreeState({ ...explorerTreeState, [n.path]: !isOpen })
+        return setExplorerTreeState({ ...explorerTreeState, [n.path]: !open })
     }
   }
 

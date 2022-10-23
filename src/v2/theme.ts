@@ -3,6 +3,7 @@ export const theme = {
     transparent: 'transparent',
     dark1: '#323232',
     dark2: '#212121',
+    dark3: '#1e1e1e',
     text: '#ffffff',
     muted: '#aaaaaa',
     // green: '#4E9F3D',
