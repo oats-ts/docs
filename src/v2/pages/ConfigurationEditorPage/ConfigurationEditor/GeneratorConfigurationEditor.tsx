@@ -7,6 +7,7 @@ import { FormGroup } from '../../../components/FormGroup'
 import { FormSection } from '../../../components/FormSection'
 import { Select } from '../../../components/Select'
 import { GeneratorConfiguration, GeneratorPreset, PathProviderType } from '../../../model/types'
+import { PresetConfigurationEditor } from './PresetConfigurationEditor'
 
 const presetOptions: DropdownItem<GeneratorPreset>[] = [
   {
@@ -136,6 +137,7 @@ export const GeneratorConfigurationEditor: FC<GeneratorConfigurationEditorProps>
               getValue={dd.getValue}
             />
           </FormSection>
+          <PresetConfigurationEditor input={input} onChange={onChange} />
         </>
       )}
     </FormGroup>
