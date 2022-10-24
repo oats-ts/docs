@@ -4,7 +4,7 @@ import { Footer } from '../../components/Footer'
 import { Headlines } from '../../components/Headlines'
 import { HeroSection } from '../../components/HeroSection'
 import { Header } from '../../components/Header'
-import { QuickStart } from '../../components/QuickStart'
+import { QuickStart } from '../DocumentationPage/QuickStart'
 import { AppContainer } from '../../components/AppContainer'
 
 export const LandingPage: FC = () => {

@@ -1,31 +1,18 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import { useCombobox } from 'downshift'
 import { HiChevronDown } from 'react-icons/hi2'
 import { isNil } from 'lodash'
 import { cx, css } from '@emotion/css'
 import { theme } from '../theme'
-
-export type AutocompleteProps<T> = {
-  items: T[]
-  value?: T
-  placeholder?: string
-  onChange?: (item: T) => void
-  getKey?: (item: T) => string
-  getValue?: (item: T) => string
-  getDescription?: (item: T) => string | undefined
-}
-
-const selectStyle = (isOpen: boolean) => css`
-  label: select;
-  width: 100%;
-  position: relative;
-  background-color: ${theme.colors.dark1};
-  font-size: ${theme.fontSize.m};
-  border-radius: ${isOpen ? '8px 8px 0px 0px' : '8px'};
-  border-width: 0px;
-  outline: none;
-  cursor: pointer;
-`
+import {
+  dropdownContainerStyle,
+  DropdownProps,
+  dropdownStyle,
+  focusedDropownItemStyle,
+  dropdownItemDescriptionStyle,
+  dropdownItemLabelStyle,
+  dropdownItemStyle,
+} from './dropdownCommon'
 
 const labelContainerStyle = css`
   display: flex;
@@ -48,63 +35,42 @@ const inputStyle = css`
   }
 `
 
-const dropdownStyle = css`
-  width: 100%;
-  display: block;
-  margin: 0px;
-  position: absolute;
-  max-height: 20rem;
-  overflow: auto;
-  border-radius: 0px 0px 8px 8px;
-  background-color: ${theme.colors.dark1};
-  padding: 0px;
-  z-index: 1;
-`
-
-const itemStyle = css`
-  padding: 12px 16px;
-  list-style: none;
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-  cursor: pointer;
-`
-
-const itemLabelStyle = css`
-  color: ${theme.colors.text};
-  font-size: ${theme.fontSize.m};
-`
-
-const itemDescriptionStyle = css`
-  color: ${theme.colors.muted};
-  font-size: ${theme.fontSize.s};
-`
-
-const focusedItem = css`
-  background-color: ${theme.colors.darkHighlight};
-`
-
 export function Autocomplete<T extends string>({
   items,
   placeholder,
   value,
+  customLabel = 'Custom value',
   onChange = () => {},
   getKey = (e) => e,
   getValue = (e) => e,
   getDescription = () => undefined,
-}: AutocompleteProps<T>) {
+}: DropdownProps<T> & { customLabel?: string }) {
+  const filteredItems = useMemo((): T[] => {
+    if (isNil(value) || value.length === 0) {
+      return items
+    }
+    const filtered = items.filter((itm) => itm.toLowerCase().includes(value.toLowerCase()))
+    return filtered.length === 0 ? [value] : filtered
+  }, [value, items])
+
   const { isOpen, highlightedIndex, getInputProps, getToggleButtonProps, getMenuProps, getItemProps } = useCombobox({
-    items,
-    onSelectedItemChange: (e) => onChange(e.selectedItem!),
+    items: filteredItems,
+    inputValue: value,
+    onSelectedItemChange: (e) => {
+      onChange(e.inputValue as T)
+    },
+    onIsOpenChange: (e) => {
+      onChange(e.inputValue as T)
+    },
   })
 
   const { onFocus, onBlur, onChange: dsOnChange, ...inputProps } = getInputProps()
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    dsOnChange(e)
     onChange(e.target.value as T)
+    dsOnChange(e)
   }
   return (
-    <div className={selectStyle(isOpen)}>
+    <div className={dropdownContainerStyle(isOpen)}>
       <div {...getToggleButtonProps()} className={labelContainerStyle}>
         <input
           {...inputProps}
@@ -117,15 +83,16 @@ export function Autocomplete<T extends string>({
       </div>
       <ul {...getMenuProps()} className={dropdownStyle}>
         {isOpen &&
-          items.map((item, index) => {
-            const className = cx(itemStyle, highlightedIndex === index ? focusedItem : undefined)
+          filteredItems.length > 0 &&
+          filteredItems.map((item, index) => {
+            const className = cx(dropdownItemStyle, highlightedIndex === index ? focusedDropownItemStyle : undefined)
             const value = getValue(item)
             const key = getKey(item)
-            const description = getDescription(item)
+            const description = items.includes(item) ? getDescription(item) : customLabel
             return (
               <li {...getItemProps({ item, index })} className={className} key={`${key}${index}`}>
-                <span className={itemLabelStyle}>{value}</span>
-                {isNil(description) ? null : <span className={itemDescriptionStyle}>{description}</span>}
+                <span className={dropdownItemLabelStyle}>{value}</span>
+                {isNil(description) ? null : <span className={dropdownItemDescriptionStyle}>{description}</span>}
               </li>
             )
           })}

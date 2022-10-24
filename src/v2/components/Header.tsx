@@ -29,7 +29,7 @@ export const Header: FC = () => {
         <MenuBar>
           <MenuItem label="Home" icon={HiHome} href="#/" active={true} />
           <MenuItem label="Documentation" icon={HiDocument} href="#/documentation" />
-          <MenuItem label="Configuration Editor" icon={HiCog6Tooth} href="#/editor" />
+          <MenuItem label="Editor" icon={HiCog6Tooth} href="#/editor" />
         </MenuBar>
       </div>
     </header>

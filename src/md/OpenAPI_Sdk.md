@@ -1,3 +1,3 @@
-# Using generated SDKs
+# Using a generated SDK
 
 TODO

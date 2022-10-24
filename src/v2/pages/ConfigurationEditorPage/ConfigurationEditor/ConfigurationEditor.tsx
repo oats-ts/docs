@@ -1,46 +1,36 @@
-import { css } from '@emotion/css'
+import { isNil } from 'lodash'
 import React, { FC } from 'react'
-import { HiBookOpen, HiCog6Tooth, HiMagnifyingGlass, HiPencil } from 'react-icons/hi2'
-import { Autocomplete } from '../../../components/Autocomplete'
-import { Input } from '../../../components/Input'
-import { MenuBar } from '../../../components/MenuBar'
-import { MenuItem } from '../../../components/MenuItem'
-import { Select } from '../../../components/Select'
-
-const contentContainerStyle = css`
-  padding: 20px;
-`
+import { GeneratorConfiguration, ReaderConfiguration } from '../../../model/types'
+import { useGeneratorContext } from '../../../model/useGenerator'
+import { GeneratorConfigurationEditor } from './GeneratorConfigurationEditor'
+import { RemoteReaderEditor } from './RemoteReaderEditor'
 
 export const ConfigurationEditor: FC = () => {
-  return (
-    <div>
-      <MenuBar>
-        <MenuItem label="Reader" icon={HiBookOpen} active={true} />
-        <MenuItem label="Validator" icon={HiMagnifyingGlass} />
-        <MenuItem label="Generator" icon={HiCog6Tooth} />
-        <MenuItem label="Writer" icon={HiPencil} />
-      </MenuBar>
-      <div className={contentContainerStyle}>
-        <Autocomplete
-          items={['Foo', 'Bar', 'Foobar', 'fuuuu', 'Bubu', 'Cioasd']}
-          placeholder="Select bar"
-          value={undefined}
-          getKey={(e) => e}
-          getDescription={(e) => `Description of ${e}`}
-          getValue={(e) => e}
-          onChange={(e) => console.log('autocomplete', e)}
+  const { editorInput, samples, configuration, setConfiguration, loadRemoteAsInline } = useGeneratorContext()
+  if (isNil(editorInput) || editorInput.type !== 'configuration') {
+    return null
+  }
+
+  switch (editorInput.active) {
+    case 'reader': {
+      const onChange = (reader: ReaderConfiguration) => setConfiguration({ ...configuration, active: 'reader', reader })
+      return editorInput.reader.readerType === 'inline' ? (
+        <div>TODO Inline editor</div>
+      ) : (
+        <RemoteReaderEditor
+          input={editorInput.reader}
+          samples={samples}
+          onChange={onChange}
+          onLoadRemote={loadRemoteAsInline}
         />
-        <Select
-          items={['Foo', 'Bar', 'Foobar', 'fuuuu', 'Bubu', 'Cioasd']}
-          placeholder="Select foo"
-          value={undefined}
-          getKey={(e) => e}
-          getDescription={(e) => `Description of ${e}`}
-          getValue={(e) => e}
-          onChange={(e) => console.log('select', e)}
-        />
-        <Input placeholder="Hello" />
-      </div>
-    </div>
-  )
+      )
+    }
+    case 'generator': {
+      const onChange = (generator: GeneratorConfiguration) =>
+        setConfiguration({ ...configuration, active: 'generator', generator })
+      return <GeneratorConfigurationEditor input={editorInput.generator} onChange={onChange} />
+    }
+    default:
+      return <div>TODO rest of the editors</div>
+  }
 }

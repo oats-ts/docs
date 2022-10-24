@@ -1,3 +1,3 @@
-# Using generated server
+# Using a generated server
 
 TODO

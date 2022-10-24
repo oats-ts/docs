@@ -5,6 +5,7 @@ import Markdown, { uriTransformer, Options } from 'react-markdown'
 import remarkGfm from 'remark-gfm'
 import { markdown } from '../../md/markdown'
 import { theme } from '../theme'
+import { Code } from './Code'
 import { Link } from './Link'
 import { SyntaxHighlighter } from './SyntaxHighlighter'
 import { Table, Td, Th, Tr } from './Table'
@@ -21,14 +22,6 @@ const h2Style = css`
 const h3Style = css`
   color: ${theme.colors.text};
   font-size: ${theme.fontSize.m};
-`
-
-const codeStyle = css`
-  font-size: ${theme.fontSize.code};
-  color: ${theme.colors.text};
-  background-color: ${theme.colors.dark1};
-  padding: 2px 4px;
-  border-radius: 6px;
 `
 
 export type MarkdownViewProps = {
@@ -79,11 +72,7 @@ const components: Options['components'] = {
     if (match !== null && !inline) {
       return <SyntaxHighlighter language={match[1]}>{String(children).replace(/\n$/, '')}</SyntaxHighlighter>
     }
-    return (
-      <code className={codeStyle} {...props}>
-        {children}
-      </code>
-    )
+    return <Code {...props}>{children}</Code>
   },
 }
 

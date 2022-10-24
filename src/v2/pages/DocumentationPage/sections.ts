@@ -21,11 +21,11 @@ export const sections: DocumentationSection[] = [
       },
       {
         md: 'OpenAPI_Sdk',
-        name: 'Generated SDK',
+        name: 'Using a generated SDK',
       },
       {
         md: 'OpenAPI_Server',
-        name: 'Generated server',
+        name: 'Using a generated server',
       },
       {
         md: 'OpenAPI_CustomGenerator',

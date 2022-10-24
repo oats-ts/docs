@@ -1,6 +1,6 @@
 import * as oats from '@oats-ts/openapi'
 
-const generatorConfig: oats.GeneratorConfig = {
+oats.generate({
   logger: oats.loggers.simple(),
   reader: oats.readers.https.json('https://your.openapi.doc'),
   // Or if you are generating from a local file:
@@ -16,6 +16,4 @@ const generatorConfig: oats.GeneratorConfig = {
       parser: 'typescript',
     }),
   }),
-}
-
-export default generatorConfig
+})

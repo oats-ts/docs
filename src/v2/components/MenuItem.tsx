@@ -1,4 +1,5 @@
 import { css, cx } from '@emotion/css'
+import { isNil } from 'lodash'
 import React, { FC } from 'react'
 import { IconType } from 'react-icons'
 import { theme } from '../theme'
@@ -70,14 +71,16 @@ const menuItemStyle = css`
 export type MenuItemProps = {
   active?: boolean
   label: string
-  href?: string
   icon: IconType
+  href?: string
+  onClick?: () => void
 }
 
-export const MenuItem: FC<MenuItemProps> = ({ label, active, href, icon: Icon }) => {
+export const MenuItem: FC<MenuItemProps> = ({ label, active, href, onClick, icon: Icon }) => {
   const fullAnchorStyle = cx(anchorStyle, active ? activeStyle : undefined)
+  const _clickHandler = isNil(href) ? onClick : undefined
   return (
-    <li className={menuItemStyle}>
+    <li className={menuItemStyle} onClick={_clickHandler}>
       <a href={href} className={fullAnchorStyle}>
         <Icon />
         <span>{label}</span>

@@ -1,123 +1,124 @@
-// import { css } from '@emotion/css'
-// import React, { FC, useMemo } from 'react'
-// import { ReaderConfiguration } from '../../../model/types'
+import { isNil } from 'lodash'
+import React, { FC, useMemo } from 'react'
+import { ReaderConfiguration } from '../../../../types'
+import { Autocomplete } from '../../../components/Autocomplete'
+import { dd, DropdownItem } from '../../../components/dropdownDefaults'
+import { FormSection } from '../../../components/FormSection'
+import { Select } from '../../../components/Select'
+import { RemoteProtocol, SourceLanguage } from '../../../model/types'
 
-// const loadButtonStyle = css`
-//   margin-top: 16px !important;
-// `
+const languageOptions: DropdownItem<SourceLanguage>[] = [
+  {
+    value: 'json',
+    key: 'json',
+    label: 'JSON',
+    description: 'Parses JSON documents for root and references',
+  },
+  {
+    value: 'yaml',
+    key: 'yaml',
+    label: 'YAML',
+    description: 'Parses YAML documents for root and references',
+  },
+  {
+    value: 'mixed',
+    key: 'mixed',
+    label: 'Mixed',
+    description: 'Parses both JSON and YAML documents',
+  },
+]
 
-// type RemoteReaderEditorProps = {
-//   isDark: boolean
-//   input: ReaderConfiguration
-//   samples: string[]
-//   onChange: (node: ReaderConfiguration) => void
-//   onLoadRemote: () => void
-// }
+const protocolOptions: DropdownItem<RemoteProtocol>[] = [
+  {
+    label: 'HTTPS',
+    key: 'https',
+    value: 'https',
+    description: 'Resolves documents using HTTPS',
+  },
+  {
+    label: 'HTTP',
+    key: 'http',
+    value: 'http',
+    description: 'Resolves documents using HTTPS',
+  },
+  {
+    label: 'File',
+    key: 'file',
+    value: 'file',
+    description: "Resolves documents from the local file system (won't work in the browser)",
+  },
+  {
+    label: 'Mixed',
+    key: 'mixed',
+    value: 'mixed',
+    description: 'Resolves documents remotely or from the file system',
+  },
+]
 
-// const languageOptions = [
-//   {
-//     text: 'JSON',
-//     value: 'json',
-//   },
-//   {
-//     text: 'YAML',
-//     value: 'yaml',
-//   },
-//   {
-//     text: 'Mixed',
-//     value: 'mixed',
-//   },
-// ]
+type RemoteReaderEditorProps = {
+  input: ReaderConfiguration
+  samples: string[]
+  onChange: (node: ReaderConfiguration) => void
+  onLoadRemote: () => void
+}
 
-// const protocolOption = [
-//   {
-//     text: 'HTTPS',
-//     value: 'https',
-//   },
-//   {
-//     text: 'HTTP',
-//     value: 'http',
-//   },
-//   {
-//     text: "File (won't work in the browser)",
-//     value: 'file',
-//   },
-//   {
-//     text: 'Mixed',
-//     value: 'mixed',
-//   },
-// ]
+export const RemoteReaderEditor: FC<RemoteReaderEditorProps> = ({ input, samples, onChange }) => {
+  const handleLanguageChange = ({ value }: DropdownItem<SourceLanguage>) => {
+    onChange({ ...input, remoteLanguage: value })
+  }
 
-// export const RemoteReaderEditor: FC<RemoteReaderEditorProps> = ({ input, isDark, samples, onChange, onLoadRemote }) => {
-//   const sampleOptions = useMemo<StrictDropdownItemProps[]>(
-//     () => samples.map((path): StrictDropdownItemProps => ({ text: path, value: path })),
-//     [samples],
-//   )
+  const handleProtocolChange = ({ value }: DropdownItem<RemoteProtocol>) => {
+    onChange({ ...input, remoteProtocol: value })
+  }
 
-//   const pathOptions = samples.includes(input.remotePath)
-//     ? sampleOptions
-//     : [{ text: input.remotePath, value: input.remotePath }, ...sampleOptions]
+  const handlePathChange = (remotePath: string) => {
+    onChange({ ...input, remotePath })
+  }
 
-//   const handleLanguageChange = (_: any, data: DropdownProps) => {
-//     const remoteLanguage = data.value! as SourceLanguage
-//     onChange({ ...input, remoteLanguage })
-//   }
+  const protocol = useMemo((): DropdownItem<RemoteProtocol> | undefined => {
+    return isNil(input.remoteProtocol) ? undefined : protocolOptions.find((p) => p.value === input.remoteProtocol)
+  }, [input.remoteProtocol])
 
-//   const handlePathChange = (_: any, { value }: DropdownProps) => {
-//     const remotePath = value! as string
-//     onChange({ ...input, remotePath })
-//   }
+  const language = useMemo((): DropdownItem<SourceLanguage> | undefined => {
+    return isNil(input.remoteLanguage) ? undefined : languageOptions.find((p) => p.value === input.remoteLanguage)
+  }, [input.remoteLanguage])
 
-//   const handleProtocolChange = (_: any, { value }: DropdownProps) => {
-//     const remoteProtocol = value! as RemoteProtocol
-//     onChange({ ...input, remoteProtocol })
-//   }
-
-//   return (
-//     <div className={wrapperStyle}>
-//       <Header as="h2">Reader settings</Header>
-//       <Form inverted={isDark}>
-//         <Form.Field>
-//           <label>Protocol</label>
-//           <Dropdown
-//             options={protocolOption}
-//             placeholder="Choose protocol"
-//             selection
-//             fluid
-//             value={input.remoteProtocol}
-//             onChange={handleProtocolChange}
-//           />
-//         </Form.Field>
-//         <Form.Field>
-//           <label>Language</label>
-//           <Dropdown
-//             options={languageOptions}
-//             placeholder="Choose language"
-//             selection
-//             fluid
-//             value={input.remoteLanguage}
-//             onChange={handleLanguageChange}
-//           />
-//         </Form.Field>
-//         <Form.Field>
-//           <label>OpenAPI document URI</label>
-//           <Dropdown
-//             options={pathOptions}
-//             placeholder="OpenAPI document URI"
-//             search
-//             selection
-//             fluid
-//             allowAdditions
-//             additionLabel="Custom URI: "
-//             onAddItem={handlePathChange}
-//             value={input.remotePath}
-//             onChange={handlePathChange}
-//           />
-//           <Button className={loadButtonStyle} onClick={onLoadRemote}>
-//             <Icon name="cloud download" /> Load as inline
-//           </Button>
-//         </Form.Field>
-//       </Form>
-//     </div>
-//   )
-// }
+  return (
+    <>
+      <FormSection name="Protocol">
+        <Select
+          items={protocolOptions}
+          placeholder="Choose protocol"
+          value={protocol}
+          getDescription={dd.getDescription}
+          getKey={dd.getKey}
+          getValue={dd.getValue}
+          onChange={handleProtocolChange}
+        />
+      </FormSection>
+      <FormSection name="Language">
+        <Select
+          items={languageOptions}
+          placeholder="Choose language"
+          value={language}
+          getDescription={dd.getDescription}
+          getKey={dd.getKey}
+          getValue={dd.getValue}
+          onChange={handleLanguageChange}
+        />
+      </FormSection>
+      <FormSection name="OpenAPI document URI">
+        <Autocomplete
+          placeholder="OpenAPI document URI"
+          items={samples}
+          value={input.remotePath}
+          customLabel="Custom document URI"
+          onChange={handlePathChange}
+        />
+        {/* <Button className={loadButtonStyle} onClick={onLoadRemote}>
+          <Icon name="cloud download" /> Load as inline
+        </Button> */}
+      </FormSection>
+    </>
+  )
+}
