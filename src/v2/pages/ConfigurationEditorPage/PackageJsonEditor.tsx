@@ -1,6 +1,6 @@
 import Editor from '@monaco-editor/react'
 import React, { FC } from 'react'
-import { readonlyEditorConfig } from './monacoSettings'
+import { onBeforeMount, readonlyEditorConfig, THEME } from './monacoSettings'
 
 type PackageJsonEditorProps = {
   source: string
@@ -9,8 +9,9 @@ type PackageJsonEditorProps = {
 export const PackageJsonEditor: FC<PackageJsonEditorProps> = ({ source }) => {
   return (
     <Editor
+      beforeMount={onBeforeMount}
+      theme={THEME}
       height="100%"
-      theme={'vs-dark'}
       defaultPath="package.json"
       language="json"
       value={source}

@@ -12,7 +12,7 @@ const containerStyle = css`
   display: flex;
   margin: 0px;
   padding: 0px;
-  background-color: ${theme.colors.dark2};
+  background-color: ${theme.colors.dark3};
 `
 
 const verticalStyle = css`

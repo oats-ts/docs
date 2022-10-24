@@ -1,36 +1,50 @@
-import { isNil } from 'lodash'
+import { css } from '@emotion/css'
 import React, { FC } from 'react'
-import { GeneratorConfiguration, ReaderConfiguration } from '../../../model/types'
+import {
+  ReaderConfiguration,
+  ValidatorConfiguration,
+  GeneratorConfiguration,
+  WriterConfiguration,
+} from '../../../model/types'
 import { useGeneratorContext } from '../../../model/useGenerator'
 import { GeneratorConfigurationEditor } from './GeneratorConfigurationEditor'
 import { RemoteReaderEditor } from './RemoteReaderEditor'
+import { ValidatorConfigurationEditor } from './ValidatorConfigurationEditor'
+import { WriterConfigurationEditor } from './WriterConfigurationEditor'
+
+const wrapperStyle = css`
+  padding: 20px;
+  padding-top: 0px;
+`
+
+const contentContainerStyle = css`
+  padding-top: 18px;
+`
 
 export const ConfigurationEditor: FC = () => {
-  const { editorInput, samples, configuration, setConfiguration, loadRemoteAsInline } = useGeneratorContext()
-  if (isNil(editorInput) || editorInput.type !== 'configuration') {
-    return null
-  }
+  const { configuration, samples, setConfiguration, loadRemoteAsInline } = useGeneratorContext()
 
-  switch (editorInput.active) {
-    case 'reader': {
-      const onChange = (reader: ReaderConfiguration) => setConfiguration({ ...configuration, active: 'reader', reader })
-      return editorInput.reader.readerType === 'inline' ? (
-        <div>TODO Inline editor</div>
-      ) : (
+  const onReaderChange = (reader: ReaderConfiguration) =>
+    setConfiguration({ ...configuration, active: 'reader', reader })
+  const onValidatorChange = (validator: ValidatorConfiguration) =>
+    setConfiguration({ ...configuration, active: 'validator', validator })
+  const onGeneratorChange = (generator: GeneratorConfiguration) =>
+    setConfiguration({ ...configuration, active: 'generator', generator })
+  const onWriterChange = (writer: WriterConfiguration) =>
+    setConfiguration({ ...configuration, active: 'writer', writer })
+  return (
+    <div className={wrapperStyle}>
+      <div className={contentContainerStyle}>
         <RemoteReaderEditor
-          input={editorInput.reader}
+          input={configuration.reader}
           samples={samples}
-          onChange={onChange}
+          onChange={onReaderChange}
           onLoadRemote={loadRemoteAsInline}
         />
-      )
-    }
-    case 'generator': {
-      const onChange = (generator: GeneratorConfiguration) =>
-        setConfiguration({ ...configuration, active: 'generator', generator })
-      return <GeneratorConfigurationEditor input={editorInput.generator} onChange={onChange} />
-    }
-    default:
-      return <div>TODO rest of the editors</div>
-  }
+        <ValidatorConfigurationEditor input={configuration.validator} onChange={onValidatorChange} />
+        <GeneratorConfigurationEditor input={configuration.generator} onChange={onGeneratorChange} />
+        <WriterConfigurationEditor input={configuration.writer} onChange={onWriterChange} />
+      </div>
+    </div>
+  )
 }

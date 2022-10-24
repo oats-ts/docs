@@ -4,7 +4,6 @@ import { theme } from '../theme'
 
 const tableContainerStyle = css`
   border-radius: 10px;
-  overflow: hidden;
   border: 2px solid ${theme.colors.dark1};
   margin: 1px;
 `
@@ -12,6 +11,7 @@ const tableContainerStyle = css`
 const tableStyle = css`
   border-collapse: collapse;
   width: 100%;
+  border-width: 0px;
 `
 
 export const Table: FC<HTMLAttributes<HTMLTableElement>> = ({ children, className, ...props }) => {
@@ -24,14 +24,19 @@ export const Table: FC<HTMLAttributes<HTMLTableElement>> = ({ children, classNam
   )
 }
 
-const headerTrStyle = css`
-  background-color: ${theme.colors.dark1};
-`
-
 const trStyle = css`
   border: 2px solid ${theme.colors.dark1};
   border-left-width: 0px;
   border-right-width: 0px;
+  &:last-of-type {
+    border-bottom-width: 0px;
+  }
+`
+
+const headerTrStyle = css`
+  background-color: ${theme.colors.dark1};
+  border-width: 0px;
+  border-radius: 10px;
 `
 
 export const Tr: FC<HTMLAttributes<HTMLTableRowElement> & { isHeader?: boolean }> = ({
@@ -42,7 +47,7 @@ export const Tr: FC<HTMLAttributes<HTMLTableRowElement> & { isHeader?: boolean }
 }) => {
   const clsName = cx(isHeader ? headerTrStyle : trStyle, className)
   return (
-    <tr className={clsName} {...props}>
+    <tr {...props} className={clsName}>
       {children}
     </tr>
   )
@@ -50,15 +55,20 @@ export const Tr: FC<HTMLAttributes<HTMLTableRowElement> & { isHeader?: boolean }
 
 const thStyle = css`
   color: ${theme.colors.text};
-  border: 2px solid ${theme.colors.dark1};
   font-size: ${theme.fontSize.m};
   padding: 18px 10px;
   text-align: left;
+  &:first-of-type {
+    border-top-left-radius: 5px;
+  }
+  &:last-of-type {
+    border-top-right-radius: 5px;
+  }
 `
 
 export const Th: FC<HTMLAttributes<HTMLTableCellElement>> = ({ children, className, ...props }) => {
   return (
-    <th className={cx(thStyle, className)} {...props}>
+    <th {...props} className={cx(thStyle, className)}>
       {children}
     </th>
   )
@@ -72,16 +82,32 @@ const tdStyle = css`
 
 export const Td: FC<HTMLAttributes<HTMLTableCellElement>> = ({ children, className, ...props }) => {
   return (
-    <td className={cx(tdStyle, className)} {...props}>
+    <td {...props} className={cx(tdStyle, className)}>
       {children}
     </td>
   )
 }
 
-export const THead: FC<HTMLAttributes<HTMLTableSectionElement>> = ({ children, ...props }) => {
-  return <thead {...props}>{children}</thead>
+const tHeadStyle = css`
+  border-width: 0px;
+`
+
+export const THead: FC<HTMLAttributes<HTMLTableSectionElement>> = ({ children, className, ...props }) => {
+  return (
+    <thead {...props} className={cx(tHeadStyle, className)}>
+      {children}
+    </thead>
+  )
 }
 
-export const TBody: FC<HTMLAttributes<HTMLTableSectionElement>> = ({ children, ...props }) => {
-  return <tbody {...props}>{children}</tbody>
+const tBodyStyle = css`
+  border-width: 0px;
+`
+
+export const TBody: FC<HTMLAttributes<HTMLTableSectionElement>> = ({ children, className, ...props }) => {
+  return (
+    <tbody {...props} className={cx(tBodyStyle, className)}>
+      {children}
+    </tbody>
+  )
 }

@@ -1,5 +1,6 @@
 import { css } from '@emotion/css'
 import React, { FC, PropsWithChildren } from 'react'
+import { theme } from '../theme'
 
 const sideBarStyle = css`
   label: side-bar;
@@ -7,6 +8,7 @@ const sideBarStyle = css`
   display: flex;
   flex-direction: column;
   overflow: auto;
+  background-color: ${theme.colors.dark2};
 `
 
 export const SideBar: FC<PropsWithChildren> = ({ children }) => {

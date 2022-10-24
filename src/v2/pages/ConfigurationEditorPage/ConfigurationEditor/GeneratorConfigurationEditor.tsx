@@ -1,7 +1,9 @@
 import { isNil } from 'lodash'
-import React, { FC, useMemo } from 'react'
+import React, { FC, useMemo, useState } from 'react'
+import { HiChevronDown, HiChevronUp } from 'react-icons/hi2'
 import { Autocomplete } from '../../../components/Autocomplete'
 import { dd, DropdownItem } from '../../../components/dropdownDefaults'
+import { FormGroup } from '../../../components/FormGroup'
 import { FormSection } from '../../../components/FormSection'
 import { Select } from '../../../components/Select'
 import { GeneratorConfiguration, GeneratorPreset, PathProviderType } from '../../../model/types'
@@ -56,12 +58,22 @@ const pathProviderTypeOptions: DropdownItem<PathProviderType>[] = [
 
 const rootPathOptions = ['src/generated']
 
+const hints = {
+  preset: 'Select what you need! Do you need a client SDK? Server boilerplate? Both?',
+  rootPath: 'Set the root folder for the generated content',
+  pathConfiguration: 'Set how you want to group generated artifacts into files',
+}
+
 export type GeneratorConfigurationEditorProps = {
   input: GeneratorConfiguration
   onChange: (node: GeneratorConfiguration) => void
 }
 
 export const GeneratorConfigurationEditor: FC<GeneratorConfigurationEditorProps> = ({ input, onChange }) => {
+  const [isShowingAdvanced, setShowAdvanced] = useState(false)
+
+  const toggleAdvanced = () => setShowAdvanced(!isShowingAdvanced)
+
   const onPresetChange = ({ value }: DropdownItem<GeneratorPreset>) => {
     onChange({ ...input, preset: value })
   }
@@ -82,11 +94,16 @@ export const GeneratorConfigurationEditor: FC<GeneratorConfigurationEditorProps>
     return isNil(input.pathProviderType)
       ? undefined
       : pathProviderTypeOptions.find((p) => p.value === input.pathProviderType)
-  }, [input.preset])
+  }, [input.pathProviderType])
 
   return (
-    <>
-      <FormSection name="Preset">
+    <FormGroup
+      name="Generator"
+      bottomAttachmentLabel={isShowingAdvanced ? 'Hide advanced' : 'Show advanced'}
+      bottomAttachmentIcon={isShowingAdvanced ? HiChevronUp : HiChevronDown}
+      onAttachmentClick={toggleAdvanced}
+    >
+      <FormSection name="Preset" description={hints.preset}>
         <Select
           placeholder="Select preset"
           items={presetOptions}
@@ -97,20 +114,7 @@ export const GeneratorConfigurationEditor: FC<GeneratorConfigurationEditorProps>
           getValue={dd.getValue}
         />
       </FormSection>
-      {input.configurationStyle === 'generators' && (
-        <FormSection name="Path configuration">
-          <Select
-            placeholder="Select path configuration"
-            items={pathProviderTypeOptions}
-            value={pathProvider}
-            onChange={onPathProviderTypeChange}
-            getDescription={dd.getDescription}
-            getKey={dd.getKey}
-            getValue={dd.getValue}
-          />
-        </FormSection>
-      )}
-      <FormSection name="Root path">
+      <FormSection name="Root path" description={hints.rootPath}>
         <Autocomplete
           placeholder="Root path"
           items={rootPathOptions}
@@ -119,6 +123,21 @@ export const GeneratorConfigurationEditor: FC<GeneratorConfigurationEditorProps>
           onChange={onPathRootChange}
         />
       </FormSection>
-    </>
+      {isShowingAdvanced && (
+        <>
+          <FormSection name="Path configuration" description={hints.pathConfiguration}>
+            <Select
+              placeholder="Select path configuration"
+              items={pathProviderTypeOptions}
+              value={pathProvider}
+              onChange={onPathProviderTypeChange}
+              getDescription={dd.getDescription}
+              getKey={dd.getKey}
+              getValue={dd.getValue}
+            />
+          </FormSection>
+        </>
+      )}
+    </FormGroup>
   )
 }

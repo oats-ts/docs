@@ -13,6 +13,9 @@ const sectionStyle = css`
   display: flex;
   flex-direction: column;
   gap: 6px;
+  &:last-of-type {
+    margin-bottom: 0px;
+  }
 `
 
 const labelStyle = css`

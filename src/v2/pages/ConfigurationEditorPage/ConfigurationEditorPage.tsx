@@ -15,7 +15,7 @@ const containerStyle = css`
 
 const editorContainerStyle = css`
   flex: 1 1 1px;
-  background-color: ${theme.colors.dark3};
+  background-color: ${theme.colors.dark4};
   overflow: auto;
 `
 

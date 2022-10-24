@@ -1,8 +1,10 @@
 import { isNil } from 'lodash'
-import React, { FC, useMemo } from 'react'
+import React, { FC, useMemo, useState } from 'react'
+import { HiChevronDown, HiChevronUp } from 'react-icons/hi2'
 import { ReaderConfiguration } from '../../../../types'
 import { Autocomplete } from '../../../components/Autocomplete'
 import { dd, DropdownItem } from '../../../components/dropdownDefaults'
+import { FormGroup } from '../../../components/FormGroup'
 import { FormSection } from '../../../components/FormSection'
 import { Select } from '../../../components/Select'
 import { RemoteProtocol, SourceLanguage } from '../../../model/types'
@@ -55,6 +57,12 @@ const protocolOptions: DropdownItem<RemoteProtocol>[] = [
   },
 ]
 
+const hints = {
+  path: 'The URI or file path where your source OpenAPI document will be read from. You can pick from Oats test documents, or check out https://apis.guru for examples',
+  language: 'The language used by your OpenAPI document',
+  protocol: 'The protocol used to read your OpenAPI document',
+}
+
 type RemoteReaderEditorProps = {
   input: ReaderConfiguration
   samples: string[]
@@ -63,6 +71,10 @@ type RemoteReaderEditorProps = {
 }
 
 export const RemoteReaderEditor: FC<RemoteReaderEditorProps> = ({ input, samples, onChange }) => {
+  const [isShowingAdvanced, setShowAdvanced] = useState(false)
+
+  const toggleAdvanced = () => setShowAdvanced(!isShowingAdvanced)
+
   const handleLanguageChange = ({ value }: DropdownItem<SourceLanguage>) => {
     onChange({ ...input, remoteLanguage: value })
   }
@@ -84,30 +96,13 @@ export const RemoteReaderEditor: FC<RemoteReaderEditorProps> = ({ input, samples
   }, [input.remoteLanguage])
 
   return (
-    <>
-      <FormSection name="Protocol">
-        <Select
-          items={protocolOptions}
-          placeholder="Choose protocol"
-          value={protocol}
-          getDescription={dd.getDescription}
-          getKey={dd.getKey}
-          getValue={dd.getValue}
-          onChange={handleProtocolChange}
-        />
-      </FormSection>
-      <FormSection name="Language">
-        <Select
-          items={languageOptions}
-          placeholder="Choose language"
-          value={language}
-          getDescription={dd.getDescription}
-          getKey={dd.getKey}
-          getValue={dd.getValue}
-          onChange={handleLanguageChange}
-        />
-      </FormSection>
-      <FormSection name="OpenAPI document URI">
+    <FormGroup
+      name="Reader"
+      bottomAttachmentLabel={isShowingAdvanced ? 'Hide advanced' : 'Show advanced'}
+      bottomAttachmentIcon={isShowingAdvanced ? HiChevronUp : HiChevronDown}
+      onAttachmentClick={toggleAdvanced}
+    >
+      <FormSection name="URI" description={hints.path}>
         <Autocomplete
           placeholder="OpenAPI document URI"
           items={samples}
@@ -115,10 +110,33 @@ export const RemoteReaderEditor: FC<RemoteReaderEditorProps> = ({ input, samples
           customLabel="Custom document URI"
           onChange={handlePathChange}
         />
-        {/* <Button className={loadButtonStyle} onClick={onLoadRemote}>
-          <Icon name="cloud download" /> Load as inline
-        </Button> */}
       </FormSection>
-    </>
+      {isShowingAdvanced && (
+        <>
+          <FormSection name="Protocol" description={hints.protocol}>
+            <Select
+              items={protocolOptions}
+              placeholder="Choose protocol"
+              value={protocol}
+              getDescription={dd.getDescription}
+              getKey={dd.getKey}
+              getValue={dd.getValue}
+              onChange={handleProtocolChange}
+            />
+          </FormSection>
+          <FormSection name="Language" description={hints.language}>
+            <Select
+              items={languageOptions}
+              placeholder="Choose language"
+              value={language}
+              getDescription={dd.getDescription}
+              getKey={dd.getKey}
+              getValue={dd.getValue}
+              onChange={handleLanguageChange}
+            />
+          </FormSection>
+        </>
+      )}
+    </FormGroup>
   )
 }

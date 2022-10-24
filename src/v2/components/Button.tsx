@@ -5,6 +5,7 @@ import { theme } from '../theme'
 type ButtonProps = PropsWithChildren & {
   variant?: 'primary' | 'secondary'
   className?: string
+  onClick?: () => void
 }
 
 const secondaryButtonStyle = css`
@@ -33,9 +34,9 @@ const buttonStyle = css`
   gap: 8px;
   align-items: center;
   transition: background-color 150ms linear, color 150ms linear, box-shadow 200ms linear;
-  padding: 16px 20px;
   border: unset;
-  border-radius: 14px;
+  border-radius: 8px;
+  padding: 14px 16px;
   position: relative;
   font-weight: 400;
   cursor: pointer;
@@ -46,7 +47,11 @@ const buttonStyle = css`
   }
 `
 
-export const Button: FC<ButtonProps> = ({ children, variant, className }) => {
+export const Button: FC<ButtonProps> = ({ children, variant, className, onClick }) => {
   const clsName = cx(buttonStyle, variant === 'primary' ? primaryButtonStyle : secondaryButtonStyle, className)
-  return <button className={clsName}>{children}</button>
+  return (
+    <button className={clsName} onClick={onClick}>
+      {children}
+    </button>
+  )
 }

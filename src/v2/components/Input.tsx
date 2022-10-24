@@ -1,8 +1,8 @@
-import React, { FC, HTMLAttributes } from 'react'
+import React, { FC, InputHTMLAttributes } from 'react'
 import { css, cx } from '@emotion/css'
 import { theme } from '../theme'
 
-export type InputProps = HTMLAttributes<HTMLInputElement>
+export type InputProps = InputHTMLAttributes<HTMLInputElement>
 
 const inputStyle = css`
   label: input;

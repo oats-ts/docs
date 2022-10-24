@@ -19,7 +19,7 @@ const contentContainerStyle = css`
 
   color: ${theme.colors.muted};
   font-size: ${theme.fontSize.m};
-  background-color: ${theme.colors.dark3};
+  background-color: ${theme.colors.dark4};
 `
 
 const containerStyle = css`
