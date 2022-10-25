@@ -70,7 +70,11 @@ const components: Options['components'] = {
   code({ node, inline, className, children, ...props }) {
     const match = /language-(\w+)/.exec(className || '')
     if (match !== null && !inline) {
-      return <SyntaxHighlighter language={match[1]}>{String(children).replace(/\n$/, '')}</SyntaxHighlighter>
+      return (
+        <SyntaxHighlighter language={match[1]} kind="docs">
+          {String(children).replace(/\n$/, '')}
+        </SyntaxHighlighter>
+      )
     }
     return <Code {...props}>{children}</Code>
   },

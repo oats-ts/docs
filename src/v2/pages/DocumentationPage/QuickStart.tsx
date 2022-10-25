@@ -41,26 +41,28 @@ export const QuickStart: FC = () => {
       <div className={containerStyle}>
         <QuickStartItem index={1} title="Prepare your OpenAPI document">
           You need an OpenAPI document to start with. In case you don't have one already, try this example:
-          <SyntaxHighlighter>
+          <SyntaxHighlighter kind="docs">
             https://raw.githubusercontent.com/oats-ts/oats-schemas/master/schemas/book-store.json
           </SyntaxHighlighter>
         </QuickStartItem>
         <QuickStartItem index={2} title="Install Oats generator modules">
           Install the necessary Oats modules to make the code generator work:
-          <SyntaxHighlighter>npm i @oats-ts/openapi ts-node</SyntaxHighlighter>
+          <SyntaxHighlighter kind="docs">npm i @oats-ts/openapi ts-node</SyntaxHighlighter>
         </QuickStartItem>
         <QuickStartItem index={3} title="Configure the generator">
           Create a file called <b>oats.ts</b> in your project root (you can call it anything you like), and the
           configuration:
-          <SyntaxHighlighter language="typescript">{generatorSource}</SyntaxHighlighter>
+          <SyntaxHighlighter language="typescript" kind="docs">
+            {generatorSource}
+          </SyntaxHighlighter>
         </QuickStartItem>
         <QuickStartItem index={4} title="Run the generator">
           Open a terminal and simply run:
-          <SyntaxHighlighter>ts-node ./oats.ts</SyntaxHighlighter>
+          <SyntaxHighlighter kind="docs">ts-node ./oats.ts</SyntaxHighlighter>
         </QuickStartItem>
         <QuickStartItem index={5} title="Verify results">
           In case the generators successfully ran, you will see something like this in the terminal:
-          <SyntaxHighlighter>{generatorOutput}</SyntaxHighlighter>
+          <SyntaxHighlighter kind="docs">{generatorOutput}</SyntaxHighlighter>
           The <Code>npm install</Code> command lists the necessary dependencies, that the generated output needs, to
           function at runtime. Run this command, and you are ready to use the generated output.
           <p className={paragraphStyle}>

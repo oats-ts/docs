@@ -8,4 +8,7 @@ export const globalStyles = css`
   body {
     font-family: ${theme.fontFamily.sansSerif};
   }
+  .react-syntax-highlighter-line-number {
+    color: rgba(255, 255, 255, 0.4) !important;
+  }
 `

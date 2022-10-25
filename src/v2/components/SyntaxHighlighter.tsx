@@ -1,40 +1,21 @@
-import { css } from '@emotion/css'
-import React, { CSSProperties, FC, useState } from 'react'
+import { css, cx } from '@emotion/css'
+import React, { FC, useState } from 'react'
 import { Prism } from 'react-syntax-highlighter'
 import * as themes from 'react-syntax-highlighter/dist/esm/styles/prism'
 import { CopyToClipboard } from 'react-copy-to-clipboard'
 import { theme } from '../theme'
 import { HiClipboard, HiCheck } from 'react-icons/hi2'
-import { cloneDeep, isNil, merge, values } from 'lodash'
+import { isNil } from 'lodash'
+import { createPrismTheme } from './createPrismTheme'
 
 export type SyntaxHighlighterProps = {
   children: string
+  kind: 'docs' | 'editor'
   language?: string
 }
 
-function createTheme(baseTheme: Record<string, CSSProperties>): Record<string, CSSProperties> {
-  const themeOverrides: Record<string, CSSProperties> = {
-    'pre[class*="language-"]': {
-      backgroundColor: theme.colors.dark1,
-      borderRadius: '10px',
-      padding: '18px',
-      width: '100%',
-      maxWidth: '100%',
-      borderWidth: '0px',
-    },
-  }
-
-  const clonedTheme = cloneDeep(baseTheme)
-  values(clonedTheme).forEach((field) => {
-    delete field.background
-    delete field.backgroundColor
-    field.textShadow = 'rgb(0 0 0 / 30%) 0px 1px'
-  })
-
-  return merge(clonedTheme, themeOverrides)
-}
-
-const prismTheme = createTheme(themes.vscDarkPlus)
+const docsTheme = createPrismTheme(themes.vscDarkPlus, theme.colors.dark1)
+const editorTheme = createPrismTheme(themes.vscDarkPlus, theme.colors.dark4)
 
 const copyButtonStyle = css`
   label: syntax-hl-copy;
@@ -56,8 +37,13 @@ const copyButtonStyle = css`
   box-shadow: rgba(0, 0, 0, 0.05) 0px 5px 8px;
 `
 
-const containerStyle = css`
-  label: syntax-hl;
+const docsContainerStyle = css`
+  label: docs-syntax-hl;
+  border-radius: 10px;
+  padding: 0px;
+  /** TODO */
+  margin: 16px 0px;
+  overflow: hidden;
   position: relative;
   * {
     font-family: 'Source Code Pro', monospace;
@@ -65,7 +51,14 @@ const containerStyle = css`
   }
 `
 
-export const SyntaxHighlighter: FC<SyntaxHighlighterProps> = ({ children, language }) => {
+const editorContainerStyle = css`
+  overflow: auto;
+  position: relative;
+  flex-grow: 1 1 1px;
+  height: 100vh;
+`
+
+export const SyntaxHighlighter: FC<SyntaxHighlighterProps> = ({ children, language, kind }) => {
   const [copied, setCopied] = useState(false)
   const [hovering, setHovering] = useState(false)
   const [resetTimeout, setResetTimeout] = useState<any>(undefined)
@@ -91,9 +84,11 @@ export const SyntaxHighlighter: FC<SyntaxHighlighterProps> = ({ children, langua
     )
   }
 
+  const containerStyle = cx(kind === 'editor' ? editorContainerStyle : docsContainerStyle)
+  const theme = kind === 'editor' ? editorTheme : docsTheme
   return (
     <div className={containerStyle} onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave}>
-      <Prism language={language} style={prismTheme} wrapLongLines={true}>
+      <Prism language={language} style={theme} wrapLongLines={true} showLineNumbers={kind === 'editor'}>
         {children}
       </Prism>
       <CopyToClipboard text={children} onCopy={onCopy}>

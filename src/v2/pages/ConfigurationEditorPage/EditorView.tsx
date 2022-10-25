@@ -1,11 +1,10 @@
 import isNil from 'lodash/isNil'
 import React, { FC } from 'react'
+import { SyntaxHighlighter } from '../../components/SyntaxHighlighter'
 import { useGeneratorContext } from '../../model/useGenerator'
 import { ConfigurationEditor } from './ConfigurationEditor/ConfigurationEditor'
 import { IssuesPanel } from './IssuesPanel'
 import { NoEditor } from './NoEditor'
-import { PackageJsonEditor } from './PackageJsonEditor'
-import { ReadonlyTypescriptMonaco } from './ReadonlyTypescriptMonaco'
 
 export const EditorView: FC = () => {
   const { editorInput, isLoading } = useGeneratorContext()
@@ -15,7 +14,11 @@ export const EditorView: FC = () => {
   }
   switch (editorInput?.type) {
     case 'file': {
-      return <ReadonlyTypescriptMonaco value={editorInput.content} path={editorInput.path} />
+      return (
+        <SyntaxHighlighter kind="editor" language="typescript">
+          {editorInput.content}
+        </SyntaxHighlighter>
+      )
     }
     case 'issues': {
       return <IssuesPanel isLoading={isLoading} node={editorInput} />
@@ -24,14 +27,23 @@ export const EditorView: FC = () => {
       return <ConfigurationEditor />
     }
     case 'generator-source': {
-      return <ReadonlyTypescriptMonaco value={editorInput.source} path="package.json" />
+      return (
+        <SyntaxHighlighter kind="editor" language="typescript">
+          {editorInput.source}
+        </SyntaxHighlighter>
+      )
     }
     case 'package-json': {
-      return <PackageJsonEditor source={editorInput.source} />
+      return (
+        <SyntaxHighlighter kind="editor" language="json">
+          {editorInput.source}
+        </SyntaxHighlighter>
+      )
     }
     case 'folder': {
       throw new TypeError(`Unexpected input of type "${editorInput.type}"`)
     }
+    default:
+      return <NoEditor />
   }
-  return <NoEditor />
 }
