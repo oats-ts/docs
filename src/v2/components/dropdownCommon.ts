@@ -1,14 +1,23 @@
 import { css } from '@emotion/css'
 import { theme } from '../theme'
 
-export type DropdownProps<T> = {
+type CommonDropdownProps<T> = {
   items: T[]
-  value?: T
   placeholder?: string
-  onChange?: (item: T) => void
   getKey?: (item: T) => string
   getValue?: (item: T) => string
   getDescription?: (item: T) => string | undefined
+}
+
+export type DropdownProps<T> = CommonDropdownProps<T> & {
+  value?: T
+  onChange?: (item: T) => void
+}
+
+export type MutliDropdownProps<T> = CommonDropdownProps<T> & {
+  value?: T[]
+  onChange?: (items: T[]) => void
+  isRemoveable?: (item: T) => boolean
 }
 
 export const dropdownContainerStyle = (isOpen: boolean) => css`
@@ -49,6 +58,10 @@ export const dropdownItemStyle = css`
 export const dropdownItemLabelStyle = css`
   color: ${theme.colors.text};
   font-size: ${theme.fontSize.m};
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
 `
 
 export const dropdownItemDescriptionStyle = css`
@@ -58,4 +71,9 @@ export const dropdownItemDescriptionStyle = css`
 
 export const focusedDropownItemStyle = css`
   background-color: ${theme.colors.darkHighlight};
+`
+
+export const selectedDropdownItemStyle = css`
+  background-color: ${theme.colors.darkHighlight};
+  color: ${theme.colors.text};
 `
