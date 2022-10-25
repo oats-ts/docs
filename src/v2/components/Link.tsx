@@ -1,9 +1,11 @@
 import React, { FC, AnchorHTMLAttributes } from 'react'
 import { css, cx } from '@emotion/css'
 import { theme } from '../theme'
+import { isNil } from 'lodash'
 
 const linkStyle = css`
   label: link;
+  cursor: pointer;
   position: relative;
   text-decoration: none;
   gap: 8px;
@@ -18,10 +20,17 @@ const linkStyle = css`
   }
 `
 
-export const Link: FC<AnchorHTMLAttributes<HTMLAnchorElement>> = ({ children, className, ...props }) => {
+export const Link: FC<AnchorHTMLAttributes<HTMLAnchorElement>> = ({ children, className, onClick, ...props }) => {
+  if (isNil(onClick)) {
+    return (
+      <a className={cx(linkStyle, className)} {...props}>
+        {children}
+      </a>
+    )
+  }
   return (
-    <a className={cx(linkStyle, className)} {...props}>
+    <span className={cx(linkStyle, className)} onClick={onClick} {...props}>
       {children}
-    </a>
+    </span>
   )
 }

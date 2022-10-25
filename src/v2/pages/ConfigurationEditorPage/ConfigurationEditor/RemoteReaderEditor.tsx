@@ -1,13 +1,14 @@
 import { isNil } from 'lodash'
 import React, { FC, useMemo, useState } from 'react'
-import { HiChevronDown, HiChevronUp } from 'react-icons/hi2'
+import { HiArrowUturnLeft, HiChevronDown, HiChevronUp } from 'react-icons/hi2'
 import { ReaderConfiguration } from '../../../../types'
 import { Autocomplete } from '../../../components/Autocomplete'
 import { dd, DropdownItem } from '../../../components/dropdownDefaults'
-import { FormGroup } from '../../../components/FormGroup'
+import { ConfigurationFormGroup } from '../../../components/ConfigurationFormGroup'
 import { FormSection } from '../../../components/FormSection'
 import { Select } from '../../../components/Select'
 import { RemoteProtocol, SourceLanguage } from '../../../model/types'
+import { defaults } from '../../../model/defaults'
 
 const languageOptions: DropdownItem<SourceLanguage>[] = [
   {
@@ -87,6 +88,8 @@ export const RemoteReaderEditor: FC<RemoteReaderEditorProps> = ({ input, samples
     onChange({ ...input, remotePath })
   }
 
+  const onReset = () => onChange(defaults.readerConfiguration)
+
   const protocol = useMemo((): DropdownItem<RemoteProtocol> | undefined => {
     return isNil(input.remoteProtocol) ? undefined : protocolOptions.find((p) => p.value === input.remoteProtocol)
   }, [input.remoteProtocol])
@@ -96,11 +99,14 @@ export const RemoteReaderEditor: FC<RemoteReaderEditorProps> = ({ input, samples
   }, [input.remoteLanguage])
 
   return (
-    <FormGroup
+    <ConfigurationFormGroup
       name="Reader"
       bottomAttachmentLabel={isShowingAdvanced ? 'Hide advanced' : 'Show advanced'}
       bottomAttachmentIcon={isShowingAdvanced ? HiChevronUp : HiChevronDown}
       onAttachmentClick={toggleAdvanced}
+      titleButtonLabel="Reset"
+      titleButtonIcon={HiArrowUturnLeft}
+      onTitleButtonClick={onReset}
     >
       <FormSection name="URI" description={hints.path}>
         <Autocomplete
@@ -137,6 +143,6 @@ export const RemoteReaderEditor: FC<RemoteReaderEditorProps> = ({ input, samples
           </FormSection>
         </>
       )}
-    </FormGroup>
+    </ConfigurationFormGroup>
   )
 }

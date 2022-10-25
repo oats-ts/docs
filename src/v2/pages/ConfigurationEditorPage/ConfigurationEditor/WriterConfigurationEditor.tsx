@@ -1,10 +1,11 @@
 import { CommentConfig } from '@oats-ts/typescript-writer'
 import React, { FC, useState } from 'react'
-import { HiChevronDown, HiChevronUp } from 'react-icons/hi2'
+import { HiArrowUturnLeft, HiChevronDown, HiChevronUp } from 'react-icons/hi2'
 import { CommentsTable } from '../../../components/CommentsTable'
-import { FormGroup } from '../../../components/FormGroup'
+import { ConfigurationFormGroup } from '../../../components/ConfigurationFormGroup'
 import { FormSection } from '../../../components/FormSection'
 import { Switch } from '../../../components/Switch'
+import { defaults } from '../../../model/defaults'
 import { WriterConfiguration } from '../../../model/types'
 
 export type WriterConfigurationEditorProps = {
@@ -33,12 +34,16 @@ export const WriterConfigurationEditor: FC<WriterConfigurationEditorProps> = ({ 
   const onTrailingCommentsChange = (trailingComments: CommentConfig[]) => {
     onChange({ ...input, trailingComments })
   }
+  const onReset = () => onChange(defaults.writerConfiguration)
   return (
-    <FormGroup
+    <ConfigurationFormGroup
       name="Writer"
       bottomAttachmentLabel={isShowingAdvanced ? 'Hide advanced' : 'Show advanced'}
       bottomAttachmentIcon={isShowingAdvanced ? HiChevronUp : HiChevronDown}
       onAttachmentClick={toggleAdvanced}
+      titleButtonLabel="Reset"
+      titleButtonIcon={HiArrowUturnLeft}
+      onTitleButtonClick={onReset}
     >
       <FormSection name="Use Prettier?" description={hints.useFormatter}>
         <Switch value={input.useFormatter} onChange={onUseFormatterChanged} />
@@ -53,6 +58,6 @@ export const WriterConfigurationEditor: FC<WriterConfigurationEditorProps> = ({ 
           </FormSection>
         </>
       )}
-    </FormGroup>
+    </ConfigurationFormGroup>
   )
 }

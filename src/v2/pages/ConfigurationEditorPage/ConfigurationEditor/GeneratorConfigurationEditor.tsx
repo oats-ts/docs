@@ -1,13 +1,14 @@
 import { isNil } from 'lodash'
 import React, { FC, useMemo, useState } from 'react'
-import { HiChevronDown, HiChevronUp } from 'react-icons/hi2'
+import { HiArrowUturnLeft, HiChevronDown, HiChevronUp } from 'react-icons/hi2'
 import { Autocomplete } from '../../../components/Autocomplete'
 import { dd, DropdownItem } from '../../../components/dropdownDefaults'
-import { FormGroup } from '../../../components/FormGroup'
+import { ConfigurationFormGroup } from '../../../components/ConfigurationFormGroup'
 import { FormSection } from '../../../components/FormSection'
 import { Select } from '../../../components/Select'
 import { GeneratorConfiguration, GeneratorPreset, PathProviderType } from '../../../model/types'
 import { PresetConfigurationEditor } from './PresetConfigurationEditor'
+import { defaults } from '../../../model/defaults'
 
 const presetOptions: DropdownItem<GeneratorPreset>[] = [
   {
@@ -87,6 +88,8 @@ export const GeneratorConfigurationEditor: FC<GeneratorConfigurationEditorProps>
     onChange({ ...input, rootPath })
   }
 
+  const onReset = () => onChange(defaults.generatorConfiguration)
+
   const preset = useMemo((): DropdownItem<GeneratorPreset> | undefined => {
     return isNil(input.preset) ? undefined : presetOptions.find((p) => p.value === input.preset)
   }, [input.preset])
@@ -98,11 +101,14 @@ export const GeneratorConfigurationEditor: FC<GeneratorConfigurationEditorProps>
   }, [input.pathProviderType])
 
   return (
-    <FormGroup
+    <ConfigurationFormGroup
       name="Generator"
       bottomAttachmentLabel={isShowingAdvanced ? 'Hide advanced' : 'Show advanced'}
       bottomAttachmentIcon={isShowingAdvanced ? HiChevronUp : HiChevronDown}
       onAttachmentClick={toggleAdvanced}
+      titleButtonLabel="Reset"
+      titleButtonIcon={HiArrowUturnLeft}
+      onTitleButtonClick={onReset}
     >
       <FormSection name="Preset" description={hints.preset}>
         <Select
@@ -140,6 +146,6 @@ export const GeneratorConfigurationEditor: FC<GeneratorConfigurationEditorProps>
           <PresetConfigurationEditor input={input} onChange={onChange} />
         </>
       )}
-    </FormGroup>
+    </ConfigurationFormGroup>
   )
 }

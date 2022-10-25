@@ -27,8 +27,8 @@ import { verifyConfiguration } from './verifyConfiguration'
 import { filterExplorerTree } from './filterExplorerTree'
 import { getPackageJsonSource } from './getPackageJsonSource'
 import { findFileByPath } from './findFileByPath'
-import { defaultPrettierConfig } from './deafultPrettierConfig'
 import { getVersionMap } from './getVersionMap'
+import { defaults } from './defaults'
 
 export function useGenerator(): GeneratorContextType {
   const [samples, setSamples] = useState<string[]>([])
@@ -39,33 +39,10 @@ export function useGenerator(): GeneratorContextType {
         type: 'configuration',
         active: 'reader',
         version,
-        validator: {
-          enabled: true,
-        },
-        reader: {
-          readerType: 'remote',
-          inlineContent: '',
-          inlineLanguage: 'json',
-          remoteLanguage: 'mixed',
-          remotePath: 'https://raw.githubusercontent.com/oats-ts/oats-schemas/master/schemas/pet-store-yaml.yaml',
-          remoteProtocol: 'mixed',
-        },
-        generator: {
-          preset: 'fullStack',
-          pathProviderType: 'default',
-          rootPath: '/src/generated',
-          configurationStyle: 'preset',
-          presetConfig: {},
-          generators: [],
-        },
-        writer: {
-          writerType: 'file',
-          lineSeparator: '\n',
-          useFormatter: true,
-          leadingComments: [],
-          trailingComments: [],
-          prettier: defaultPrettierConfig,
-        },
+        reader: defaults.readerConfiguration,
+        validator: defaults.validatorConfiguration,
+        generator: defaults.generatorConfiguration,
+        writer: defaults.writerConfiguration,
       },
       verifyConfiguration,
     ),

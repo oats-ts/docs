@@ -3,8 +3,11 @@ import { isNil } from 'lodash'
 import React, { FC, PropsWithChildren } from 'react'
 import { IconType } from 'react-icons'
 import { theme } from '../theme'
+import { Link } from './Link'
 
-type FormGroupProps = PropsWithChildren & {
+// TODO if there's time pull this apart to smaller components, this is terrible design
+
+type ConfigurationFormGroupProps = PropsWithChildren & {
   name: string
   bottomAttachmentLabel?: string
   topAttachmentLabel?: string
@@ -12,18 +15,32 @@ type FormGroupProps = PropsWithChildren & {
   bottomAttachmentIcon?: IconType
   onAttachmentClick?: (attachment: 'top' | 'bottom') => void
   icon?: IconType
+  titleButtonLabel?: string
+  titleButtonIcon?: IconType
+  onTitleButtonClick?: () => void
 }
 
-const groupNameStyle = css`
-  label: group-name;
+const groupHeaderStyle = css`
+  label: group-header;
   font-size: ${theme.fontSize.m};
   color: ${theme.colors.text};
   display: flex;
   flex-direction: row;
   align-items: center;
-  text-transform: uppercase;
   margin: 0px;
   margin-bottom: 20px;
+`
+
+const groupNameStyle = css`
+  flex: 1 1 1px;
+  text-transform: uppercase;
+`
+
+const titleButtonStyle = css`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 6px;
 `
 
 const groupStyle = css`
@@ -85,7 +102,7 @@ const bottomAttachmentStyle = cx(
   `,
 )
 
-export const FormGroup: FC<FormGroupProps> = ({
+export const ConfigurationFormGroup: FC<ConfigurationFormGroupProps> = ({
   name,
   topAttachmentLabel,
   topAttachmentIcon: TopIcon,
@@ -93,10 +110,14 @@ export const FormGroup: FC<FormGroupProps> = ({
   bottomAttachmentIcon: BottomIcon,
   children,
   icon: Icon,
+  titleButtonLabel,
+  titleButtonIcon: TitleIcon,
+  onTitleButtonClick,
   onAttachmentClick,
 }) => {
   const hasTopAttachment = !isNil(topAttachmentLabel)
   const hasBottomAttachment = !isNil(bottomAttachmentLabel)
+  const hasTitleButton = !isNil(titleButtonLabel)
   const groupFullStyle = cx(
     groupStyle,
     hasTopAttachment ? hasTopAttachmentStyle : undefined,
@@ -108,9 +129,15 @@ export const FormGroup: FC<FormGroupProps> = ({
 
   return (
     <>
-      <h2 className={groupNameStyle}>
+      <h2 className={groupHeaderStyle}>
         {Icon ? <Icon /> : null}
-        {name}
+        <span className={groupNameStyle}>{name}</span>
+        {hasTitleButton && (
+          <Link className={titleButtonStyle} onClick={onTitleButtonClick}>
+            {TitleIcon ? <TitleIcon /> : null}
+            {titleButtonLabel}
+          </Link>
+        )}
       </h2>
       {hasTopAttachment && (
         <div className={topAttachmentStyle} onClick={onTopAttachmentClick}>

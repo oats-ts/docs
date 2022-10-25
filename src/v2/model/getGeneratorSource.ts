@@ -19,9 +19,9 @@ import typescriptParser from 'prettier/parser-typescript'
 import prettier from 'prettier/standalone'
 import { isNil } from 'lodash'
 import { CommentConfig } from '@oats-ts/typescript-writer'
-import { defaultPrettierConfig } from './deafultPrettierConfig'
 import YAML from 'yamljs'
 import { getPresetConfigAst } from './getPresetConfigAst'
+import { defaults } from './defaults'
 
 function comment<T extends Node>(node: T, comment: string): T {
   return addSyntheticLeadingComment(node, SyntaxKind.SingleLineCommentTrivia, ` ${comment}`, true)
@@ -228,7 +228,9 @@ function getFormatterAst(writer: WriterConfiguration) {
             factory.createStringLiteral('typescript'),
           ),
           ...Object.entries(writer.prettier)
-            .filter(([key, value]) => !isNil(value) && value !== (defaultPrettierConfig as Record<string, any>)[key])
+            .filter(
+              ([key, value]) => !isNil(value) && value !== (defaults.prettierConfiguration as Record<string, any>)[key],
+            )
             .map(([key, value]) => factory.createPropertyAssignment(factory.createIdentifier(key), getLiteral(value))),
         ],
         true,
