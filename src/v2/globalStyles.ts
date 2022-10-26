@@ -26,7 +26,7 @@ export const globalStyles = css`
     }
 
     @media ${breakpoints.phone} {
-      font-size: 140%;
+      font-size: 200%;
     }
   }
 `
