@@ -11,7 +11,7 @@ const inputStyle = css`
   color: ${theme.colors.text};
   font-size: ${theme.fontSize.m};
   border-radius: ${theme.spacing.s};
-  padding: ${theme.spacing.m} 16px;
+  padding: ${theme.spacing.m} ${theme.spacing.xm};
   border-width: ${theme.spacing.zero};
   outline: none;
 

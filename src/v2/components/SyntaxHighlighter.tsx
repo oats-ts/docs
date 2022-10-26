@@ -43,7 +43,7 @@ const docsContainerStyle = css`
   border-radius: 10px;
   padding: ${theme.spacing.zero};
   /** TODO */
-  margin: 16px ${theme.spacing.zero};
+  margin: ${theme.spacing.xm} ${theme.spacing.zero};
   overflow: hidden;
   position: relative;
   * {

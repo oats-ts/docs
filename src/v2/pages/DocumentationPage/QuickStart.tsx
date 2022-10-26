@@ -29,7 +29,7 @@ const titleStyle = css`
 `
 
 const paragraphStyle = css`
-  margin-top: 16px;
+  margin-top: ${theme.spacing.xm};
 `
 
 export const QuickStart: FC = () => {

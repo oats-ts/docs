@@ -36,7 +36,7 @@ const buttonStyle = css`
   transition: background-color 150ms linear, color 150ms linear, box-shadow 200ms linear;
   border: unset;
   border-radius: ${theme.spacing.s};
-  padding: 14px 16px;
+  padding: 14px ${theme.spacing.xm};
   position: relative;
   font-weight: 400;
   cursor: pointer;

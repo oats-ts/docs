@@ -18,7 +18,7 @@ const labelContainerStyle = css`
   display: flex;
   flex-direction: row;
   align-items: center;
-  padding: ${theme.spacing.zero} 16px ${theme.spacing.zero} ${theme.spacing.zero};
+  padding: ${theme.spacing.zero} ${theme.spacing.xm} ${theme.spacing.zero} ${theme.spacing.zero};
   cursor: pointer;
 `
 
@@ -27,7 +27,7 @@ const inputStyle = css`
   outline: none;
   border-radius: ${theme.spacing.s};
   flex: 1 1 1px;
-  padding: ${theme.spacing.m} ${theme.spacing.zero} ${theme.spacing.m} 16px;
+  padding: ${theme.spacing.m} ${theme.spacing.zero} ${theme.spacing.m} ${theme.spacing.xm};
   color: ${theme.colors.text};
   background-color: ${theme.colors.transparent};
   ::placeholder {

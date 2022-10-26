@@ -21,7 +21,7 @@ const inputContainerStyle = css`
   display: flex;
   flex-direction: row;
   align-items: center;
-  padding-right: 16px;
+  padding-right: ${theme.spacing.xm};
   * {
     cursor: pointer;
   }
@@ -33,7 +33,7 @@ const inputStyle = (isEmpty: boolean) => css`
   outline: none;
   border-radius: ${theme.spacing.s};
   flex: 1 1 1px;
-  padding: ${theme.spacing.m} ${theme.spacing.zero} ${theme.spacing.m} ${isEmpty ? '16px' : theme.spacing.xs};
+  padding: ${theme.spacing.m} ${theme.spacing.zero} ${theme.spacing.m} ${isEmpty ? theme.spacing.xm : theme.spacing.xs};
   color: ${theme.colors.text};
   background-color: ${theme.colors.transparent};
   ::placeholder {

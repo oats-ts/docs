@@ -18,7 +18,7 @@ const labelContainerStyle = css`
   display: flex;
   flex-direction: row;
   align-items: center;
-  padding: ${theme.spacing.m} 16px;
+  padding: ${theme.spacing.m} ${theme.spacing.xm};
   * {
     cursor: pointer;
   }

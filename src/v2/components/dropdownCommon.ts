@@ -47,7 +47,7 @@ export const dropdownStyle = css`
 `
 
 export const dropdownItemStyle = css`
-  padding: ${theme.spacing.m} 16px;
+  padding: ${theme.spacing.m} ${theme.spacing.xm};
   list-style: none;
   display: flex;
   flex-direction: column;
