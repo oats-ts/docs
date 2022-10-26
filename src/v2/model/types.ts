@@ -87,9 +87,6 @@ export type IssuesNode = {
 }
 
 export type ReaderConfiguration = {
-  // readerType: 'inline' | 'remote'
-  // inlineLanguage: Exclude<SourceLanguage, 'mixed'>
-  // inlineContent: string
   remoteProtocol: RemoteProtocol
   remoteLanguage: SourceLanguage
   remotePath: string

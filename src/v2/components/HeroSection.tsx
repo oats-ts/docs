@@ -3,8 +3,7 @@ import React, { FC } from 'react'
 import { theme } from '../theme'
 import { Button } from './Button'
 import { breakpoints, ctnr } from '../css'
-import { GoOctoface } from 'react-icons/go'
-import { HiPlay } from 'react-icons/hi2'
+import { HiPlay, HiCodeBracket } from 'react-icons/hi2'
 import { Link } from './Link'
 
 const heroSectionStyle = css`
@@ -71,7 +70,7 @@ export const HeroSection: FC = () => {
             <HiPlay /> Get Started
           </Button>
           <Button>
-            <GoOctoface /> Github
+            <HiCodeBracket /> Github
           </Button>
         </div>
       </div>

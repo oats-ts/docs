@@ -1,6 +1,6 @@
 import { css } from '@emotion/css'
 import React, { FC } from 'react'
-import { IoRocketSharp } from 'react-icons/io5'
+import { HiBeaker } from 'react-icons/hi2'
 import { theme } from '../../theme'
 import { QuickStartItem } from '../../components/QuickStartItem'
 import { SyntaxHighlighter } from '../../components/SyntaxHighlighter'
@@ -36,7 +36,7 @@ export const QuickStart: FC = () => {
   return (
     <>
       <h2 className={titleStyle}>
-        <IoRocketSharp /> Quick start
+        <HiBeaker /> Quick start
       </h2>
       <div className={containerStyle}>
         <QuickStartItem index={1} title="Prepare your OpenAPI document">

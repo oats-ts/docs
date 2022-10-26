@@ -1,6 +1,6 @@
 import { css } from '@emotion/css'
 import React, { FC } from 'react'
-import { AppContainer } from '../../components/AppContainer'
+import { DocContainer } from '../../components/DocContainer'
 import { SideBar } from '../../components/SideBar'
 import { SideBarLogo } from '../../components/SideBarLogo'
 import { GeneratorContext } from '../../model/GeneratorContext'
@@ -8,10 +8,6 @@ import { useGenerator } from '../../model/useGenerator'
 import { theme } from '../../theme'
 import { EditorView } from './EditorView'
 import { ExplorerTree } from './ExplorerTree'
-
-const containerStyle = css`
-  overflow: hidden;
-`
 
 const editorContainerStyle = css`
   flex: 1 1 1px;
@@ -23,7 +19,7 @@ export const ConfigurationEditorPage: FC = () => {
   const context = useGenerator()
   return (
     <GeneratorContext.Provider value={context}>
-      <AppContainer direction="horizontal" className={containerStyle}>
+      <DocContainer>
         <SideBar>
           <SideBarLogo name="editor" />
           <ExplorerTree />
@@ -31,7 +27,7 @@ export const ConfigurationEditorPage: FC = () => {
         <div className={editorContainerStyle}>
           <EditorView />
         </div>
-      </AppContainer>
+      </DocContainer>
     </GeneratorContext.Provider>
   )
 }

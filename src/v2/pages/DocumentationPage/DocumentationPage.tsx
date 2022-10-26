@@ -2,7 +2,7 @@ import { css } from '@emotion/css'
 import React, { FC, Fragment } from 'react'
 import { useParams } from 'react-router-dom'
 import { MarkdowPageName } from '../../../md/markdown'
-import { AppContainer } from '../../components/AppContainer'
+import { DocContainer } from '../../components/DocContainer'
 import { MarkdownView } from '../../components/MarkdownView'
 import { SideBar } from '../../components/SideBar'
 import { SideBarLogo } from '../../components/SideBarLogo'
@@ -22,16 +22,12 @@ const contentContainerStyle = css`
   background-color: ${theme.colors.dark4};
 `
 
-const containerStyle = css`
-  overflow: hidden;
-`
-
 export const DocumentationPage: FC = () => {
   const { page } = useParams<{ page: MarkdowPageName }>()
   const activePage = page ?? 'OpenAPI_GettingStarted'
 
   return (
-    <AppContainer direction="horizontal" className={containerStyle}>
+    <DocContainer>
       <SideBar>
         <SideBarLogo name="docs" />
         {sections.map((section) => (
@@ -47,6 +43,6 @@ export const DocumentationPage: FC = () => {
       <div className={contentContainerStyle}>
         <MarkdownView page={activePage} />
       </div>
-    </AppContainer>
+    </DocContainer>
   )
 }

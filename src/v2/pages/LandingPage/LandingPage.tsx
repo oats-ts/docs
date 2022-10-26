@@ -9,7 +9,7 @@ import { AppContainer } from '../../components/AppContainer'
 
 export const LandingPage: FC = () => {
   return (
-    <AppContainer direction="vertical">
+    <AppContainer>
       <Header />
       <Content>
         <HeroSection />
