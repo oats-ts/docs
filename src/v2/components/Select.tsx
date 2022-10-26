@@ -18,14 +18,14 @@ const labelContainerStyle = css`
   display: flex;
   flex-direction: row;
   align-items: center;
-  padding: 12px 16px;
+  padding: ${theme.spacing.m} ${theme.spacing.xm};
   * {
     cursor: pointer;
   }
 `
 
 const labelStyle = css`
-  flex: 1 1 1px;
+  flex: ${theme.flex.grow};
   color: ${theme.colors.text};
 `
 

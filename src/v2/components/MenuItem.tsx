@@ -15,7 +15,7 @@ const anchorStyle = css`
   text-decoration: none;
   color: ${theme.colors.muted};
   display: flex;
-  gap: 8px;
+  gap: ${theme.spacing.s};
   align-items: center;
   transition: color 150ms linear;
 
@@ -26,10 +26,10 @@ const anchorStyle = css`
   &::after {
     content: '';
     position: absolute;
-    bottom: -4px;
+    bottom: -${theme.spacing.xxs};
     left: 0;
     width: 100%;
-    height: 2px;
+    height: ${theme.spacing.xxxs};
     background-color: ${theme.colors.text};
     opacity: 0;
     transition: opacity 300ms, transform 300ms;
@@ -56,15 +56,15 @@ const anchorStyle = css`
 const menuItemStyle = css`
   label: menu-item;
   height: 100%;
-  padding: 0px 24px;
+  padding: ${theme.spacing.zero} ${theme.spacing.l};
   display: flex;
-  gap: 8px;
+  gap: ${theme.spacing.s};
   align-items: center;
   cursor: pointer;
   color: ${theme.colors.text};
   font-size: ${theme.fontSize.m};
   &:first-of-type {
-    padding-left: 0px;
+    padding-left: ${theme.spacing.zero};
   }
 `
 

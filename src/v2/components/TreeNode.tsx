@@ -18,8 +18,8 @@ const openableStyle = (level: number) => css`
     content: '';
     left: ${8 + Padding + Padding * level}px;
     position: absolute;
-    top: 30px;
-    height: calc(100% - 30px);
+    top: ${theme.spacing.xxl};
+    height: calc(100% - ${theme.spacing.xxl});
   }
 `
 
@@ -27,7 +27,7 @@ const treeNodeContentStyle = (level: number, active: boolean) => css`
   label: tree-node-content-${level};
   display: flex;
   flex-direction: row;
-  padding: 8px;
+  padding: ${theme.spacing.s};
   transition: background-color 150ms linear, color 150ms linear;
   cursor: pointer;
   text-decoration: none;
@@ -42,11 +42,11 @@ const treeNodeContentStyle = (level: number, active: boolean) => css`
 `
 
 const itemLabelStyle = css`
-  flex: 1 1 1px;
+  flex: ${theme.flex.grow};
   display: flex;
   flex-direction: row;
   align-items: center;
-  gap: 4px;
+  gap: ${theme.spacing.xxs};
 `
 
 export type TreeNodeProps<T> = {

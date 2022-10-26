@@ -10,15 +10,15 @@ export type ChipProps = {
 } & HTMLAttributes<HTMLSpanElement>
 
 const chipStyle = css`
-  padding: 5px 7px;
+  padding: ${theme.spacing.xs} ${theme.spacing.s};
   display: flex;
   flex-direction: row;
   align-items: center;
   font-size: ${theme.fontSize.xs};
   background-color: ${theme.colors.dark3};
   color: ${theme.colors.muted};
-  border-radius: 8px;
-  gap: 6px;
+  border-radius: ${theme.spacing.s};
+  gap: ${theme.spacing.xs};
   &:hover {
     color: ${theme.colors.text};
     background-color: ${theme.colors.dark2};

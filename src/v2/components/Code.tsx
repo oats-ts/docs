@@ -6,8 +6,8 @@ const codeStyle = css`
   font-size: ${theme.fontSize.code};
   color: ${theme.colors.text};
   background-color: ${theme.colors.dark1};
-  padding: 2px 4px;
-  border-radius: 6px;
+  padding: ${theme.spacing.xxxs} ${theme.spacing.xxs};
+  border-radius: ${theme.spacing.xs};
 `
 
 export const Code: FC<HTMLAttributes<HTMLElement>> = ({ className, children, ...props }) => {

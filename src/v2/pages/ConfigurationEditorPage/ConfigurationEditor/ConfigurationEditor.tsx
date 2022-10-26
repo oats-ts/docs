@@ -7,18 +7,19 @@ import {
   WriterConfiguration,
 } from '../../../model/types'
 import { useGeneratorContext } from '../../../model/useGenerator'
+import { theme } from '../../../theme'
 import { GeneratorConfigurationEditor } from './GeneratorConfigurationEditor'
 import { ReaderConfigurationEditor } from './ReaderConfigurationEditor'
 import { ValidatorConfigurationEditor } from './ValidatorConfigurationEditor'
 import { WriterConfigurationEditor } from './WriterConfigurationEditor'
 
 const wrapperStyle = css`
-  padding: 20px;
-  padding-top: 0px;
+  padding: ${theme.spacing.xxm};
+  padding-top: ${theme.spacing.zero};
 `
 
 const contentContainerStyle = css`
-  padding-top: 18px;
+  padding-top: ${theme.spacing.xxm};
 `
 
 export const ConfigurationEditor: FC = () => {

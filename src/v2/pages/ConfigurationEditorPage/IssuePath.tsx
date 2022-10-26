@@ -6,6 +6,7 @@ import isNil from 'lodash/isNil'
 import last from 'lodash/last'
 import { HiChevronRight } from 'react-icons/hi2'
 import { css } from '@emotion/css'
+import { theme } from '../../theme'
 
 function getFragments(path: string): string[] | undefined {
   try {
@@ -30,7 +31,7 @@ const pathWrapperStyle = css`
   display: flex;
   flex-direction: row;
   align-items: center;
-  gap: 8px;
+  gap: ${theme.spacing.s};
 `
 
 export const IssuePath: FC<{ path: string }> = ({ path }) => {

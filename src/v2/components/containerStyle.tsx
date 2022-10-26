@@ -1,5 +1,6 @@
 import { css } from '@emotion/css'
 import { breakpoints } from '../breakpoints'
+import { theme } from '../theme'
 
 export const containerStyle = css`
   label: container;
@@ -14,7 +15,7 @@ export const containerStyle = css`
   @media ${breakpoints.tablet} {
     max-width: 100vw;
     box-sizing: border-box;
-    padding: 0px 10px;
+    padding: ${theme.spacing.zero} ${theme.spacing.m};
     margin-left: auto;
     margin-right: auto;
   }
@@ -22,7 +23,7 @@ export const containerStyle = css`
   @media ${breakpoints.phone} {
     max-width: 100vw;
     box-sizing: border-box;
-    padding: 0px 10px;
+    padding: ${theme.spacing.zero} ${theme.spacing.m};
     margin-left: auto;
     margin-right: auto;
   }

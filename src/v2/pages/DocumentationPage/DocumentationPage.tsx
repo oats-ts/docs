@@ -15,7 +15,7 @@ import { DocumentationMenu } from './DocumentationMenu'
 const NAME = 'docs'
 
 const contentContainerStyle = css`
-  flex: 1 1 1px;
+  flex: ${theme.flex.grow};
   overflow: auto;
   line-height: 140%;
 

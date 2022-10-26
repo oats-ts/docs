@@ -31,19 +31,19 @@ const primaryButtonStyle = css`
 const buttonStyle = css`
   label: button;
   display: flex;
-  gap: 8px;
+  gap: ${theme.spacing.s};
   align-items: center;
   transition: background-color 150ms linear, color 150ms linear, box-shadow 200ms linear;
   border: unset;
-  border-radius: 8px;
-  padding: 14px 16px;
+  border-radius: ${theme.spacing.s};
+  padding: ${theme.spacing.m} ${theme.spacing.xm};
   position: relative;
   font-weight: 400;
   cursor: pointer;
   font-size: ${theme.fontSize.m};
-  box-shadow: rgba(0, 0, 0, 0.05) 0px 5px 8px;
+  box-shadow: rgba(0, 0, 0, 0.05) ${theme.spacing.zero} ${theme.spacing.xs} ${theme.spacing.s};
   &:hover {
-    box-shadow: rgba(0, 0, 0, 0.2) 0px 5px 18px;
+    box-shadow: rgba(0, 0, 0, 0.2) ${theme.spacing.zero} ${theme.spacing.xs} ${theme.spacing.xxm};
   }
 `
 

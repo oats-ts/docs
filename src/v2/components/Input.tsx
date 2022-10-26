@@ -10,9 +10,9 @@ const inputStyle = css`
   background-color: ${theme.colors.dark1};
   color: ${theme.colors.text};
   font-size: ${theme.fontSize.m};
-  border-radius: 8px;
-  padding: 12px 16px;
-  border-width: 0px;
+  border-radius: ${theme.spacing.s};
+  padding: ${theme.spacing.m} ${theme.spacing.xm};
+  border-width: ${theme.spacing.zero};
   outline: none;
 
   &::placeholder {

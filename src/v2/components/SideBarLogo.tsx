@@ -12,12 +12,12 @@ export type SideBarLogoProps = {
 const logoContainerStyle = css`
   label: side-bar-logo;
   display: flex;
-  gap: 10px;
+  gap: ${theme.spacing.m};
   align-items: center;
   text-decoration: none;
-  margin: 14px 14px 40px 14px;
+  margin: ${theme.spacing.m} ${theme.spacing.m} ${theme.spacing.xxxl} ${theme.spacing.m};
   @media ${breakpoints.phone} {
-    margin: 14px 14px 14px 14px;
+    margin: ${theme.spacing.m};
   }
 `
 
@@ -29,8 +29,8 @@ const labelWrapperStyle = css`
 const oatsLabelStyle = css`
   label: menu-oats-label;
   font-weight: 700;
-  margin: 0px;
-  padding: 0px;
+  margin: ${theme.spacing.zero};
+  padding: ${theme.spacing.zero};
   font-size: ${theme.fontSize.l};
   color: ${theme.colors.text};
 `

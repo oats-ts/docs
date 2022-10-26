@@ -9,11 +9,11 @@ const containerStyle = css`
   label: headlines;
   display: flex;
   flex-direction: row;
-  gap: 24px;
+  gap: ${theme.spacing.l};
 
   @media ${breakpoints.phone} {
     flex-direction: column;
-    gap: 50px;
+    gap: ${theme.spacing.h};
   }
 `
 
@@ -27,17 +27,17 @@ const itemHeaderStyle = css`
   label: headlines-item-header;
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: ${theme.spacing.xs};
   text-transform: uppercase;
   color: ${theme.colors.text};
   font-size: ${theme.fontSize.m};
-  margin-top: 0px;
+  margin-top: ${theme.spacing.zero};
 `
 
 const itemContentStyle = css`
   label: headlines-item-content;
-  margin-bottom: 24px;
-  flex: 1 1 1px;
+  margin-bottom: ${theme.spacing.l};
+  flex: ${theme.flex.grow};
 `
 
 export const Headlines: FC = () => {

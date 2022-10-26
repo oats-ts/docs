@@ -27,12 +27,12 @@ const groupHeaderStyle = css`
   display: flex;
   flex-direction: row;
   align-items: center;
-  margin: 0px;
-  margin-bottom: 20px;
+  margin: ${theme.spacing.zero};
+  margin-bottom: ${theme.spacing.xxm};
 `
 
 const groupNameStyle = css`
-  flex: 1 1 1px;
+  flex: ${theme.flex.grow};
   text-transform: uppercase;
 `
 
@@ -40,29 +40,29 @@ const titleButtonStyle = css`
   display: flex;
   flex-direction: row;
   align-items: center;
-  gap: 6px;
+  gap: ${theme.spacing.xs};
 `
 
 const groupStyle = css`
   background-color: ${theme.colors.dark2};
-  padding: 18px;
-  border-radius: 12px;
-  margin-bottom: 20px;
+  padding: ${theme.spacing.xxm};
+  border-radius: ${theme.spacing.m};
+  margin-bottom: ${theme.spacing.xxm};
   z-index: 1;
   &:last-of-type {
-    margin-bottom: 0px;
+    margin-bottom: ${theme.spacing.zero};
   }
 `
 
 const hasTopAttachmentStyle = css`
-  border-top-left-radius: 0px;
-  border-top-right-radius: 0px;
+  border-top-left-radius: ${theme.spacing.zero};
+  border-top-right-radius: ${theme.spacing.zero};
 `
 
 const hasBottomAttachmentStyle = css`
-  border-bottom-left-radius: 0px;
-  border-bottom-right-radius: 0px;
-  margin-bottom: 0px;
+  border-bottom-left-radius: ${theme.spacing.zero};
+  border-bottom-right-radius: ${theme.spacing.zero};
+  margin-bottom: ${theme.spacing.zero};
 `
 
 const attachmentStyle = css`
@@ -71,12 +71,12 @@ const attachmentStyle = css`
   color: ${theme.colors.text};
   font-size: ${theme.fontSize.m};
   display: flex;
-  gap: 8px;
+  gap: ${theme.spacing.s};
   align-items: center;
   justify-content: center;
   transition: background-color 150ms linear, color 150ms linear, box-shadow 200ms linear;
   border: unset;
-  padding: 14px 18px;
+  padding: ${theme.spacing.m} ${theme.spacing.xxm};
   position: relative;
   font-weight: 400;
   cursor: pointer;
@@ -88,17 +88,17 @@ const attachmentStyle = css`
 const topAttachmentStyle = cx(
   attachmentStyle,
   css`
-    border-top-left-radius: 12px;
-    border-top-right-radius: 12px;
+    border-top-left-radius: ${theme.spacing.m};
+    border-top-right-radius: ${theme.spacing.m};
   `,
 )
 
 const bottomAttachmentStyle = cx(
   attachmentStyle,
   css`
-    border-bottom-left-radius: 12px;
-    border-bottom-right-radius: 12px;
-    margin-bottom: 20px;
+    border-bottom-left-radius: ${theme.spacing.m};
+    border-bottom-right-radius: ${theme.spacing.m};
+    margin-bottom: ${theme.spacing.xxm};
   `,
 )
 

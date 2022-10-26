@@ -9,12 +9,12 @@ export type FormSectionProps = PropsWithChildren & {
 }
 
 const sectionStyle = css`
-  margin-bottom: 24px;
+  margin-bottom: ${theme.spacing.l};
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: ${theme.spacing.xs};
   &:last-of-type {
-    margin-bottom: 0px;
+    margin-bottom: ${theme.spacing.zero};
   }
 `
 

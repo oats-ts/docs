@@ -5,8 +5,8 @@ import { theme } from '../theme'
 const switchStyle = css`
   position: relative;
   display: inline-block;
-  width: 60px;
-  height: 34px;
+  width: ${theme.spacing.h};
+  height: ${theme.spacing.xxl};
 `
 
 const sliderStyle = css`
@@ -18,16 +18,16 @@ const sliderStyle = css`
   bottom: 0;
   -webkit-transition: 0.4s;
   transition: 0.4s;
-  border-radius: 26px;
+  border-radius: ${theme.spacing.xl};
   background-color: ${theme.colors.dark1};
 
   &:before {
     position: absolute;
     content: '';
-    height: 26px;
-    width: 26px;
-    left: 4px;
-    bottom: 4px;
+    height: ${theme.spacing.xl};
+    width: ${theme.spacing.xl};
+    left: ${theme.spacing.xxs};
+    bottom: ${theme.spacing.xxs};
     -webkit-transition: 0.4s;
     transition: 0.4s;
     border-radius: 50%;
@@ -38,7 +38,7 @@ const sliderStyle = css`
 const checkedSliderStyle = css`
   background-color: ${theme.colors.green};
   &:before {
-    transform: translateX(26px);
+    transform: translateX(${theme.spacing.xl});
   }
 `
 

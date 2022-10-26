@@ -12,8 +12,8 @@ const footerStyle = css`
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 40px 10px;
-  gap: 10px;
+  padding: ${theme.spacing.xxxl} ${theme.spacing.m};
+  gap: ${theme.spacing.m};
 `
 
 const copyrightLabel = css`
@@ -28,16 +28,16 @@ const licenseLabel = css`
 
 const logoContainerStyle = css`
   display: flex;
-  gap: 8px;
+  gap: ${theme.spacing.s};
   align-items: center;
   text-decoration: none;
-  margin-bottom: 20px;
+  margin-bottom: ${theme.spacing.xxm};
 `
 
 const oatsLabelStyle = css`
   font-weight: 700;
-  margin: 0px;
-  padding: 0px;
+  margin: ${theme.spacing.zero};
+  padding: ${theme.spacing.zero};
   font-size: ${theme.fontSize.l};
   color: ${theme.colors.muted};
 `

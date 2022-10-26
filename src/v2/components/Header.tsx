@@ -5,17 +5,18 @@ import { MenuItem } from './MenuItem'
 import { MenuLogo } from './MenuLogo'
 import { MenuBar } from './MenuBar'
 import { containerStyle } from './containerStyle'
+import { theme } from '../theme'
 
 const headerStyle = css`
   label: header;
   width: 100%;
-  margin: 0px;
-  padding: 0px;
+  margin: ${theme.spacing.zero};
+  padding: ${theme.spacing.zero};
 `
 
 const headerContentStyle = css`
   label: header-content;
-  height: 90px;
+  height: ${theme.spacing.xxh};
   display: flex;
   flex-direction: row;
   justify-content: space-between;

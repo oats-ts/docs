@@ -13,23 +13,23 @@ import { Code } from '../../components/Code'
 
 const containerStyle = css`
   label: quick-start;
-  margin-bottom: 40px;
+  margin-bottom: ${theme.spacing.xxxl};
 `
 
 const titleStyle = css`
   label: quick-start-title;
   font-size: ${theme.fontSize.xl};
   color: ${theme.colors.text};
-  margin-top: 70px;
-  margin-bottom: 0px;
+  margin-top: ${theme.spacing.xh};
+  margin-bottom: ${theme.spacing.zero};
   display: flex;
   flex-direction: row;
   align-items: center;
-  gap: 8px;
+  gap: ${theme.spacing.s};
 `
 
 const paragraphStyle = css`
-  margin-top: 16px;
+  margin-top: ${theme.spacing.xm};
 `
 
 export const QuickStart: FC = () => {

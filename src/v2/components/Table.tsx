@@ -3,15 +3,15 @@ import React, { FC, HTMLAttributes } from 'react'
 import { theme } from '../theme'
 
 const tableContainerStyle = css`
-  border-radius: 10px;
-  border: 2px solid ${theme.colors.dark1};
+  border-radius: ${theme.spacing.m};
+  border: ${theme.spacing.xxxs} solid ${theme.colors.dark1};
   margin: 1px;
 `
 
 const tableStyle = css`
   border-collapse: collapse;
   width: 100%;
-  border-width: 0px;
+  border-width: ${theme.spacing.zero};
 `
 
 export const Table: FC<HTMLAttributes<HTMLTableElement>> = ({ children, className, ...props }) => {
@@ -25,18 +25,18 @@ export const Table: FC<HTMLAttributes<HTMLTableElement>> = ({ children, classNam
 }
 
 const trStyle = css`
-  border: 2px solid ${theme.colors.dark1};
-  border-left-width: 0px;
-  border-right-width: 0px;
+  border: ${theme.spacing.xxxs} solid ${theme.colors.dark1};
+  border-left-width: ${theme.spacing.zero};
+  border-right-width: ${theme.spacing.zero};
   &:last-of-type {
-    border-bottom-width: 0px;
+    border-bottom-width: ${theme.spacing.zero};
   }
 `
 
 const headerTrStyle = css`
   background-color: ${theme.colors.dark1};
-  border-width: 0px;
-  border-radius: 10px;
+  border-width: ${theme.spacing.zero};
+  border-radius: ${theme.spacing.m};
 `
 
 export const Tr: FC<HTMLAttributes<HTMLTableRowElement> & { isHeader?: boolean }> = ({
@@ -56,13 +56,13 @@ export const Tr: FC<HTMLAttributes<HTMLTableRowElement> & { isHeader?: boolean }
 const thStyle = css`
   color: ${theme.colors.text};
   font-size: ${theme.fontSize.m};
-  padding: 18px 10px;
+  padding: ${theme.spacing.xxm} ${theme.spacing.m};
   text-align: left;
   &:first-of-type {
-    border-top-left-radius: 5px;
+    border-top-left-radius: ${theme.spacing.xs};
   }
   &:last-of-type {
-    border-top-right-radius: 5px;
+    border-top-right-radius: ${theme.spacing.xs};
   }
 `
 
@@ -75,7 +75,7 @@ export const Th: FC<HTMLAttributes<HTMLTableCellElement>> = ({ children, classNa
 }
 
 const tdStyle = css`
-  padding: 10px;
+  padding: ${theme.spacing.m};
   font-size: ${theme.fontSize.m};
   color: ${theme.colors.muted};
 `
@@ -89,7 +89,7 @@ export const Td: FC<HTMLAttributes<HTMLTableCellElement>> = ({ children, classNa
 }
 
 const tHeadStyle = css`
-  border-width: 0px;
+  border-width: ${theme.spacing.zero};
 `
 
 export const THead: FC<HTMLAttributes<HTMLTableSectionElement>> = ({ children, className, ...props }) => {
@@ -101,7 +101,7 @@ export const THead: FC<HTMLAttributes<HTMLTableSectionElement>> = ({ children, c
 }
 
 const tBodyStyle = css`
-  border-width: 0px;
+  border-width: ${theme.spacing.zero};
 `
 
 export const TBody: FC<HTMLAttributes<HTMLTableSectionElement>> = ({ children, className, ...props }) => {

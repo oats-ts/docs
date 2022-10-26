@@ -6,7 +6,7 @@ import { theme } from '../theme'
 const logoContainerStyle = css`
   label: menu-logo;
   display: flex;
-  gap: 8px;
+  gap: ${theme.spacing.s};
   align-items: center;
   text-decoration: none;
 `
@@ -14,8 +14,8 @@ const logoContainerStyle = css`
 const oatsLabelStyle = css`
   label: menu-oats-label;
   font-weight: 700;
-  margin: 0px;
-  padding: 0px;
+  margin: ${theme.spacing.zero};
+  padding: ${theme.spacing.zero};
   font-size: ${theme.fontSize.l};
   color: ${theme.colors.text};
 `

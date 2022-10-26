@@ -26,8 +26,10 @@ export const dropdownContainerStyle = (isOpen: boolean) => css`
   position: relative;
   background-color: ${theme.colors.dark1};
   font-size: ${theme.fontSize.m};
-  border-radius: ${isOpen ? '8px 8px 0px 0px' : '8px'};
-  border-width: 0px;
+  border-radius: ${isOpen
+    ? `${theme.spacing.s} ${theme.spacing.s} ${theme.spacing.zero} ${theme.spacing.zero}`
+    : theme.spacing.s};
+  border-width: ${theme.spacing.zero};
   outline: none;
   cursor: pointer;
 `
@@ -36,22 +38,22 @@ export const dropdownStyle = css`
   label: dropdown;
   width: 100%;
   display: block;
-  margin: 0px;
+  margin: ${theme.spacing.zero};
   position: absolute;
   max-height: 20rem;
   overflow: auto;
-  border-radius: 0px 0px 8px 8px;
+  border-radius: ${theme.spacing.zero} ${theme.spacing.zero} ${theme.spacing.s} ${theme.spacing.s};
   background-color: ${theme.colors.dark1};
-  padding: 0px;
+  padding: ${theme.spacing.zero};
   z-index: 1;
 `
 
 export const dropdownItemStyle = css`
-  padding: 12px 16px;
+  padding: ${theme.spacing.m} ${theme.spacing.xm};
   list-style: none;
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: ${theme.spacing.xxs};
   cursor: pointer;
 `
 
@@ -61,7 +63,7 @@ export const dropdownItemLabelStyle = css`
   display: flex;
   flex-direction: row;
   align-items: center;
-  gap: 10px;
+  gap: ${theme.spacing.m};
 `
 
 export const dropdownItemDescriptionStyle = css`

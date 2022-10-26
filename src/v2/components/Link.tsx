@@ -8,7 +8,7 @@ const linkStyle = css`
   cursor: pointer;
   position: relative;
   text-decoration: none;
-  gap: 8px;
+  gap: ${theme.spacing.s};
   align-items: center;
   transition: color 150ms linear;
   text-decoration: underline;

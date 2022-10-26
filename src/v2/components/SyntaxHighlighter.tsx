@@ -20,30 +20,30 @@ const editorTheme = createPrismTheme(themes.vscDarkPlus, theme.colors.dark4)
 
 const copyButtonStyle = css`
   label: syntax-hl-copy;
-  top: 14px;
-  right: 14px;
+  top: ${theme.spacing.m};
+  right: ${theme.spacing.m};
   position: absolute;
   display: flex;
-  gap: 8px;
+  gap: ${theme.spacing.s};
   align-items: center;
   transition: background-color 150ms linear, color 150ms linear, box-shadow 200ms linear, opacity 150ms linear;
-  padding: 8px 12px;
+  padding: ${theme.spacing.s} ${theme.spacing.m};
   border: unset;
-  border-radius: 8px;
+  border-radius: ${theme.spacing.s};
   font-weight: 400;
   cursor: pointer;
   font-size: ${theme.fontSize.m};
   background-color: ${theme.colors.dark2};
   color: ${theme.colors.text};
-  box-shadow: rgba(0, 0, 0, 0.05) 0px 5px 8px;
+  box-shadow: rgba(0, 0, 0, 0.05) ${theme.spacing.zero} ${theme.spacing.xs} ${theme.spacing.s};
 `
 
 const docsContainerStyle = css`
   label: docs-syntax-hl;
-  border-radius: 10px;
-  padding: 0px;
+  border-radius: ${theme.spacing.m};
+  padding: ${theme.spacing.zero};
   /** TODO */
-  margin: 16px 0px;
+  margin: ${theme.spacing.xm} ${theme.spacing.zero};
   overflow: hidden;
   position: relative;
   * {
@@ -54,7 +54,7 @@ const docsContainerStyle = css`
 
 const editorContainerStyle = css`
   position: relative;
-  flex-grow: 1 1 1px;
+  flex-grow: ${theme.flex.grow};
   height: 100vh;
 
   .react-syntax-highlighter-line-number {

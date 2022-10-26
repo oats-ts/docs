@@ -13,9 +13,9 @@ const docItemStyle = css`
   flex-direction: row;
   font-size: ${theme.fontSize.m};
   color: ${theme.colors.muted};
-  padding: 10px 14px;
+  padding: ${theme.spacing.m} ${theme.spacing.m};
   transition: background-color 150ms linear, color 150ms linear;
-  border-radius: 12px;
+  border-radius: ${theme.spacing.m};
   cursor: pointer;
   text-decoration: none;
   &:hover {
@@ -24,7 +24,7 @@ const docItemStyle = css`
 `
 
 const docItemLabelStyle = css`
-  flex: 1 1 1px;
+  flex: ${theme.flex.grow};
 `
 
 const activeDocItemStyle = css`

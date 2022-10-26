@@ -11,8 +11,8 @@ export type MobileOverlayProps = PropsWithChildren & {
 
 const overlayStyle = css`
   position: fixed;
-  top: 0px;
-  left: 0px;
+  top: ${theme.spacing.zero};
+  left: ${theme.spacing.zero};
   width: 100vw;
   height: 100vh;
   background-color: ${theme.colors.dark2};

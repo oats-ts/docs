@@ -8,7 +8,7 @@ import { theme } from '../../theme'
 import { IssuePath } from './IssuePath'
 
 const issuesContainerStyle = css`
-  padding: 14px 20px;
+  padding: ${theme.spacing.m} ${theme.spacing.xxm};
 `
 
 const iconCellStyle = css`
@@ -18,7 +18,7 @@ const iconCellStyle = css`
 const titleStyle = css`
   color: ${theme.colors.text};
   font-size: ${theme.fontSize.l};
-  margin-top: 0px;
+  margin-top: ${theme.spacing.zero};
 `
 
 const SeverityIcon: FC<{ severity: Severity }> = ({ severity }) => {

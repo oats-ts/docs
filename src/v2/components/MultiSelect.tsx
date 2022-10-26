@@ -20,19 +20,19 @@ const labelContainerStyle = (isEmpty: boolean) => css`
   display: flex;
   flex-direction: row;
   align-items: center;
-  padding: ${isEmpty ? '12px' : '9px'} ${isEmpty ? '16px' : '12px'};
+  padding: ${isEmpty ? theme.spacing.m : theme.spacing.s} ${isEmpty ? theme.spacing.xm : theme.spacing.m};
   * {
     cursor: pointer;
   }
 `
 
 const labelStyle = css`
-  flex: 1 1 1px;
+  flex: ${theme.flex.grow};
   color: ${theme.colors.text};
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  gap: 6px;
+  gap: ${theme.spacing.xs};
 `
 
 const placeHolderStyle = css`

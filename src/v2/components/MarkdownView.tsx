@@ -13,7 +13,7 @@ import { Table, Td, Th, Tr } from './Table'
 const h1Style = css`
   color: ${theme.colors.text};
   font-size: ${theme.fontSize.l};
-  margin-top: 0px;
+  margin-top: ${theme.spacing.zero};
 `
 const h2Style = css`
   color: ${theme.colors.text};
@@ -24,7 +24,7 @@ const h3Style = css`
   font-size: ${theme.fontSize.m};
 `
 const containerStyle = css`
-  margin: 14px;
+  margin: ${theme.spacing.m};
 `
 
 export type MarkdownViewProps = {
