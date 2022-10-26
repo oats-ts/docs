@@ -26,7 +26,7 @@ const anchorStyle = css`
   &::after {
     content: '';
     position: absolute;
-    bottom: -4px;
+    bottom: -${theme.spacing.xxs};
     left: 0;
     width: 100%;
     height: ${theme.spacing.xxxs};

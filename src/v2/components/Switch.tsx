@@ -26,8 +26,8 @@ const sliderStyle = css`
     content: '';
     height: 26px;
     width: 26px;
-    left: 4px;
-    bottom: 4px;
+    left: ${theme.spacing.xxs};
+    bottom: ${theme.spacing.xxs};
     -webkit-transition: 0.4s;
     transition: 0.4s;
     border-radius: 50%;

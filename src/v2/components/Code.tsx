@@ -6,7 +6,7 @@ const codeStyle = css`
   font-size: ${theme.fontSize.code};
   color: ${theme.colors.text};
   background-color: ${theme.colors.dark1};
-  padding: ${theme.spacing.xxxs} 4px;
+  padding: ${theme.spacing.xxxs} ${theme.spacing.xxs};
   border-radius: 6px;
 `
 

@@ -46,7 +46,7 @@ const itemLabelStyle = css`
   display: flex;
   flex-direction: row;
   align-items: center;
-  gap: 4px;
+  gap: ${theme.spacing.xxs};
 `
 
 export type TreeNodeProps<T> = {

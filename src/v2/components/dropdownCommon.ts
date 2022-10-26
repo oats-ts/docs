@@ -51,7 +51,7 @@ export const dropdownItemStyle = css`
   list-style: none;
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: ${theme.spacing.xxs};
   cursor: pointer;
 `
 
