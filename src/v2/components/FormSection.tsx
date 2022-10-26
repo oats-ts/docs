@@ -12,7 +12,7 @@ const sectionStyle = css`
   margin-bottom: 24px;
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: ${theme.spacing.xs};
   &:last-of-type {
     margin-bottom: ${theme.spacing.zero};
   }

@@ -32,7 +32,7 @@ const labelStyle = css`
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  gap: 6px;
+  gap: ${theme.spacing.xs};
 `
 
 const placeHolderStyle = css`

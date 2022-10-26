@@ -18,7 +18,7 @@ const chipStyle = css`
   background-color: ${theme.colors.dark3};
   color: ${theme.colors.muted};
   border-radius: 8px;
-  gap: 6px;
+  gap: ${theme.spacing.xs};
   &:hover {
     color: ${theme.colors.text};
     background-color: ${theme.colors.dark2};

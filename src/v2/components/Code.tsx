@@ -7,7 +7,7 @@ const codeStyle = css`
   color: ${theme.colors.text};
   background-color: ${theme.colors.dark1};
   padding: ${theme.spacing.xxxs} ${theme.spacing.xxs};
-  border-radius: 6px;
+  border-radius: ${theme.spacing.xs};
 `
 
 export const Code: FC<HTMLAttributes<HTMLElement>> = ({ className, children, ...props }) => {

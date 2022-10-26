@@ -27,7 +27,7 @@ const itemHeaderStyle = css`
   label: headlines-item-header;
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: ${theme.spacing.xs};
   text-transform: uppercase;
   color: ${theme.colors.text};
   font-size: ${theme.fontSize.m};

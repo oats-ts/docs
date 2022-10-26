@@ -33,7 +33,7 @@ const inputStyle = (isEmpty: boolean) => css`
   outline: none;
   border-radius: 8px;
   flex: 1 1 1px;
-  padding: 12px ${theme.spacing.zero} 12px ${isEmpty ? '16px' : '6px'};
+  padding: 12px ${theme.spacing.zero} 12px ${isEmpty ? '16px' : theme.spacing.xs};
   color: ${theme.colors.text};
   background-color: ${theme.colors.transparent};
   ::placeholder {
@@ -46,7 +46,7 @@ const chipsContainerStyle = css`
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  gap: 6px;
+  gap: ${theme.spacing.xs};
   padding-left: 12px;
 `
 

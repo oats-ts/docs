@@ -40,7 +40,7 @@ const titleButtonStyle = css`
   display: flex;
   flex-direction: row;
   align-items: center;
-  gap: 6px;
+  gap: ${theme.spacing.xs};
 `
 
 const groupStyle = css`

@@ -26,7 +26,7 @@ const linkButtonStyle = css`
   display: flex;
   align-items: center;
   flex-direction: row;
-  gap: 6px;
+  gap: ${theme.spacing.xs};
   cursor: pointer;
   &:hover {
     text-decoration: underline;
