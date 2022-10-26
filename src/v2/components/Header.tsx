@@ -1,10 +1,10 @@
 import { css, cx } from '@emotion/css'
 import React, { FC } from 'react'
 import { HiCog6Tooth, HiDocument, HiHome } from 'react-icons/hi2'
-import { ctnr } from '../css'
 import { MenuItem } from './MenuItem'
 import { MenuLogo } from './MenuLogo'
 import { MenuBar } from './MenuBar'
+import { containerStyle } from './containerStyle'
 
 const headerStyle = css`
   label: header;
@@ -13,7 +13,7 @@ const headerStyle = css`
   padding: 0px;
 `
 
-const containerStyle = css`
+const headerContentStyle = css`
   label: header-content;
   height: 90px;
   display: flex;
@@ -24,7 +24,7 @@ const containerStyle = css`
 export const Header: FC = () => {
   return (
     <header className={headerStyle}>
-      <div className={cx(containerStyle, ctnr)}>
+      <div className={cx(headerContentStyle, containerStyle)}>
         <MenuLogo />
         <MenuBar>
           <MenuItem label="Home" icon={HiHome} href="#/" active={true} />

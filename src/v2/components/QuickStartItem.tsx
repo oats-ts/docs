@@ -1,7 +1,7 @@
 import { css } from '@emotion/css'
 import React, { FC, PropsWithChildren } from 'react'
 import { theme } from '../theme'
-import { breakpoints } from '../css'
+import { breakpoints } from '../breakpoints'
 
 type QuickStartItemProps = PropsWithChildren & {
   index: number
@@ -19,7 +19,7 @@ const containerStyle = css`
 
 const circleStyle = css`
   label: quick-start-item-circle;
-  ${breakpoints.phone} {
+  @media ${breakpoints.phone} {
     /* TODO */
     display: none;
   }

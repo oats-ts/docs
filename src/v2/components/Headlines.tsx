@@ -3,7 +3,7 @@ import React, { FC } from 'react'
 import { HiBookOpen, HiPuzzlePiece, HiServerStack, HiWrenchScrewdriver } from 'react-icons/hi2'
 import { theme } from '../theme'
 import { Button } from './Button'
-import { breakpoints } from '../css'
+import { breakpoints } from '../breakpoints'
 
 const containerStyle = css`
   label: headlines;
@@ -11,7 +11,7 @@ const containerStyle = css`
   flex-direction: row;
   gap: 24px;
 
-  ${breakpoints.phone} {
+  @media ${breakpoints.phone} {
     flex-direction: column;
     gap: 50px;
   }

@@ -1,23 +1,17 @@
 import { css } from '@emotion/css'
+import { breakpoints } from '../breakpoints'
 
-export const breakpoints = {
-  desktop: `@media (min-width: 1201px)`,
-  tablet: `@media (min-width: 651px) and (max-width: 1200px) `,
-  phone: `@media (max-width: 650px) `,
-}
-
-export const ctnr = css`
+export const containerStyle = css`
   label: container;
   display: flex;
-
-  ${breakpoints.desktop} {
+  @media ${breakpoints.desktop} {
     width: 90%;
     max-width: 1100px;
     margin-left: auto;
     margin-right: auto;
   }
 
-  ${breakpoints.tablet} {
+  @media ${breakpoints.tablet} {
     max-width: 100vw;
     box-sizing: border-box;
     padding: 0px 10px;
@@ -25,7 +19,7 @@ export const ctnr = css`
     margin-right: auto;
   }
 
-  ${breakpoints.phone} {
+  @media ${breakpoints.phone} {
     max-width: 100vw;
     box-sizing: border-box;
     padding: 0px 10px;

@@ -2,19 +2,20 @@ import { css, cx } from '@emotion/css'
 import React, { FC } from 'react'
 import { theme } from '../theme'
 import { Button } from './Button'
-import { breakpoints, ctnr } from '../css'
+import { breakpoints } from '../breakpoints'
 import { HiPlay, HiCodeBracket } from 'react-icons/hi2'
 import { Link } from './Link'
+import { containerStyle } from './containerStyle'
 
 const heroSectionStyle = css`
   label: hero-section;
   width: 100%;
   margin: 0px;
   padding: 80px 0px;
-  ${breakpoints.desktop} {
+  @media ${breakpoints.desktop} {
     padding: 100px 0px;
   }
-  ${breakpoints.tablet} {
+  @media ${breakpoints.tablet} {
     padding: 80px 0px;
   }
 `
@@ -58,7 +59,7 @@ const buttonContainer = css`
 export const HeroSection: FC = () => {
   return (
     <div className={heroSectionStyle}>
-      <div className={cx(ctnr, contentStyle)}>
+      <div className={cx(containerStyle, contentStyle)}>
         <h2 className={heroText1Style}>Generate TypeScript from OpenAPI, that makes sense.</h2>
         <h3 className={heroText2Style}>
           Customizable, extensible and <b>open source</b> code generators, that output quality{' '}

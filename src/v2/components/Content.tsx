@@ -1,6 +1,6 @@
 import React, { FC, PropsWithChildren } from 'react'
 import { css, cx } from '@emotion/css'
-import { ctnr } from '../css'
+import { containerStyle } from './containerStyle'
 
 export type ContentProps = PropsWithChildren
 
@@ -15,5 +15,5 @@ const contentStyle = css`
 `
 
 export const Content: FC<ContentProps> = ({ children }) => {
-  return <main className={cx(contentStyle, ctnr)}>{children}</main>
+  return <main className={cx(contentStyle, containerStyle)}>{children}</main>
 }
