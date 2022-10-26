@@ -8,7 +8,7 @@ import {
 } from '../../../model/types'
 import { useGeneratorContext } from '../../../model/useGenerator'
 import { GeneratorConfigurationEditor } from './GeneratorConfigurationEditor'
-import { RemoteReaderEditor } from './RemoteReaderEditor'
+import { ReaderConfigurationEditor } from './ReaderConfigurationEditor'
 import { ValidatorConfigurationEditor } from './ValidatorConfigurationEditor'
 import { WriterConfigurationEditor } from './WriterConfigurationEditor'
 
@@ -22,7 +22,7 @@ const contentContainerStyle = css`
 `
 
 export const ConfigurationEditor: FC = () => {
-  const { configuration, samples, setConfiguration, loadRemoteAsInline } = useGeneratorContext()
+  const { configuration, samples, setConfiguration } = useGeneratorContext()
 
   const onReaderChange = (reader: ReaderConfiguration) =>
     setConfiguration({ ...configuration, active: 'reader', reader })
@@ -35,12 +35,7 @@ export const ConfigurationEditor: FC = () => {
   return (
     <div className={wrapperStyle}>
       <div className={contentContainerStyle}>
-        <RemoteReaderEditor
-          input={configuration.reader}
-          samples={samples}
-          onChange={onReaderChange}
-          onLoadRemote={loadRemoteAsInline}
-        />
+        <ReaderConfigurationEditor input={configuration.reader} samples={samples} onChange={onReaderChange} />
         <ValidatorConfigurationEditor input={configuration.validator} onChange={onValidatorChange} />
         <GeneratorConfigurationEditor input={configuration.generator} onChange={onGeneratorChange} />
         <WriterConfigurationEditor input={configuration.writer} onChange={onWriterChange} />

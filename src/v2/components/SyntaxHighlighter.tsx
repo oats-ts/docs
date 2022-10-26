@@ -56,6 +56,16 @@ const editorContainerStyle = css`
   position: relative;
   flex-grow: 1 1 1px;
   height: 100vh;
+
+  .react-syntax-highlighter-line-number {
+    color: rgba(255, 255, 255, 0.4) !important;
+  }
+`
+
+const editorCopyButtonStyle = css`
+  position: fixed;
+  top: 18px;
+  right: 18px;
 `
 
 export const SyntaxHighlighter: FC<SyntaxHighlighterProps> = ({ children, language, kind }) => {
@@ -86,13 +96,14 @@ export const SyntaxHighlighter: FC<SyntaxHighlighterProps> = ({ children, langua
 
   const containerStyle = cx(kind === 'editor' ? editorContainerStyle : docsContainerStyle)
   const theme = kind === 'editor' ? editorTheme : docsTheme
+  const copyButtonFullStyle = cx(copyButtonStyle, kind === 'editor' ? editorCopyButtonStyle : undefined)
   return (
     <div className={containerStyle} onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave}>
       <Prism language={language} style={theme} wrapLongLines={true} showLineNumbers={kind === 'editor'}>
         {children}
       </Prism>
       <CopyToClipboard text={children} onCopy={onCopy}>
-        <button className={copyButtonStyle} style={{ opacity: hovering ? 1 : 0 }}>
+        <button className={copyButtonFullStyle} style={{ opacity: hovering ? 1 : 0 }}>
           {copied ? <HiCheck /> : <HiClipboard />}
         </button>
       </CopyToClipboard>

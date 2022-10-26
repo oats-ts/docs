@@ -1,10 +1,4 @@
-import {
-  ConfigurationNode,
-  GeneratorConfiguration,
-  ReaderConfiguration,
-  SourceLanguage,
-  WriterConfiguration,
-} from '../../types'
+import { ConfigurationNode, GeneratorConfiguration, ReaderConfiguration, WriterConfiguration } from './types'
 import {
   createPrinter,
   factory,
@@ -19,7 +13,6 @@ import typescriptParser from 'prettier/parser-typescript'
 import prettier from 'prettier/standalone'
 import { isNil } from 'lodash'
 import { CommentConfig } from '@oats-ts/typescript-writer'
-import YAML from 'yamljs'
 import { getPresetConfigAst } from './getPresetConfigAst'
 import { defaults } from './defaults'
 
@@ -28,12 +21,9 @@ function comment<T extends Node>(node: T, comment: string): T {
 }
 
 function getReaderComment(reader: ReaderConfiguration): string {
-  const language = reader.readerType === 'inline' ? reader.inlineLanguage : reader.remoteLanguage
+  const language = reader.remoteLanguage
   const docText = language === 'mixed' ? `document` : `${language.toUpperCase()} document`
   const commonTxt = `resolves it's references, structurally validates it, and exposes it for the next step.`
-  if (reader.readerType === 'inline') {
-    return `Reads your inline ${docText}, ${commonTxt}`
-  }
   switch (reader.remoteProtocol) {
     case 'file':
       return `Reads your document from the file system, ${commonTxt}`
@@ -42,66 +32,6 @@ function getReaderComment(reader: ReaderConfiguration): string {
     default:
       return `Reads your ${docText} from ${reader.remoteProtocol.toUpperCase()}, ${commonTxt}`
   }
-}
-
-function getCompressedSource(source: string, language: SourceLanguage): string {
-  try {
-    if (language === 'yaml') {
-      return YAML.stringify(YAML.parse(source))
-    } else if (language === 'json') {
-      return JSON.stringify(JSON.parse(source))
-    }
-  } catch (e) {
-    console.error(e)
-  }
-  return source
-}
-
-function getInlineVariable(reader: ReaderConfiguration) {
-  const compressedSource = getCompressedSource(reader.inlineContent, reader.inlineLanguage)
-  return comment(
-    factory.createVariableStatement(
-      undefined,
-      factory.createVariableDeclarationList(
-        [
-          factory.createVariableDeclaration(
-            factory.createIdentifier(`${reader.inlineLanguage}Source`),
-            undefined,
-            undefined,
-            factory.createNoSubstitutionTemplateLiteral(compressedSource, compressedSource),
-          ),
-        ],
-        NodeFlags.Const,
-      ),
-    ),
-    `The source of your inline OpenAPI document in ${reader.inlineLanguage.toUpperCase()} format.`,
-  )
-}
-
-function getInlineReaderAst(reader: ReaderConfiguration) {
-  const inlinePath = `inline.${reader.inlineLanguage}`
-  return factory.createCallExpression(
-    factory.createPropertyAccessExpression(
-      factory.createPropertyAccessExpression(
-        factory.createPropertyAccessExpression(factory.createIdentifier('readers'), factory.createIdentifier('memory')),
-        factory.createIdentifier('mixed'),
-      ),
-      factory.createIdentifier(reader.inlineLanguage),
-    ),
-    undefined,
-    [
-      comment(factory.createStringLiteral(inlinePath), `The URI to the main inline document.`),
-      comment(
-        factory.createObjectLiteralExpression([
-          factory.createPropertyAssignment(
-            factory.createStringLiteral(inlinePath),
-            factory.createIdentifier(`${reader.inlineLanguage}Source`),
-          ),
-        ]),
-        `The mapping between inline document URI and content. Documents can reference each outher by the key URI.`,
-      ),
-    ],
-  )
 }
 
 function getRemoteReaderAst(reader: ReaderConfiguration) {
@@ -116,14 +46,6 @@ function getRemoteReaderAst(reader: ReaderConfiguration) {
     undefined,
     [factory.createStringLiteral(reader.remotePath)],
   )
-}
-
-function getReaderAst(reader: ReaderConfiguration) {
-  if (reader.readerType === 'inline') {
-    return getInlineReaderAst(reader)
-  } else {
-    return getRemoteReaderAst(reader)
-  }
 }
 
 function getGenerators(generator: GeneratorConfiguration) {
@@ -333,7 +255,7 @@ function getGenerateCallAst(config: ConfigurationNode) {
             `Logs generator events as they happen. Use logger.verbose() for more detailed log output.`,
           ),
           comment(
-            factory.createPropertyAssignment(factory.createIdentifier('reader'), getReaderAst(config.reader)),
+            factory.createPropertyAssignment(factory.createIdentifier('reader'), getRemoteReaderAst(config.reader)),
             getReaderComment(config.reader),
           ),
           ...(config.validator.enabled
@@ -410,11 +332,7 @@ function getImportDeclarations({ writer, validator, generator }: ConfigurationNo
 }
 
 export function getGeneratorSource(config: ConfigurationNode): string {
-  const contents: Statement[][] = [
-    getImportDeclarations(config),
-    config.reader.readerType === 'inline' ? [getInlineVariable(config.reader)] : [],
-    [getGenerateCallAst(config)],
-  ]
+  const contents: Statement[][] = [getImportDeclarations(config), [], [getGenerateCallAst(config)]]
 
   const sourceFiles = contents
     .filter((statements) => statements.length > 0)

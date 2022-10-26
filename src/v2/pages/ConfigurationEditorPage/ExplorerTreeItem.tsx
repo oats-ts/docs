@@ -1,5 +1,5 @@
 import React, { FC, useContext } from 'react'
-import { EditorInput } from '../../../types'
+import { EditorInput } from '../../model/types'
 import { GeneratorContext } from '../../model/GeneratorContext'
 import { TreeNode } from '../../components/TreeNode'
 import { isNil } from 'lodash'
@@ -12,6 +12,7 @@ import {
   HiWrenchScrewdriver,
   HiXCircle,
 } from 'react-icons/hi2'
+
 
 export type ExplorerTreeItemProps = {
   value: EditorInput

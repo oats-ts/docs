@@ -7,7 +7,7 @@ import { ConfigurationFormGroup } from '../../../components/ConfigurationFormGro
 import { FormSection } from '../../../components/FormSection'
 import { Select } from '../../../components/Select'
 import { GeneratorConfiguration, GeneratorPreset, PathProviderType } from '../../../model/types'
-import { PresetConfigurationEditor } from './PresetConfigurationEditor'
+import { PresetConfigurationEditor } from './preset/PresetConfigurationEditor'
 import { defaults } from '../../../model/defaults'
 
 const presetOptions: DropdownItem<GeneratorPreset>[] = [

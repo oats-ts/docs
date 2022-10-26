@@ -42,7 +42,6 @@ export type GeneratorContextType = {
   // Generator output
   output: FolderNode
   issues: IssuesNode
-  isRemoteSampleLoading: boolean
   isLoading: boolean
   generatorSource: GeneratorSourceNode
   packageJson: PackageJsonNode
@@ -51,7 +50,6 @@ export type GeneratorContextType = {
   setConfiguration: (node: ConfigurationNode) => void
   setEditorInput: (key?: EditorInputKey) => void
   setExplorerTreeState: (state: ExplorerTreeState) => void
-  loadRemoteAsInline: () => void
 }
 
 export type ColorModeContextType = {
@@ -89,9 +87,9 @@ export type IssuesNode = {
 }
 
 export type ReaderConfiguration = {
-  readerType: 'inline' | 'remote'
-  inlineLanguage: Exclude<SourceLanguage, 'mixed'>
-  inlineContent: string
+  // readerType: 'inline' | 'remote'
+  // inlineLanguage: Exclude<SourceLanguage, 'mixed'>
+  // inlineContent: string
   remoteProtocol: RemoteProtocol
   remoteLanguage: SourceLanguage
   remotePath: string

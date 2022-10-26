@@ -21,9 +21,9 @@ const validatorConfiguration: ValidatorConfiguration = {
 }
 
 const readerConfiguration: ReaderConfiguration = {
-  readerType: 'remote',
-  inlineContent: '',
-  inlineLanguage: 'json',
+  // readerType: 'remote',
+  // inlineContent: '',
+  // inlineLanguage: 'json',
   remoteLanguage: 'mixed',
   remotePath: 'https://raw.githubusercontent.com/oats-ts/oats-schemas/master/schemas/pet-store-yaml.yaml',
   remoteProtocol: 'mixed',
@@ -32,7 +32,7 @@ const readerConfiguration: ReaderConfiguration = {
 const generatorConfiguration: GeneratorConfiguration = {
   preset: 'fullStack',
   pathProviderType: 'default',
-  rootPath: '/src/generated',
+  rootPath: 'src/generated',
   configurationStyle: 'preset',
   presetConfig: {},
   generators: [],

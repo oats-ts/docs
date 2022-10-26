@@ -8,18 +8,13 @@ import {
   writers,
   formatters,
 } from '@oats-ts/openapi'
-import { GeneratorConfiguration, ReaderConfiguration, WriterConfiguration } from '../../types'
+import { GeneratorConfiguration, ReaderConfiguration, WriterConfiguration } from './types'
 import typescriptParser from 'prettier/parser-typescript'
 import { createPresetConfiguration } from './createPresetConfiguration'
 import { isNil } from 'lodash'
 
 export function createReader(input: ReaderConfiguration) {
-  switch (input.readerType) {
-    case 'inline':
-      return readers.memory.mixed[input.inlineLanguage]('', { '': input.inlineContent })
-    case 'remote':
-      return readers[input.remoteProtocol][input.remoteLanguage](input.remotePath)
-  }
+  return readers[input.remoteProtocol][input.remoteLanguage](input.remotePath)
 }
 
 function createGeneratorChildren(input: GeneratorConfiguration) {

@@ -22,7 +22,7 @@ import {
   PrettierConfiguration,
   ValidatorConfiguration,
   PresetConfig,
-} from '../../types'
+} from './types'
 
 const commentConfigValidator = object(
   shape<CommentConfig>({
@@ -37,15 +37,6 @@ const commentConfigValidator = object(
 
 const readerConfigValidator = object(
   shape<ReaderConfiguration>({
-    readerType: union({
-      inline: literal('inline'),
-      remote: literal('remote'),
-    }),
-    inlineContent: string(),
-    inlineLanguage: union({
-      json: literal('json'),
-      yaml: literal('yaml'),
-    }),
     remoteLanguage: union({
       json: literal('json'),
       yaml: literal('yaml'),

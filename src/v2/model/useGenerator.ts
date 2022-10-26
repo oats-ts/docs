@@ -12,12 +12,12 @@ import {
   GeneratorSourceNode,
   PackageJsonNode,
   EditorInputKey,
-} from '../../types'
+} from './types'
 import { useCallback, useContext, useEffect, useMemo, useState } from 'react'
 import { isSuccess, Try } from '@oats-ts/try'
 import { GeneratedFile } from '@oats-ts/typescript-writer'
 import { storage, Ttl } from '../../storage'
-import { fetchSampleFile, getSampleFiles, guessLanguage } from './getSampleFiles'
+import { getSampleFiles } from './getSampleFiles'
 import { buildExplorerTree } from './buildExplorerTree'
 import { GeneratorContext } from './GeneratorContext'
 import { useDebounceEffect } from './useDebounceEffect'
@@ -54,7 +54,6 @@ export function useGenerator(): GeneratorContextType {
 
   const [treeFilter, setTreeFilter] = useState<string>('')
   const [isSamplesLoading, setSamplesLoading] = useState<boolean>(true)
-  const [isRemoteSampleLoading, setRemoteSampleLoading] = useState<boolean>(false)
   const [isGenerating, setGenerating] = useState<boolean>(true)
   const [explorerTreeState, setExplorerTreeState] = useState<ExplorerTreeState>({})
   const [filteredOutput, setFilteredOutput] = useState(_output)
@@ -165,40 +164,17 @@ export function useGenerator(): GeneratorContextType {
     setFilteredOutput(filterExplorerTree(_output, treeFilter))
   }, [_output, treeFilter])
 
-  const loadRemoteAsInline = async () => {
-    setRemoteSampleLoading(true)
-
-    try {
-      const content = await fetchSampleFile(configuration.reader.remotePath)
-      setConfiguration({
-        ...configuration,
-        reader: {
-          ...configuration.reader,
-          readerType: 'inline',
-          inlineContent: content,
-          inlineLanguage: guessLanguage(content) ?? configuration.reader.inlineLanguage,
-        },
-      })
-      setEditorInputKey('configuration')
-    } catch (e) {
-    } finally {
-      setRemoteSampleLoading(false)
-    }
-  }
-
   return {
     output: filteredOutput,
     issues,
     samples,
-    isLoading: isSamplesLoading || isGenerating || isRemoteSampleLoading,
-    isRemoteSampleLoading,
+    isLoading: isSamplesLoading || isGenerating,
     editorInput,
     explorerTreeState,
     configuration,
     generatorSource,
     treeFilter,
     packageJson,
-    loadRemoteAsInline,
     setExplorerTreeState,
     setEditorInput: setEditorInputKey,
     setConfiguration,

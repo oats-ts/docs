@@ -11,7 +11,7 @@ import { AllowedOriginsEditor } from './AllowedOriginsEditor'
 import { AllowedRequestHeadersEditor } from './AllowedRequestHeadersEditor'
 import { AllowedResponseHeadersEditor } from './AllowedResponseHeadersEditor'
 
-export const editors: Partial<Record<PresetConfigField, FC<OverrideEditorProps>>> = {
+export const editors: Record<PresetConfigField, FC<OverrideEditorProps>> = {
   documentation: DocumentationEditor,
   validateResponses: ValidateResponsesEditor,
   debugCookies: DebugCookiesEditor,

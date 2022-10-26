@@ -1,6 +1,7 @@
 const path = require('path')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const { ProvidePlugin } = require('webpack')
+// const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer')
 
 module.exports = ({ WEBPACK_SERVE }, argv) => {
   return {
@@ -60,6 +61,7 @@ module.exports = ({ WEBPACK_SERVE }, argv) => {
       new ProvidePlugin({
         process: 'process/browser',
       }),
+      // new BundleAnalyzerPlugin(),
     ],
     optimization: {
       splitChunks: {

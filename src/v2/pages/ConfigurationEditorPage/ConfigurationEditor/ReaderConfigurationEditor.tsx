@@ -1,13 +1,12 @@
 import { isNil } from 'lodash'
 import React, { FC, useMemo, useState } from 'react'
 import { HiArrowUturnLeft, HiChevronDown, HiChevronUp } from 'react-icons/hi2'
-import { ReaderConfiguration } from '../../../../types'
 import { Autocomplete } from '../../../components/Autocomplete'
 import { dd, DropdownItem } from '../../../components/dropdownDefaults'
 import { ConfigurationFormGroup } from '../../../components/ConfigurationFormGroup'
 import { FormSection } from '../../../components/FormSection'
 import { Select } from '../../../components/Select'
-import { RemoteProtocol, SourceLanguage } from '../../../model/types'
+import { ReaderConfiguration, RemoteProtocol, SourceLanguage } from '../../../model/types'
 import { defaults } from '../../../model/defaults'
 
 const languageOptions: DropdownItem<SourceLanguage>[] = [
@@ -64,14 +63,13 @@ const hints = {
   protocol: 'The protocol used to read your OpenAPI document',
 }
 
-type RemoteReaderEditorProps = {
+type ReaderConfigurationEditorProps = {
   input: ReaderConfiguration
   samples: string[]
   onChange: (node: ReaderConfiguration) => void
-  onLoadRemote: () => void
 }
 
-export const RemoteReaderEditor: FC<RemoteReaderEditorProps> = ({ input, samples, onChange }) => {
+export const ReaderConfigurationEditor: FC<ReaderConfigurationEditorProps> = ({ input, samples, onChange }) => {
   const [isShowingAdvanced, setShowAdvanced] = useState(false)
 
   const toggleAdvanced = () => setShowAdvanced(!isShowingAdvanced)
