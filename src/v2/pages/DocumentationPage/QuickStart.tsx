@@ -21,7 +21,7 @@ const titleStyle = css`
   font-size: ${theme.fontSize.xl};
   color: ${theme.colors.text};
   margin-top: 70px;
-  margin-bottom: 0px;
+  margin-bottom: ${theme.spacing.zero};
   display: flex;
   flex-direction: row;
   align-items: center;

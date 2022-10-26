@@ -41,9 +41,9 @@ const buttonStyle = css`
   font-weight: 400;
   cursor: pointer;
   font-size: ${theme.fontSize.m};
-  box-shadow: rgba(0, 0, 0, 0.05) 0px 5px 8px;
+  box-shadow: rgba(0, 0, 0, 0.05) ${theme.spacing.zero} 5px 8px;
   &:hover {
-    box-shadow: rgba(0, 0, 0, 0.2) 0px 5px 18px;
+    box-shadow: rgba(0, 0, 0, 0.2) ${theme.spacing.zero} 5px 18px;
   }
 `
 

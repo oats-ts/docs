@@ -11,8 +11,8 @@ const containerStyle = css`
   overflow-y: auto;
   display: flex;
   flex-direction: column;
-  margin: 0px;
-  padding: 0px;
+  margin: ${theme.spacing.zero};
+  padding: ${theme.spacing.zero};
   background-color: ${theme.colors.dark3};
 `
 

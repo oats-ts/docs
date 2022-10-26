@@ -18,16 +18,16 @@ const labelContainerStyle = css`
   display: flex;
   flex-direction: row;
   align-items: center;
-  padding: 0px 16px 0px 0px;
+  padding: ${theme.spacing.zero} 16px ${theme.spacing.zero} ${theme.spacing.zero};
   cursor: pointer;
 `
 
 const inputStyle = css`
-  border-width: 0px;
+  border-width: ${theme.spacing.zero};
   outline: none;
   border-radius: 8px;
   flex: 1 1 1px;
-  padding: 12px 0px 12px 16px;
+  padding: 12px ${theme.spacing.zero} 12px 16px;
   color: ${theme.colors.text};
   background-color: ${theme.colors.transparent};
   ::placeholder {

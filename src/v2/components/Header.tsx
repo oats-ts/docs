@@ -5,12 +5,13 @@ import { MenuItem } from './MenuItem'
 import { MenuLogo } from './MenuLogo'
 import { MenuBar } from './MenuBar'
 import { containerStyle } from './containerStyle'
+import { theme } from '../theme'
 
 const headerStyle = css`
   label: header;
   width: 100%;
-  margin: 0px;
-  padding: 0px;
+  margin: ${theme.spacing.zero};
+  padding: ${theme.spacing.zero};
 `
 
 const headerContentStyle = css`

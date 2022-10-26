@@ -36,8 +36,8 @@ const logoContainerStyle = css`
 
 const oatsLabelStyle = css`
   font-weight: 700;
-  margin: 0px;
-  padding: 0px;
+  margin: ${theme.spacing.zero};
+  padding: ${theme.spacing.zero};
   font-size: ${theme.fontSize.l};
   color: ${theme.colors.muted};
 `

@@ -10,13 +10,13 @@ import { containerStyle } from './containerStyle'
 const heroSectionStyle = css`
   label: hero-section;
   width: 100%;
-  margin: 0px;
-  padding: 80px 0px;
+  margin: ${theme.spacing.zero};
+  padding: 80px ${theme.spacing.zero};
   @media ${breakpoints.desktop} {
-    padding: 100px 0px;
+    padding: 100px ${theme.spacing.zero};
   }
   @media ${breakpoints.tablet} {
-    padding: 80px 0px;
+    padding: 80px ${theme.spacing.zero};
   }
 `
 
@@ -35,7 +35,7 @@ const heroText1Style = css`
   label: hero-text-1;
   font-size: ${theme.fontSize.xl};
   color: ${theme.colors.text};
-  margin: 0px;
+  margin: ${theme.spacing.zero};
   text-align: center;
 `
 
@@ -44,7 +44,7 @@ const heroText2Style = css`
   color: ${theme.colors.muted};
   font-size: ${theme.fontSize.m};
   font-weight: 400;
-  margin: 0px 0px 20px 0px;
+  margin: ${theme.spacing.zero} ${theme.spacing.zero} 20px ${theme.spacing.zero};
   width: 70%;
   text-align: center;
   flex-shrink: 0;

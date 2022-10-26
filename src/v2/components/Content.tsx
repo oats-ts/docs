@@ -1,6 +1,7 @@
 import React, { FC, PropsWithChildren } from 'react'
 import { css, cx } from '@emotion/css'
 import { containerStyle } from './containerStyle'
+import { theme } from '../theme'
 
 export type ContentProps = PropsWithChildren
 
@@ -8,8 +9,8 @@ const contentStyle = css`
   label: content;
   width: 100%;
   flex: 1 1 1px;
-  margin: 0px;
-  padding: 0px;
+  margin: ${theme.spacing.zero};
+  padding: ${theme.spacing.zero};
   display: flex;
   flex-direction: column;
 `

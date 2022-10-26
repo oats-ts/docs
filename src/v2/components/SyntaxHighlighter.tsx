@@ -35,15 +35,15 @@ const copyButtonStyle = css`
   font-size: ${theme.fontSize.m};
   background-color: ${theme.colors.dark2};
   color: ${theme.colors.text};
-  box-shadow: rgba(0, 0, 0, 0.05) 0px 5px 8px;
+  box-shadow: rgba(0, 0, 0, 0.05) ${theme.spacing.zero} 5px 8px;
 `
 
 const docsContainerStyle = css`
   label: docs-syntax-hl;
   border-radius: 10px;
-  padding: 0px;
+  padding: ${theme.spacing.zero};
   /** TODO */
-  margin: 16px 0px;
+  margin: 16px ${theme.spacing.zero};
   overflow: hidden;
   position: relative;
   * {

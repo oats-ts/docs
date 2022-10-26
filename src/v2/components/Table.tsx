@@ -11,7 +11,7 @@ const tableContainerStyle = css`
 const tableStyle = css`
   border-collapse: collapse;
   width: 100%;
-  border-width: 0px;
+  border-width: ${theme.spacing.zero};
 `
 
 export const Table: FC<HTMLAttributes<HTMLTableElement>> = ({ children, className, ...props }) => {
@@ -26,16 +26,16 @@ export const Table: FC<HTMLAttributes<HTMLTableElement>> = ({ children, classNam
 
 const trStyle = css`
   border: 2px solid ${theme.colors.dark1};
-  border-left-width: 0px;
-  border-right-width: 0px;
+  border-left-width: ${theme.spacing.zero};
+  border-right-width: ${theme.spacing.zero};
   &:last-of-type {
-    border-bottom-width: 0px;
+    border-bottom-width: ${theme.spacing.zero};
   }
 `
 
 const headerTrStyle = css`
   background-color: ${theme.colors.dark1};
-  border-width: 0px;
+  border-width: ${theme.spacing.zero};
   border-radius: 10px;
 `
 
@@ -89,7 +89,7 @@ export const Td: FC<HTMLAttributes<HTMLTableCellElement>> = ({ children, classNa
 }
 
 const tHeadStyle = css`
-  border-width: 0px;
+  border-width: ${theme.spacing.zero};
 `
 
 export const THead: FC<HTMLAttributes<HTMLTableSectionElement>> = ({ children, className, ...props }) => {
@@ -101,7 +101,7 @@ export const THead: FC<HTMLAttributes<HTMLTableSectionElement>> = ({ children, c
 }
 
 const tBodyStyle = css`
-  border-width: 0px;
+  border-width: ${theme.spacing.zero};
 `
 
 export const TBody: FC<HTMLAttributes<HTMLTableSectionElement>> = ({ children, className, ...props }) => {

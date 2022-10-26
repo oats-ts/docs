@@ -29,11 +29,11 @@ const inputContainerStyle = css`
 
 const inputStyle = (isEmpty: boolean) => css`
   label: input;
-  border-width: 0px;
+  border-width: ${theme.spacing.zero};
   outline: none;
   border-radius: 8px;
   flex: 1 1 1px;
-  padding: 12px 0px 12px ${isEmpty ? '16px' : '6px'};
+  padding: 12px ${theme.spacing.zero} 12px ${isEmpty ? '16px' : '6px'};
   color: ${theme.colors.text};
   background-color: ${theme.colors.transparent};
   ::placeholder {

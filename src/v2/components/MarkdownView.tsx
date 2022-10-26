@@ -13,7 +13,7 @@ import { Table, Td, Th, Tr } from './Table'
 const h1Style = css`
   color: ${theme.colors.text};
   font-size: ${theme.fontSize.l};
-  margin-top: 0px;
+  margin-top: ${theme.spacing.zero};
 `
 const h2Style = css`
   color: ${theme.colors.text};

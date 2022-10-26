@@ -27,7 +27,7 @@ const groupHeaderStyle = css`
   display: flex;
   flex-direction: row;
   align-items: center;
-  margin: 0px;
+  margin: ${theme.spacing.zero};
   margin-bottom: 20px;
 `
 
@@ -50,19 +50,19 @@ const groupStyle = css`
   margin-bottom: 20px;
   z-index: 1;
   &:last-of-type {
-    margin-bottom: 0px;
+    margin-bottom: ${theme.spacing.zero};
   }
 `
 
 const hasTopAttachmentStyle = css`
-  border-top-left-radius: 0px;
-  border-top-right-radius: 0px;
+  border-top-left-radius: ${theme.spacing.zero};
+  border-top-right-radius: ${theme.spacing.zero};
 `
 
 const hasBottomAttachmentStyle = css`
-  border-bottom-left-radius: 0px;
-  border-bottom-right-radius: 0px;
-  margin-bottom: 0px;
+  border-bottom-left-radius: ${theme.spacing.zero};
+  border-bottom-right-radius: ${theme.spacing.zero};
+  margin-bottom: ${theme.spacing.zero};
 `
 
 const attachmentStyle = css`

@@ -14,7 +14,7 @@ const sectionStyle = css`
   flex-direction: column;
   gap: 6px;
   &:last-of-type {
-    margin-bottom: 0px;
+    margin-bottom: ${theme.spacing.zero};
   }
 `
 

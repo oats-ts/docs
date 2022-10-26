@@ -29,8 +29,8 @@ const labelWrapperStyle = css`
 const oatsLabelStyle = css`
   label: menu-oats-label;
   font-weight: 700;
-  margin: 0px;
-  padding: 0px;
+  margin: ${theme.spacing.zero};
+  padding: ${theme.spacing.zero};
   font-size: ${theme.fontSize.l};
   color: ${theme.colors.text};
 `

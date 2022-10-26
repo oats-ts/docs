@@ -12,7 +12,7 @@ const inputStyle = css`
   font-size: ${theme.fontSize.m};
   border-radius: 8px;
   padding: 12px 16px;
-  border-width: 0px;
+  border-width: ${theme.spacing.zero};
   outline: none;
 
   &::placeholder {

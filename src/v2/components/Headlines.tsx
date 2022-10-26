@@ -31,7 +31,7 @@ const itemHeaderStyle = css`
   text-transform: uppercase;
   color: ${theme.colors.text};
   font-size: ${theme.fontSize.m};
-  margin-top: 0px;
+  margin-top: ${theme.spacing.zero};
 `
 
 const itemContentStyle = css`

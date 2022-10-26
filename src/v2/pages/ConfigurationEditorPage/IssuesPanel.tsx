@@ -18,7 +18,7 @@ const iconCellStyle = css`
 const titleStyle = css`
   color: ${theme.colors.text};
   font-size: ${theme.fontSize.l};
-  margin-top: 0px;
+  margin-top: ${theme.spacing.zero};
 `
 
 const SeverityIcon: FC<{ severity: Severity }> = ({ severity }) => {
