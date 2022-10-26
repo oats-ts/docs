@@ -41,18 +41,20 @@ export const QuickStart: FC = () => {
       <div className={containerStyle}>
         <QuickStartItem index={1} title="Prepare your OpenAPI document">
           You need an OpenAPI document to start with. In case you don't have one already, try this example:
-          <SyntaxHighlighter kind="docs">
+          <SyntaxHighlighter kind="docs" lineWrap={true}>
             https://raw.githubusercontent.com/oats-ts/oats-schemas/master/schemas/book-store.json
           </SyntaxHighlighter>
         </QuickStartItem>
         <QuickStartItem index={2} title="Install Oats generator modules">
           Install the necessary Oats modules to make the code generator work:
-          <SyntaxHighlighter kind="docs">npm i @oats-ts/openapi ts-node</SyntaxHighlighter>
+          <SyntaxHighlighter kind="docs" lineWrap={true}>
+            npm i @oats-ts/openapi ts-node
+          </SyntaxHighlighter>
         </QuickStartItem>
         <QuickStartItem index={3} title="Configure the generator">
           Create a file called <b>oats.ts</b> in your project root (you can call it anything you like), and the
           configuration:
-          <SyntaxHighlighter language="typescript" kind="docs">
+          <SyntaxHighlighter language="typescript" kind="docs" lineWrap={true}>
             {generatorSource}
           </SyntaxHighlighter>
         </QuickStartItem>
@@ -62,7 +64,9 @@ export const QuickStart: FC = () => {
         </QuickStartItem>
         <QuickStartItem index={5} title="Verify results">
           In case the generators successfully ran, you will see something like this in the terminal:
-          <SyntaxHighlighter kind="docs">{generatorOutput}</SyntaxHighlighter>
+          <SyntaxHighlighter kind="docs" lineWrap={true}>
+            {generatorOutput}
+          </SyntaxHighlighter>
           The <Code>npm install</Code> command lists the necessary dependencies, that the generated output needs, to
           function at runtime. Run this command, and you are ready to use the generated output.
           <p className={paragraphStyle}>

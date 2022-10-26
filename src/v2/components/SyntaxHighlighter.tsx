@@ -12,6 +12,7 @@ export type SyntaxHighlighterProps = {
   children: string
   kind: 'docs' | 'editor'
   language?: string
+  lineWrap?: boolean
 }
 
 const docsTheme = createPrismTheme(themes.vscDarkPlus, theme.colors.dark1)
@@ -19,8 +20,8 @@ const editorTheme = createPrismTheme(themes.vscDarkPlus, theme.colors.dark4)
 
 const copyButtonStyle = css`
   label: syntax-hl-copy;
-  top: 10px;
-  right: 10px;
+  top: 14px;
+  right: 14px;
   position: absolute;
   display: flex;
   gap: 8px;
@@ -52,7 +53,6 @@ const docsContainerStyle = css`
 `
 
 const editorContainerStyle = css`
-  overflow: auto;
   position: relative;
   flex-grow: 1 1 1px;
   height: 100vh;
@@ -62,13 +62,7 @@ const editorContainerStyle = css`
   }
 `
 
-const editorCopyButtonStyle = css`
-  position: fixed;
-  top: 18px;
-  right: 18px;
-`
-
-export const SyntaxHighlighter: FC<SyntaxHighlighterProps> = ({ children, language, kind }) => {
+export const SyntaxHighlighter: FC<SyntaxHighlighterProps> = ({ children, language, lineWrap, kind }) => {
   const [copied, setCopied] = useState(false)
   const [hovering, setHovering] = useState(false)
   const [resetTimeout, setResetTimeout] = useState<any>(undefined)
@@ -96,10 +90,10 @@ export const SyntaxHighlighter: FC<SyntaxHighlighterProps> = ({ children, langua
 
   const containerStyle = cx(kind === 'editor' ? editorContainerStyle : docsContainerStyle)
   const theme = kind === 'editor' ? editorTheme : docsTheme
-  const copyButtonFullStyle = cx(copyButtonStyle, kind === 'editor' ? editorCopyButtonStyle : undefined)
+  const copyButtonFullStyle = cx(copyButtonStyle)
   return (
     <div className={containerStyle} onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave}>
-      <Prism language={language} style={theme} wrapLongLines={true} showLineNumbers={kind === 'editor'}>
+      <Prism language={language} style={theme} wrapLongLines={lineWrap} showLineNumbers={kind === 'editor'}>
         {children}
       </Prism>
       <CopyToClipboard text={children} onCopy={onCopy}>

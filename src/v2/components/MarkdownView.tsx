@@ -23,6 +23,9 @@ const h3Style = css`
   color: ${theme.colors.text};
   font-size: ${theme.fontSize.m};
 `
+const containerStyle = css`
+  margin: 14px;
+`
 
 export type MarkdownViewProps = {
   page?: keyof typeof markdown
@@ -85,7 +88,12 @@ export const MarkdownView: FC<MarkdownViewProps> = ({ page }) => {
     return <div>The documentation page you are looking for doesn't exist.</div>
   }
   return (
-    <Markdown remarkPlugins={remarkPlugins} components={components} transformLinkUri={customUriTransformer}>
+    <Markdown
+      remarkPlugins={remarkPlugins}
+      components={components}
+      transformLinkUri={customUriTransformer}
+      className={containerStyle}
+    >
       {markdown[page]}
     </Markdown>
   )

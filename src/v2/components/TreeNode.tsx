@@ -98,7 +98,7 @@ export function TreeNode<T>({
   const className = container && open ? cx(treeNodeStyle, openableStyle(level)) : treeNodeStyle
   const href = getHref(value)
   const label = getLabel(value)
-  const handleClick = href === undefined ? () => onClick(value, open) : undefined
+  const handleClick = () => onClick(value, open)
 
   return (
     <div className={className}>

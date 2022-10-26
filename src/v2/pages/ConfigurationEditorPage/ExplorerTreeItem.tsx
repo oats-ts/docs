@@ -12,7 +12,7 @@ import {
   HiWrenchScrewdriver,
   HiXCircle,
 } from 'react-icons/hi2'
-
+import { useMobileContext } from '../../components/MobileContext'
 
 export type ExplorerTreeItemProps = {
   value: EditorInput
@@ -20,6 +20,7 @@ export type ExplorerTreeItemProps = {
 
 export const ExplorerTreeItem: FC<ExplorerTreeItemProps> = ({ value }) => {
   const { explorerTreeState, editorInput, setEditorInput, setExplorerTreeState } = useContext(GeneratorContext)
+  const { setMenuOpen } = useMobileContext()
 
   const isOpen = (n: EditorInput) => {
     return n.type === 'folder' && explorerTreeState[n.path] === true
@@ -67,6 +68,7 @@ export const ExplorerTreeItem: FC<ExplorerTreeItemProps> = ({ value }) => {
   }
 
   const onClick = (n: EditorInput, open: boolean) => {
+    setMenuOpen(false)
     switch (n.type) {
       case 'file':
         return setEditorInput(`file::${n.path}`)

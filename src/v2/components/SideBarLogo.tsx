@@ -1,6 +1,7 @@
 import { css } from '@emotion/css'
 import { version } from '@oats-ts/oats-ts'
 import React, { FC } from 'react'
+import { breakpoints } from '../breakpoints'
 import { theme } from '../theme'
 import { Logo } from './Logo'
 
@@ -15,6 +16,9 @@ const logoContainerStyle = css`
   align-items: center;
   text-decoration: none;
   margin: 14px 14px 40px 14px;
+  @media ${breakpoints.phone} {
+    margin: 14px 14px 14px 14px;
+  }
 `
 
 const labelWrapperStyle = css`
