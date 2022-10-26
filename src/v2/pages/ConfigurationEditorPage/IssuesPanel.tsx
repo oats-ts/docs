@@ -8,7 +8,7 @@ import { theme } from '../../theme'
 import { IssuePath } from './IssuePath'
 
 const issuesContainerStyle = css`
-  padding: 14px 20px;
+  padding: ${theme.spacing.m} ${theme.spacing.xxm};
 `
 
 const iconCellStyle = css`

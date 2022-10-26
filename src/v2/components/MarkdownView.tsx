@@ -24,7 +24,7 @@ const h3Style = css`
   font-size: ${theme.fontSize.m};
 `
 const containerStyle = css`
-  margin: 14px;
+  margin: ${theme.spacing.m};
 `
 
 export type MarkdownViewProps = {

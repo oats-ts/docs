@@ -26,7 +26,9 @@ export const dropdownContainerStyle = (isOpen: boolean) => css`
   position: relative;
   background-color: ${theme.colors.dark1};
   font-size: ${theme.fontSize.m};
-  border-radius: ${isOpen ? `${theme.spacing.s} ${theme.spacing.s} ${theme.spacing.zero} ${theme.spacing.zero}` : '${theme.spacing.s}'};
+  border-radius: ${isOpen
+    ? `${theme.spacing.s} ${theme.spacing.s} ${theme.spacing.zero} ${theme.spacing.zero}`
+    : theme.spacing.s};
   border-width: ${theme.spacing.zero};
   outline: none;
   cursor: pointer;
@@ -61,7 +63,7 @@ export const dropdownItemLabelStyle = css`
   display: flex;
   flex-direction: row;
   align-items: center;
-  gap: 10px;
+  gap: ${theme.spacing.m};
 `
 
 export const dropdownItemDescriptionStyle = css`

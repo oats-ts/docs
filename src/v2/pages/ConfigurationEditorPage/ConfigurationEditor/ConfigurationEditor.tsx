@@ -14,12 +14,12 @@ import { ValidatorConfigurationEditor } from './ValidatorConfigurationEditor'
 import { WriterConfigurationEditor } from './WriterConfigurationEditor'
 
 const wrapperStyle = css`
-  padding: 20px;
+  padding: ${theme.spacing.xxm};
   padding-top: ${theme.spacing.zero};
 `
 
 const contentContainerStyle = css`
-  padding-top: 18px;
+  padding-top: ${theme.spacing.xxm};
 `
 
 export const ConfigurationEditor: FC = () => {

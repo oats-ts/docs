@@ -28,7 +28,7 @@ const groupHeaderStyle = css`
   flex-direction: row;
   align-items: center;
   margin: ${theme.spacing.zero};
-  margin-bottom: 20px;
+  margin-bottom: ${theme.spacing.xxm};
 `
 
 const groupNameStyle = css`
@@ -45,9 +45,9 @@ const titleButtonStyle = css`
 
 const groupStyle = css`
   background-color: ${theme.colors.dark2};
-  padding: 18px;
+  padding: ${theme.spacing.xxm};
   border-radius: ${theme.spacing.m};
-  margin-bottom: 20px;
+  margin-bottom: ${theme.spacing.xxm};
   z-index: 1;
   &:last-of-type {
     margin-bottom: ${theme.spacing.zero};
@@ -76,7 +76,7 @@ const attachmentStyle = css`
   justify-content: center;
   transition: background-color 150ms linear, color 150ms linear, box-shadow 200ms linear;
   border: unset;
-  padding: 14px 18px;
+  padding: ${theme.spacing.m} ${theme.spacing.xxm};
   position: relative;
   font-weight: 400;
   cursor: pointer;
@@ -98,7 +98,7 @@ const bottomAttachmentStyle = cx(
   css`
     border-bottom-left-radius: ${theme.spacing.m};
     border-bottom-right-radius: ${theme.spacing.m};
-    margin-bottom: 20px;
+    margin-bottom: ${theme.spacing.xxm};
   `,
 )
 

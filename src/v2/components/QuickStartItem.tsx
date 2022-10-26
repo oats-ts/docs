@@ -12,7 +12,7 @@ const containerStyle = css`
   label: quick-start-item;
   display: flex;
   flex-direction: row;
-  gap: 20px;
+  gap: ${theme.spacing.xxm};
   margin-top: 40px;
   width: 100%;
 `

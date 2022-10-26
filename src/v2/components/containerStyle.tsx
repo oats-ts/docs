@@ -15,7 +15,7 @@ export const containerStyle = css`
   @media ${breakpoints.tablet} {
     max-width: 100vw;
     box-sizing: border-box;
-    padding: ${theme.spacing.zero} 10px;
+    padding: ${theme.spacing.zero} ${theme.spacing.m};
     margin-left: auto;
     margin-right: auto;
   }
@@ -23,7 +23,7 @@ export const containerStyle = css`
   @media ${breakpoints.phone} {
     max-width: 100vw;
     box-sizing: border-box;
-    padding: ${theme.spacing.zero} 10px;
+    padding: ${theme.spacing.zero} ${theme.spacing.m};
     margin-left: auto;
     margin-right: auto;
   }

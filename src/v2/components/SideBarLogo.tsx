@@ -12,12 +12,12 @@ export type SideBarLogoProps = {
 const logoContainerStyle = css`
   label: side-bar-logo;
   display: flex;
-  gap: 10px;
+  gap: ${theme.spacing.m};
   align-items: center;
   text-decoration: none;
-  margin: 14px 14px 40px 14px;
+  margin: ${theme.spacing.m} ${theme.spacing.m} 40px ${theme.spacing.m};
   @media ${breakpoints.phone} {
-    margin: 14px 14px 14px 14px;
+    margin: ${theme.spacing.m};
   }
 `
 

@@ -13,7 +13,7 @@ const docItemStyle = css`
   flex-direction: row;
   font-size: ${theme.fontSize.m};
   color: ${theme.colors.muted};
-  padding: 10px 14px;
+  padding: ${theme.spacing.m} ${theme.spacing.m};
   transition: background-color 150ms linear, color 150ms linear;
   border-radius: ${theme.spacing.m};
   cursor: pointer;

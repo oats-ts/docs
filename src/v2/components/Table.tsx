@@ -3,7 +3,7 @@ import React, { FC, HTMLAttributes } from 'react'
 import { theme } from '../theme'
 
 const tableContainerStyle = css`
-  border-radius: 10px;
+  border-radius: ${theme.spacing.m};
   border: ${theme.spacing.xxxs} solid ${theme.colors.dark1};
   margin: 1px;
 `
@@ -36,7 +36,7 @@ const trStyle = css`
 const headerTrStyle = css`
   background-color: ${theme.colors.dark1};
   border-width: ${theme.spacing.zero};
-  border-radius: 10px;
+  border-radius: ${theme.spacing.m};
 `
 
 export const Tr: FC<HTMLAttributes<HTMLTableRowElement> & { isHeader?: boolean }> = ({
@@ -56,7 +56,7 @@ export const Tr: FC<HTMLAttributes<HTMLTableRowElement> & { isHeader?: boolean }
 const thStyle = css`
   color: ${theme.colors.text};
   font-size: ${theme.fontSize.m};
-  padding: 18px 10px;
+  padding: ${theme.spacing.xxm} ${theme.spacing.m};
   text-align: left;
   &:first-of-type {
     border-top-left-radius: 5px;
@@ -75,7 +75,7 @@ export const Th: FC<HTMLAttributes<HTMLTableCellElement>> = ({ children, classNa
 }
 
 const tdStyle = css`
-  padding: 10px;
+  padding: ${theme.spacing.m};
   font-size: ${theme.fontSize.m};
   color: ${theme.colors.muted};
 `

@@ -12,8 +12,8 @@ const footerStyle = css`
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 40px 10px;
-  gap: 10px;
+  padding: 40px ${theme.spacing.m};
+  gap: ${theme.spacing.m};
 `
 
 const copyrightLabel = css`
@@ -31,7 +31,7 @@ const logoContainerStyle = css`
   gap: ${theme.spacing.s};
   align-items: center;
   text-decoration: none;
-  margin-bottom: 20px;
+  margin-bottom: ${theme.spacing.xxm};
 `
 
 const oatsLabelStyle = css`

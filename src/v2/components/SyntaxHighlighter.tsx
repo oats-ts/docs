@@ -20,8 +20,8 @@ const editorTheme = createPrismTheme(themes.vscDarkPlus, theme.colors.dark4)
 
 const copyButtonStyle = css`
   label: syntax-hl-copy;
-  top: 14px;
-  right: 14px;
+  top: ${theme.spacing.m};
+  right: ${theme.spacing.m};
   position: absolute;
   display: flex;
   gap: ${theme.spacing.s};
@@ -40,7 +40,7 @@ const copyButtonStyle = css`
 
 const docsContainerStyle = css`
   label: docs-syntax-hl;
-  border-radius: 10px;
+  border-radius: ${theme.spacing.m};
   padding: ${theme.spacing.zero};
   /** TODO */
   margin: ${theme.spacing.xm} ${theme.spacing.zero};

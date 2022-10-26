@@ -27,7 +27,7 @@ const contentStyle = css`
   align-content: center;
   justify-content: center;
   justify-items: center;
-  gap: 18px;
+  gap: ${theme.spacing.xxm};
   height: 100%;
 `
 
@@ -44,7 +44,7 @@ const heroText2Style = css`
   color: ${theme.colors.muted};
   font-size: ${theme.fontSize.m};
   font-weight: 400;
-  margin: ${theme.spacing.zero} ${theme.spacing.zero} 20px ${theme.spacing.zero};
+  margin: ${theme.spacing.zero} ${theme.spacing.zero} ${theme.spacing.xxm} ${theme.spacing.zero};
   width: 70%;
   text-align: center;
   flex-shrink: 0;

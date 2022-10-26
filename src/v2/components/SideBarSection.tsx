@@ -11,13 +11,13 @@ const sectionTitleStyle = css`
   color: ${theme.colors.text};
   text-transform: uppercase;
   font-weight: bold;
-  padding: 10px 14px;
+  padding: ${theme.spacing.m} ${theme.spacing.m};
 `
 
 const sectionContainerStyle = css`
   display: flex;
   flex-direction: column;
-  margin-bottom: 20px;
+  margin-bottom: ${theme.spacing.xxm};
 `
 
 export const SideBarSection: FC<SideBarSectionProps> = ({ children, title }) => {

@@ -36,14 +36,14 @@ const buttonStyle = css`
   transition: background-color 150ms linear, color 150ms linear, box-shadow 200ms linear;
   border: unset;
   border-radius: ${theme.spacing.s};
-  padding: 14px ${theme.spacing.xm};
+  padding: ${theme.spacing.m} ${theme.spacing.xm};
   position: relative;
   font-weight: 400;
   cursor: pointer;
   font-size: ${theme.fontSize.m};
   box-shadow: rgba(0, 0, 0, 0.05) ${theme.spacing.zero} 5px ${theme.spacing.s};
   &:hover {
-    box-shadow: rgba(0, 0, 0, 0.2) ${theme.spacing.zero} 5px 18px;
+    box-shadow: rgba(0, 0, 0, 0.2) ${theme.spacing.zero} 5px ${theme.spacing.xxm};
   }
 `
 

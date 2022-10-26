@@ -10,7 +10,7 @@ export function createPrismTheme(
     'pre[class*="language-"]': {
       backgroundColor,
       borderRadius: theme.spacing.zero,
-      padding: '18px',
+      padding: theme.spacing.xxm,
       width: '100%',
       maxWidth: '100%',
       borderWidth: theme.spacing.zero,
