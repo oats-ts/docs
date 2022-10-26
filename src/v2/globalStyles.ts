@@ -4,8 +4,8 @@ import { theme } from './theme'
 
 export const globalStyles = css`
   #root {
-    margin: 0px;
-    padding: 0px;
+    margin: ${theme.spacing.zero};
+    padding: ${theme.spacing.zero};
     width: 100vw;
     height: 100vh;
   }
