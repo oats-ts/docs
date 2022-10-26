@@ -4,7 +4,7 @@ import { theme } from '../theme'
 
 const tableContainerStyle = css`
   border-radius: 10px;
-  border: 2px solid ${theme.colors.dark1};
+  border: ${theme.spacing.xxxs} solid ${theme.colors.dark1};
   margin: 1px;
 `
 
@@ -25,7 +25,7 @@ export const Table: FC<HTMLAttributes<HTMLTableElement>> = ({ children, classNam
 }
 
 const trStyle = css`
-  border: 2px solid ${theme.colors.dark1};
+  border: ${theme.spacing.xxxs} solid ${theme.colors.dark1};
   border-left-width: ${theme.spacing.zero};
   border-right-width: ${theme.spacing.zero};
   &:last-of-type {
