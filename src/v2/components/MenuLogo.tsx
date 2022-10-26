@@ -6,7 +6,7 @@ import { theme } from '../theme'
 const logoContainerStyle = css`
   label: menu-logo;
   display: flex;
-  gap: 8px;
+  gap: ${theme.spacing.s};
   align-items: center;
   text-decoration: none;
 `

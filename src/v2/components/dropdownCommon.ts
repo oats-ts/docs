@@ -26,7 +26,7 @@ export const dropdownContainerStyle = (isOpen: boolean) => css`
   position: relative;
   background-color: ${theme.colors.dark1};
   font-size: ${theme.fontSize.m};
-  border-radius: ${isOpen ? `8px 8px ${theme.spacing.zero} ${theme.spacing.zero}` : '8px'};
+  border-radius: ${isOpen ? `${theme.spacing.s} ${theme.spacing.s} ${theme.spacing.zero} ${theme.spacing.zero}` : '${theme.spacing.s}'};
   border-width: ${theme.spacing.zero};
   outline: none;
   cursor: pointer;
@@ -40,14 +40,14 @@ export const dropdownStyle = css`
   position: absolute;
   max-height: 20rem;
   overflow: auto;
-  border-radius: ${theme.spacing.zero} ${theme.spacing.zero} 8px 8px;
+  border-radius: ${theme.spacing.zero} ${theme.spacing.zero} ${theme.spacing.s} ${theme.spacing.s};
   background-color: ${theme.colors.dark1};
   padding: ${theme.spacing.zero};
   z-index: 1;
 `
 
 export const dropdownItemStyle = css`
-  padding: 12px 16px;
+  padding: ${theme.spacing.m} 16px;
   list-style: none;
   display: flex;
   flex-direction: column;

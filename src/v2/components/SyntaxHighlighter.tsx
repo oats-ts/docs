@@ -24,18 +24,18 @@ const copyButtonStyle = css`
   right: 14px;
   position: absolute;
   display: flex;
-  gap: 8px;
+  gap: ${theme.spacing.s};
   align-items: center;
   transition: background-color 150ms linear, color 150ms linear, box-shadow 200ms linear, opacity 150ms linear;
-  padding: 8px 12px;
+  padding: ${theme.spacing.s} ${theme.spacing.m};
   border: unset;
-  border-radius: 8px;
+  border-radius: ${theme.spacing.s};
   font-weight: 400;
   cursor: pointer;
   font-size: ${theme.fontSize.m};
   background-color: ${theme.colors.dark2};
   color: ${theme.colors.text};
-  box-shadow: rgba(0, 0, 0, 0.05) ${theme.spacing.zero} 5px 8px;
+  box-shadow: rgba(0, 0, 0, 0.05) ${theme.spacing.zero} 5px ${theme.spacing.s};
 `
 
 const docsContainerStyle = css`

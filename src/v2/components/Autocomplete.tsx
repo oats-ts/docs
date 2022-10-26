@@ -25,9 +25,9 @@ const labelContainerStyle = css`
 const inputStyle = css`
   border-width: ${theme.spacing.zero};
   outline: none;
-  border-radius: 8px;
+  border-radius: ${theme.spacing.s};
   flex: 1 1 1px;
-  padding: 12px ${theme.spacing.zero} 12px 16px;
+  padding: ${theme.spacing.m} ${theme.spacing.zero} ${theme.spacing.m} 16px;
   color: ${theme.colors.text};
   background-color: ${theme.colors.transparent};
   ::placeholder {

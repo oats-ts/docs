@@ -15,7 +15,7 @@ const docItemStyle = css`
   color: ${theme.colors.muted};
   padding: 10px 14px;
   transition: background-color 150ms linear, color 150ms linear;
-  border-radius: 12px;
+  border-radius: ${theme.spacing.m};
   cursor: pointer;
   text-decoration: none;
   &:hover {

@@ -27,7 +27,7 @@ const circleStyle = css`
   height: 80px;
   min-width: 80px;
   min-height: 80px;
-  margin-top: 12px;
+  margin-top: ${theme.spacing.m};
   border-radius: 50%;
   border: 1px solid ${theme.colors.text};
   color: ${theme.colors.text};

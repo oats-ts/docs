@@ -15,7 +15,7 @@ const anchorStyle = css`
   text-decoration: none;
   color: ${theme.colors.muted};
   display: flex;
-  gap: 8px;
+  gap: ${theme.spacing.s};
   align-items: center;
   transition: color 150ms linear;
 
@@ -58,7 +58,7 @@ const menuItemStyle = css`
   height: 100%;
   padding: ${theme.spacing.zero} 24px;
   display: flex;
-  gap: 8px;
+  gap: ${theme.spacing.s};
   align-items: center;
   cursor: pointer;
   color: ${theme.colors.text};

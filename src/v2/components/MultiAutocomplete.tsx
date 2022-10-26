@@ -31,9 +31,9 @@ const inputStyle = (isEmpty: boolean) => css`
   label: input;
   border-width: ${theme.spacing.zero};
   outline: none;
-  border-radius: 8px;
+  border-radius: ${theme.spacing.s};
   flex: 1 1 1px;
-  padding: 12px ${theme.spacing.zero} 12px ${isEmpty ? '16px' : theme.spacing.xs};
+  padding: ${theme.spacing.m} ${theme.spacing.zero} ${theme.spacing.m} ${isEmpty ? '16px' : theme.spacing.xs};
   color: ${theme.colors.text};
   background-color: ${theme.colors.transparent};
   ::placeholder {
@@ -47,7 +47,7 @@ const chipsContainerStyle = css`
   flex-direction: row;
   flex-wrap: wrap;
   gap: ${theme.spacing.xs};
-  padding-left: 12px;
+  padding-left: ${theme.spacing.m};
 `
 
 export function MultiAutocomplete<T extends string>({

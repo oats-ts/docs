@@ -27,7 +27,7 @@ const treeNodeContentStyle = (level: number, active: boolean) => css`
   label: tree-node-content-${level};
   display: flex;
   flex-direction: row;
-  padding: 8px;
+  padding: ${theme.spacing.s};
   transition: background-color 150ms linear, color 150ms linear;
   cursor: pointer;
   text-decoration: none;

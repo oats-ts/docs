@@ -28,7 +28,7 @@ const licenseLabel = css`
 
 const logoContainerStyle = css`
   display: flex;
-  gap: 8px;
+  gap: ${theme.spacing.s};
   align-items: center;
   text-decoration: none;
   margin-bottom: 20px;

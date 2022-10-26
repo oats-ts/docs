@@ -31,17 +31,17 @@ const primaryButtonStyle = css`
 const buttonStyle = css`
   label: button;
   display: flex;
-  gap: 8px;
+  gap: ${theme.spacing.s};
   align-items: center;
   transition: background-color 150ms linear, color 150ms linear, box-shadow 200ms linear;
   border: unset;
-  border-radius: 8px;
+  border-radius: ${theme.spacing.s};
   padding: 14px 16px;
   position: relative;
   font-weight: 400;
   cursor: pointer;
   font-size: ${theme.fontSize.m};
-  box-shadow: rgba(0, 0, 0, 0.05) ${theme.spacing.zero} 5px 8px;
+  box-shadow: rgba(0, 0, 0, 0.05) ${theme.spacing.zero} 5px ${theme.spacing.s};
   &:hover {
     box-shadow: rgba(0, 0, 0, 0.2) ${theme.spacing.zero} 5px 18px;
   }

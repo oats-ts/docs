@@ -46,7 +46,7 @@ const titleButtonStyle = css`
 const groupStyle = css`
   background-color: ${theme.colors.dark2};
   padding: 18px;
-  border-radius: 12px;
+  border-radius: ${theme.spacing.m};
   margin-bottom: 20px;
   z-index: 1;
   &:last-of-type {
@@ -71,7 +71,7 @@ const attachmentStyle = css`
   color: ${theme.colors.text};
   font-size: ${theme.fontSize.m};
   display: flex;
-  gap: 8px;
+  gap: ${theme.spacing.s};
   align-items: center;
   justify-content: center;
   transition: background-color 150ms linear, color 150ms linear, box-shadow 200ms linear;
@@ -88,16 +88,16 @@ const attachmentStyle = css`
 const topAttachmentStyle = cx(
   attachmentStyle,
   css`
-    border-top-left-radius: 12px;
-    border-top-right-radius: 12px;
+    border-top-left-radius: ${theme.spacing.m};
+    border-top-right-radius: ${theme.spacing.m};
   `,
 )
 
 const bottomAttachmentStyle = cx(
   attachmentStyle,
   css`
-    border-bottom-left-radius: 12px;
-    border-bottom-right-radius: 12px;
+    border-bottom-left-radius: ${theme.spacing.m};
+    border-bottom-right-radius: ${theme.spacing.m};
     margin-bottom: 20px;
   `,
 )

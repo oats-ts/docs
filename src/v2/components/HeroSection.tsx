@@ -53,7 +53,7 @@ const heroText2Style = css`
 const buttonContainer = css`
   label: hero-button-container;
   display: flex;
-  gap: 12px;
+  gap: ${theme.spacing.m};
 `
 
 export const HeroSection: FC = () => {

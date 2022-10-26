@@ -25,7 +25,7 @@ const titleStyle = css`
   display: flex;
   flex-direction: row;
   align-items: center;
-  gap: 8px;
+  gap: ${theme.spacing.s};
 `
 
 const paragraphStyle = css`
