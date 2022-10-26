@@ -8,7 +8,7 @@ export type ContentProps = PropsWithChildren
 const contentStyle = css`
   label: content;
   width: 100%;
-  flex: 1 1 1rem;
+  flex: ${theme.flex.grow};
   margin: ${theme.spacing.zero};
   padding: ${theme.spacing.zero};
   display: flex;

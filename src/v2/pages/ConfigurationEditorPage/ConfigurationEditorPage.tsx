@@ -13,7 +13,7 @@ import { EditorView } from './EditorView'
 import { ExplorerTree } from './ExplorerTree'
 
 const editorContainerStyle = css`
-  flex: 1 1 1px;
+  flex: ${theme.flex.grow};
   background-color: ${theme.colors.dark4};
   overflow: auto;
 `

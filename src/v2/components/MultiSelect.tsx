@@ -27,7 +27,7 @@ const labelContainerStyle = (isEmpty: boolean) => css`
 `
 
 const labelStyle = css`
-  flex: 1 1 1px;
+  flex: ${theme.flex.grow};
   color: ${theme.colors.text};
   display: flex;
   flex-direction: row;

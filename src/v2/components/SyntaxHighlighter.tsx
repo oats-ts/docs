@@ -54,7 +54,7 @@ const docsContainerStyle = css`
 
 const editorContainerStyle = css`
   position: relative;
-  flex-grow: 1 1 1px;
+  flex-grow: ${theme.flex.grow};
   height: 100vh;
 
   .react-syntax-highlighter-line-number {

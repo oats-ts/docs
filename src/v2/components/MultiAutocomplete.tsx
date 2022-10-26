@@ -32,7 +32,7 @@ const inputStyle = (isEmpty: boolean) => css`
   border-width: ${theme.spacing.zero};
   outline: none;
   border-radius: ${theme.spacing.s};
-  flex: 1 1 1px;
+  flex: ${theme.flex.grow};
   padding: ${theme.spacing.m} ${theme.spacing.zero} ${theme.spacing.m} ${isEmpty ? theme.spacing.xm : theme.spacing.xs};
   color: ${theme.colors.text};
   background-color: ${theme.colors.transparent};

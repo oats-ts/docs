@@ -29,7 +29,7 @@ const circleStyle = css`
   min-height: 80px;
   margin-top: ${theme.spacing.m};
   border-radius: 50%;
-  border: 1px solid ${theme.colors.text};
+  border: ${theme.spacing.xxxs} solid ${theme.colors.text};
   color: ${theme.colors.text};
   display: flex;
   align-items: center;

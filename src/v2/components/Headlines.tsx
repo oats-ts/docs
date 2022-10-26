@@ -37,7 +37,7 @@ const itemHeaderStyle = css`
 const itemContentStyle = css`
   label: headlines-item-content;
   margin-bottom: 24px;
-  flex: 1 1 1px;
+  flex: ${theme.flex.grow};
 `
 
 export const Headlines: FC = () => {

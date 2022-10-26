@@ -42,7 +42,7 @@ const treeNodeContentStyle = (level: number, active: boolean) => css`
 `
 
 const itemLabelStyle = css`
-  flex: 1 1 1px;
+  flex: ${theme.flex.grow};
   display: flex;
   flex-direction: row;
   align-items: center;

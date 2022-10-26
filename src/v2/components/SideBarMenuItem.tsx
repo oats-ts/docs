@@ -24,7 +24,7 @@ const docItemStyle = css`
 `
 
 const docItemLabelStyle = css`
-  flex: 1 1 1px;
+  flex: ${theme.flex.grow};
 `
 
 const activeDocItemStyle = css`

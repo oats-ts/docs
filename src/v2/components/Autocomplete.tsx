@@ -26,7 +26,7 @@ const inputStyle = css`
   border-width: ${theme.spacing.zero};
   outline: none;
   border-radius: ${theme.spacing.s};
-  flex: 1 1 1px;
+  flex: ${theme.flex.grow};
   padding: ${theme.spacing.m} ${theme.spacing.zero} ${theme.spacing.m} ${theme.spacing.xm};
   color: ${theme.colors.text};
   background-color: ${theme.colors.transparent};

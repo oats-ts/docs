@@ -59,10 +59,10 @@ const thStyle = css`
   padding: ${theme.spacing.xxm} ${theme.spacing.m};
   text-align: left;
   &:first-of-type {
-    border-top-left-radius: 5px;
+    border-top-left-radius: ${theme.spacing.xs};
   }
   &:last-of-type {
-    border-top-right-radius: 5px;
+    border-top-right-radius: ${theme.spacing.xs};
   }
 `
 

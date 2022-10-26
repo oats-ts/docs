@@ -35,4 +35,7 @@ export const theme = {
     xm: '16px',
     xxm: '18px',
   },
-}
+  flex: {
+    grow: '1 1 1px',
+  },
+} as const
