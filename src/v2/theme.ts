@@ -25,4 +25,14 @@ export const theme = {
     monospace: "'Source Code Pro', monospace",
     sansSerif: "'Montserrat', sans-serif",
   },
+  spacing: {
+    zero: '0rem',
+    xxxs: '2px',
+    xxs: '4px',
+    xs: '6px',
+    s: '8px',
+    m: '12px',
+    xm: '16px',
+    xxm: '18px',
+  },
 }
