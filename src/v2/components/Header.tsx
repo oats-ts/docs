@@ -16,7 +16,7 @@ const headerStyle = css`
 
 const headerContentStyle = css`
   label: header-content;
-  height: 90px;
+  height: ${theme.spacing.xxh};
   display: flex;
   flex-direction: row;
   justify-content: space-between;

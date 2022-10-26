@@ -56,7 +56,7 @@ const anchorStyle = css`
 const menuItemStyle = css`
   label: menu-item;
   height: 100%;
-  padding: ${theme.spacing.zero} 24px;
+  padding: ${theme.spacing.zero} ${theme.spacing.l};
   display: flex;
   gap: ${theme.spacing.s};
   align-items: center;

@@ -11,12 +11,12 @@ const heroSectionStyle = css`
   label: hero-section;
   width: 100%;
   margin: ${theme.spacing.zero};
-  padding: 80px ${theme.spacing.zero};
+  padding: ${theme.spacing.xh} ${theme.spacing.zero};
   @media ${breakpoints.desktop} {
-    padding: 100px ${theme.spacing.zero};
+    padding: ${theme.spacing.xxh} ${theme.spacing.zero};
   }
   @media ${breakpoints.tablet} {
-    padding: 80px ${theme.spacing.zero};
+    padding: ${theme.spacing.xh} ${theme.spacing.zero};
   }
 `
 

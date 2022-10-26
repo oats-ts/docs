@@ -12,7 +12,7 @@ const footerStyle = css`
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 40px ${theme.spacing.m};
+  padding: ${theme.spacing.xxxl} ${theme.spacing.m};
   gap: ${theme.spacing.m};
 `
 

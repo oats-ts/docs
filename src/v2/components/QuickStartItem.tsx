@@ -13,7 +13,7 @@ const containerStyle = css`
   display: flex;
   flex-direction: row;
   gap: ${theme.spacing.xxm};
-  margin-top: 40px;
+  margin-top: ${theme.spacing.xxxl};
   width: 100%;
 `
 
@@ -23,10 +23,10 @@ const circleStyle = css`
     /* TODO */
     display: none;
   }
-  width: 80px;
-  height: 80px;
-  min-width: 80px;
-  min-height: 80px;
+  width: ${theme.spacing.xh};
+  height: ${theme.spacing.xh};
+  min-width: ${theme.spacing.xh};
+  min-height: ${theme.spacing.xh};
   margin-top: ${theme.spacing.m};
   border-radius: 50%;
   border: ${theme.spacing.xxxs} solid ${theme.colors.text};

@@ -9,11 +9,11 @@ const containerStyle = css`
   label: headlines;
   display: flex;
   flex-direction: row;
-  gap: 24px;
+  gap: ${theme.spacing.l};
 
   @media ${breakpoints.phone} {
     flex-direction: column;
-    gap: 50px;
+    gap: ${theme.spacing.h};
   }
 `
 
@@ -36,7 +36,7 @@ const itemHeaderStyle = css`
 
 const itemContentStyle = css`
   label: headlines-item-content;
-  margin-bottom: 24px;
+  margin-bottom: ${theme.spacing.l};
   flex: ${theme.flex.grow};
 `
 

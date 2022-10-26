@@ -18,8 +18,8 @@ const openableStyle = (level: number) => css`
     content: '';
     left: ${8 + Padding + Padding * level}px;
     position: absolute;
-    top: 30px;
-    height: calc(100% - 30px);
+    top: ${theme.spacing.xxl};
+    height: calc(100% - ${theme.spacing.xxl});
   }
 `
 

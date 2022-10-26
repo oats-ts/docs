@@ -15,7 +15,7 @@ const logoContainerStyle = css`
   gap: ${theme.spacing.m};
   align-items: center;
   text-decoration: none;
-  margin: ${theme.spacing.m} ${theme.spacing.m} 40px ${theme.spacing.m};
+  margin: ${theme.spacing.m} ${theme.spacing.m} ${theme.spacing.xxxl} ${theme.spacing.m};
   @media ${breakpoints.phone} {
     margin: ${theme.spacing.m};
   }

@@ -18,7 +18,7 @@ const containerStyle = css`
 
 const menuButtonStyle = css`
   color: ${theme.colors.muted};
-  font-size: 40px;
+  font-size: ${theme.spacing.xxxl};
   cursor: pointer;
   margin: ${theme.spacing.m};
   &:hover {

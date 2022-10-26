@@ -35,7 +35,7 @@ const copyButtonStyle = css`
   font-size: ${theme.fontSize.m};
   background-color: ${theme.colors.dark2};
   color: ${theme.colors.text};
-  box-shadow: rgba(0, 0, 0, 0.05) ${theme.spacing.zero} 5px ${theme.spacing.s};
+  box-shadow: rgba(0, 0, 0, 0.05) ${theme.spacing.zero} ${theme.spacing.xs} ${theme.spacing.s};
 `
 
 const docsContainerStyle = css`

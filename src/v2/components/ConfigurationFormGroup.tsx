@@ -32,7 +32,7 @@ const groupHeaderStyle = css`
 `
 
 const groupNameStyle = css`
-  flex: 1 1 1px;
+  flex: ${theme.flex.grow};
   text-transform: uppercase;
 `
 

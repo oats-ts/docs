@@ -10,7 +10,7 @@ export type ChipProps = {
 } & HTMLAttributes<HTMLSpanElement>
 
 const chipStyle = css`
-  padding: 5px 7px;
+  padding: ${theme.spacing.xs} ${theme.spacing.s};
   display: flex;
   flex-direction: row;
   align-items: center;
