@@ -1,6 +1,6 @@
 import { css } from '@emotion/css'
 import React, { FC } from 'react'
-import { Logo } from './Logo'
+import { SvgLogo } from './SvgLogo'
 import { theme } from '../theme'
 import { Link } from './Link'
 
@@ -46,7 +46,7 @@ export const Footer: FC = () => {
   return (
     <footer className={footerStyle}>
       <a className={logoContainerStyle} href="#">
-        <Logo width={60} color={theme.colors.muted} />
+        <SvgLogo width={60} color={theme.colors.muted} />
         <h1 className={oatsLabelStyle}>Oats</h1>
       </a>
       <span className={copyrightLabel}>Copyright &#169; 2022 Balázs Édes</span>

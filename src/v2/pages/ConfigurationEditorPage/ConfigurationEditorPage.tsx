@@ -5,7 +5,8 @@ import { DocContainer } from '../../components/DocContainer'
 import { MobileContext, useProvideMobileContext } from '../../components/MobileContext'
 import { MobileHeaderWithOverlay } from '../../components/MobileHeaderWithOverlay'
 import { SideBar } from '../../components/SideBar'
-import { SideBarLogo } from '../../components/SideBarLogo'
+import { Logo } from '../../components/Logo'
+import { LogoContainer } from '../../components/LogoContainer'
 import { GeneratorContext } from '../../model/GeneratorContext'
 import { useGenerator } from '../../model/useGenerator'
 import { theme } from '../../theme'
@@ -24,7 +25,7 @@ const MobileTitleBar: FC = () => {
   const ctx = useProvideMobileContext()
   return (
     <MobileContext.Provider value={ctx}>
-      <MobileHeaderWithOverlay name={NAME}>
+      <MobileHeaderWithOverlay name={NAME} version={true}>
         <ExplorerTree />
       </MobileHeaderWithOverlay>
     </MobileContext.Provider>
@@ -37,7 +38,9 @@ export const ConfigurationEditorPage: FC = () => {
     <GeneratorContext.Provider value={context}>
       <DocContainer>
         <SideBar>
-          <SideBarLogo name={NAME} />
+          <LogoContainer>
+            <Logo name={NAME} version={true} />
+          </LogoContainer>
           <ExplorerTree />
         </SideBar>
         <div className={editorContainerStyle}>

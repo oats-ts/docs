@@ -8,7 +8,8 @@ import { MarkdownView } from '../../components/MarkdownView'
 import { MobileContext, useProvideMobileContext } from '../../components/MobileContext'
 import { MobileHeaderWithOverlay } from '../../components/MobileHeaderWithOverlay'
 import { SideBar } from '../../components/SideBar'
-import { SideBarLogo } from '../../components/SideBarLogo'
+import { Logo } from '../../components/Logo'
+import { LogoContainer } from '../../components/LogoContainer'
 import { theme } from '../../theme'
 import { DocumentationMenu } from './DocumentationMenu'
 
@@ -28,7 +29,7 @@ const MobileTitleBar: FC = () => {
   const ctx = useProvideMobileContext()
   return (
     <MobileContext.Provider value={ctx}>
-      <MobileHeaderWithOverlay name={NAME}>
+      <MobileHeaderWithOverlay name={NAME} version={true}>
         <DocumentationMenu />
       </MobileHeaderWithOverlay>
     </MobileContext.Provider>
@@ -42,7 +43,9 @@ export const DocumentationPage: FC = () => {
   return (
     <DocContainer>
       <SideBar>
-        <SideBarLogo name={NAME} />
+        <LogoContainer>
+          <Logo name={NAME} version={true} />
+        </LogoContainer>
         <DocumentationMenu />
       </SideBar>
       <div className={contentContainerStyle}>

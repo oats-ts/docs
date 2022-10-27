@@ -2,6 +2,7 @@ import { css, cx } from '@emotion/css'
 import { isNil } from 'lodash'
 import React, { FC } from 'react'
 import { IconType } from 'react-icons'
+import { breakpoints } from '../breakpoints'
 import { theme } from '../theme'
 
 const activeStyle = css`
@@ -63,8 +64,8 @@ const menuItemStyle = css`
   cursor: pointer;
   color: ${theme.colors.text};
   font-size: ${theme.fontSize.m};
-  &:first-of-type {
-    padding-left: ${theme.spacing.zero};
+  @media ${breakpoints.phone} {
+    padding: ${theme.spacing.zero} ${theme.spacing.m};
   }
 `
 

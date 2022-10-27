@@ -6,7 +6,8 @@ import { useMobileContext } from './MobileContext'
 import { MobileHeader } from './MobileHeader'
 
 export type MobileOverlayProps = PropsWithChildren & {
-  name: string
+  name?: string
+  version: boolean
 }
 
 const overlayStyle = css`
@@ -20,6 +21,7 @@ const overlayStyle = css`
   z-index: 10;
   display: flex;
   flex-direction: column;
+  overflow: auto;
 `
 
 const closedStyle = css`
@@ -27,12 +29,12 @@ const closedStyle = css`
   pointer-events: none;
 `
 
-export const MobileOverlay: FC<MobileOverlayProps> = ({ name, children }) => {
+export const MobileOverlay: FC<MobileOverlayProps> = ({ name, children, version }) => {
   const { isMenuOpen, setMenuOpen } = useMobileContext()
 
   return (
     <div className={cx(overlayStyle, isMenuOpen ? undefined : closedStyle)}>
-      <MobileHeader actionIcon={HiXMark} onAction={() => setMenuOpen(false)} name={name} />
+      <MobileHeader actionIcon={HiXMark} onAction={() => setMenuOpen(false)} name={name} version={version} />
       {children}
     </div>
   )

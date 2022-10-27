@@ -4,8 +4,8 @@ import React, { ComponentType, FC, useEffect, useState } from 'react'
 
 export const breakpoints = {
   desktop: `(orientation: landscape) and (min-width: 1201px)`,
-  tablet: `(orientation: landscape) and (min-width: 651px) and (max-width: 1200px) `,
-  phone: `(orientation: portrait), (max-width: 650px)`,
+  tablet: `(orientation: landscape) and (min-width: 856px) and (max-width: 1200px) `,
+  phone: `(orientation: portrait), (max-width: 855px)`,
 } as const
 
 type MobileOnlyProps = {

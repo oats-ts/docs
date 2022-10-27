@@ -2,10 +2,12 @@ import { css } from '@emotion/css'
 import React, { FC } from 'react'
 import { IconType } from 'react-icons'
 import { theme } from '../theme'
-import { SideBarLogo } from './SideBarLogo'
+import { LogoContainer } from './LogoContainer'
+import { Logo } from './Logo'
 
 type MobileHeaderProps = {
-  name: string
+  name?: string
+  version: boolean
   actionIcon: IconType
   onAction: () => void
 }
@@ -26,10 +28,12 @@ const menuButtonStyle = css`
   }
 `
 
-export const MobileHeader: FC<MobileHeaderProps> = ({ name, actionIcon: ActionIcon, onAction }) => {
+export const MobileHeader: FC<MobileHeaderProps> = ({ name, version, actionIcon: ActionIcon, onAction }) => {
   return (
     <div className={containerStyle}>
-      <SideBarLogo name={name} />
+      <LogoContainer>
+        <Logo name={name} version={version} />
+      </LogoContainer>
       <ActionIcon className={menuButtonStyle} onClick={onAction} />
     </div>
   )
