@@ -135,9 +135,9 @@ export function useGenerator(): GeneratorContextType {
   }, [configuration.reader, configuration.validator, configuration.generator, configuration.writer])
 
   // TODO remove if
-  if (false) {
-    useDebounceEffect(runGenerator, 1000)
-  }
+  // if (false) {
+  useDebounceEffect(runGenerator, 1000)
+  // }
 
   const computeGeneratorSource = useCallback(() => {
     setGeneratorSource({
