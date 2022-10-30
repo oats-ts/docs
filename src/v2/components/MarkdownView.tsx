@@ -24,7 +24,7 @@ const h3Style = css`
   font-size: ${theme.fontSize.m};
 `
 const containerStyle = css`
-  margin: ${theme.spacing.m};
+  margin: ${theme.spacing.l};
 `
 
 export type MarkdownViewProps = {
@@ -38,7 +38,7 @@ const customUriTransformer: Options['transformLinkUri'] = (uri: string) => {
     if (uri === 'Home') {
       return '#'
     }
-    return `#/docs/${uri}`
+    return `#/documentation/${uri}`
   }
   return uriTransformer(uri)
 }

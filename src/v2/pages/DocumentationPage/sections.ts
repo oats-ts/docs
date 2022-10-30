@@ -20,16 +20,20 @@ export const sections: DocumentationSection[] = [
         name: 'Getting started',
       },
       {
-        md: 'OpenAPI_Sdk',
+        md: 'OpenAPI_GeneratedSdk',
         name: 'Using a generated SDK',
       },
       {
-        md: 'OpenAPI_Server',
+        md: 'OpenAPI_GeneratedServer',
         name: 'Using a generated server',
       },
       {
-        md: 'OpenAPI_CustomGenerator',
+        md: 'OpenAPI_CustomGenerators',
         name: 'Custom generators',
+      },
+      {
+        md: 'OpenAPI_CommonMistakes',
+        name: 'Common mistakes',
       },
     ],
   },

@@ -14,7 +14,7 @@ import { ValidatorConfigurationEditor } from './ValidatorConfigurationEditor'
 import { WriterConfigurationEditor } from './WriterConfigurationEditor'
 
 const wrapperStyle = css`
-  padding: ${theme.spacing.xxm};
+  padding: ${theme.spacing.l};
   padding-top: ${theme.spacing.zero};
 `
 

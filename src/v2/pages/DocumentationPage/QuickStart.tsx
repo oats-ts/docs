@@ -69,10 +69,10 @@ export const QuickStart: FC = () => {
           </SyntaxHighlighter>
           The <Code>npm install</Code> command lists the necessary dependencies, that the generated output needs, to
           function at runtime. Run this command, and you are ready to use the generated output.
-          <p className={paragraphStyle}>
+          <div className={paragraphStyle}>
             In case you see errors check out the <Link href="#">troubleshooting</Link> guide, describing the most common
             issues with OpenAPI documents, and in case it doesn't help please open an <Link href="#">issue</Link>!
-          </p>
+          </div>
         </QuickStartItem>
         <QuickStartItem index={6} title="What's next?">
           Check out the <Link href="#">documentation</Link>, where you can learn how to use the generator output, create

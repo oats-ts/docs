@@ -4,10 +4,11 @@ import { default as OpenAPI_Read } from './OpenAPI_Read.md'
 import { default as OpenAPI_Validate } from './OpenAPI_Validate.md'
 import { default as OpenAPI_Workflow } from './OpenAPI_Workflow.md'
 import { default as Typescript_Write } from './Typescript_Write.md'
-import { default as OpenAPI_CustomGenerator } from './OpenAPI_CustomGenerator.md'
+import { default as OpenAPI_CustomGenerators } from './OpenAPI_CustomGenerators.md'
 import { default as OpenAPI_GettingStarted } from './OpenAPI_GettingStarted.md'
-import { default as OpenAPI_Sdk } from './OpenAPI_Sdk.md'
-import { default as OpenAPI_Server } from './OpenAPI_Server.md'
+import { default as OpenAPI_GeneratedSdk } from './OpenAPI_GeneratedSdk.md'
+import { default as OpenAPI_GeneratedServer } from './OpenAPI_GeneratedServer.md'
+import { default as OpenAPI_CommonMistakes } from './OpenAPI_CommonMistakes.md'
 
 export type MarkdowPageName = keyof typeof markdown
 
@@ -20,7 +21,8 @@ export const markdown = {
   Typescript_Write,
 
   OpenAPI_GettingStarted,
-  OpenAPI_Sdk,
-  OpenAPI_Server,
-  OpenAPI_CustomGenerator,
+  OpenAPI_GeneratedSdk,
+  OpenAPI_GeneratedServer,
+  OpenAPI_CustomGenerators,
+  OpenAPI_CommonMistakes,
 } as const
