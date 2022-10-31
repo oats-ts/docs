@@ -59,7 +59,7 @@ export const ExplorerTreeItem: FC<ExplorerTreeItemProps> = ({ value }) => {
       case 'configuration':
         return 'Configure'
       case 'generator-source':
-        return 'generate.ts'
+        return 'oats.js'
       case 'package-json':
         return 'package.json'
       case 'issues':

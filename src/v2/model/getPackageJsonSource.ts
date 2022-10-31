@@ -7,22 +7,14 @@ function getDependencyObject(dependencies: RuntimeDependency[]): Record<string, 
     .reduce((obj: Record<string, string>, { name, version }: RuntimeDependency) => ({ ...obj, [name]: version }), {})
 }
 
-export function getPackageJsonSource(deps: RuntimeDependency[], versionMap: Record<string, string>): string {
+export function getPackageJsonSource(deps: RuntimeDependency[], _versionMap: Record<string, string>): string {
   const dependencies = getDependencyObject(deps)
   const packageJson: PackageJson = {
-    name: 'your-project',
-    version: '1.0.0',
-    description: "You will need 'devDependencies' to run oats, and 'dependencies' make it's output work at runtime.",
     scripts: {
-      oats: 'ts-node ./generate.ts',
+      oats: 'node ./oats.js',
     },
     ...(deps.length === 0 ? {} : { dependencies }),
-    devDependencies: getDependencyObject([
-      { name: '@oats-ts/oats-ts', version },
-      { name: '@oats-ts/openapi', version },
-      { name: 'typescript', version: versionMap['typescript']! },
-      { name: 'ts-node', version: versionMap['ts-node']! },
-    ]),
+    devDependencies: getDependencyObject([{ name: '@oats-ts/openapi', version }]),
   }
   return JSON.stringify(packageJson, null, 2)
 }

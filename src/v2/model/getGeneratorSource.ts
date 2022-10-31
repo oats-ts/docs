@@ -16,6 +16,9 @@ import { CommentConfig } from '@oats-ts/typescript-writer'
 import { getPresetConfigAst } from './getPresetConfigAst'
 import { defaults } from './defaults'
 
+const OATS = 'oats'
+const PKG = '@oats-ts/openapi'
+
 function comment<T extends Node>(node: T, comment: string): T {
   return addSyntheticLeadingComment(node, SyntaxKind.SingleLineCommentTrivia, ` ${comment}`, true)
 }
@@ -35,17 +38,15 @@ function getReaderComment(reader: ReaderConfiguration): string {
 }
 
 function getRemoteReaderAst(reader: ReaderConfiguration) {
-  return factory.createCallExpression(
+  const propChain = factory.createPropertyAccessExpression(
     factory.createPropertyAccessExpression(
-      factory.createPropertyAccessExpression(
-        factory.createIdentifier('readers'),
-        factory.createIdentifier(reader.remoteProtocol),
-      ),
-      factory.createIdentifier(reader.remoteLanguage),
+      factory.createPropertyAccessExpression(factory.createIdentifier(OATS), factory.createIdentifier('readers')),
+      factory.createIdentifier(reader.remoteProtocol),
     ),
-    undefined,
-    [factory.createStringLiteral(reader.remotePath)],
+    factory.createIdentifier(reader.remoteLanguage),
   )
+
+  return factory.createCallExpression(propChain, undefined, [factory.createStringLiteral(reader.remotePath)])
 }
 
 function getGenerators(generator: GeneratorConfiguration) {
@@ -68,7 +69,7 @@ function getPreset(generator: GeneratorConfiguration) {
   const props = getPresetConfigAst(generator.presetConfig, generator.preset)
   return factory.createCallExpression(
     factory.createPropertyAccessExpression(
-      factory.createIdentifier('presets'),
+      factory.createPropertyAccessExpression(factory.createIdentifier(OATS), factory.createIdentifier('presets')),
       factory.createIdentifier(generator.preset),
     ),
     undefined,
@@ -81,7 +82,11 @@ function getGeneratorChildren(generator: GeneratorConfiguration) {
 }
 
 function getGeneratorAst(generator: GeneratorConfiguration) {
-  return factory.createCallExpression(factory.createIdentifier('generator'), undefined, [
+  const genAst = factory.createPropertyAccessExpression(
+    factory.createIdentifier(OATS),
+    factory.createIdentifier('generator'),
+  )
+  return factory.createCallExpression(genAst, undefined, [
     factory.createObjectLiteralExpression(
       [
         comment(
@@ -89,7 +94,10 @@ function getGeneratorAst(generator: GeneratorConfiguration) {
             factory.createIdentifier('nameProvider'),
             factory.createCallExpression(
               factory.createPropertyAccessExpression(
-                factory.createIdentifier('nameProviders'),
+                factory.createPropertyAccessExpression(
+                  factory.createIdentifier(OATS),
+                  factory.createIdentifier('nameProviders'),
+                ),
                 factory.createIdentifier('default'),
               ),
               undefined,
@@ -103,7 +111,10 @@ function getGeneratorAst(generator: GeneratorConfiguration) {
             factory.createIdentifier('pathProvider'),
             factory.createCallExpression(
               factory.createPropertyAccessExpression(
-                factory.createIdentifier('pathProviders'),
+                factory.createPropertyAccessExpression(
+                  factory.createIdentifier(OATS),
+                  factory.createIdentifier('pathProviders'),
+                ),
                 factory.createIdentifier(generator.pathProviderType),
               ),
               undefined,
@@ -138,7 +149,7 @@ function getLiteral(input: number | string | boolean) {
 function getFormatterAst(writer: WriterConfiguration) {
   return factory.createCallExpression(
     factory.createPropertyAccessExpression(
-      factory.createIdentifier('formatters'),
+      factory.createPropertyAccessExpression(factory.createIdentifier(OATS), factory.createIdentifier('formatters')),
       factory.createIdentifier('prettier'),
     ),
     undefined,
@@ -217,7 +228,7 @@ function getWriterAst(writer: WriterConfiguration) {
   return factory.createCallExpression(
     factory.createPropertyAccessExpression(
       factory.createPropertyAccessExpression(
-        factory.createIdentifier('writers'),
+        factory.createPropertyAccessExpression(factory.createIdentifier(OATS), factory.createIdentifier('writers')),
         factory.createIdentifier('typescript'),
       ),
       factory.createIdentifier(writer.writerType),
@@ -236,8 +247,12 @@ function getWriterAst(writer: WriterConfiguration) {
 }
 
 function getGenerateCallAst(config: ConfigurationNode) {
+  const genAst = factory.createPropertyAccessExpression(
+    factory.createIdentifier(OATS),
+    factory.createIdentifier('generate'),
+  )
   return factory.createExpressionStatement(
-    factory.createCallExpression(factory.createIdentifier('generate'), undefined, [
+    factory.createCallExpression(genAst, undefined, [
       factory.createObjectLiteralExpression(
         [
           comment(
@@ -245,7 +260,10 @@ function getGenerateCallAst(config: ConfigurationNode) {
               factory.createIdentifier('logger'),
               factory.createCallExpression(
                 factory.createPropertyAccessExpression(
-                  factory.createIdentifier('loggers'),
+                  factory.createPropertyAccessExpression(
+                    factory.createIdentifier(OATS),
+                    factory.createIdentifier('loggers'),
+                  ),
                   factory.createIdentifier('simple'),
                 ),
                 undefined,
@@ -263,7 +281,14 @@ function getGenerateCallAst(config: ConfigurationNode) {
                 comment(
                   factory.createPropertyAssignment(
                     factory.createIdentifier('validator'),
-                    factory.createCallExpression(factory.createIdentifier('validator'), undefined, []),
+                    factory.createCallExpression(
+                      factory.createPropertyAccessExpression(
+                        factory.createIdentifier(OATS),
+                        factory.createIdentifier('validator'),
+                      ),
+                      undefined,
+                      [],
+                    ),
                   ),
                   `Takes the output of the read step, and semantically validates it.`,
                 ),
@@ -288,51 +313,27 @@ function getGenerateCallAst(config: ConfigurationNode) {
   )
 }
 
-function getImportDeclarations({ writer, validator, generator }: ConfigurationNode) {
-  const openApiImports = [
-    'formatters',
-    'generator',
-    'generators',
-    'loggers',
-    'nameProviders',
-    'pathProviders',
-    'presets',
-    'readers',
-    'validator',
-    'writers',
-  ]
-    .filter((name) => (name === 'formatters' ? writer.useFormatter : true))
-    .filter((name) => (name === 'validator' ? validator.enabled : true))
-    .filter((name) => (generator.configurationStyle === 'generators' ? name !== 'presets' : name !== 'generators'))
-    .map((name) => factory.createImportSpecifier(false, undefined, factory.createIdentifier(name)))
-
-  const openApiImport = factory.createImportDeclaration(
+function getImportDeclarations(_: ConfigurationNode) {
+  return factory.createVariableStatement(
     undefined,
-    undefined,
-    factory.createImportClause(false, undefined, factory.createNamedImports(openApiImports)),
-    factory.createStringLiteral('@oats-ts/openapi'),
-    undefined,
-  )
-
-  const generateImport = factory.createImportDeclaration(
-    undefined,
-    undefined,
-    factory.createImportClause(
-      false,
-      undefined,
-      factory.createNamedImports([
-        factory.createImportSpecifier(false, undefined, factory.createIdentifier('generate')),
-      ]),
+    factory.createVariableDeclarationList(
+      [
+        factory.createVariableDeclaration(
+          factory.createIdentifier(OATS),
+          undefined,
+          undefined,
+          factory.createCallExpression(factory.createIdentifier('require'), undefined, [
+            factory.createStringLiteral(PKG),
+          ]),
+        ),
+      ],
+      NodeFlags.Const,
     ),
-    factory.createStringLiteral('@oats-ts/oats-ts'),
-    undefined,
   )
-
-  return [generateImport, openApiImport]
 }
 
 export function getGeneratorSource(config: ConfigurationNode): string {
-  const contents: Statement[][] = [getImportDeclarations(config), [], [getGenerateCallAst(config)]]
+  const contents: Statement[][] = [[getImportDeclarations(config)], [], [getGenerateCallAst(config)]]
 
   const sourceFiles = contents
     .filter((statements) => statements.length > 0)
