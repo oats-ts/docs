@@ -7,7 +7,7 @@ In this guide you'll learn how to set up and generate with Oats.
 To get started you'll need a valid OpenAPI document. If you are unsure about how to put together an OpenAPI document, a few pointers:
 
 - The [latest specification](https://spec.openapis.org/oas/latest.html)
-- Guide about [common mistakes](OpenAPI_CommonMistakes)
+- Guide about [common mistakes](OpenAPI_CommonMistakes), when defining your OpenAPI document
 
 Oats works with both remotely hosted OpenAPI documents - accessible using the HTTP(S) protocol - and local documents in your file system. In these guides I'm going to use the [book store](https://github.com/oats-ts/oats-schemas/blob/master/schemas/book-store.json) example:
 
@@ -17,7 +17,7 @@ https://raw.githubusercontent.com/oats-ts/oats-schemas/master/schemas/book-store
 
 ## Install Oats generator modules
 
-To get generating, you'll need the main Oats module.
+To get generating, you'll need the main Oats module. This simply contains all that you need to generate, but you won't need anything from this module, when using the generated code:
 
 ```text
 npm i @oats-ts/openapi
@@ -25,9 +25,9 @@ npm i @oats-ts/openapi
 
 ## Configure Oats
 
-Oats borrows its configuration philosophy from Webpack, meaning code is configuration. This is how basic configuration looks like:
+Oats borrows its configuration philosophy from Webpack, meaning code is configuration. Let's create a file called `oats.js` (you can call it whatever you want), and add a basic Oats configuration:
 
-```js
+```javascript
 const oats = require('@oats-ts/openapi')
 
 oats.generate({
@@ -67,6 +67,8 @@ Now that we have the generator set up, you can run it like any node.js script:
 node ./oats.js
 ```
 
+**NOTE:** In this example we are using Javascript for configuring and running the generator, even though the project is built in and for Typescript. In case you want to define your configuration in Typescript, you can, but you'll need to solve running it, for which the simplest solution is [`ts-node`](https://www.npmjs.com/package/ts-node). However in a decent IDE (like VSCode) you will still have good content assist in Javascript, when putting together this configuration, because of the type definitions exposed by the Oats packages.
+
 ## Verify results
 
 In case Oats successfully ran, you will see something like this in the terminal:
@@ -75,16 +77,25 @@ In case Oats successfully ran, you will see something like this in the terminal:
 ✔ reader step completed using "@oats-ts/openapi-reader"
 ✔ validator step completed using "@oats-ts/openapi-validator"
 ✔ generator step completed using "@oats-ts/openapi-generators"
-i npm i @oats-ts/client-runtime @oats-ts/express-runtime express@^4.18.1
+i some outputs have runtime dependencies:
+  npm i \
+    @oats-ts/openapi-express-server-adapter@0.0.43 \
+    @oats-ts/openapi-fetch-client-adapter@0.0.43 \
+    @oats-ts/openapi-runtime@0.0.43 \
+    express@^4.18.1
 ✔ writer step completed using "@oats-ts/typescript-writer"
 ```
 
-Some generated outputs might have runtime dependencies (eg.: you generated `express` routers, therefore the generated code has a runtime depdency on `express`), these dependencies are summarized as a convenient `npm install` command after the generator step completes, on line `4` in this example.
+Some generated outputs might have runtime dependencies (eg.: you generated `express` routers, therefore the generated code has a runtime depdency on `express`). These dependencies are summarized as a convenient `npm install` command after the generator step completes (on line `5` in this example).
 
 Grab this command, and run it:
 
 ```text
-npm i @oats-ts/client-runtime @oats-ts/express-runtime express@^4.18.1
+npm i \
+  @oats-ts/openapi-express-server-adapter@0.0.43 \
+  @oats-ts/openapi-fetch-client-adapter@0.0.43 \
+  @oats-ts/openapi-runtime@0.0.43 \
+  express@^4.18.1
 ```
 
 ## Using the generated code
