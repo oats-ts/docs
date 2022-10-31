@@ -1,9 +1,9 @@
 import { css } from '@emotion/css'
 import React, { FC } from 'react'
 import { HiBookOpen, HiPuzzlePiece, HiServerStack, HiWrenchScrewdriver } from 'react-icons/hi2'
-import { theme } from '../theme'
-import { Button } from './Button'
-import { breakpoints } from '../breakpoints'
+import { theme } from '../../theme'
+import { Button } from '../../components/Button'
+import { breakpoints } from '../../breakpoints'
 
 const containerStyle = css`
   label: headlines;
@@ -20,6 +20,8 @@ const containerStyle = css`
 const itemContainerStyle = css`
   label: headlines-items-container;
   color: ${theme.colors.muted};
+  display: flex;
+  flex-direction: column;
   font-size: ${theme.fontSize.m};
 `
 
@@ -52,7 +54,7 @@ export const Headlines: FC = () => {
           Create an easy to use, statically typed SDK for your backend, with all the bells and whistles, and either use
           it in house, or expose it to your customers.
         </section>
-        <Button>
+        <Button href="#/documentation/OpenAPI_GeneratedSdk">
           <HiBookOpen />
           Learn more
         </Button>
@@ -66,7 +68,7 @@ export const Headlines: FC = () => {
           Generate all the tedious parts of your backend, like routing, parameter and body parsing and serialization,
           and CORS, and just implement moving data.
         </section>
-        <Button>
+        <Button href="http://localhost:8080/#/documentation/OpenAPI_GeneratedServer">
           <HiBookOpen />
           Learn more
         </Button>
@@ -80,7 +82,7 @@ export const Headlines: FC = () => {
           The available generators don't fully suit your needs, or you need more? Customize existing generators, or
           create your own, without writing everything from scratch.
         </section>
-        <Button>
+        <Button href="http://localhost:8080/#/documentation/OpenAPI_CustomGenerators">
           <HiBookOpen />
           Learn more
         </Button>

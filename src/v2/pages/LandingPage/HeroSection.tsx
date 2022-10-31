@@ -1,11 +1,11 @@
 import { css, cx } from '@emotion/css'
 import React, { FC } from 'react'
-import { theme } from '../theme'
-import { Button } from './Button'
-import { breakpoints } from '../breakpoints'
+import { theme } from '../../theme'
+import { Button } from '../../components/Button'
+import { breakpoints } from '../../breakpoints'
 import { HiPlay, HiCodeBracket } from 'react-icons/hi2'
-import { Link } from './Link'
-import { containerStyle } from './containerStyle'
+import { Link } from '../../components/Link'
+import { containerStyle } from '../../components/containerStyle'
 
 const heroSectionStyle = css`
   label: hero-section;
@@ -67,10 +67,10 @@ export const HeroSection: FC = () => {
           <Link href="https://www.openapis.org">OpenAPI</Link> definitions.
         </h3>
         <div className={buttonContainer}>
-          <Button variant="primary">
+          <Button variant="primary" href="#/documentation/OpenAPI_GeneratedSdk">
             <HiPlay /> Get Started
           </Button>
-          <Button>
+          <Button href="https://github.com/oats-ts/oats-ts">
             <HiCodeBracket /> Github
           </Button>
         </div>

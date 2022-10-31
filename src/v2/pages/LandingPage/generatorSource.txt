@@ -1,14 +1,16 @@
-import * as oats from '@oats-ts/openapi'
+const oats = require('@oats-ts/openapi')
 
 oats.generate({
   logger: oats.loggers.simple(),
-  reader: oats.readers.https.json('https://your.openapi.doc'),
-  // Or if you are generating from a local file:
-  // reader: oats.readers.file.json('openapi.json'),
+  // Use readers.file, to read from the local file system
+  reader: oats.readers.https.json(
+    'https://raw.githubusercontent.com/oats-ts/oats-schemas/master/schemas/book-store.json',
+  ),
   validator: oats.validator(),
   generator: oats.generator({
     nameProvider: oats.nameProviders.default(),
     pathProvider: oats.pathProviders.default('src/generated'),
+    // Use presets.client() or presets.server() for just client/server side code
     children: oats.presets.fullStack(),
   }),
   writer: oats.writers.typescript.file({

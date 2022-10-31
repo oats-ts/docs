@@ -1,10 +1,12 @@
 import { css, cx } from '@emotion/css'
+import { isNil } from 'lodash'
 import React, { FC, PropsWithChildren } from 'react'
 import { theme } from '../theme'
 
 type ButtonProps = PropsWithChildren & {
   variant?: 'primary' | 'secondary'
   className?: string
+  href?: string
   onClick?: () => void
 }
 
@@ -30,7 +32,9 @@ const primaryButtonStyle = css`
 
 const buttonStyle = css`
   label: button;
+  text-decoration: none;
   display: flex;
+  align-self: flex-start;
   gap: ${theme.spacing.s};
   align-items: center;
   transition: background-color 150ms linear, color 150ms linear, box-shadow 200ms linear;
@@ -47,8 +51,15 @@ const buttonStyle = css`
   }
 `
 
-export const Button: FC<ButtonProps> = ({ children, variant, className, onClick }) => {
+export const Button: FC<ButtonProps> = ({ children, variant, className, href, onClick }) => {
   const clsName = cx(buttonStyle, variant === 'primary' ? primaryButtonStyle : secondaryButtonStyle, className)
+  if (!isNil(href)) {
+    return (
+      <a className={clsName} onClick={onClick} href={href}>
+        {children}
+      </a>
+    )
+  }
   return (
     <button className={clsName} onClick={onClick}>
       {children}
