@@ -68,14 +68,17 @@ export const ExplorerTreeItem: FC<ExplorerTreeItemProps> = ({ value }) => {
   }
 
   const onClick = (n: EditorInput, open: boolean) => {
-    setMenuOpen(false)
     switch (n.type) {
-      case 'file':
+      case 'file': {
+        setMenuOpen(false)
         return setEditorInput(`file::${n.path}`)
+      }
       case 'folder':
         return setExplorerTreeState({ ...explorerTreeState, [n.path]: !open })
-      default:
+      default: {
+        setMenuOpen(false)
         return setEditorInput(n.type)
+      }
     }
   }
 

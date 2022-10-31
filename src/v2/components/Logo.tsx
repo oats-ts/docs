@@ -8,6 +8,7 @@ import { SvgLogo } from './SvgLogo'
 export type LogoProps = {
   name?: string
   version: boolean
+  href: string
 }
 
 const logoContainerStyle = css`
@@ -41,9 +42,9 @@ const versionLabelStyle = css`
   color: ${theme.colors.muted};
 `
 
-export const Logo: FC<LogoProps> = ({ name, version }) => {
+export const Logo: FC<LogoProps> = ({ name, version, href }) => {
   return (
-    <a className={logoContainerStyle} href="#">
+    <a className={logoContainerStyle} href={href}>
       <SvgLogo width={60} />
       <div className={labelWrapperStyle}>
         <h1 className={oatsLabelStyle}>Oats {isNil(name) ? null : <span className={docLabelStyle}>{name}</span>}</h1>

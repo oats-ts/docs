@@ -15,7 +15,7 @@ const MobileTitleBar: FC = () => {
   const ctx = useProvideMobileContext()
   return (
     <MobileContext.Provider value={ctx}>
-      <MobileHeaderWithOverlay version={false}>
+      <MobileHeaderWithOverlay version={false} href="#">
         <LandingPageMenu />
       </MobileHeaderWithOverlay>
     </MobileContext.Provider>

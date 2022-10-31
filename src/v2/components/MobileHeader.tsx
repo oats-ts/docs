@@ -7,6 +7,7 @@ import { Logo } from './Logo'
 
 type MobileHeaderProps = {
   name?: string
+  href: string
   version: boolean
   actionIcon: IconType
   onAction: () => void
@@ -28,11 +29,11 @@ const menuButtonStyle = css`
   }
 `
 
-export const MobileHeader: FC<MobileHeaderProps> = ({ name, version, actionIcon: ActionIcon, onAction }) => {
+export const MobileHeader: FC<MobileHeaderProps> = ({ name, version, href, actionIcon: ActionIcon, onAction }) => {
   return (
     <div className={containerStyle}>
       <LogoContainer>
-        <Logo name={name} version={version} />
+        <Logo name={name} version={version} href={href} />
       </LogoContainer>
       <ActionIcon className={menuButtonStyle} onClick={onAction} />
     </div>

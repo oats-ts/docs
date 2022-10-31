@@ -57,7 +57,9 @@ export function useGenerator(): GeneratorContextType {
   const [isGenerating, setGenerating] = useState<boolean>(true)
   const [explorerTreeState, setExplorerTreeState] = useState<ExplorerTreeState>({})
   const [filteredOutput, setFilteredOutput] = useState(_output)
-  const [editorInputKey, setEditorInputKey] = useState<EditorInputKey | undefined>(() => storage.get('editorInput'))
+  const [editorInputKey, setEditorInputKey] = useState<EditorInputKey | undefined>(() =>
+    storage.get<EditorInputKey>('editorInput', 'configuration'),
+  )
 
   const editorInput = useMemo((): EditorInput | undefined => {
     if (isNil(editorInputKey)) {
@@ -134,10 +136,7 @@ export function useGenerator(): GeneratorContextType {
       .finally(() => setGenerating(false))
   }, [configuration.reader, configuration.validator, configuration.generator, configuration.writer])
 
-  // TODO remove if
-  // if (false) {
   useDebounceEffect(runGenerator, 1000)
-  // }
 
   const computeGeneratorSource = useCallback(() => {
     setGeneratorSource({

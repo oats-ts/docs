@@ -28,7 +28,7 @@ export const Header: FC = () => {
   return (
     <header className={headerStyle}>
       <div className={cx(headerContentStyle, containerStyle)}>
-        <Logo version={false} />
+        <Logo version={false} href="#" />
         <LandingPageMenu />
       </div>
     </header>

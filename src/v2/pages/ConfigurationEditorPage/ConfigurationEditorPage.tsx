@@ -25,7 +25,7 @@ const MobileTitleBar: FC = () => {
   const ctx = useProvideMobileContext()
   return (
     <MobileContext.Provider value={ctx}>
-      <MobileHeaderWithOverlay name={NAME} version={true}>
+      <MobileHeaderWithOverlay name={NAME} version={true} href="#/configuration">
         <ExplorerTree />
       </MobileHeaderWithOverlay>
     </MobileContext.Provider>
@@ -39,7 +39,7 @@ export const ConfigurationEditorPage: FC = () => {
       <DocContainer>
         <SideBar>
           <LogoContainer>
-            <Logo name={NAME} version={true} />
+            <Logo name={NAME} version={true} href="#/configuration" />
           </LogoContainer>
           <ExplorerTree />
         </SideBar>

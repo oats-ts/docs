@@ -39,6 +39,7 @@ oats.generate({
   generator: oats.generator({
     nameProvider: oats.nameProviders.default(),
     pathProvider: oats.pathProviders.default('src/generated'),
+    // Use presets.client() or presets.server() for just client/server side code
     children: oats.presets.fullStack(),
   }),
   writer: oats.writers.typescript.file({

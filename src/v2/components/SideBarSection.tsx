@@ -1,9 +1,10 @@
 import { css } from '@emotion/css'
+import { isNil } from 'lodash'
 import React, { FC, PropsWithChildren } from 'react'
 import { theme } from '../theme'
 
 export type SideBarSectionProps = PropsWithChildren & {
-  title: string
+  title?: string
 }
 
 const sectionTitleStyle = css`
@@ -23,7 +24,7 @@ const sectionContainerStyle = css`
 export const SideBarSection: FC<SideBarSectionProps> = ({ children, title }) => {
   return (
     <>
-      <div className={sectionTitleStyle}>{title}</div>
+      {isNil(title) ? null : <div className={sectionTitleStyle}>{title}</div>}
       <div className={sectionContainerStyle}>{children}</div>
     </>
   )
