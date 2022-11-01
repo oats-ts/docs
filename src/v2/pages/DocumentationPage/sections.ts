@@ -1,9 +1,9 @@
-import { flatMap } from 'lodash'
-import { MarkdowPageName } from '../../../md/markdown'
+import { flatMap, keys } from 'lodash'
+import { markdown, MarkdownPageName } from '../../../md/markdown'
 
 export type DocumentationItem = {
   name: string
-  md: MarkdowPageName
+  md: MarkdownPageName
 }
 
 export type DocumentationSection = {
@@ -11,7 +11,7 @@ export type DocumentationSection = {
   items: DocumentationItem[]
 }
 
-export const sections: DocumentationSection[] = [
+const namedSections: DocumentationSection[] = [
   {
     name: 'Guides',
     items: [
@@ -58,6 +58,24 @@ export const sections: DocumentationSection[] = [
       },
     ],
   },
+]
+
+function getMixedItems(): DocumentationItem[] {
+  const inNamed: MarkdownPageName[] = flatMap(namedSections, (section) => section.items).map(({ md }) => md)
+  const notInNamed = keys(markdown).filter(
+    (key: string) => !inNamed.includes(key as MarkdownPageName),
+  ) as MarkdownPageName[]
+  return notInNamed.map((md) => ({ md, name: md }))
+}
+
+const mixedSection: DocumentationSection = {
+  name: 'Mixed',
+  items: getMixedItems(),
+}
+
+export const sections: DocumentationSection[] = [
+  ...namedSections,
+  ...(mixedSection.items.length > 0 ? [mixedSection] : []),
 ]
 
 export const docs = flatMap(sections, (section) => section.items)

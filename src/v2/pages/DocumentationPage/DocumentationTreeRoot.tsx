@@ -2,7 +2,7 @@ import React, { FC } from 'react'
 import { TreeNode } from '../../components/TreeNode'
 import { DocumentationItem } from './sections'
 import { useParams } from 'react-router-dom'
-import { MarkdowPageName } from '../../../md/markdown'
+import { MarkdownPageName } from '../../../md/markdown'
 import { useMobileContext } from '../../components/MobileContext'
 
 export type ExplorerTreeFsRootProps = {
@@ -10,7 +10,7 @@ export type ExplorerTreeFsRootProps = {
 }
 
 export const DocumentationTreeRoot: FC<ExplorerTreeFsRootProps> = ({ node }) => {
-  const { page = 'OpenAPI_GettingStarted' } = useParams<{ page: MarkdowPageName }>()
+  const { page = 'OpenAPI_GettingStarted' } = useParams<{ page: MarkdownPageName }>()
   const { setMenuOpen } = useMobileContext()
 
   const isActive = (n: DocumentationItem) => n.md === page

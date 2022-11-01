@@ -3,14 +3,14 @@ import { isNil } from 'lodash'
 import React, { FC } from 'react'
 import { useParams } from 'react-router-dom'
 import { Menu, Segment } from 'semantic-ui-react'
-import { MarkdowPageName } from '../md/markdown'
+import { MarkdownPageName } from '../md/markdown'
 import { useColorMode } from '../useColorMode'
 import { usePageTitle } from '../usePageTitle'
 import { MarkdownView } from './MarkdownView'
 
 type DocumentationItem = {
   name: string
-  md: MarkdowPageName
+  md: MarkdownPageName
 }
 
 const openAPIDocs: DocumentationItem[] = [
@@ -63,7 +63,7 @@ const menuStyle = css`
 `
 
 export const DocumentationPage: FC = () => {
-  const { page } = useParams<{ page: MarkdowPageName }>()
+  const { page } = useParams<{ page: MarkdownPageName }>()
   const activePage = page ?? 'Workflow'
   const docPageName = openAPIDocs.find((d) => d.md === activePage)?.name
   const { colorMode } = useColorMode()

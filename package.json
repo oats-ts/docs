@@ -21,6 +21,7 @@
     "build": "npm run clean && npm run build-v1 && npm run build-v2",
     "start-v1": "webpack-dev-server -c webpackV1.config.js --mode=development",
     "start-v2": "webpack-dev-server -c webpackV2.config.js --mode=development",
+    "md": "ts-node ./src/generateMarkdownImports.ts",
     "postinstall": "semantic-ui-css-patch"
   },
   "devDependencies": {
@@ -46,7 +47,8 @@
     "type-fest": "2.17.0",
     "webpack": "5.73.0",
     "webpack-cli": "4.10.0",
-    "webpack-dev-server": "4.9.3"
+    "webpack-dev-server": "4.9.3",
+    "ts-node": "10.9.1"
   },
   "dependencies": {
     "@emotion/css": "11.9.0",

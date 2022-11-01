@@ -1,7 +1,7 @@
 import { css } from '@emotion/css'
 import React, { FC } from 'react'
 import { useParams } from 'react-router-dom'
-import { MarkdowPageName } from '../../../md/markdown'
+import { MarkdownPageName } from '../../../md/markdown'
 import { BreakPoint } from '../../breakpoints'
 import { DocContainer } from '../../components/DocContainer'
 import { MarkdownView } from '../../components/MarkdownView'
@@ -37,7 +37,7 @@ const MobileTitleBar: FC = () => {
 }
 
 export const DocumentationPage: FC = () => {
-  const { page } = useParams<{ page: MarkdowPageName }>()
+  const { page } = useParams<{ page: MarkdownPageName }>()
   const activePage = page ?? 'GettingStarted'
 
   return (
