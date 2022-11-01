@@ -12,6 +12,7 @@ import { Logo } from '../../components/Logo'
 import { LogoContainer } from '../../components/LogoContainer'
 import { theme } from '../../theme'
 import { DocumentationMenu } from './DocumentationMenu'
+import { DocumentationFooter } from './DocumentationFooter'
 
 const NAME = 'docs'
 
@@ -51,6 +52,7 @@ export const DocumentationPage: FC = () => {
       <div className={contentContainerStyle}>
         <BreakPoint Component={MobileTitleBar} breakpoint="phone" />
         <MarkdownView page={activePage} />
+        <DocumentationFooter />
       </div>
     </DocContainer>
   )
