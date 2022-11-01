@@ -1,6 +1,8 @@
 # Error handling
 
-Oats generated SDKs don't `throw` (or rather reject, as we are dealing with `Promise`s), unless the response is invalid according to the source OpenAPI document. Examples of rejections:
+Oats generated SDKs don't `throw` (or rather reject, as we are dealing with `Promise`s), unless the response is invalid according to the source OpenAPI document.
+
+## Examples of rejections:
 
 - The `statusCode` doesn't match any of the statuses defined in the source OpenAPI document (eg.: it defines `200`, `400` and `500` but the response has a `403` status code).
 - The `mimeType` doesn't match any of the mime types defined for the given Operation and status code, defined in the source OpenAPI document (eg.: it defines `application/json` and `text/plain` but we get `application/xml`)
@@ -8,20 +10,44 @@ Oats generated SDKs don't `throw` (or rather reject, as we are dealing with `Pro
 
 In all of these cases the server doesn't respect the same OpenAPI document we are working against, this is considered an unexpected situation, hence Oats throws.
 
-However, documented non `2xx` responses will not reject, the responses will be properly parsed, validated, etc, as according to the source OpenAPI document they are to be expected.
+## Examples of no rejection:
 
-This gives you a flexible and easy to use way of error handling, that doesn't hide anything, but rather transparently reflects the servers described behaviour.
+- The `statusCode` is outside of the `2xx` range but the OpenAPI document explicitly defines a response for this exact status
+- The `statusCode` is outside of the `2xx` range but the OpenAPI document defines a `default` response
 
-A practical example:
+In this cases the response is documented, and so the responses will be properly parsed, validated, etc, as according to the source OpenAPI document they are to be expected.
+
+This gives you a flexible and easy to use way of error handling, that doesn't hide anything, but rather transparently reflects the servers described behaviour. This is reflected in the previous (usage) example as well. Another practical example displaying really detailed error handling:
 
 ```typescript
-const resp = await sdk.getBook({ path: { bookId: 42 } })
-// In case the statusCode is 200 (and you use a type guard like so)
-if (resp.statusCode === 200) {
-  // The body is known to be of Book type, and you can safely access fields on it:
-  console.log(resp.body.title)
-} else {
-  // Otherwise status is 400 or 500, for both of which the body is an array of AppErrors:
-  resp.body.forEach((err) => console.error(err.message))
+try {
+  // Make a request
+  const response = await sdk.getBook({ path: { bookId: 42 } })
+  // Check each option for status code
+  switch (response.statusCode) {
+    case 200: {
+      // The body is known to be of Book type, and you can safely access fields on it:
+      console.log(response.body.title)
+      break
+    }
+    case 400: {
+      // The body is known to be of AppError[] type:
+      console.error('400 Status code')
+      response.body.forEach((err) => console.error(err.message))
+      break
+    }
+    case 500: {
+      // The body is also known to be of AppError[] type:
+      console.error('500 Status code')
+      response.body.forEach((err) => console.error(err.message))
+      break
+    }
+  }
+} catch (e) {
+  console.error('The server did something unexpected:')
+  // Thrown error will have detailed explanation about what was unexpected
+  // This can be wrong status code or mime type, or wrong response body
+  // Or response header format or structure.
+  console.error(e)
 }
 ```

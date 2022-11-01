@@ -1,6 +1,10 @@
-# The SDK type
+# SDK related types
 
-The content of `BookStoreSdk.ts` will be something like this (obviously with `import`s and optionally documentation):
+This guide will showcase the main types generated for the client side.
+
+## The SDK type
+
+The most important type is the SDK type. This is the type through which we will interact with the backend. In our example the SDK type can be found under `src/generated/sdk`. The type itself, `BookStoreSdk.ts` will look something like this:
 
 ```typescript
 import { AddBookRequest } from '../requests/AddBookRequest'
@@ -35,7 +39,16 @@ The aim is to expose **clear functions with no extra nonsense**. When you want t
 
 ## Request types
 
-TODO description
+Request types aim to encapsulate all input that you, as the user need to provide. This includes:
+
+- The request `body` (along with its `mimeType`)
+- The `query` parameters
+- The `path` parameters
+- Request `headers`
+
+Each operation has it's dedicated request type, with **only** the parameters, the source OpenAPI document describes.
+
+An example from the book-store sample, where we have `headers` and `query` parameters:
 
 ```typescript
 import { GetBooksQueryParameters } from '../parameters/GetBooksQueryParameters'
@@ -44,6 +57,27 @@ import { GetBooksRequestHeaderParameters } from '../parameters/GetBooksRequestHe
 export type GetBooksRequest = {
   headers?: GetBooksRequestHeaderParameters
   query?: GetBooksQueryParameters
+}
+```
+
+An example, where we have a request `body` (along with it's `mimeType`):
+
+```typescript
+import { Book } from '../types/Book'
+
+export type AddBookRequest = {
+  mimeType: 'application/json'
+  body: Book
+}
+```
+
+And another example where we have `path` parameters:
+
+```typescript
+import { GetBookPathParameters } from '../parameters/GetBookPathParameters'
+
+export type GetBookRequest = {
+  path: GetBookPathParameters
 }
 ```
 
@@ -75,4 +109,4 @@ export type GetBooksResponse =
     }
 ```
 
-It is a union type of all the different responses, and they are discriminated by the `statusCode` and `mimeType` fields. This way, when you get a `GetBooksResponse`, checking the `statusCode` (and the `mimeType` in case you have multiple of those), `headers` and `body` types will not be a guesswork anymore.
+Since it is a union type of all the different responses, and they are discriminated by the `statusCode` and `mimeType` fields, you can't mix up which `statusCode` belongs with which response `body` or `headers`. This way, when you get a `GetBooksResponse`, checking the `statusCode` (and the `mimeType` in case you have multiple of those), `headers` and `body` types will not be a guesswork anymore.
