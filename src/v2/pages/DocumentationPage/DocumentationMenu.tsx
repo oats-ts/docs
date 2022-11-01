@@ -2,7 +2,7 @@ import React, { FC, Fragment } from 'react'
 import { HomeTreeRoot } from '../../components/HomeTreeRoot'
 import { SideBarSection } from '../../components/SideBarSection'
 import { DocumentationTreeRoot } from './DocumentationTreeRoot'
-import { sections } from './sections'
+import { sections } from '../../../md/sections'
 
 export const DocumentationMenu: FC = () => {
   return (

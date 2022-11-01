@@ -1,6 +1,6 @@
 import React, { FC } from 'react'
 import { TreeNode } from '../../components/TreeNode'
-import { DocumentationItem } from './sections'
+import { DocumentationItem } from '../../../md/sections'
 import { useParams } from 'react-router-dom'
 import { MarkdownPageName } from '../../../md/markdown'
 import { useMobileContext } from '../../components/MobileContext'
