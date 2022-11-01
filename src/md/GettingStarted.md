@@ -20,7 +20,7 @@ https://raw.githubusercontent.com/oats-ts/oats-schemas/master/schemas/book-store
 To get generating, you'll need the main Oats module. This simply contains all that you need to generate, but you won't need anything from this module, when using the generated code:
 
 ```text
-npm i @oats-ts/openapi
+npm i --dev @oats-ts/openapi
 ```
 
 ## Configure Oats

@@ -15,23 +15,23 @@ type DocumentationItem = {
 
 const openAPIDocs: DocumentationItem[] = [
   {
-    md: 'OpenAPI_Workflow',
+    md: 'Workflow',
     name: 'Workflow',
   },
   {
-    md: 'OpenAPI_Read',
+    md: 'Read',
     name: 'Read',
   },
   {
-    md: 'OpenAPI_Validate',
+    md: 'Validate',
     name: 'Validate',
   },
   {
-    md: 'OpenAPI_Generate',
+    md: 'Generate',
     name: 'Generate',
   },
   {
-    md: 'Typescript_Write',
+    md: 'Write',
     name: 'Write',
   },
 ]
@@ -64,7 +64,7 @@ const menuStyle = css`
 
 export const DocumentationPage: FC = () => {
   const { page } = useParams<{ page: MarkdowPageName }>()
-  const activePage = page ?? 'OpenAPI_Workflow'
+  const activePage = page ?? 'Workflow'
   const docPageName = openAPIDocs.find((d) => d.md === activePage)?.name
   const { colorMode } = useColorMode()
 

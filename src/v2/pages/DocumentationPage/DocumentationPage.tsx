@@ -38,7 +38,7 @@ const MobileTitleBar: FC = () => {
 
 export const DocumentationPage: FC = () => {
   const { page } = useParams<{ page: MarkdowPageName }>()
-  const activePage = page ?? 'OpenAPI_GettingStarted'
+  const activePage = page ?? 'GettingStarted'
 
   return (
     <DocContainer>

@@ -16,23 +16,23 @@ export const sections: DocumentationSection[] = [
     name: 'Guides',
     items: [
       {
-        md: 'OpenAPI_GettingStarted',
+        md: 'GettingStarted',
         name: 'Getting started',
       },
       {
-        md: 'OpenAPI_GeneratedSdk',
+        md: 'GeneratedSdk',
         name: 'Using a generated SDK',
       },
       {
-        md: 'OpenAPI_GeneratedServer',
+        md: 'GeneratedServer',
         name: 'Using a generated server',
       },
       {
-        md: 'OpenAPI_CustomGenerators',
+        md: 'CustomGenerators',
         name: 'Custom generators',
       },
       {
-        md: 'OpenAPI_CommonMistakes',
+        md: 'CommonMistakes',
         name: 'Common mistakes',
       },
     ],
@@ -41,19 +41,19 @@ export const sections: DocumentationSection[] = [
     name: 'Api',
     items: [
       {
-        md: 'OpenAPI_Read',
+        md: 'Read',
         name: 'Read',
       },
       {
-        md: 'OpenAPI_Validate',
+        md: 'Validate',
         name: 'Validate',
       },
       {
-        md: 'OpenAPI_Generate',
+        md: 'Generate',
         name: 'Generate',
       },
       {
-        md: 'Typescript_Write',
+        md: 'Write',
         name: 'Write',
       },
     ],

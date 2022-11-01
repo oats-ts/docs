@@ -17,7 +17,7 @@ const h1Style = css`
 `
 const h2Style = css`
   color: ${theme.colors.text};
-  font-size: ${theme.fontSize.m};
+  font-size: ${theme.fontSize.xm};
 `
 const h3Style = css`
   color: ${theme.colors.text};
