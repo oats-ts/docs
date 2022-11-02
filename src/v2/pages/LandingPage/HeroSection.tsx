@@ -67,7 +67,7 @@ export const HeroSection: FC = () => {
           <Link href="https://www.openapis.org">OpenAPI</Link> definitions.
         </h3>
         <div className={buttonContainer}>
-          <Button variant="primary" href="#/documentation/OpenAPI_GeneratedSdk">
+          <Button variant="primary" href="#/documentation/SdkGettingStarted">
             <HiPlay /> Get Started
           </Button>
           <Button href="https://github.com/oats-ts/oats-ts">

@@ -1,5 +1,5 @@
 import { css } from '@emotion/css'
-import React, { FC } from 'react'
+import React, { FC, useEffect, useRef } from 'react'
 import { useParams } from 'react-router-dom'
 import { MarkdownPageName } from '../../../md/markdown'
 import { BreakPoint } from '../../breakpoints'
@@ -40,6 +40,11 @@ const MobileTitleBar: FC = () => {
 export const DocumentationPage: FC = () => {
   const { page } = useParams<{ page: MarkdownPageName }>()
   const activePage = page ?? 'GettingStarted'
+  const containerRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    containerRef.current?.scrollTo({ top: 0, behavior: 'smooth' })
+  }, [page])
 
   return (
     <DocContainer>
@@ -49,7 +54,7 @@ export const DocumentationPage: FC = () => {
         </LogoContainer>
         <DocumentationMenu />
       </SideBar>
-      <div className={contentContainerStyle}>
+      <div className={contentContainerStyle} ref={containerRef}>
         <BreakPoint Component={MobileTitleBar} breakpoint="phone" />
         <MarkdownView page={activePage} />
         <DocumentationFooter />

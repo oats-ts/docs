@@ -5,6 +5,7 @@ export const theme = {
     dark2: '#212121',
     dark3: '#1e1e1e',
     dark4: '#181818',
+    dark5: '#111111',
     darkHighlight: '#292929',
     text: '#ffffff',
     muted: '#aaaaaa',
@@ -21,6 +22,7 @@ export const theme = {
     xm: '1.4rem',
     l: '1.8rem',
     xl: '2rem',
+    xxl: '2.4rem',
   },
   fontFamily: {
     monospace: "'Source Code Pro', monospace",

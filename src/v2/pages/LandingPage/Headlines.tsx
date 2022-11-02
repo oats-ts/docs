@@ -54,7 +54,7 @@ export const Headlines: FC = () => {
           Create an easy to use, statically typed SDK for your backend, with all the bells and whistles, and either use
           it in house, or expose it to your customers.
         </section>
-        <Button href="#/documentation/OpenAPI_GeneratedSdk">
+        <Button href="#/documentation/SdkGettingStarted">
           <HiBookOpen />
           Learn more
         </Button>
@@ -68,7 +68,7 @@ export const Headlines: FC = () => {
           Generate all the tedious parts of your backend, like routing, parameter and body parsing and serialization,
           and CORS, and just implement moving data.
         </section>
-        <Button href="http://localhost:8080/#/documentation/OpenAPI_GeneratedServer">
+        <Button href="http://localhost:8080/#/documentation/ServerGettingStarted">
           <HiBookOpen />
           Learn more
         </Button>
@@ -82,7 +82,7 @@ export const Headlines: FC = () => {
           The available generators don't fully suit your needs, or you need more? Customize existing generators, or
           create your own, without writing everything from scratch.
         </section>
-        <Button href="http://localhost:8080/#/documentation/OpenAPI_CustomGenerators">
+        <Button href="http://localhost:8080/#/documentation/CustomGenerators">
           <HiBookOpen />
           Learn more
         </Button>

@@ -45,10 +45,6 @@ export const DocumentationFooter: FC = () => {
   const hasNext = !isNil(next)
   const hasCurrent = !isNil(current)
 
-  if (!hasPrevious && !hasNext && !hasCurrent) {
-    return null
-  }
-
   const issueUri = useMemo((): string | undefined => {
     if (isNil(current)) {
       return undefined
@@ -58,6 +54,10 @@ export const DocumentationFooter: FC = () => {
     const body = swapSpaces(`Please describe the issue with as much detail as possible!`)
     return `https://github.com/oats-ts/oats-ts/issues/new?labels=${labels}&title=${title}&body=${body}`
   }, [current])
+
+  if (!hasPrevious && !hasNext && !hasCurrent) {
+    return null
+  }
 
   return (
     <div className={docFooterStyle}>

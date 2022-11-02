@@ -29,4 +29,26 @@ export const globalStyles = css`
       font-size: 200%;
     }
   }
+
+  /* ===== Scrollbar CSS ===== */
+  /* Firefox */
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: ${theme.colors.dark2} ${theme.colors.dark5};
+  }
+
+  /* Chrome, Edge, and Safari */
+  *::-webkit-scrollbar {
+    width: 14px;
+  }
+
+  *::-webkit-scrollbar-track {
+    background: ${theme.colors.dark5};
+  }
+
+  *::-webkit-scrollbar-thumb {
+    background-color: ${theme.colors.dark2};
+    border-radius: 7px;
+    border: 2px solid ${theme.colors.dark5};
+  }
 `

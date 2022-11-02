@@ -1,6 +1,7 @@
 import { css } from '@emotion/css'
 import { isNil } from 'lodash'
 import React, { FC } from 'react'
+import { HiNoSymbol } from 'react-icons/hi2'
 import Markdown, { uriTransformer, Options } from 'react-markdown'
 import remarkGfm from 'remark-gfm'
 import { markdown } from '../../md/markdown'
@@ -27,6 +28,26 @@ const containerStyle = css`
   margin: ${theme.spacing.l};
 `
 
+const container404Style = css`
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  justify-items: center;
+  align-content: center;
+  text-align: center;
+  font-size: ${theme.fontSize.l};
+  color: ${theme.colors.muted};
+  gap: ${theme.spacing.xl};
+  padding: ${theme.spacing.l};
+`
+
+const icon404Style = css`
+  font-size: 8rem;
+`
+
 export type MarkdownViewProps = {
   page?: keyof typeof markdown
 }
@@ -34,10 +55,8 @@ export type MarkdownViewProps = {
 const markdownKeys = Object.keys(markdown)
 
 const customUriTransformer: Options['transformLinkUri'] = (uri: string) => {
+  console.log({ uri })
   if (markdownKeys.some((key) => uri.startsWith(key))) {
-    if (uri === 'Home') {
-      return '#'
-    }
     return `#/documentation/${uri}`
   }
   return uriTransformer(uri)
@@ -85,7 +104,12 @@ const components: Options['components'] = {
 
 export const MarkdownView: FC<MarkdownViewProps> = ({ page }) => {
   if (isNil(page) || isNil(markdown[page])) {
-    return <div>The documentation page you are looking for doesn't exist.</div>
+    return (
+      <div className={container404Style}>
+        <HiNoSymbol className={icon404Style} />
+        <span>The documentation page you are looking for doesn't exist.</span>
+      </div>
+    )
   }
   return (
     <Markdown

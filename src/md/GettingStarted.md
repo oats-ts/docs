@@ -7,7 +7,7 @@ In this guide you'll learn how to set up and generate with Oats.
 To get started you'll need a valid OpenAPI document. If you are unsure about how to put together an OpenAPI document, a few pointers:
 
 - The [latest specification](https://spec.openapis.org/oas/latest.html)
-- Guide about [common mistakes](OpenAPI_CommonMistakes), when defining your OpenAPI document
+- Guide about [common mistakes](CommonMistakes), when defining your OpenAPI document
 
 Oats works with both remotely hosted OpenAPI documents - accessible using the HTTP(S) protocol - and local documents in your file system. In these guides I'm going to use the [book store](https://github.com/oats-ts/oats-schemas/blob/master/schemas/book-store.json) example:
 
@@ -102,5 +102,5 @@ npm i \
 
 Depending on what you generated (`client`, `server` or `fullStack` - meaning both), check out these guides highlighting how to use the generator output for each:
 
-- [Using the generated SDK](OpenAPI_GeneratedSdk)
-- [Using the generated server](OpenAPI_GeneratedServer)
+- [Using the generated SDK](SdkGettingStarted)
+- [Using the generated server](ServerGettingStarted)

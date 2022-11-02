@@ -7,17 +7,25 @@ export type DocumentationItem = {
 }
 
 export type DocumentationSection = {
-  name: string
+  name?: string
   items: DocumentationItem[]
 }
 
 const namedSections: DocumentationSection[] = [
   {
+    items: [
+      {
+        md: 'Welcome',
+        name: 'Welcome',
+      },
+    ],
+  },
+  {
     name: 'Server Guide',
     items: [
       {
-        md: 'ServerGenerate',
-        name: 'Generate server-side code',
+        md: 'ServerGettingStarted',
+        name: 'Getting started',
       },
       {
         md: 'ServerTypes',
@@ -29,11 +37,11 @@ const namedSections: DocumentationSection[] = [
       },
       {
         md: 'ServerApiImpl',
-        name: 'Implement the API',
+        name: 'API Example',
       },
       {
         md: 'ServerCors',
-        name: 'Implement CORS',
+        name: 'Add CORS',
       },
     ],
   },
@@ -41,8 +49,8 @@ const namedSections: DocumentationSection[] = [
     name: '(Client) SDK Guide',
     items: [
       {
-        md: 'SdkGenerate',
-        name: 'Generate the SDK',
+        md: 'SdkGettingStarted',
+        name: 'Getting started',
       },
       {
         md: 'SdkTypes',
@@ -61,10 +69,6 @@ const namedSections: DocumentationSection[] = [
   {
     name: 'Other Guides',
     items: [
-      {
-        md: 'GettingStarted',
-        name: 'Getting started',
-      },
       {
         md: 'CommonMistakes',
         name: 'Common mistakes',
