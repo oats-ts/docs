@@ -12,12 +12,12 @@ In all of these cases the server doesn't respect the same OpenAPI document we ar
 
 ## Examples of no rejection:
 
-- The `statusCode` is outside of the `2xx` range but the OpenAPI document explicitly defines a response for this exact status
-- The `statusCode` is outside of the `2xx` range but the OpenAPI document defines a `default` response
+- The `statusCode`, the response `body` + its `mimeType`, and optionally the response `headers` together match a response option described in the source OpenAPI document.
+- The `statusCode` is outside of the `2xx`, but the first condition is fulfilled (given status code is documented in the source OpenAPI document)
 
 In this cases the response is documented, and so the responses will be properly parsed, validated, etc, as according to the source OpenAPI document they are to be expected.
 
-This gives you a flexible and easy to use way of error handling, that doesn't hide anything, but rather transparently reflects the servers described behaviour. This is reflected in the previous (usage) example as well. Another practical example displaying really detailed error handling:
+This gives you a flexible and consistent way of error handling, that doesn't hide anything, but rather transparently reflects the servers described behaviour. This is reflected in the previous (usage) example as well. Another practical example displaying really detailed error handling:
 
 ```typescript
 try {
@@ -45,9 +45,9 @@ try {
   }
 } catch (e) {
   console.error('The server did something unexpected:')
-  // Thrown error will have detailed explanation about what was unexpected
-  // This can be wrong status code or mime type, or wrong response body
-  // Or response header format or structure.
+  // Thrown error will have detailed explanation about what was unexpected.
+  // This can be wrong status code + mime type, response body or response
+  // header format or structure.
   console.error(e)
 }
 ```

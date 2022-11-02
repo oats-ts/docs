@@ -1,10 +1,10 @@
 # SDK related types
 
-This guide will showcase the main types generated for the client side.
+This guide will showcase the main types generated for the client side. A big chunk of the generated types is the same as for the server side (JSON schema based types and parameter types), so in this chapter I'm highlighting the differences.
 
 ## The SDK type
 
-The most important type is the SDK type. This is the type through which we will interact with the backend. In our example the SDK type can be found under `src/generated/sdk`. The type itself, `BookStoreSdk.ts` will look something like this:
+The most important type on the client side is the SDK type. This is the type through which we will interact with the backend. In our example the SDK type can be found under `src/generated/sdk`. The type itself, `BookStoreSdk.ts` will look something like this:
 
 ```typescript
 import { AddBookRequest } from '../requests/AddBookRequest'
@@ -44,7 +44,7 @@ Request types aim to encapsulate all input that you, as the user need to provide
 - The request `body` (along with its `mimeType`)
 - The `query` parameters
 - The `path` parameters
-- Request `headers`
+- The request `headers`
 
 Each operation has it's dedicated request type, with **only** the parameters, the source OpenAPI document describes.
 
@@ -83,7 +83,13 @@ export type GetBookRequest = {
 
 ## Response types
 
-Response types aim to encapsulate the responses defined in your source OpenAPI document without ambiguity. As an example, let's look at the response type used for the `getBooks` operation, called `GetBooksResponse`:
+Response types aim to encapsulate the responses defined in your source OpenAPI document without ambiguity. Response types can have the following fields (depending how your OpenAPI document defines responses):
+
+- The `statusCode`
+- The response `body` (along with its `mimeType`)
+- The response `headers`
+
+As an example, let's look at the response type used for the `getBooks` operation, called `GetBooksResponse`:
 
 ```typescript
 import { GetBooks200ResponseHeaderParameters } from '../parameters/GetBooks200ResponseHeaderParameters'

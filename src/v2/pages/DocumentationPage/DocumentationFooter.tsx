@@ -1,6 +1,6 @@
 import { css } from '@emotion/css'
 import { isNil } from 'lodash'
-import React, { FC } from 'react'
+import React, { FC, useMemo } from 'react'
 import { HiChevronLeft, HiChevronRight } from 'react-icons/hi2'
 import { Link } from '../../components/Link'
 import { theme } from '../../theme'
@@ -34,22 +34,30 @@ const linkStyle = css`
   font-weight: bold;
 `
 
+function swapSpaces(str: string): string {
+  return str.replace(/\s+/g, '+')
+}
+
 export const DocumentationFooter: FC = () => {
   const [previous, current, next] = useNeighbours()
 
   const hasPrevious = !isNil(previous)
   const hasNext = !isNil(next)
-  const hasCurrent = !isNil(next)
+  const hasCurrent = !isNil(current)
 
   if (!hasPrevious && !hasNext && !hasCurrent) {
     return null
   }
 
-  const docUri = hasCurrent
-    ? `https://github.com/oats-ts/oats-ts/issues/new?labels=documentation&title=${current?.name.replace(' ', '+')}+(in+${
-        current?.md
-      }.md)&body=Please+describe+the+issue+with+as+much+detail+as+possible!`
-    : undefined
+  const issueUri = useMemo((): string | undefined => {
+    if (isNil(current)) {
+      return undefined
+    }
+    const title = `${swapSpaces(current.name)}+(in+${current.md}.md)`
+    const labels = 'documentation'
+    const body = swapSpaces(`Please describe the issue with as much detail as possible!`)
+    return `https://github.com/oats-ts/oats-ts/issues/new?labels=${labels}&title=${title}&body=${body}`
+  }, [current])
 
   return (
     <div className={docFooterStyle}>
@@ -74,7 +82,7 @@ export const DocumentationFooter: FC = () => {
         <div className={errorReportRow}>
           <b>Found an issue with this page?</b>
           <br />
-          Please let me know by <Link href={docUri}>opening an issue on GitHub!</Link> Please include all details that
+          Please let me know by <Link href={issueUri}>opening an issue on GitHub!</Link> Please include all details that
           you think might be important!
         </div>
       )}

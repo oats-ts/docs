@@ -13,27 +13,6 @@ export type DocumentationSection = {
 
 const namedSections: DocumentationSection[] = [
   {
-    name: 'SDK Guide',
-    items: [
-      {
-        md: 'SdkGenerate',
-        name: 'Generate the SDK',
-      },
-      {
-        md: 'SdkTypes',
-        name: 'SDK related types',
-      },
-      {
-        md: 'SdkUsage',
-        name: 'SDK usage',
-      },
-      {
-        md: 'SdkErrorHandling',
-        name: 'Error handling',
-      },
-    ],
-  },
-  {
     name: 'Server Guide',
     items: [
       {
@@ -55,6 +34,27 @@ const namedSections: DocumentationSection[] = [
       {
         md: 'ServerCors',
         name: 'Implement CORS',
+      },
+    ],
+  },
+  {
+    name: '(Client) SDK Guide',
+    items: [
+      {
+        md: 'SdkGenerate',
+        name: 'Generate the SDK',
+      },
+      {
+        md: 'SdkTypes',
+        name: 'SDK related types',
+      },
+      {
+        md: 'SdkUsage',
+        name: 'SDK usage',
+      },
+      {
+        md: 'SdkErrorHandling',
+        name: 'Error handling',
       },
     ],
   },
