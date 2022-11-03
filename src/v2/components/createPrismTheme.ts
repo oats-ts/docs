@@ -24,7 +24,7 @@ export function createPrismTheme(
   values(clonedTheme).forEach((field) => {
     delete field.background
     delete field.backgroundColor
-    field.textShadow = `rgb(0 0 0 / 30%) ${theme.spacing.zero} 1px`
+    field.textShadow = `rgb(0 0 0 / 30%) ${theme.spacing.zero} ${theme.spacing.zero} ${theme.spacing.xxs}`
     field.fontSize = theme.fontSize.code
     field.fontFamily = theme.fontFamily.monospace
   })

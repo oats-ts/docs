@@ -13,6 +13,7 @@ import { LogoContainer } from '../../components/LogoContainer'
 import { theme } from '../../theme'
 import { DocumentationMenu } from './DocumentationMenu'
 import { DocumentationFooter } from './DocumentationFooter'
+import { useMarkdownPage } from './useMarkdownPage'
 
 const NAME = 'docs'
 
@@ -39,7 +40,7 @@ const MobileTitleBar: FC = () => {
 
 export const DocumentationPage: FC = () => {
   const { page } = useParams<{ page: MarkdownPageName }>()
-  const activePage = page ?? 'GettingStarted'
+  const activePage = useMarkdownPage()
   const containerRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
