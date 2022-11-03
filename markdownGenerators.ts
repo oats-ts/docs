@@ -3,16 +3,7 @@ import { promises as fs } from 'fs'
 import { resolve } from 'path'
 import { parse } from 'path'
 import { format, Options } from 'prettier'
-
-type MarkdownData = {
-  fileName: string
-  varName: string
-}
-
-const MARKDOWN_ENUM_FILE = 'src/md/markdown.ts'
-const MARKDOWN_BUNDLES_FOLDER = 'src/v2/pages/bundles/documentation'
-
-export const MARKDOWN_BUNDLE_FILE = (name: string) => `${MARKDOWN_BUNDLES_FOLDER}/DocumentationBundle_${name}.tsx`
+import { MarkdownData, MARKDOWN_BUNDLES_FOLDER, MARKDOWN_BUNDLE_FILE, MARKDOWN_ENUM_FILE } from './markdownCommon'
 
 export function createMarkdownImport({ fileName, varName }: MarkdownData): ImportDeclaration {
   return factory.createImportDeclaration(
@@ -181,7 +172,7 @@ async function generateMarkdownBundles(data: MarkdownData[]) {
   }
 }
 
-async function generateAll() {
+export async function generateAll() {
   const data = await getMarkdownContent()
   await fs.rm(resolve(MARKDOWN_BUNDLES_FOLDER), { force: true, recursive: true })
   await fs.mkdir(resolve(MARKDOWN_BUNDLES_FOLDER))

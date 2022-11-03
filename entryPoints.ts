@@ -1,5 +1,5 @@
 import { EntryObject } from 'webpack'
-import { MARKDOWN_BUNDLE_FILE } from './markdownGenerators'
+import { MARKDOWN_BUNDLE_FILE } from './markdownCommon'
 import { markdown, MarkdownPageName } from './src/md/markdown'
 
 export type OwnBundleName = 'index' | 'editor' | 'documentation'
