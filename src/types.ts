@@ -163,3 +163,7 @@ export type FsNode = FileNode | FolderNode
 export type NonFsNode = ConfigurationNode | IssuesNode | GeneratorSourceNode | PackageJsonNode
 
 export type EditorInput = FsNode | NonFsNode
+
+export type PageDescriptor = {
+  // meta bs
+}

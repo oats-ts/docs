@@ -76,6 +76,11 @@ function pluginOptions(mode: Mode): Configuration['plugins'] {
         template: path.resolve('src/index.html'),
         chunks: [bundle, ...ownEntryPoints[bundle].dependOn],
         filename: `${bundle}.html`,
+        // title: 'Foo',
+        // meta: {
+        //   description: { name: 'description', contnet: '...' },
+        //   keyword: { name: 'keywords', content: '...' },
+        // },
       })
     }),
     ...Object.keys(markdown).map((md) => {

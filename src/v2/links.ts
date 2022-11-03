@@ -15,10 +15,10 @@ const devLinks: Links = {
 }
 
 const prodLinks: Links = {
-  docs: () => `/documentation`,
-  doc: (page) => `/documentation/${page}`,
-  editor: () => `/editor`,
-  index: () => `/`,
+  docs: () => `/docs/v2/documentation`,
+  doc: (page) => `/docs/v2/documentation/${page}`,
+  editor: () => `/docs/v2/editor`,
+  index: () => `/docs/v2`,
 }
 
 console.log(process.env.MODE)
