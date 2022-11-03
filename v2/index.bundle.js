@@ -360,6 +360,7 @@
   /* Chrome, Edge, and Safari */
   *::-webkit-scrollbar {
     width: 14px;
+    height: 14px;
   }
 
   *::-webkit-scrollbar-track {
@@ -371,7 +372,10 @@
     border-radius: 7px;
     border: 2px solid ${r.theme.colors.dark5};
   }
-`},9572:(e,t)=>{Object.defineProperty(t,"__esModule",{value:!0}),t.links=void 0,console.log("production"),t.links={docs:()=>"/docs/v2/documentation",doc:e=>`/docs/v2/documentation/${e}`,editor:()=>"/docs/v2/editor",index:()=>"/docs/v2"}},10895:function(e,t,a){var n=this&&this.__importDefault||function(e){return e&&e.__esModule?e:{default:e}};Object.defineProperty(t,"__esModule",{value:!0}),t.Header=void 0;const o=a(18592),r=n(a(67294)),i=a(69512),l=a(61329),s=a(39226),c=a(15435),d=a(81154),m=a(9572),u=o.css`
+  *::-webkit-scrollbar-corner {
+    background: ${r.theme.colors.dark5};
+  }
+`},9572:(e,t)=>{Object.defineProperty(t,"__esModule",{value:!0}),t.links=void 0,t.links={docs:()=>"/docs/v2/documentation",doc:e=>`/docs/v2/documentation/${e}`,editor:()=>"/docs/v2/editor",index:()=>"/docs/v2"}},10895:function(e,t,a){var n=this&&this.__importDefault||function(e){return e&&e.__esModule?e:{default:e}};Object.defineProperty(t,"__esModule",{value:!0}),t.Header=void 0;const o=a(18592),r=n(a(67294)),i=a(69512),l=a(61329),s=a(39226),c=a(15435),d=a(81154),m=a(9572),u=o.css`
   label: header;
   width: 100%;
   margin: ${l.theme.spacing.zero};
