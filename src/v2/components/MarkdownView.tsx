@@ -1,10 +1,9 @@
 import { css } from '@emotion/css'
-import { isNil } from 'lodash'
 import React, { FC } from 'react'
-import { HiNoSymbol } from 'react-icons/hi2'
 import Markdown, { uriTransformer, Options } from 'react-markdown'
 import remarkGfm from 'remark-gfm'
-import { markdown } from '../../md/markdown'
+import { markdown, MarkdownPageName } from '../../md/markdown'
+import { links } from '../links'
 import { theme } from '../theme'
 import { Code } from './Code'
 import { Link } from './Link'
@@ -28,36 +27,15 @@ const containerStyle = css`
   margin: ${theme.spacing.l};
 `
 
-const container404Style = css`
-  width: 100%;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  justify-items: center;
-  align-content: center;
-  text-align: center;
-  font-size: ${theme.fontSize.l};
-  color: ${theme.colors.muted};
-  gap: ${theme.spacing.xl};
-  padding: ${theme.spacing.l};
-`
-
-const icon404Style = css`
-  font-size: 8rem;
-`
-
 export type MarkdownViewProps = {
-  page?: keyof typeof markdown
+  content: string
 }
 
 const markdownKeys = Object.keys(markdown)
 
 const customUriTransformer: Options['transformLinkUri'] = (uri: string) => {
-  console.log({ uri })
   if (markdownKeys.some((key) => uri.startsWith(key))) {
-    return `#/documentation/${uri}`
+    return links.doc(uri as MarkdownPageName)
   }
   return uriTransformer(uri)
 }
@@ -102,15 +80,7 @@ const components: Options['components'] = {
   },
 }
 
-export const MarkdownView: FC<MarkdownViewProps> = ({ page }) => {
-  if (isNil(page) || isNil(markdown[page])) {
-    return (
-      <div className={container404Style}>
-        <HiNoSymbol className={icon404Style} />
-        <span>The documentation page you are looking for doesn't exist.</span>
-      </div>
-    )
-  }
+export const MarkdownView: FC<MarkdownViewProps> = ({ content }) => {
   return (
     <Markdown
       remarkPlugins={remarkPlugins}
@@ -118,7 +88,7 @@ export const MarkdownView: FC<MarkdownViewProps> = ({ page }) => {
       transformLinkUri={customUriTransformer}
       className={containerStyle}
     >
-      {markdown[page]}
+      {content ?? ''}
     </Markdown>
   )
 }

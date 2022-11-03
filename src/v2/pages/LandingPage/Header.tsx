@@ -5,6 +5,7 @@ import { theme } from '../../theme'
 import { breakpoints } from '../../breakpoints'
 import { Logo } from '../../components/Logo'
 import { LandingPageMenu } from './LandingPageMenu'
+import { links } from '../../links'
 
 const headerStyle = css`
   label: header;
@@ -28,7 +29,7 @@ export const Header: FC = () => {
   return (
     <header className={headerStyle}>
       <div className={cx(headerContentStyle, containerStyle)}>
-        <Logo version={false} href="#" />
+        <Logo version={false} href={links.index()} />
         <LandingPageMenu />
       </div>
     </header>

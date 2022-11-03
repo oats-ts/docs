@@ -4,6 +4,7 @@ import { HiBookOpen, HiPuzzlePiece, HiServerStack, HiWrenchScrewdriver } from 'r
 import { theme } from '../../theme'
 import { Button } from '../../components/Button'
 import { breakpoints } from '../../breakpoints'
+import { links } from '../../links'
 
 const containerStyle = css`
   label: headlines;
@@ -54,7 +55,7 @@ export const Headlines: FC = () => {
           Create an easy to use, statically typed SDK for your backend, with all the bells and whistles, and either use
           it in house, or expose it to your customers.
         </section>
-        <Button href="#/documentation/SdkGettingStarted">
+        <Button href={links.doc('SdkGettingStarted')}>
           <HiBookOpen />
           Learn more
         </Button>
@@ -68,7 +69,7 @@ export const Headlines: FC = () => {
           Generate all the tedious parts of your backend, like routing, parameter and body parsing and serialization,
           and CORS, and just implement moving data.
         </section>
-        <Button href="http://localhost:8080/#/documentation/ServerGettingStarted">
+        <Button href={links.doc('ServerGettingStarted')}>
           <HiBookOpen />
           Learn more
         </Button>
@@ -82,7 +83,7 @@ export const Headlines: FC = () => {
           The available generators don't fully suit your needs, or you need more? Customize existing generators, or
           create your own, without writing everything from scratch.
         </section>
-        <Button href="http://localhost:8080/#/documentation/CustomGenerators">
+        <Button href={links.doc('SdkGettingStarted')}>
           <HiBookOpen />
           Learn more
         </Button>

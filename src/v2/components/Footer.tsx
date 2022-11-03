@@ -3,6 +3,7 @@ import React, { FC } from 'react'
 import { SvgLogo } from './SvgLogo'
 import { theme } from '../theme'
 import { Link } from './Link'
+import { links } from '../links'
 
 const footerStyle = css`
   label: footer;
@@ -45,7 +46,7 @@ const oatsLabelStyle = css`
 export const Footer: FC = () => {
   return (
     <footer className={footerStyle}>
-      <a className={logoContainerStyle} href="#">
+      <a className={logoContainerStyle} href={links.index()}>
         <SvgLogo width={60} color={theme.colors.muted} />
         <h1 className={oatsLabelStyle}>Oats</h1>
       </a>

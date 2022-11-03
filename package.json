@@ -17,12 +17,13 @@
     "typecheck": "tsc --noEmit",
     "clean": "rm -rf docs",
     "build-v1": "webpack -c webpackV1.config.js --mode=production",
-    "build-v2": "webpack -c webpackV2.config.js --mode=production",
+    "build-v2": "webpack -c webpack.config.ts --mode=production",
     "build": "npm run clean && npm run build-v1 && npm run build-v2",
     "start-v1": "webpack-dev-server -c webpackV1.config.js --mode=development",
-    "start-v2": "webpack-dev-server -c webpackV2.config.js --mode=development",
-    "md": "ts-node ./src/generateMarkdownImports.ts",
-    "postinstall": "semantic-ui-css-patch"
+    "start-v2": "webpack-dev-server -c webpack.config.ts --mode=development",
+    "md": "ts-node ./markdownGenerators.ts",
+    "postinstall": "semantic-ui-css-patch",
+    "deps": "ts-node ./listExternalDeps.ts"
   },
   "devDependencies": {
     "@semantic-ui-react/css-patch": "1.0.0",
@@ -34,6 +35,7 @@
     "@types/react-syntax-highlighter": "15.5.3",
     "@types/urijs": "1.19.19",
     "@types/valid-url": "1.0.3",
+    "@types/webpack": "5.28.0",
     "clean-webpack-plugin": "4.0.0",
     "webpack-bundle-analyzer": "4.7.0",
     "css-loader": "6.7.1",

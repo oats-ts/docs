@@ -3,6 +3,7 @@ import { isNil } from 'lodash'
 import React, { FC, useMemo } from 'react'
 import { HiChevronLeft, HiChevronRight } from 'react-icons/hi2'
 import { Link } from '../../components/Link'
+import { links } from '../../links'
 import { theme } from '../../theme'
 import { useNeighbours } from './useNeighbours'
 
@@ -64,14 +65,14 @@ export const DocumentationFooter: FC = () => {
       {(hasPrevious || hasNext) && (
         <div className={navigationRow}>
           {hasPrevious && (
-            <Link href={`#/documentation/${previous.md}`} className={linkStyle}>
+            <Link href={links.doc(previous.md)} className={linkStyle}>
               <HiChevronLeft />
               {previous.name}
             </Link>
           )}
           <div className={separatorStyle} />
           {hasNext && (
-            <Link href={`#/documentation/${next.md}`} className={linkStyle}>
+            <Link href={links.doc(next.md)} className={linkStyle}>
               {next.name}
               <HiChevronRight />
             </Link>

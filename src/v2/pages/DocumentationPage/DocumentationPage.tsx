@@ -1,6 +1,5 @@
 import { css } from '@emotion/css'
-import React, { FC, useEffect, useRef } from 'react'
-import { useParams } from 'react-router-dom'
+import React, { FC } from 'react'
 import { MarkdownPageName } from '../../../md/markdown'
 import { BreakPoint } from '../../breakpoints'
 import { DocContainer } from '../../components/DocContainer'
@@ -13,7 +12,8 @@ import { LogoContainer } from '../../components/LogoContainer'
 import { theme } from '../../theme'
 import { DocumentationMenu } from './DocumentationMenu'
 import { DocumentationFooter } from './DocumentationFooter'
-import { useMarkdownPage } from './useMarkdownPage'
+import { MarkdownContext } from './useMarkdown'
+import { links } from '../../links'
 
 const NAME = 'docs'
 
@@ -27,39 +27,38 @@ const contentContainerStyle = css`
   background-color: ${theme.colors.dark4};
 `
 
+type ControlledDocumentationPage = {
+  page: MarkdownPageName
+  content: string
+}
+
 const MobileTitleBar: FC = () => {
   const ctx = useProvideMobileContext()
   return (
     <MobileContext.Provider value={ctx}>
-      <MobileHeaderWithOverlay name={NAME} version={true} href="#/documentation">
+      <MobileHeaderWithOverlay name={NAME} version={true} href={links.docs()}>
         <DocumentationMenu />
       </MobileHeaderWithOverlay>
     </MobileContext.Provider>
   )
 }
 
-export const DocumentationPage: FC = () => {
-  const { page } = useParams<{ page: MarkdownPageName }>()
-  const activePage = useMarkdownPage()
-  const containerRef = useRef<HTMLDivElement>(null)
-
-  useEffect(() => {
-    containerRef.current?.scrollTo({ top: 0, behavior: 'smooth' })
-  }, [page])
-
+export const DocumentationPage: FC<ControlledDocumentationPage> = ({ page, content }) => {
   return (
-    <DocContainer>
-      <SideBar>
-        <LogoContainer>
-          <Logo name={NAME} version={true} href="#/documentation" />
-        </LogoContainer>
-        <DocumentationMenu />
-      </SideBar>
-      <div className={contentContainerStyle} ref={containerRef}>
-        <BreakPoint Component={MobileTitleBar} breakpoint="phone" />
-        <MarkdownView page={activePage} />
-        <DocumentationFooter />
-      </div>
-    </DocContainer>
+    <MarkdownContext.Provider value={{ page, content }}>
+      <DocContainer>
+        <SideBar>
+          <LogoContainer>
+            <Logo name={NAME} version={true} href={links.docs()} />
+          </LogoContainer>
+          <DocumentationMenu />
+        </SideBar>
+        <div className={contentContainerStyle}>
+          <BreakPoint Component={MobileTitleBar} breakpoint="phone" />
+          <MarkdownView content={content} />
+          <DocumentationFooter />
+        </div>
+      </DocContainer>
+    </MarkdownContext.Provider>
   )
 }

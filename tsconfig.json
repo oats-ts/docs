@@ -4,7 +4,7 @@
     "module": "commonjs",
     "noImplicitAny": true,
     "jsx": "react",
-    "target": "ES2020",
+    "target": "ES2021",
     "sourceMap": true,
     "esModuleInterop": true,
     "strict": true,
@@ -17,11 +17,12 @@
     "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true,
     "noPropertyAccessFromIndexSignature": true,
+    "allowSyntheticDefaultImports": true,
     "noStrictGenericChecks": true,
     "noUnusedParameters": true,
     "noUncheckedIndexedAccess": true,
     "resolveJsonModule": true,
-    "lib": ["ES2020", "DOM"],
+    "lib": ["ES2021", "DOM"],
     "plugins": [
       {
         "name": "typescript-styled-plugin",
@@ -31,6 +32,6 @@
       }
     ]
   },
-  "include": ["./src"],
+  "include": ["./src", "."],
   "exclude": ["node_modules", "lib"]
 }

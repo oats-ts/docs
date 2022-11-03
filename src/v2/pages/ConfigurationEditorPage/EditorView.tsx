@@ -1,4 +1,4 @@
-import isNil from 'lodash/isNil'
+import { isNil } from 'lodash'
 import React, { FC } from 'react'
 import { SyntaxHighlighter } from '../../components/SyntaxHighlighter'
 import { useGeneratorContext } from '../../model/useGenerator'

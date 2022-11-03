@@ -1,5 +1,7 @@
 import { css } from '@emotion/css'
+import { Global } from '@emotion/react'
 import React, { FC, PropsWithChildren } from 'react'
+import { globalStyles } from '../globalStyles'
 import { theme } from '../theme'
 
 const containerStyle = css`
@@ -19,5 +21,10 @@ const containerStyle = css`
 export type AppContainerProps = PropsWithChildren
 
 export const AppContainer: FC<AppContainerProps> = ({ children }) => {
-  return <div className={containerStyle}>{children}</div>
+  return (
+    <>
+      <Global styles={globalStyles} />
+      <div className={containerStyle}>{children}</div>
+    </>
+  )
 }

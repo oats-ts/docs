@@ -1,7 +1,7 @@
 import { generate, Logger, version } from '@oats-ts/oats-ts'
 
 import { validator, loggers } from '@oats-ts/openapi'
-import isNil from 'lodash/isNil'
+import { isNil } from 'lodash'
 import {
   EditorInput,
   ExplorerTreeState,

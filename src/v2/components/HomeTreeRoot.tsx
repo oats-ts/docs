@@ -7,7 +7,7 @@ export const HomeTreeRoot: FC = () => {
   const { setMenuOpen } = useMobileContext()
 
   const isActive = () => false
-  const getHref = () => `#`
+  const getHref = () => `/`
   const getLabel = () => 'Home'
   const getIcon = () => HiHome
   const onClick = () => setMenuOpen(false)

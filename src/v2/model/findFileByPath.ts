@@ -1,4 +1,4 @@
-import isNil from 'lodash/isNil'
+import { isNil } from 'lodash'
 import { FileNode, FsNode } from '../../types'
 
 export function findFileByPath(path: string, node: FsNode): FileNode | undefined {

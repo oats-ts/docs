@@ -6,6 +6,7 @@ import { breakpoints } from '../../breakpoints'
 import { HiPlay, HiCodeBracket } from 'react-icons/hi2'
 import { Link } from '../../components/Link'
 import { containerStyle } from '../../components/containerStyle'
+import { links } from '../../links'
 
 const heroSectionStyle = css`
   label: hero-section;
@@ -67,7 +68,7 @@ export const HeroSection: FC = () => {
           <Link href="https://www.openapis.org">OpenAPI</Link> definitions.
         </h3>
         <div className={buttonContainer}>
-          <Button variant="primary" href="#/documentation/SdkGettingStarted">
+          <Button variant="primary" href={links.doc('SdkGettingStarted')}>
             <HiPlay /> Get Started
           </Button>
           <Button href="https://github.com/oats-ts/oats-ts">

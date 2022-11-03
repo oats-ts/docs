@@ -10,12 +10,13 @@ import { MobileHeaderWithOverlay } from '../../components/MobileHeaderWithOverla
 import { MobileContext, useProvideMobileContext } from '../../components/MobileContext'
 import { BreakPoint } from '../../breakpoints'
 import { LandingPageMenu } from './LandingPageMenu'
+import { links } from '../../links'
 
 const MobileTitleBar: FC = () => {
   const ctx = useProvideMobileContext()
   return (
     <MobileContext.Provider value={ctx}>
-      <MobileHeaderWithOverlay version={false} href="#">
+      <MobileHeaderWithOverlay version={false} href={links.index()}>
         <LandingPageMenu />
       </MobileHeaderWithOverlay>
     </MobileContext.Provider>

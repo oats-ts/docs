@@ -12,6 +12,7 @@ import { useGenerator } from '../../model/useGenerator'
 import { theme } from '../../theme'
 import { EditorView } from './EditorView'
 import { ExplorerTree } from './ExplorerTree'
+import { links } from '../../links'
 
 const editorContainerStyle = css`
   flex: ${theme.flex.grow};
@@ -25,7 +26,7 @@ const MobileTitleBar: FC = () => {
   const ctx = useProvideMobileContext()
   return (
     <MobileContext.Provider value={ctx}>
-      <MobileHeaderWithOverlay name={NAME} version={true} href="#/editor">
+      <MobileHeaderWithOverlay name={NAME} version={true} href={links.editor()}>
         <ExplorerTree />
       </MobileHeaderWithOverlay>
     </MobileContext.Provider>
@@ -39,7 +40,7 @@ export const ConfigurationEditorPage: FC = () => {
       <DocContainer>
         <SideBar>
           <LogoContainer>
-            <Logo name={NAME} version={true} href="#/editor" />
+            <Logo name={NAME} version={true} href={links.editor()} />
           </LogoContainer>
           <ExplorerTree />
         </SideBar>
