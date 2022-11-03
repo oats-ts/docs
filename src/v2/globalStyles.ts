@@ -40,6 +40,7 @@ export const globalStyles = css`
   /* Chrome, Edge, and Safari */
   *::-webkit-scrollbar {
     width: 14px;
+    height: 14px;
   }
 
   *::-webkit-scrollbar-track {
@@ -50,5 +51,8 @@ export const globalStyles = css`
     background-color: ${theme.colors.dark2};
     border-radius: 7px;
     border: 2px solid ${theme.colors.dark5};
+  }
+  *::-webkit-scrollbar-corner {
+    background: ${theme.colors.dark5};
   }
 `

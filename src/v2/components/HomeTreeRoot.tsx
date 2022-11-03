@@ -1,5 +1,6 @@
 import React, { FC } from 'react'
 import { HiHome } from 'react-icons/hi2'
+import { links } from '../links'
 import { useMobileContext } from './MobileContext'
 import { TreeNode } from './TreeNode'
 
@@ -7,7 +8,7 @@ export const HomeTreeRoot: FC = () => {
   const { setMenuOpen } = useMobileContext()
 
   const isActive = () => false
-  const getHref = () => `/`
+  const getHref = () => links.index()
   const getLabel = () => 'Home'
   const getIcon = () => HiHome
   const onClick = () => setMenuOpen(false)

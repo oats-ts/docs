@@ -21,6 +21,4 @@ const prodLinks: Links = {
   index: () => `/docs/v2`,
 }
 
-console.log(process.env.MODE)
-
 export const links = process.env.MODE === 'development' ? devLinks : prodLinks
