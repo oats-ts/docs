@@ -16,11 +16,8 @@
     "test": "echo 'TODO'",
     "typecheck": "tsc --noEmit",
     "clean": "rm -rf docs",
-    "build-v1": "webpack -c webpackV1.config.js --mode=production",
-    "build-v2": "webpack -c webpack.config.ts --mode=production --stats-error-details",
-    "build": "npm run clean && npm run build-v1 && npm run build-v2",
-    "start-v1": "webpack-dev-server -c webpackV1.config.js --mode=development",
-    "start-v2": "webpack-dev-server -c webpack.config.ts --mode=development",
+    "build": "webpack -c webpack.config.ts --mode=production --stats-error-details",
+    "start": "webpack-dev-server -c webpack.config.ts --mode=development",
     "md": "ts-node ./md.ts",
     "postinstall": "semantic-ui-css-patch",
     "deps": "ts-node ./listExternalDeps.ts"
