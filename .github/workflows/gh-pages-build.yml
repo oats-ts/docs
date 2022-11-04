@@ -19,6 +19,5 @@ jobs:
       - name: Deploy 🚀
         uses: JamesIves/github-pages-deploy-action@v4
         with:
-          branch: master # The branch the action should deploy to.
+          branch: gh-pages # The branch the action should deploy to.
           folder: docs # The folder the action should deploy.
-          repository-name: oats-ts/oats-ts.github.io
