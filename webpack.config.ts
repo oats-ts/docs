@@ -36,11 +36,11 @@ function config(_: Arg1, { mode }: Arg2): Configuration {
   }
 }
 
-function outputOptions(mode: Mode): Configuration['output'] {
+function outputOptions(_mode: Mode): Configuration['output'] {
   return {
     filename: '[name].bundle.js',
     chunkFilename: '[name].chunk.bundle.js',
-    path: path.resolve(__dirname, mode === 'development' ? 'docs' : 'docs/v2'),
+    path: path.resolve(__dirname, 'docs'),
   }
 }
 

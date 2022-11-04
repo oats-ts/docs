@@ -30,10 +30,10 @@ async function processItem(path: string, item: Dirent, externals: Map<string, st
 }
 
 async function listExternalDeps() {
-  const rootFolders = await readdir(resolve('src'), { withFileTypes: true })
+  const rootFolders = await readdir(resolve(), { withFileTypes: true })
   const externals = new Map<string, string[]>()
 
-  await processItem(resolve('src/v2'), rootFolders.find((folder) => folder.name === 'v2')!, externals)
+  await processItem(resolve(), rootFolders.find((folder) => folder.name === 'src')!, externals)
 
   for (const [pkg, files] of externals.entries()) {
     console.log(`Package "${pkg}" in:`)
