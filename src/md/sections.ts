@@ -4,10 +4,12 @@ import { DocumentationSection } from '../types'
 
 const namedSections: DocumentationSection[] = [
   {
-    items: [markdownPages.welcomePage],
+    useNavigation: false,
+    items: [markdownPages.welcomePage, markdownPages.commonMistakesPage],
   },
   {
     name: 'Server Guide',
+    useNavigation: true,
     items: [
       markdownPages.serverGettingStartedPage,
       markdownPages.serverTypesPage,
@@ -18,6 +20,7 @@ const namedSections: DocumentationSection[] = [
   },
   {
     name: '(Client) SDK Guide',
+    useNavigation: true,
     items: [
       markdownPages.sdkGettingStartedPage,
       markdownPages.sdkTypesPage,
@@ -26,11 +29,8 @@ const namedSections: DocumentationSection[] = [
     ],
   },
   {
-    name: 'Other Guides',
-    items: [markdownPages.commonMistakesPage],
-  },
-  {
     name: 'Generator api',
+    useNavigation: true,
     items: [
       markdownPages.readPage,
       markdownPages.validatePage,

@@ -167,6 +167,7 @@ export type EditorInput = FsNode | NonFsNode
 
 export type DocumentationSection = {
   name?: string
+  useNavigation: boolean
   items: MarkdownPageDescriptor[]
 }
 

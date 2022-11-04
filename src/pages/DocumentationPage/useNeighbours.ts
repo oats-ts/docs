@@ -14,11 +14,11 @@ function getIndex(page: MarkdownPageName, section: DocumentationSection): number
 }
 
 function getDocumentationItem(
+  section: DocumentationSection | undefined,
   page: MarkdownPageName,
   transformIndex: 0 | 1 | -1 = 0,
 ): MarkdownPageDescriptor | undefined {
-  const section = getSection(page)
-  if (isNil(section)) {
+  if (isNil(section) || (transformIndex !== 0 && !section.useNavigation)) {
     return undefined
   }
   const index = getIndex(page, section) + transformIndex
@@ -27,8 +27,18 @@ function getDocumentationItem(
 
 export function useNeighbours(): [MarkdownPageDescriptor?, MarkdownPageDescriptor?, MarkdownPageDescriptor?] {
   const { page } = useMarkdown()
-  const current = useMemo((): MarkdownPageDescriptor | undefined => getDocumentationItem(page), [page])
-  const previous = useMemo((): MarkdownPageDescriptor | undefined => getDocumentationItem(page, -1), [page])
-  const next = useMemo((): MarkdownPageDescriptor | undefined => getDocumentationItem(page, 1), [page])
+  const section = useMemo(() => getSection(page), [page])
+  const current = useMemo(
+    (): MarkdownPageDescriptor | undefined => getDocumentationItem(section, page),
+    [page, section],
+  )
+  const previous = useMemo(
+    (): MarkdownPageDescriptor | undefined => getDocumentationItem(section, page, -1),
+    [page, section],
+  )
+  const next = useMemo(
+    (): MarkdownPageDescriptor | undefined => getDocumentationItem(section, page, 1),
+    [page, section],
+  )
   return [previous, current, next]
 }
