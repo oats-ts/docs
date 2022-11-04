@@ -15,7 +15,7 @@ export function createMarkdownImport({ fileName, varName }: MarkdownData): Impor
         factory.createImportSpecifier(false, factory.createIdentifier('default'), factory.createIdentifier(varName)),
       ]),
     ),
-    factory.createStringLiteral(`../../../../md/${fileName}`),
+    factory.createStringLiteral(`../../md/${fileName}`),
     undefined,
   )
 }
@@ -52,7 +52,7 @@ function createMarkdownBundleImports(data: MarkdownData): ImportDeclaration[] {
           factory.createImportSpecifier(false, undefined, factory.createIdentifier('DocumentationPage')),
         ]),
       ),
-      factory.createStringLiteral('../../DocumentationPage/DocumentationPage'),
+      factory.createStringLiteral('../../pages/DocumentationPage/DocumentationPage'),
       undefined,
     ),
     createMarkdownImport(data),
