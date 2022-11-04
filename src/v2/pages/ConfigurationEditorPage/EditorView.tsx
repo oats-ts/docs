@@ -1,16 +1,17 @@
 import { isNil } from 'lodash'
 import React, { FC } from 'react'
+import { HiDocument } from 'react-icons/hi2'
+import { NotFoundPage } from '../../components/NotFoundPage'
 import { SyntaxHighlighter } from '../../components/SyntaxHighlighter'
 import { useGeneratorContext } from '../../model/useGenerator'
 import { ConfigurationEditor } from './ConfigurationEditor/ConfigurationEditor'
 import { IssuesPanel } from './IssuesPanel'
-import { NoEditor } from './NoEditor'
 
 export const EditorView: FC = () => {
   const { editorInput, isLoading } = useGeneratorContext()
 
   if (isNil(editorInput)) {
-    return <NoEditor />
+    return <NotFoundPage icon={HiDocument} text="Loading..." />
   }
   switch (editorInput?.type) {
     case 'file': {
@@ -44,6 +45,6 @@ export const EditorView: FC = () => {
       throw new TypeError(`Unexpected input of type "${editorInput.type}"`)
     }
     default:
-      return <NoEditor />
+      return <NotFoundPage icon={HiDocument} text="Loading..." />
   }
 }

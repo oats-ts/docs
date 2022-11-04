@@ -1,45 +1,34 @@
-import { EntryObject } from 'webpack'
-import { MARKDOWN_BUNDLE_FILE } from './markdownCommon'
-import { markdown, MarkdownPageName } from './src/md/markdown'
+import { mainPages } from './src/mainPages'
+import { markdownPages } from './src/markdownPages'
+import {
+  VendorBundleType,
+  MainPageDescriptor,
+  MarkdownPageDescriptor,
+  MainBundleType,
+  MarkdownBundleType,
+} from './src/types'
 
-export type OwnBundleName = 'index' | 'editor' | 'documentation'
-export type MdBundleName = `documentation-${MarkdownPageName}`
-export type VendorBundleName = 'commonDeps' //| 'editorDeps'
-export type BundleName = OwnBundleName | VendorBundleName | MdBundleName
+type _EntryObject<T extends string> = Record<T, { import: string; dependOn: string[] }>
 
-export type OwnEntryDescription = EntryObject[string] & {
-  dependOn: VendorBundleName[]
-}
-
-export const ownEntryPoints: Record<OwnBundleName, OwnEntryDescription> = {
-  index: {
-    import: './src/v2/pages/bundles/LandingPageBundle.tsx',
-    dependOn: ['commonDeps'],
-  },
-  documentation: {
-    import: './src/v2/pages/bundles/DocumentationBundle',
-    dependOn: ['commonDeps'],
-  },
-  editor: {
-    import: './src/v2/pages/bundles/ConfigurationEditorPageBundle.tsx',
-    dependOn: ['commonDeps'],
-  },
-}
-
-export const markdownEntryPoints: Record<MdBundleName, OwnEntryDescription> = Object.values(markdown).reduce(
-  (cfg, page): Record<MdBundleName, OwnEntryDescription> => {
-    const descriptor: OwnEntryDescription = {
-      import: `./${MARKDOWN_BUNDLE_FILE(page)}`,
-      dependOn: ['commonDeps'],
-    }
-    return { ...cfg, [`documentation-${page}`]: descriptor }
-  },
-  {} as Record<MdBundleName, OwnEntryDescription>,
+export const mainEntryPoints = Object.values(mainPages).reduce(
+  (entryPoints: _EntryObject<MainBundleType>, page: MainPageDescriptor): _EntryObject<MainBundleType> => ({
+    ...entryPoints,
+    [page.bundle]: { import: `./${page.importPath}`, dependOn: ['commonDeps'] },
+  }),
+  {} as _EntryObject<MainBundleType>,
 )
 
-export const ownBundles = Object.keys(ownEntryPoints) as OwnBundleName[]
+export const markdownEntryPoints = Object.values(markdownPages).reduce(
+  (entryPoints: _EntryObject<MarkdownBundleType>, page: MarkdownPageDescriptor): _EntryObject<MarkdownBundleType> => {
+    return {
+      ...entryPoints,
+      [page.bundle]: { import: `./${page.importPath}`, dependOn: ['commonDeps'] },
+    }
+  },
+  {} as _EntryObject<MarkdownBundleType>,
+)
 
-export const vendorEntryPoints: Record<VendorBundleName, string[]> = {
+export const vendorEntryPoints: Record<VendorBundleType, string[]> = {
   commonDeps: [
     'react',
     'react-dom',
@@ -59,4 +48,4 @@ export const vendorEntryPoints: Record<VendorBundleName, string[]> = {
   ],
 }
 
-export const entryPoints = { ...ownEntryPoints, ...vendorEntryPoints, ...markdownEntryPoints }
+export const entryPoints = { ...mainEntryPoints, ...vendorEntryPoints, ...markdownEntryPoints }

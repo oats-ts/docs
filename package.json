@@ -21,7 +21,7 @@
     "build": "npm run clean && npm run build-v1 && npm run build-v2",
     "start-v1": "webpack-dev-server -c webpackV1.config.js --mode=development",
     "start-v2": "webpack-dev-server -c webpack.config.ts --mode=development",
-    "md": "ts-node ./markdownGenerators.ts",
+    "md": "ts-node ./md.ts",
     "postinstall": "semantic-ui-css-patch",
     "deps": "ts-node ./listExternalDeps.ts"
   },
@@ -83,6 +83,7 @@
     "typescript": "4.7.4",
     "urijs": "1.19.11",
     "valid-url": "1.0.9",
-    "yamljs": "0.3.0"
+    "yamljs": "0.3.0",
+    "camelcase": "6.2.0"
   }
 }

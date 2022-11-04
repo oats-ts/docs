@@ -3,6 +3,7 @@ import { Issue } from '@oats-ts/validators'
 import { HttpMethod } from '@oats-ts/openapi-http'
 import { CommentConfig } from '@oats-ts/typescript-writer'
 import { Options } from 'prettier'
+import { MarkdownPageName } from './md/markdown'
 
 export type ColorMode = 'dark' | 'light'
 export type SourceLanguage = 'yaml' | 'json' | 'mixed'
@@ -164,6 +165,23 @@ export type NonFsNode = ConfigurationNode | IssuesNode | GeneratorSourceNode | P
 
 export type EditorInput = FsNode | NonFsNode
 
-export type PageDescriptor = {
-  // meta bs
+export type DocumentationSection = {
+  name?: string
+  items: MarkdownPageDescriptor[]
 }
+
+export type MainBundleType = 'index' | 'editor' | 'documentation' | 'notFound'
+export type MarkdownBundleType = `documentation-${MarkdownPageName}`
+export type VendorBundleType = 'commonDeps'
+export type BundleType = MainBundleType | MarkdownBundleType | VendorBundleType
+
+export type BasePageDescriptor<B> = {
+  name: string
+  description: string
+  importPath: string
+  bundle: B
+}
+
+export type MainPageDescriptor = BasePageDescriptor<MainBundleType>
+export type MarkdownPageDescriptor = BasePageDescriptor<MarkdownBundleType> & { md: MarkdownPageName }
+export type PageDescriptor = MainPageDescriptor | MarkdownPageDescriptor

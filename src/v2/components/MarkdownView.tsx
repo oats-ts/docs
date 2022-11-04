@@ -1,8 +1,9 @@
 import { css } from '@emotion/css'
+import { isNil } from 'lodash'
 import React, { FC } from 'react'
 import Markdown, { uriTransformer, Options } from 'react-markdown'
 import remarkGfm from 'remark-gfm'
-import { markdown, MarkdownPageName } from '../../md/markdown'
+import { markdownPages } from '../../markdownPages'
 import { links } from '../links'
 import { theme } from '../theme'
 import { Code } from './Code'
@@ -31,11 +32,12 @@ export type MarkdownViewProps = {
   content: string
 }
 
-const markdownKeys = Object.keys(markdown)
+const pages = Object.values(markdownPages)
 
 const customUriTransformer: Options['transformLinkUri'] = (uri: string) => {
-  if (markdownKeys.some((key) => uri.startsWith(key))) {
-    return links.doc(uri as MarkdownPageName)
+  const page = pages.find((page) => uri.startsWith(page.md))
+  if (!isNil(page)) {
+    return links.doc(page.md)
   }
   return uriTransformer(uri)
 }

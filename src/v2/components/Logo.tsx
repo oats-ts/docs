@@ -7,7 +7,7 @@ import { SvgLogo } from './SvgLogo'
 
 export type LogoProps = {
   name?: string
-  version: boolean
+  version?: boolean
   href: string
 }
 
