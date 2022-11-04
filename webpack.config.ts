@@ -7,6 +7,8 @@ import { entryPoints, markdownEntryPoints, mainEntryPoints } from './entryPoints
 import { mainPages } from './src/mainPages'
 import { markdownPages } from './src/markdownPages'
 import { PageDescriptor } from './src/types'
+import { truncate } from 'lodash'
+import { isMarkdownPageDescriptor } from './src/utils'
 
 type Arg1 = {
   WEBPACK_SERVE?: boolean
@@ -74,7 +76,9 @@ function createMetaTags(page: PageDescriptor): Record<string, string> {
     description: page.description,
     keywords: 'openapi,oats,jsonschema,json-schema,yaml,json,typescript,codegen',
     'og:title': page.name,
-    'og:description': page.description,
+    'og:image': isMarkdownPageDescriptor(page) ? '../logo.svg' : 'logo.svg',
+    'og:type': isMarkdownPageDescriptor(page) ? 'article' : 'website',
+    'og:description': truncate(page.description, { length: 60 }),
   }
 }
 
