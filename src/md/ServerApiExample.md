@@ -1,4 +1,6 @@
-# Example API implementation
+# Example API
+
+In this guide you'll see a basic API implementation using the book store example.
 
 Let's go back to `BookStoreApiImpl` and implement some simple logic. In this guide I'm going to store data in memory, but since all API methods return `Promise`s, you can use whatever data storage you choose.
 

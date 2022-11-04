@@ -1,6 +1,8 @@
 # Server types
 
-This guide will showcase the main types generated for the server side. A big chunk of the generated types is the same as for the client side (JSON schema based types and parameter types), so in this chapter I'm highlighting the differences.
+This guide will showcase the main types generated for the server side.
+
+A big chunk of the generated types is the same as for the client side (JSON schema based types and parameter types), so in this chapter I'm highlighting the differences.
 
 ## The API type
 

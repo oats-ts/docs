@@ -1,5 +1,7 @@
 # SDK usage
 
+In this guide you'll learn the basic usage of the generated SDK.
+
 To start using the SDK, you will need an implementation of the previously described SDK type. Oats generates an SDK implementation class (`BookStoreSdkImpl` in our case), that you can find next to the SDK type (in `src/generated/sdk`).
 
 To instantiate this class, we'll need an input parameter called `adapter` of type `ClientAdapter`. This adapter is responsible for bridiging the generated code with a request library. Oats ships with a single client adapter based on the [`fetch`](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch) API, but you can roll your own, by either extending the default `FetchClientAdapter`, or simply implementing the `ClientAdapter` type.

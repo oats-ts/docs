@@ -1,5 +1,7 @@
 # Express server setup
 
+In this guide you'll learn how to set up generated Oats code with your existing express backend.
+
 Before we write any business logic, let's create a functional server that exposes the appropriate endpoints, and we can test it locally. This involves the following steps:
 
 ## Create an API implementation

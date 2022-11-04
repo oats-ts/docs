@@ -1,5 +1,7 @@
 # Read
 
+In this guide you'll learn how the reader step works.
+
 The reader step is responsible for
 
 - Reading your OpenAPI 3.x document

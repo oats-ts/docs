@@ -12,7 +12,7 @@ const namedSections: DocumentationSection[] = [
       markdownPages.serverGettingStartedPage,
       markdownPages.serverTypesPage,
       markdownPages.serverSetupPage,
-      markdownPages.serverApiImplPage,
+      markdownPages.serverApiExamplePage,
       markdownPages.serverCorsPage,
     ],
   },

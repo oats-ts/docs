@@ -1,6 +1,6 @@
 # Implement CORS
 
-In this guide you'll learn how to make your Oats+express based server CORS enabled.
+In this guide you'll learn how to make your Oats and express based server CORS enabled.
 
 ## What is CORS?
 

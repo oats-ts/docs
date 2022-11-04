@@ -1,5 +1,7 @@
 # Error handling
 
+In this example you'll learn the recommended approach to handle errors using the generated SDK.
+
 Oats generated SDKs don't `throw` (or rather reject, as we are dealing with `Promise`s), unless the response is invalid according to the source OpenAPI document.
 
 ## Examples of rejections:

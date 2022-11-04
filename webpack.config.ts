@@ -1,4 +1,4 @@
-import path from 'path'
+import path, { resolve } from 'path'
 import HtmlWebpackPlugin from 'html-webpack-plugin'
 import { CleanWebpackPlugin } from 'clean-webpack-plugin'
 import { ProvidePlugin, Configuration, DefinePlugin } from 'webpack'
@@ -69,11 +69,12 @@ function resolveOptions(): Configuration['resolve'] {
   }
 }
 
-function createMetaTags(page: PageDescriptor): Record<string, { name: string; content: string }> {
+function createMetaTags(page: PageDescriptor): Record<string, string> {
   return {
-    description: { name: 'description', content: page.description },
-    keywords: { name: 'keywords', content: 'openapi,oats,jsonschema,json-schema,yaml,json,typescript,codegen' },
-    'og:title': { name: 'og:title', content: page.name },
+    description: page.description,
+    keywords: 'openapi,oats,jsonschema,json-schema,yaml,json,typescript,codegen',
+    'og:title': page.name,
+    'og:description': page.description,
   }
 }
 
@@ -88,6 +89,7 @@ function pluginOptions(mode: Mode): Configuration['plugins'] {
         filename: page.bundle === 'notFound' ? '404.html' : `${page.bundle}.html`,
         title: page.name,
         meta: createMetaTags(page),
+        favicon: resolve('logo.svg'),
       })
     }),
     ...Object.values(markdownPages).map((page) => {
@@ -95,8 +97,9 @@ function pluginOptions(mode: Mode): Configuration['plugins'] {
         template: path.resolve('src/index.html'),
         chunks: [page.bundle, ...markdownEntryPoints[page.bundle].dependOn],
         filename: `documentation/${page.md}.html`,
-        title: page.name,
+        title: `Oats - ${page.name}`,
         meta: createMetaTags(page),
+        favicon: resolve('logo.svg'),
       })
     }),
     new ProvidePlugin({

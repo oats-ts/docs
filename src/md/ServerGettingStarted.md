@@ -1,6 +1,8 @@
-# Getting started (Server)
+# Getting started
 
-This guide will help you getting started with generating server side code using Oats. As for all examples, we are going to use the [book store](https://github.com/oats-ts/oats-schemas/blob/master/schemas/book-store.json) example (so it's recommended you try using this first, if you are unfamiliar with Oats)!
+This guide will help you getting started with generating server side code using Oats.
+
+As for all examples, we are going to use the [book store](https://github.com/oats-ts/oats-schemas/blob/master/schemas/book-store.json) example (so it's recommended you try using this first, if you are unfamiliar with Oats)!
 
 ## Set up the generator
 

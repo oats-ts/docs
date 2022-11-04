@@ -1,6 +1,8 @@
-# Getting started (SDK)
+# Getting started
 
-In this guide you'll learn how to generate an SDK and (necessary related code) based on your OpenAPI document. As for all examples, we are going to use the [book store](https://github.com/oats-ts/oats-schemas/blob/master/schemas/book-store.json) example (so it's recommended you try using this first, if you are unfamiliar with Oats)!
+In this guide you'll learn how to generate an SDK and (necessary related code) based on your OpenAPI document.
+
+As for all examples, we are going to use the [book store](https://github.com/oats-ts/oats-schemas/blob/master/schemas/book-store.json) example (so it's recommended you try using this first, if you are unfamiliar with Oats)!
 
 ## Set up the generator
 

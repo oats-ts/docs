@@ -10,8 +10,8 @@ export const DocumentationMenu: FC = () => {
       <SideBarSection>
         <HomeTreeRoot />
       </SideBarSection>
-      {sections.map((section) => (
-        <Fragment key={section.name}>
+      {sections.map((section, idx) => (
+        <Fragment key={section.name ?? `item-${idx}`}>
           <SideBarSection title={section.name}>
             {section.items.map((item) => (
               <DocumentationTreeRoot node={item} key={item.md} />

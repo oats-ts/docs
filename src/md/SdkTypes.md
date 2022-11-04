@@ -1,6 +1,8 @@
 # SDK related types
 
-This guide will showcase the main types generated for the client side. A big chunk of the generated types is the same as for the server side (JSON schema based types and parameter types), so in this chapter I'm highlighting the differences.
+This guide will showcase the main types generated for the client side.
+
+A big chunk of the generated types is the same as for the server side (JSON schema based types and parameter types), so in this chapter I'm highlighting the differences.
 
 ## The SDK type
 

@@ -28,7 +28,7 @@ function getDescription(lines: string[]): string {
   if (nextLine === undefined) {
     return 'Unknown description'
   }
-  return nextLine.trim().replace(/'/g, '').replace(/"/g, '')
+  return nextLine.trim().replace(/"/g, "'")
 }
 
 async function readMarkdownFile(path: ParsedPath): Promise<MarkdownData> {
