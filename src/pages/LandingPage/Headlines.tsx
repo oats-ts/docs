@@ -1,6 +1,6 @@
 import { css } from '@emotion/css'
 import React, { FC } from 'react'
-import { HiBookOpen, HiPuzzlePiece, HiServerStack, HiWrenchScrewdriver } from 'react-icons/hi2'
+import { HiBookOpen, HiCog6Tooth, HiPuzzlePiece, HiServerStack, HiWrenchScrewdriver } from 'react-icons/hi2'
 import { theme } from '../../theme'
 import { Button } from '../../components/Button'
 import { breakpoints } from '../../breakpoints'
@@ -23,6 +23,7 @@ const itemContainerStyle = css`
   color: ${theme.colors.muted};
   display: flex;
   flex-direction: column;
+  flex: 1 0 1px;
   font-size: ${theme.fontSize.m};
 `
 
@@ -41,6 +42,7 @@ const itemContentStyle = css`
   label: headlines-item-content;
   margin-bottom: ${theme.spacing.l};
   flex: ${theme.flex.grow};
+  flex-shrink: 0;
 `
 
 export const Headlines: FC = () => {
@@ -77,15 +79,15 @@ export const Headlines: FC = () => {
       <div className={itemContainerStyle}>
         <h3 className={itemHeaderStyle}>
           <HiWrenchScrewdriver />
-          Customize generators
+          See it in action!
         </h3>
         <section className={itemContentStyle}>
-          The available generators don't fully suit your needs, or you need more? Customize existing generators, or
-          create your own, without writing everything from scratch.
+          Check out the configuration editor, right here in your browser! See the generated output changing in real time
+          as you edit the configuration! <b>Your data stays in your browser!</b>
         </section>
-        <Button href={links.doc('SdkGettingStarted')}>
-          <HiBookOpen />
-          Learn more
+        <Button href={links.editor()}>
+          <HiCog6Tooth />
+          Get started
         </Button>
       </div>
     </div>

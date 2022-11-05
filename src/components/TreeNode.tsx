@@ -7,26 +7,29 @@ import { theme } from '../theme'
 const Padding = 14
 
 const treeNodeStyle = css`
+  label: tree-node;
   position: relative;
 `
 
 const openableStyle = (level: number) => css`
   &::before {
     z-index: 5;
-    label: tree-node-line-${level};
+    label: tree-node-line-level-${level};
     border-left: 1px solid #555;
     content: '';
-    left: ${8 + Padding + Padding * level}px;
+    left: ${9 + Padding + Padding * level}px;
     position: absolute;
-    top: ${theme.spacing.xxl};
-    height: calc(100% - ${theme.spacing.xxl});
+    top: 2.35rem;
+    height: calc(100% - 2.35rem);
+    flex-shrink: 0;
   }
 `
 
 const treeNodeContentStyle = (level: number, active: boolean) => css`
-  label: tree-node-content-${level};
+  label: tree-node-content-level-${level};
   display: flex;
   flex-direction: row;
+  flex-shrink: 0;
   padding: ${theme.spacing.s};
   transition: background-color 150ms linear, color 150ms linear;
   cursor: pointer;
@@ -42,11 +45,16 @@ const treeNodeContentStyle = (level: number, active: boolean) => css`
 `
 
 const itemLabelStyle = css`
-  flex: ${theme.flex.grow};
+  label: tree-node-item-label;
+  flex: 1 0 1px;
   display: flex;
   flex-direction: row;
   align-items: center;
   gap: ${theme.spacing.xxs};
+`
+
+const emptyLabelStyle = css`
+  margin-left: 0.6rem;
 `
 
 export type TreeNodeProps<T> = {
@@ -63,15 +71,11 @@ export type TreeNodeProps<T> = {
 }
 
 type TreeNodeChevronProps = {
-  isContainer: boolean
   isOpen: boolean
   isEmpty: boolean
 }
 
-const TreeNodeChevron: FC<TreeNodeChevronProps> = ({ isContainer, isOpen, isEmpty }) => {
-  if (!isContainer) {
-    return null
-  }
+const TreeNodeChevron: FC<TreeNodeChevronProps> = ({ isOpen, isEmpty }) => {
   if (isEmpty) {
     return <HiChevronLeft />
   }
@@ -104,9 +108,9 @@ export function TreeNode<T>({
     <div className={className}>
       <a className={treeNodeContentStyle(level, active)} href={href} onClick={handleClick}>
         <span className={itemLabelStyle}>
-          <TreeNodeChevron isContainer={container} isEmpty={children.length === 0} isOpen={open} />
+          {container && <TreeNodeChevron isEmpty={children.length === 0} isOpen={open} />}
           {Icon === undefined ? null : <Icon />}
-          {label}
+          {container || Icon !== undefined ? <span>{label}</span> : <span className={emptyLabelStyle}>{label}</span>}
         </span>
       </a>
       {open &&

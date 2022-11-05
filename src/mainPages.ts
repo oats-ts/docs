@@ -3,7 +3,7 @@ import { MainPageDescriptor } from './types'
 const indexPage: MainPageDescriptor = {
   bundle: 'index',
   name: 'Oats',
-  description: 'Oats index page',
+  description: 'Generate TypeScript from OpenAPI, that makes sense.',
   importPath: 'src/bundles/LandingPageBundle.tsx',
 }
 
@@ -31,5 +31,5 @@ export const mainPages = {
   indexPage,
   editorPage,
   documentationPage,
-  notFoundPage
+  notFoundPage,
 } as const
