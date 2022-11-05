@@ -42,30 +42,32 @@ export const QuickStart: FC = () => {
       <div className={containerStyle}>
         <QuickStartItem index={1} title="Prepare your OpenAPI document">
           You need an OpenAPI document to start with. In case you don't have one already, try this example:
-          <SyntaxHighlighter kind="docs" lineWrap={true}>
+          <SyntaxHighlighter host="docs" lineWrap={true} theme="light">
             https://raw.githubusercontent.com/oats-ts/oats-schemas/master/schemas/book-store.json
           </SyntaxHighlighter>
         </QuickStartItem>
         <QuickStartItem index={2} title="Install Oats generator modules">
           Install the necessary Oats modules to make the code generator work:
-          <SyntaxHighlighter kind="docs" lineWrap={true}>
+          <SyntaxHighlighter host="docs" lineWrap={true} theme="light">
             npm i @oats-ts/openapi
           </SyntaxHighlighter>
         </QuickStartItem>
         <QuickStartItem index={3} title="Configure the generator">
           Create a file called <b>oats.js</b> in your project root (you can call it anything you like), and the
           configuration:
-          <SyntaxHighlighter language="typescript" kind="docs" lineWrap={true}>
+          <SyntaxHighlighter language="typescript" host="docs" lineWrap={true} theme="light">
             {generatorSource}
           </SyntaxHighlighter>
         </QuickStartItem>
         <QuickStartItem index={4} title="Run the generator">
           Open a terminal and simply run:
-          <SyntaxHighlighter kind="docs">node ./oats.js</SyntaxHighlighter>
+          <SyntaxHighlighter host="docs" theme="light">
+            node ./oats.js
+          </SyntaxHighlighter>
         </QuickStartItem>
         <QuickStartItem index={5} title="Verify results">
           In case the generators ran successfully, you will see something like this in the terminal:
-          <SyntaxHighlighter kind="docs" lineWrap={true}>
+          <SyntaxHighlighter host="docs" lineWrap={true} theme="light">
             {generatorOutput}
           </SyntaxHighlighter>
           The <Code>npm i</Code> command lists the necessary dependencies, that the generated output needs, to function

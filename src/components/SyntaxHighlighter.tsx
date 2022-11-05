@@ -1,7 +1,7 @@
 import { css, cx } from '@emotion/css'
-import React, { FC, useState } from 'react'
+import React, { FC, useState, CSSProperties } from 'react'
 import { Prism } from 'react-syntax-highlighter'
-import * as themes from 'react-syntax-highlighter/dist/esm/styles/prism'
+import vscDarkPlus from 'react-syntax-highlighter/dist/esm/styles/prism/vsc-dark-plus'
 import { CopyToClipboard } from 'react-copy-to-clipboard'
 import { theme } from '../theme'
 import { HiClipboard, HiCheck } from 'react-icons/hi2'
@@ -10,13 +10,17 @@ import { createPrismTheme } from './createPrismTheme'
 
 export type SyntaxHighlighterProps = {
   children: string
-  kind: 'docs' | 'editor'
+  host: 'docs' | 'editor'
+  theme: 'light' | 'medium' | 'dark'
   language?: string
   lineWrap?: boolean
 }
 
-const docsTheme = createPrismTheme(themes.vscDarkPlus, theme.colors.dark1)
-const editorTheme = createPrismTheme(themes.vscDarkPlus, theme.colors.dark4)
+const themes: Record<SyntaxHighlighterProps['theme'], Record<string, CSSProperties>> = {
+  light: createPrismTheme(vscDarkPlus, theme.colors.dark1),
+  medium: createPrismTheme(vscDarkPlus, theme.colors.dark2),
+  dark: createPrismTheme(vscDarkPlus, theme.colors.dark4),
+}
 
 const copyButtonStyle = css`
   label: syntax-hl-copy;
@@ -62,7 +66,7 @@ const editorContainerStyle = css`
   }
 `
 
-export const SyntaxHighlighter: FC<SyntaxHighlighterProps> = ({ children, language, lineWrap, kind }) => {
+export const SyntaxHighlighter: FC<SyntaxHighlighterProps> = ({ children, language, lineWrap, theme, host }) => {
   const [copied, setCopied] = useState(false)
   const [hovering, setHovering] = useState(false)
   const [resetTimeout, setResetTimeout] = useState<any>(undefined)
@@ -88,12 +92,12 @@ export const SyntaxHighlighter: FC<SyntaxHighlighterProps> = ({ children, langua
     )
   }
 
-  const containerStyle = cx(kind === 'editor' ? editorContainerStyle : docsContainerStyle)
-  const theme = kind === 'editor' ? editorTheme : docsTheme
+  const containerStyle = cx(host === 'editor' ? editorContainerStyle : docsContainerStyle)
+  const prismTheme = themes[theme]
   const copyButtonFullStyle = cx(copyButtonStyle)
   return (
     <div className={containerStyle} onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave}>
-      <Prism language={language} style={theme} wrapLongLines={lineWrap} showLineNumbers={kind === 'editor'}>
+      <Prism language={language} style={prismTheme} wrapLongLines={lineWrap} showLineNumbers={host === 'editor'}>
         {children}
       </Prism>
       <CopyToClipboard text={children} onCopy={onCopy}>

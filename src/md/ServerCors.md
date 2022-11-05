@@ -45,7 +45,9 @@ oats.generate({
     pathProvider: oats.pathProviders.default('src/generated'),
     children: oats.presets.server({
       cors: {
-        getAllowedOrigins: (path, method, operation) => ['http://localhost:5000'],
+        getAllowedOrigins: (path, method, operation) => [
+          'http://localhost:5000',
+        ],
         isMethodAllowed: (path, method, operation) => true,
         isRequestHeaderAllowed: (header, path, method, operation) => true,
         isResponseHeaderAllowed: (header, path, method, operation) => true,
@@ -95,7 +97,11 @@ export function createBookStoreApp() {
   const app = express()
   app.use(json())
 
-  createBookStoreContextRouter(app, new BookStoreApiImpl(), new ExpressServerAdapter())
+  createBookStoreContextRouter(
+    app,
+    new BookStoreApiImpl(),
+    new ExpressServerAdapter(),
+  )
   // This is new, make sure it's AFTER the Context router
   createBookStoreCorsRouter(app)
   createBookStoreAppRouter(app)

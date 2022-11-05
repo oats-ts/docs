@@ -16,7 +16,7 @@ export const EditorView: FC = () => {
   switch (editorInput?.type) {
     case 'file': {
       return (
-        <SyntaxHighlighter kind="editor" language="typescript">
+        <SyntaxHighlighter host="editor" language="typescript" theme="dark">
           {editorInput.content}
         </SyntaxHighlighter>
       )
@@ -29,14 +29,14 @@ export const EditorView: FC = () => {
     }
     case 'generator-source': {
       return (
-        <SyntaxHighlighter kind="editor" language="typescript">
+        <SyntaxHighlighter host="editor" language="typescript" theme="dark">
           {editorInput.source}
         </SyntaxHighlighter>
       )
     }
     case 'package-json': {
       return (
-        <SyntaxHighlighter kind="editor" language="json">
+        <SyntaxHighlighter host="editor" language="json" theme="dark">
           {editorInput.source}
         </SyntaxHighlighter>
       )

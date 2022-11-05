@@ -24,6 +24,16 @@ const h3Style = css`
   color: ${theme.colors.text};
   font-size: ${theme.fontSize.m};
 `
+const quoteStyle = css`
+  margin-top: ${theme.spacing.l};
+  padding: ${theme.spacing.xxm};
+  background-color: ${theme.colors.dark2};
+  border-radius: ${theme.spacing.m};
+  color: ${theme.colors.muted};
+  p {
+    margin: 0px;
+  }
+`
 const containerStyle = css`
   margin: ${theme.spacing.l};
 `
@@ -73,12 +83,16 @@ const components: Options['components'] = {
     const match = /language-(\w+)/.exec(className || '')
     if (match !== null && !inline) {
       return (
-        <SyntaxHighlighter language={match[1]} kind="docs">
+        <SyntaxHighlighter language={match[1]} host="docs" theme="medium">
           {String(children).replace(/\n$/, '')}
         </SyntaxHighlighter>
       )
     }
     return <Code {...props}>{children}</Code>
+  },
+  blockquote({ children }) {
+    // TODO might need an alternative, as this replaces the ability to use blockquotes
+    return <div className={quoteStyle}>{children}</div>
   },
 }
 

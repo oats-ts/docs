@@ -58,7 +58,11 @@ export function createBookStoreApp() {
 
   // Add router/middleware, that exposes an instance of your API implementation,
   // and an adapter connecting the generated code and the framework on response.locals.
-  createBookStoreContextRouter(app, new BookStoreApiImpl(), new ExpressServerAdapter())
+  createBookStoreContextRouter(
+    app,
+    new BookStoreApiImpl(),
+    new ExpressServerAdapter(),
+  )
 
   // Add routers handling each operation. These routers will use the API implementation
   // With the appropriate parameters, and use it's return value to construct a response.

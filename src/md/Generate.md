@@ -13,7 +13,12 @@ The generators that comes with oats by default can be accessed from the [@oats-t
 You can configure your generator from a set of code generators of your choosing. For this approach, it's the easiest to use `generators.create` from the [@oats-ts/openapi](https://www.npmjs.com/package/@oats-ts/openapi) package. You can use the generator names (see below) as the first argument, and optionally the approriate configuration object as the second argument (autocomplete will help with this).
 
 ```ts
-import { generator, nameProviders, pathProviders, generators } from '@oats-ts/openapi'
+import {
+  generator,
+  nameProviders,
+  pathProviders,
+  generators,
+} from '@oats-ts/openapi'
 
 const withGenerators = generator({
   nameProvider: nameProviders.default(),
@@ -31,7 +36,12 @@ const withGenerators = generator({
 You can also use presets (I'd recommend starting with presets). Presets are a set of generators grouped toghether. The ones available currently are `presets.client()`, `presets.server()` and `presets.fullStack()`. The simplest way is to use the preset without any configuration:
 
 ```ts
-import { generator, nameProviders, pathProviders, presets } from '@oats-ts/openapi'
+import {
+  generator,
+  nameProviders,
+  pathProviders,
+  presets,
+} from '@oats-ts/openapi'
 
 const withDefaults = generator({
   nameProvider: nameProviders.default(),
@@ -59,7 +69,9 @@ In case you want to really fine tune presets, you can override the configuration
 const withOverrides = generator({
   nameProvider: nameProviders.default(),
   pathProvider: pathProviders.default('src/generated'),
-  children: presets.client({ documentation: false }).override({ 'oats/type': { documentation: true } }),
+  children: presets
+    .client({ documentation: false })
+    .override({ 'oats/type': { documentation: true } }),
 })
 ```
 
@@ -71,7 +83,10 @@ Presets and individual generators can be used together:
 const withPresetsAndGenerators = generator({
   nameProvider: nameProviders.default(),
   pathProvider: pathProviders.default('src/generated'),
-  children: [presets.client(), generators.create('oats/express-cors-router-factory')],
+  children: [
+    presets.client(),
+    generators.create('oats/express-cors-router-factory'),
+  ],
 })
 ```
 

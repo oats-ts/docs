@@ -52,7 +52,7 @@ export const DocumentationFooter: FC = () => {
     }
     const title = `${swapSpaces(current.name)}+(in+${current.md}.md)`
     const labels = 'documentation'
-    const body = swapSpaces(`Please describe the issue with as much detail as possible!`)
+    const body = swapSpaces(`Please describe the issue!`)
     return `https://github.com/oats-ts/oats-ts/issues/new?labels=${labels}&title=${title}&body=${body}`
   }, [current])
 
@@ -81,7 +81,7 @@ export const DocumentationFooter: FC = () => {
       )}
       {hasCurrent && (
         <div className={errorReportRow}>
-          <b>Found an issue with this page?</b>
+          <b>Found an issue on this page?</b>
           <br />
           Please let me know by <Link href={issueUri}>opening an issue on GitHub!</Link> Please include all details that
           you think might be important!
