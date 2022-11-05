@@ -1,13 +1,5 @@
 import { MarkdownPageDescriptor } from './types'
 
-const commonMistakesPage: MarkdownPageDescriptor = {
-  bundle: 'documentation-CommonMistakes',
-  name: 'Common mistakes',
-  description: "In this guide I'll share the most common mistakes, when constructing an OpenAPI document.",
-  importPath: 'src/bundles/documentation/DocumentationBundle_CommonMistakes.tsx',
-  md: 'CommonMistakes',
-}
-
 const customGeneratorsPage: MarkdownPageDescriptor = {
   bundle: 'documentation-CustomGenerators',
   name: 'Custom Generators',
@@ -22,6 +14,14 @@ const generatePage: MarkdownPageDescriptor = {
   description: "In this guide you'll learn how the generator step works.",
   importPath: 'src/bundles/documentation/DocumentationBundle_Generate.tsx',
   md: 'Generate',
+}
+
+const openApi101Page: MarkdownPageDescriptor = {
+  bundle: 'documentation-OpenAPI101',
+  name: 'OpenAPI 101',
+  description: "In this guide I'll share some DOs and DON'Ts, when constructing an OpenAPI document.",
+  importPath: 'src/bundles/documentation/DocumentationBundle_OpenAPI101.tsx',
+  md: 'OpenAPI101',
 }
 
 const readPage: MarkdownPageDescriptor = {
@@ -131,9 +131,9 @@ const writePage: MarkdownPageDescriptor = {
 }
 
 export const markdownPages = {
-  commonMistakesPage,
   customGeneratorsPage,
   generatePage,
+  openApi101Page,
   readPage,
   sdkErrorHandlingPage,
   sdkGettingStartedPage,

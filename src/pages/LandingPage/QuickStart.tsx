@@ -74,7 +74,7 @@ export const QuickStart: FC = () => {
           at runtime. Run this command, and you are ready to use the generated output.
           <div className={paragraphStyle}>
             In case you see errors (and the explanations don't help), check out the{' '}
-            <Link href={links.doc('CommonMistakes')}>common mistakes</Link> guide, describing the most common issues
+            <Link href={links.doc('OpenAPI101')}>OpenAPI 101</Link> guide, describing the most common issues
             with OpenAPI documents! In case it doesn't help either please open an{' '}
             <Link href="https://github.com/oats-ts/oats-ts/issues">issue</Link>, and describe the problem in detail!
           </div>

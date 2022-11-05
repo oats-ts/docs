@@ -1,7 +1,7 @@
 export const markdown = {
-  CommonMistakes: 'CommonMistakes',
   CustomGenerators: 'CustomGenerators',
   Generate: 'Generate',
+  OpenAPI101: 'OpenAPI101',
   Read: 'Read',
   SdkErrorHandling: 'SdkErrorHandling',
   SdkGettingStarted: 'SdkGettingStarted',

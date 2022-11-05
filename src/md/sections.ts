@@ -5,7 +5,7 @@ import { DocumentationSection } from '../types'
 const namedSections: DocumentationSection[] = [
   {
     useNavigation: false,
-    items: [markdownPages.welcomePage, markdownPages.commonMistakesPage],
+    items: [markdownPages.welcomePage, markdownPages.openApi101Page],
   },
   {
     name: 'Server Guide',

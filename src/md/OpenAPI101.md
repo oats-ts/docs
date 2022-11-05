@@ -1,6 +1,6 @@
-# Common mistakes
+# OpenAPI 101
 
-In this guide I'll share the most common mistakes, when constructing an OpenAPI document.
+In this guide I'll share some DOs and DON'Ts, when constructing an OpenAPI document.
 
 OpenAPI it is an extremely loosely defined spec, that in turn lets you define your API and your schemas in many different ways. In this article I'm listing the most common "mistakes" that you can make, that doesn't make your OpenAPI document invalid, but effectively prevents tooling from outputing usable documentation or code.
 
