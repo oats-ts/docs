@@ -1,12 +1,14 @@
 # Express server setup
 
-In this guide you'll learn how to set up generated Oats code with your existing express backend.
+In this guide you'll learn how to set up generated Oats code with your existing [express](https://expressjs.com) backend.
 
-Before we write any business logic, let's create a functional server that exposes the appropriate endpoints, and we can test it locally. This involves the following steps:
+Before we write any business logic, let's create a functional server that exposes the appropriate endpoints, and we can test it locally.
+
+> As for all guides, this one is based on the [book store](https://github.com/oats-ts/oats-schemas/blob/master/schemas/book-store.json) example.
 
 ## Create an API implementation
 
-First we need to create an implementation of the previously described API Type. In this example we are going to use a class implementation, as it lends itself for our purpose. Start by creating a class, that implements `BookStoreApi`. A modern IDE (like VS Code) should be able to help you creating a stub for each method, and add the appropriate imports:
+First we need to create an implementation of the previously described API Type. In this example we are going to use a class implementation, as it lends itself for our purpose. Start by creating a class, that implements `BookStoreApi`. A modern IDE (like VS Code) should be able to help you creating a stub for each method, and add the appropriate imports, so you'll end up with something like this:
 
 ```typescript
 // BookStoreApiImpl.ts
@@ -33,6 +35,8 @@ export class BookStoreApiImpl implements BookStoreApi {
 
 ## Create an express app
 
+> For Oats I needed to pick a framework (either vanilla node http server or one of the dosen frameworks out there), the choice was `express`. Apart from this setup step, you'll never need to interact with express when using Oats.
+
 Now that you have an API implementation that at least compiles (even though it lacks proper business logic at this point), you can put together the `express` server.
 
 Oats generates functionality that interacts with express in the form of `Router` factory functions. These functions can either
@@ -40,7 +44,7 @@ Oats generates functionality that interacts with express in the form of `Router`
 - Produce a new express `Router` with the attached functionality,
 - Or they can attach their functionality to an existing `IRouter`, that's always the first, optional value of the factory functions.
 
-The "app" returned by the `express` function call is an `IRouter` as well, so in our simple example we are going to pick the second option, and attach the functionality to the app.
+The "app" returned by the `express` function call is an `IRouter` as well, so in our simple example we are going to pick the second option, and attach the functionality to the app directly.
 
 ```typescript
 // createBookStoreApp.ts
@@ -86,7 +90,7 @@ createBookStoreApp().listen(5000)
 
 ## Make running this easy
 
-In production I'd recommend compiling this first. But for development we are just going to use `ts-node` (command line tool, that allows running typescript without compilation). Let's create a simple `"start"` script in `package.json`, that runs `ts-node` with our entry point, `index.ts`:
+In production I'd recommend compiling this first. But for development we are just going to use `ts-node` (command line tool, that allows running typescript without explicit compilation). Let's create a simple `"start"` script in `package.json`, that runs `ts-node` with our entry point, `index.ts`:
 
 ```json
 // package.json

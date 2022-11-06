@@ -4,6 +4,8 @@ This guide will showcase the main types generated for the server side.
 
 A big chunk of the generated types is the same as for the client side (JSON schema based types and parameter types), so in this chapter I'm highlighting the differences.
 
+> As for all guides, this one is based on the [book store](https://github.com/oats-ts/oats-schemas/blob/master/schemas/book-store.json) example.
+
 ## The API type
 
 The most important type on the server side is the API type. You'll need an implementation of this type (can be a class or a plain object, if you don't need to share context), that will carry all the business logic for your server. How you split up logic here is completely up to you. In our example the API type can be found under `src/generated/api`. The type itself, `BookStoreApi.ts` will look something like this:

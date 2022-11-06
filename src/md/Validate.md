@@ -9,10 +9,10 @@ The validator that comes with oats by default can be accessed from the [@oats-ts
 ## Examples
 
 ```ts
-import { validator } from '@oats-ts/openapi'
+const oats = require('@oats-ts/openapi')
 
 // Default validator
-const defaultValidator = validator()
+const defaultValidator = oats.validator()
 ```
 
 ## Configuration

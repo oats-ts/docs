@@ -2,7 +2,11 @@
 
 This guide will showcase the main types generated for the client side.
 
-A big chunk of the generated types is the same as for the server side (JSON schema based types and parameter types), so in this chapter I'm highlighting the differences.
+> As for all guides, this one is based on the [book store](https://github.com/oats-ts/oats-schemas/blob/master/schemas/book-store.json) example.
+
+A big chunk of the generated types is the same as for the server side (JSON schema based types and parameter types), so in this guide I'm highlighting the parts that are unique to the client / SDK side.
+
+As for all guides, we are going to use the [book store](https://github.com/oats-ts/oats-schemas/blob/master/schemas/book-store.json) example
 
 ## The SDK type
 
@@ -37,7 +41,7 @@ This type has a method for each [Operation Object](https://spec.openapis.org/oas
 The aim is to expose **clear functions with no extra nonsense**. When you want to make a request:
 
 - You have to provide a strictly typed input parameter (`request`), with all the user input encapsulated.
-- And when you run it, you get a strictly typed response, with everything relevant from the response encapsulated.
+- As the result, you get a strictly typed response, with everything relevant from the response encapsulated.
 
 ## Request types
 

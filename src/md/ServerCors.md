@@ -2,6 +2,8 @@
 
 In this guide you'll learn how to make your Oats and express based server CORS enabled.
 
+> As for all guides, this one is based on the [book store](https://github.com/oats-ts/oats-schemas/blob/master/schemas/book-store.json) example.
+
 ## What is CORS?
 
 CORS or cross site resource sharing is a mechanism used between HTTP servers and web browsers. When browser scripts make an HTTP request (using [fetch](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API) or [XMLHttpRequest](https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest)) to a different origin, there are a few additional rules the server need to comply with in order to allow communication with the browser. If you want to learn more about CORS (which I would highly recommend) check out the [**official CORS docs**](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS), but in this guide I summarized the most relevant parts.

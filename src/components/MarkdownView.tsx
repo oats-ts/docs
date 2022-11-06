@@ -31,7 +31,12 @@ const quoteStyle = css`
   border-radius: ${theme.spacing.m};
   color: ${theme.colors.muted};
   p {
-    margin: 0px;
+    &:first-of-type {
+      margin-top: 0px;
+    }
+    &:last-of-type {
+      margin-bottom: 0px;
+    }
   }
 `
 const containerStyle = css`

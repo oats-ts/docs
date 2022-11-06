@@ -13,11 +13,11 @@ Additionally it can add leading / trailing comments to each of your generated fi
 Basic usage, formats the code using your project's prettier configuration. Formatter can be omitted, but the generated code won't be pretty in this case.
 
 ```ts
-import { writers, formatters } from '@oats-ts/openapi'
-import prettierConfig from './.prettierrc.json'
+const oats = require('@oats-ts/openapi')
+const prettierConfig = require('./.prettierrc.json')
 
-const writer = writers.typescript.file({
-  format: formatters.prettier(prettierConfig),
+const writer = oats.writers.typescript.file({
+  format: oats.formatters.prettier(prettierConfig),
 })
 ```
 
@@ -26,11 +26,11 @@ const writer = writers.typescript.file({
 Adds comments. First leading comment warns about the fact that the file is generated, the second disables some `eslint` rules. The trailing comment re-enables these rules, so other code is not affected **(this is just an example, generated code will not break these specific rules)**.
 
 ```ts
-import { writers, formatters } from '@oats-ts/openapi'
-import prettierConfig from './.prettierrc.json'
+const oats = require('@oats-ts/openapi')
+const prettierConfig = require('./.prettierrc.json')
 
-const writer = writers.typescript.file({
-  format: formatters.prettier(prettierConfig),
+const writer = oats.writers.typescript.file({
+  format: oats.formatters.prettier(prettierConfig),
   comments: {
     leadingComments: [
       {

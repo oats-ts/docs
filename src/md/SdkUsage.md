@@ -2,9 +2,11 @@
 
 In this guide you'll learn the basic usage of the generated SDK.
 
-To start using the SDK, you will need an implementation of the previously described SDK type. Oats generates an SDK implementation class (`BookStoreSdkImpl` in our case), that you can find next to the SDK type (in `src/generated/sdk`).
+> As for all guides, this one is based on the [book store](https://github.com/oats-ts/oats-schemas/blob/master/schemas/book-store.json) example.
 
-To instantiate this class, we'll need an input parameter called `adapter` of type `ClientAdapter`. This adapter is responsible for bridiging the generated code with a request library. Oats ships with a single client adapter based on the [`fetch`](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch) API, but you can roll your own, by either extending the default `FetchClientAdapter`, or simply implementing the `ClientAdapter` type.
+To start using the SDK, you will need an implementation of the previously described SDK type. Oats generates a `class` implementation (`BookStoreSdkImpl` in our case), that you can find next to the SDK type (in `src/generated/sdk`).
+
+To instantiate this class, we'll need an input parameter called `adapter` of type `ClientAdapter`. This adapter is responsible for bridiging the generated code with a request library. Oats ships with a single client adapter based on the [`fetch`](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch) API (but using [`cross-fetch`](https://www.npmjs.com/package/cross-fetch), so it's isomorphic), but you can roll your own, by either extending the default `FetchClientAdapter`, or simply implementing the `ClientAdapter` type.
 
 ```typescript
 import { FetchClientAdapter } from '@oats-ts/openapi-fetch-client-adapter'
@@ -16,7 +18,9 @@ const adapter = new FetchClientAdapter({ url: 'http://localhost:3000' })
 const sdk = new BookStoreSdkImpl(adapter)
 ```
 
-Once you have your SDK instance, you can use it plain and simple, as you would expect. Below are a few simple examples of using the different operations on the generated SDK.
+> If you roll your own, keep in mind that you need to be aware of the behaviour of the request library you are using! `axios` for example throws on non `2xx` responses, which might not be what you want!
+
+Below are a few simple examples of using the different operations on the generated SDK.
 
 ### addBook
 
@@ -45,7 +49,10 @@ if (response.statusCode === 201) {
 This operation uses a path parameter.
 
 ```typescript
-const response = await sdk.getBook({ path: { bookId: 1 } })
+const response = await sdk.getBook({
+  path: { bookId: 1 },
+})
+
 if (response.statusCode === 200) {
   const book = response.body
   console.log('This is your book', book)
@@ -63,6 +70,7 @@ const response = await sdk.getBooks({
   query: { offset: 1 },
   headers: { 'x-limit': 3 },
 })
+
 if (response.statusCode === 200) {
   const books = response.body
   books.forEach((book) => console.log(book))

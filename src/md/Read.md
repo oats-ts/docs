@@ -5,26 +5,26 @@ In this guide you'll learn how the reader step works.
 The reader step is responsible for
 
 - Reading your OpenAPI 3.x document
-- Parsing it
+- Parsing it (either using a JSON or YAML parser)
 - Structurally validating it
-- Resolving it's internal and external [references](https://swagger.io/docs/specification/using-ref)
-- And exposing it to the next step
+- Resolving it's internal and external [references](https://spec.openapis.org/oas/v3.1.0#reference-object)
+- And exposing a coherent, easy to inspect/traverse structure for the next step
 
 The reader that comes with oats by default can be accessed from the [@oats-ts/openapi](https://www.npmjs.com/package/@oats-ts/openapi), but it originates from the [@oats-ts/openapi-reader](https://www.npmjs.com/package/@oats-ts/openapi-reader) package.
 
 ## Examples
 
 ```ts
-import { readers } from '@oats-ts/openapi'
+import oats from '@oats-ts/openapi'
 
 // Reads from the local file system, in json format
-const jsonFileReader = readers.file.json('oa.json')
+const jsonFileReader = oats.readers.file.json('oa.json')
 
 // Reads from the local file system, in json format
-const httpsYamlReader = readers.https.yaml('https://asd.com/oa.yaml')
+const httpsYamlReader = oats.readers.https.yaml('https://asd.com/oa.yaml')
 
 // Reads from any source in any format
-const mixedReader = readers.mixed.mixed('http://localhost:3000/oa.json')
+const mixedReader = oats.readers.mixed.mixed('http://localhost:3000/oa.json')
 ```
 
 ## Configuration
