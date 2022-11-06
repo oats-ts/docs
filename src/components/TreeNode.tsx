@@ -103,14 +103,14 @@ export function TreeNode<T>({
   const href = getHref(value)
   const label = getLabel(value)
   const handleClick = () => onClick(value, open)
-
+  const needsExtraSpacing = !(container || Icon !== undefined || level === 0)
   return (
     <div className={className}>
       <a className={treeNodeContentStyle(level, active)} href={href} onClick={handleClick}>
         <span className={itemLabelStyle}>
           {container && <TreeNodeChevron isEmpty={children.length === 0} isOpen={open} />}
           {Icon === undefined ? null : <Icon />}
-          {container || Icon !== undefined ? <span>{label}</span> : <span className={emptyLabelStyle}>{label}</span>}
+          {needsExtraSpacing ? <span className={emptyLabelStyle}>{label}</span> : <span>{label}</span>}
         </span>
       </a>
       {open &&
