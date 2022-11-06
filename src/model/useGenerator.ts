@@ -43,6 +43,7 @@ export function useGenerator(): GeneratorContextType {
         validator: defaults.validatorConfiguration,
         generator: defaults.generatorConfiguration,
         writer: defaults.writerConfiguration,
+        advancedOpen: defaults.advancedOpenConfiguration,
       },
       verifyConfiguration,
     ),

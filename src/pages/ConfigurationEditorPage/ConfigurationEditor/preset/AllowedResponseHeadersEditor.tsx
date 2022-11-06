@@ -29,7 +29,11 @@ export const AllowedResponseHeadersEditor: FC<OverrideEditorProps> = ({ data, on
     <BooleanOrStringListEditor
       data={data.allowedResponseHeaders}
       name="Allowed response headers (CORS)"
-      description="Sets allowed HTTP response headers for CORS. Influences the Access-Control-Expose-Headers CORS header."
+      description={
+        <>
+          Sets allowed HTTP response headers for CORS. Influences the <b>Access-Control-Expose-Headers</b> CORS header
+        </>
+      }
       getDescription={getDescription}
       getLabel={getLabel}
       placeholder="Allowed response headers"

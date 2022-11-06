@@ -54,8 +54,8 @@ export const Headlines: FC = () => {
           Generate an SDK
         </h3>
         <section className={itemContentStyle}>
-          Create an easy to use, statically typed SDK for your backend, with all the bells and whistles, and either use
-          it in house, or expose it to your customers.
+          Create an easy to use, statically typed SDK for interacting with your backend, with all the bells and
+          whistles! Use it either in house, or expose it to your customers.
         </section>
         <Button href={links.doc('SdkGettingStarted')}>
           <HiBookOpen />
@@ -68,8 +68,8 @@ export const Headlines: FC = () => {
           Generate the backend
         </h3>
         <section className={itemContentStyle}>
-          Generate all the tedious parts of your backend, like routing, parameter and body parsing and serialization,
-          and CORS, and just implement moving data.
+          Generate all the tedious-to-maintain parts of your backend, like routing, CORS, parsing and serialization of
+          parameters and bodies, and just implement moving data.
         </section>
         <Button href={links.doc('ServerGettingStarted')}>
           <HiBookOpen />
@@ -82,8 +82,9 @@ export const Headlines: FC = () => {
           See it in action!
         </h3>
         <section className={itemContentStyle}>
-          Check out the configuration editor, right here in your browser! See the generated output changing in real time
-          as you edit the configuration! <b>Your data stays in your browser!</b>
+          Check out the configuration editor, right here in your browser! See the generated output in real time as you
+          edit the configuration! <br />
+          <b>YOUR data stays in YOUR browser!</b>
         </section>
         <Button href={links.editor()}>
           <HiCog6Tooth />

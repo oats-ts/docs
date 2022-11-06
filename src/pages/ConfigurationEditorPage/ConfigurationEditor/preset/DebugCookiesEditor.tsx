@@ -7,7 +7,12 @@ export const DebugCookiesEditor: FC<OverrideEditorProps> = ({ data, onChange }) 
   return (
     <FormSection
       name="Debug cookies"
-      description="When enabled, the SDK will serialize and send the Cookie header, and parse the Set-Cookie response headers. Does not work in the browser."
+      description={
+        <>
+          When enabled, the SDK will serialize and send the <b>Cookie</b> header, and parse the <b>Set-Cookie</b>{' '}
+          response headers. <b>Does not work in the browser, use for tests only!</b>
+        </>
+      }
     >
       <Switch onChange={(debugCookies) => onChange({ ...data, debugCookies })} value={data.debugCookies ?? false} />
     </FormSection>

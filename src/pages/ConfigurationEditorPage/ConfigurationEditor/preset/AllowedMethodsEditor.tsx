@@ -49,7 +49,11 @@ export const AllowedMethodsEditor: FC<OverrideEditorProps> = ({ data, onChange }
   return (
     <FormSection
       name="Allowed methods (CORS)"
-      description="Sets allowed HTTP methods for CORS. Influences the <b>Access-Control-Allow-Methods</b> CORS header."
+      description={
+        <>
+          Sets allowed HTTP methods for CORS. Influences the <b>Access-Control-Allow-Methods</b> CORS header
+        </>
+      }
     >
       <MultiSelect
         placeholder="Allowed methods"

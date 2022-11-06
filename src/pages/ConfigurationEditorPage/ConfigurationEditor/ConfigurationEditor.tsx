@@ -24,6 +24,7 @@ const contentContainerStyle = css`
 
 export const ConfigurationEditor: FC = () => {
   const { configuration, samples, setConfiguration } = useGeneratorContext()
+  const { advancedOpen } = configuration
 
   const onReaderChange = (reader: ReaderConfiguration) =>
     setConfiguration({ ...configuration, active: 'reader', reader })
@@ -33,13 +34,37 @@ export const ConfigurationEditor: FC = () => {
     setConfiguration({ ...configuration, active: 'generator', generator })
   const onWriterChange = (writer: WriterConfiguration) =>
     setConfiguration({ ...configuration, active: 'writer', writer })
+
+  const onReaderToggle = (reader: boolean) =>
+    setConfiguration({ ...configuration, advancedOpen: { ...configuration.advancedOpen, reader } })
+  const onWriterToggle = (writer: boolean) =>
+    setConfiguration({ ...configuration, advancedOpen: { ...configuration.advancedOpen, writer } })
+  const onGeneratorToggle = (generator: boolean) =>
+    setConfiguration({ ...configuration, advancedOpen: { ...configuration.advancedOpen, generator } })
+
   return (
     <div className={wrapperStyle}>
       <div className={contentContainerStyle}>
-        <ReaderConfigurationEditor input={configuration.reader} samples={samples} onChange={onReaderChange} />
+        <ReaderConfigurationEditor
+          isAdvancedOpen={advancedOpen.reader}
+          input={configuration.reader}
+          samples={samples}
+          setAdvancedOpen={onReaderToggle}
+          onChange={onReaderChange}
+        />
         <ValidatorConfigurationEditor input={configuration.validator} onChange={onValidatorChange} />
-        <GeneratorConfigurationEditor input={configuration.generator} onChange={onGeneratorChange} />
-        <WriterConfigurationEditor input={configuration.writer} onChange={onWriterChange} />
+        <GeneratorConfigurationEditor
+          isAdvancedOpen={advancedOpen.generator}
+          input={configuration.generator}
+          setAdvancedOpen={onGeneratorToggle}
+          onChange={onGeneratorChange}
+        />
+        <WriterConfigurationEditor
+          isAdvancedOpen={advancedOpen.writer}
+          input={configuration.writer}
+          setAdvancedOpen={onWriterToggle}
+          onChange={onWriterChange}
+        />
       </div>
     </div>
   )

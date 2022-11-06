@@ -7,7 +7,12 @@ export const MaxAgeEditor: FC<OverrideEditorProps> = ({ data, onChange }) => {
   return (
     <FormSection
       name="Max age (CORS)"
-      description="Sets the maximum time in seconds, the preflight request can be cached. Influences the Access-Control-Max-Age CORS header."
+      description={
+        <>
+          Sets the maximum time in seconds, the preflight request can be cached. Influences the{' '}
+          <b>Access-Control-Max-Age</b> CORS header
+        </>
+      }
     >
       <Input
         placeholder="Max age"

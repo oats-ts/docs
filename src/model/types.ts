@@ -143,6 +143,13 @@ export type WriterConfiguration = {
   lineSeparator: '\n' | '\r\n'
 }
 
+export type AdvancedOpenConfiguration = {
+  reader: boolean
+  writer: boolean
+  validator: boolean
+  generator: boolean
+}
+
 export type ConfigurationNode = {
   type: 'configuration'
   version: string
@@ -150,6 +157,7 @@ export type ConfigurationNode = {
   reader: ReaderConfiguration
   validator: ValidatorConfiguration
   generator: GeneratorConfiguration
+  advancedOpen: AdvancedOpenConfiguration
   writer: WriterConfiguration
 }
 

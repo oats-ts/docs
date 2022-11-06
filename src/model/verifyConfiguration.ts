@@ -22,6 +22,7 @@ import {
   PrettierConfiguration,
   ValidatorConfiguration,
   PresetConfig,
+  AdvancedOpenConfiguration,
 } from './types'
 
 const commentConfigValidator = object(
@@ -153,6 +154,15 @@ const writerConfigurationValidator = object(
   }),
 )
 
+const advancedOpenValidator = object(
+  shape<AdvancedOpenConfiguration>({
+    generator: boolean(),
+    reader: boolean(),
+    validator: boolean(),
+    writer: boolean(),
+  }),
+)
+
 const configurationValidator = object(
   shape<ConfigurationNode>({
     type: literal('configuration'),
@@ -163,6 +173,7 @@ const configurationValidator = object(
       generator: literal('generator'),
       writer: literal('writer'),
     }),
+    advancedOpen: advancedOpenValidator,
     validator: validatorConfigValidator,
     reader: readerConfigValidator,
     generator: generatorConfigValidator,

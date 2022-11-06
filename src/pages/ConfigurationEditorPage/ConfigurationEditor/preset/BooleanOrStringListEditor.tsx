@@ -1,5 +1,5 @@
 import { isNil } from 'lodash'
-import React, { FC, useMemo } from 'react'
+import React, { FC, useMemo, ReactNode } from 'react'
 import { FormSection } from '../../../../components/FormSection'
 import { MultiAutocomplete } from '../../../../components/MultiAutocomplete'
 
@@ -8,7 +8,7 @@ export type BooleanOrStringArrayOption = (string & {}) | 'true' | 'false'
 export type BooleanOrStringListEditorProps = {
   data?: boolean | string[]
   name: string
-  description: string
+  description: string | ReactNode
   placeholder: string
   getLabel: (value: BooleanOrStringArrayOption) => string
   getDescription: (value: BooleanOrStringArrayOption) => string

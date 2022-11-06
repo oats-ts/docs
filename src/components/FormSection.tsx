@@ -1,11 +1,11 @@
 import { css } from '@emotion/css'
 import { isNil } from 'lodash'
-import React, { FC, PropsWithChildren } from 'react'
+import React, { FC, PropsWithChildren, ReactNode } from 'react'
 import { theme } from '../theme'
 
 export type FormSectionProps = PropsWithChildren & {
   name: string
-  description?: string
+  description?: string | ReactNode
 }
 
 const sectionStyle = css`

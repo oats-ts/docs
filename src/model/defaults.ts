@@ -1,4 +1,10 @@
-import { GeneratorConfiguration, ReaderConfiguration, ValidatorConfiguration, WriterConfiguration } from './types'
+import {
+  AdvancedOpenConfiguration,
+  GeneratorConfiguration,
+  ReaderConfiguration,
+  ValidatorConfiguration,
+  WriterConfiguration,
+} from './types'
 
 import { PrettierConfiguration } from '../types'
 
@@ -21,9 +27,6 @@ const validatorConfiguration: ValidatorConfiguration = {
 }
 
 const readerConfiguration: ReaderConfiguration = {
-  // readerType: 'remote',
-  // inlineContent: '',
-  // inlineLanguage: 'json',
   remoteLanguage: 'mixed',
   remotePath: 'https://raw.githubusercontent.com/oats-ts/oats-schemas/master/schemas/pet-store-yaml.yaml',
   remoteProtocol: 'mixed',
@@ -47,10 +50,18 @@ const writerConfiguration: WriterConfiguration = {
   prettier: prettierConfiguration,
 }
 
+const advancedOpenConfiguration: AdvancedOpenConfiguration = {
+  generator: false,
+  reader: false,
+  validator: false,
+  writer: false,
+}
+
 export const defaults = {
   readerConfiguration,
   validatorConfiguration,
   generatorConfiguration,
   writerConfiguration,
   prettierConfiguration,
+  advancedOpenConfiguration,
 }

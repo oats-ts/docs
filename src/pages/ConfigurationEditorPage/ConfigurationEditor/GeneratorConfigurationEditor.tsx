@@ -1,5 +1,5 @@
 import { isNil } from 'lodash'
-import React, { FC, useMemo, useState } from 'react'
+import React, { FC, useMemo } from 'react'
 import { HiArrowUturnLeft, HiChevronDown, HiChevronUp } from 'react-icons/hi2'
 import { Autocomplete } from '../../../components/Autocomplete'
 import { dd, DropdownItem } from '../../../components/dropdownDefaults'
@@ -63,18 +63,23 @@ const rootPathOptions = ['src/generated']
 const hints = {
   preset: 'Select what you need! Do you need a client SDK? Server boilerplate? Both?',
   rootPath: 'Set the root folder for the generated content',
-  pathConfiguration: 'Set how you want to group generated artifacts into files',
+  pathConfiguration: 'Set how you want to group generated artifacts into folders and files',
 }
 
 export type GeneratorConfigurationEditorProps = {
   input: GeneratorConfiguration
+  isAdvancedOpen: boolean
+  setAdvancedOpen: (isOpen: boolean) => void
   onChange: (node: GeneratorConfiguration) => void
 }
 
-export const GeneratorConfigurationEditor: FC<GeneratorConfigurationEditorProps> = ({ input, onChange }) => {
-  const [isShowingAdvanced, setShowAdvanced] = useState(false)
-
-  const toggleAdvanced = () => setShowAdvanced(!isShowingAdvanced)
+export const GeneratorConfigurationEditor: FC<GeneratorConfigurationEditorProps> = ({
+  input,
+  isAdvancedOpen,
+  setAdvancedOpen,
+  onChange,
+}) => {
+  const toggleAdvanced = () => setAdvancedOpen(!isAdvancedOpen)
 
   const onPresetChange = ({ value }: DropdownItem<GeneratorPreset>) => {
     onChange({ ...input, preset: value })
@@ -103,8 +108,8 @@ export const GeneratorConfigurationEditor: FC<GeneratorConfigurationEditorProps>
   return (
     <ConfigurationFormGroup
       name="Generator"
-      bottomAttachmentLabel={isShowingAdvanced ? 'Hide advanced' : 'Show advanced'}
-      bottomAttachmentIcon={isShowingAdvanced ? HiChevronUp : HiChevronDown}
+      bottomAttachmentLabel={isAdvancedOpen ? 'Hide advanced' : 'Show advanced'}
+      bottomAttachmentIcon={isAdvancedOpen ? HiChevronUp : HiChevronDown}
       onAttachmentClick={toggleAdvanced}
       titleButtonLabel="Reset"
       titleButtonIcon={HiArrowUturnLeft}
@@ -130,7 +135,7 @@ export const GeneratorConfigurationEditor: FC<GeneratorConfigurationEditorProps>
           onChange={onPathRootChange}
         />
       </FormSection>
-      {isShowingAdvanced && (
+      {isAdvancedOpen && (
         <>
           <FormSection name="Path configuration" description={hints.pathConfiguration}>
             <Select

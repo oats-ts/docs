@@ -29,7 +29,11 @@ export const AllowedOriginsEditor: FC<OverrideEditorProps> = ({ data, onChange }
     <BooleanOrStringListEditor
       data={data.allowedOrigins}
       name="Allowed origins (CORS)"
-      description="Sets allowed HTTP origins for CORS. Influences the Access-Control-Allow-Origin CORS header."
+      description={
+        <>
+          Sets allowed HTTP origins for CORS. Influences the <b>Access-Control-Allow-Origin</b> CORS header
+        </>
+      }
       getDescription={getDescription}
       getLabel={getLabel}
       placeholder="Allowed origins"
