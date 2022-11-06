@@ -71,12 +71,12 @@ function resolveOptions(): Configuration['resolve'] {
   }
 }
 
-function createMetaTags(page: PageDescriptor): Record<string, string> {
+function createMetaTags(page: PageDescriptor): Record<string, string | { property: string; content: string }> {
   return {
     description: page.description,
     keywords: 'openapi,oats,jsonschema,json-schema,yaml,json,typescript,codegen',
     'og:title': page.name,
-    'og:image': 'https://oats-ts.github.io/docs/logo.png',
+    'og:image': { property: 'og:image', content: 'https://oats-ts.github.io/docs/logo.png' },
     'og:type': isMarkdownPageDescriptor(page) ? 'article' : 'website',
     'og:description': truncate(page.description, { length: 60 }),
   }
