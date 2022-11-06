@@ -34,7 +34,7 @@
     "@types/valid-url": "1.0.3",
     "@types/webpack": "5.28.0",
     "clean-webpack-plugin": "4.0.0",
-    "webpack-bundle-analyzer": "4.7.0",
+    "copy-webpack-plugin": "^11.0.0",
     "css-loader": "6.7.1",
     "file-loader": "6.2.0",
     "html-webpack-plugin": "5.5.0",
@@ -43,11 +43,12 @@
     "raw-loader": "4.0.2",
     "style-loader": "3.3.1",
     "ts-loader": "9.3.1",
+    "ts-node": "10.9.1",
     "type-fest": "2.17.0",
     "webpack": "5.73.0",
+    "webpack-bundle-analyzer": "4.7.0",
     "webpack-cli": "4.10.0",
-    "webpack-dev-server": "4.9.3",
-    "ts-node": "10.9.1"
+    "webpack-dev-server": "4.9.3"
   },
   "dependencies": {
     "@emotion/css": "11.9.0",
@@ -62,6 +63,7 @@
     "@types/react-copy-to-clipboard": "^5.0.4",
     "@types/semver": "^7.3.12",
     "@types/yamljs": "0.2.31",
+    "camelcase": "6.2.0",
     "downshift": "^7.0.0",
     "lodash": "4.17.21",
     "monaco-editor": "0.33.0",
@@ -80,7 +82,6 @@
     "typescript": "4.7.4",
     "urijs": "1.19.11",
     "valid-url": "1.0.9",
-    "yamljs": "0.3.0",
-    "camelcase": "6.2.0"
+    "yamljs": "0.3.0"
   }
 }

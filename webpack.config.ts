@@ -1,14 +1,16 @@
 import path, { resolve } from 'path'
 import HtmlWebpackPlugin from 'html-webpack-plugin'
+import CopyWebpackPlugin from 'copy-webpack-plugin'
 import { CleanWebpackPlugin } from 'clean-webpack-plugin'
 import { ProvidePlugin, Configuration, DefinePlugin } from 'webpack'
-import 'webpack-dev-server'
 import { entryPoints, markdownEntryPoints, mainEntryPoints } from './entryPoints'
 import { mainPages } from './src/mainPages'
 import { markdownPages } from './src/markdownPages'
 import { PageDescriptor } from './src/types'
 import { truncate } from 'lodash'
 import { isMarkdownPageDescriptor } from './src/utils'
+
+import 'webpack-dev-server'
 
 type Arg1 = {
   WEBPACK_SERVE?: boolean
@@ -75,15 +77,23 @@ function createMetaTags(page: PageDescriptor): Record<string, string | { propert
   return {
     description: page.description,
     keywords: 'openapi,oats,jsonschema,json-schema,yaml,json,typescript,codegen',
-    'og:title': page.name,
-    'og:image': { property: 'og:image', content: 'https://oats-ts.github.io/docs/logo.png' },
+    'og:title': { property: 'og:title', content: page.name },
+    'og:image': { property: 'og:image', content: 'https://oats-ts.github.io/docs/logo.jpg' },
+    'og:type': { property: 'og:type', content: isMarkdownPageDescriptor(page) ? 'article' : 'website' },
     'og:description': { property: 'og:description', content: truncate(page.description, { length: 60 }) },
-    'og:type': isMarkdownPageDescriptor(page) ? 'article' : 'website',
   }
 }
 
 function pluginOptions(mode: Mode): Configuration['plugins'] {
   return [
+    new CopyWebpackPlugin({
+      patterns: [
+        {
+          from: resolve('logo.jpg'),
+          to: resolve('docs/logo.jpg'),
+        },
+      ],
+    }),
     new DefinePlugin({ 'process.env.MODE': JSON.stringify(mode) }),
     ...(mode === 'development' ? [] : [new CleanWebpackPlugin()]),
     ...Object.values(mainPages).map((page) => {
