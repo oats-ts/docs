@@ -76,7 +76,7 @@ function createMetaTags(page: PageDescriptor): Record<string, string> {
     description: page.description,
     keywords: 'openapi,oats,jsonschema,json-schema,yaml,json,typescript,codegen',
     'og:title': page.name,
-    'og:image': 'https://oats-ts.github.io/docs/logo.svg',
+    'og:image': 'https://oats-ts.github.io/docs/logo.png',
     'og:type': isMarkdownPageDescriptor(page) ? 'article' : 'website',
     'og:description': truncate(page.description, { length: 60 }),
   }
@@ -93,7 +93,7 @@ function pluginOptions(mode: Mode): Configuration['plugins'] {
         filename: page.bundle === 'notFound' ? '404.html' : `${page.bundle}.html`,
         title: page.name,
         meta: createMetaTags(page),
-        favicon: resolve('logo.svg'),
+        favicon: resolve('logo.png'),
       })
     }),
     ...Object.values(markdownPages).map((page) => {
@@ -103,7 +103,7 @@ function pluginOptions(mode: Mode): Configuration['plugins'] {
         filename: `documentation/${page.md}.html`,
         title: `Oats - ${page.name}`,
         meta: createMetaTags(page),
-        favicon: resolve('logo.svg'),
+        favicon: resolve('logo.png'),
       })
     }),
     new ProvidePlugin({
