@@ -1,5 +1,5 @@
 import React, { FC, Fragment } from 'react'
-import { HomeTreeRoot } from '../../components/HomeTreeRoot'
+import { MenuTreeItem } from '../../components/MenuTreeItem'
 import { SideBarSection } from '../../components/SideBarSection'
 import { DocumentationTreeRoot } from './DocumentationTreeRoot'
 import { sections } from '../../md/sections'
@@ -8,7 +8,8 @@ export const DocumentationMenu: FC = () => {
   return (
     <>
       <SideBarSection>
-        <HomeTreeRoot />
+        <MenuTreeItem link="index" />
+        <MenuTreeItem link="editor" />
       </SideBarSection>
       {sections.map((section, idx) => (
         <Fragment key={section.name ?? `item-${idx}`}>

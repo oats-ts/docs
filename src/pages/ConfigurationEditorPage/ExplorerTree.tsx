@@ -1,5 +1,5 @@
 import React, { FC, useContext } from 'react'
-import { HomeTreeRoot } from '../../components/HomeTreeRoot'
+import { MenuTreeItem } from '../../components/MenuTreeItem'
 import { SideBarSection } from '../../components/SideBarSection'
 import { GeneratorContext } from '../../model/GeneratorContext'
 import { ExplorerTreeItem } from './ExplorerTreeItem'
@@ -9,7 +9,8 @@ export const ExplorerTree: FC = () => {
   return (
     <>
       <SideBarSection>
-        <HomeTreeRoot />
+        <MenuTreeItem link="index" />
+        <MenuTreeItem link="docs" />
       </SideBarSection>
       <SideBarSection title="Input">
         <ExplorerTreeItem key="configuration" value={configuration} />

@@ -88,7 +88,7 @@ export const Headlines: FC = () => {
         </section>
         <Button href={links.editor()}>
           <HiCog6Tooth />
-          Get started
+          Go to editor
         </Button>
       </div>
     </div>
