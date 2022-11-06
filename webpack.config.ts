@@ -77,8 +77,8 @@ function createMetaTags(page: PageDescriptor): Record<string, string | { propert
     keywords: 'openapi,oats,jsonschema,json-schema,yaml,json,typescript,codegen',
     'og:title': page.name,
     'og:image': { property: 'og:image', content: 'https://oats-ts.github.io/docs/logo.png' },
+    'og:description': { property: 'og:description', content: truncate(page.description, { length: 60 }) },
     'og:type': isMarkdownPageDescriptor(page) ? 'article' : 'website',
-    'og:description': truncate(page.description, { length: 60 }),
   }
 }
 
