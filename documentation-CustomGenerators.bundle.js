@@ -73,7 +73,12 @@
   border-radius: ${f.theme.spacing.m};
   color: ${f.theme.colors.muted};
   p {
-    margin: 0px;
+    &:first-of-type {
+      margin-top: 0px;
+    }
+    &:last-of-type {
+      margin-bottom: 0px;
+    }
   }
 `,w=i.css`
   margin: ${f.theme.spacing.l};
