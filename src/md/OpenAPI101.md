@@ -10,17 +10,118 @@ It's more important for code generators (like Oats), than it is for documentatio
 
 ### ✅ Would recommend
 
+```json
+{
+  "components": {
+    "schemas": {
+      "Book": {
+        "type": "object",
+        "required": ["title"],
+        "properties": {
+          "title": { "type": "string" }
+        }
+      },
+      "Person": {
+        "type": "object",
+        "required": ["likes"],
+        "properties": {
+          // We are reusing the previous Book schema
+          "likes": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Book"
+            }
+          }
+        }
+      }
+    }
+  }
+  //...
+}
+```
+
 ### ❌ Wouldn't recommend
+
+```json
+{
+  "components": {
+    "schemas": {
+      "Book": {
+        "type": "object",
+        "required": ["title"],
+        "properties": {
+          "title": { "type": "string" }
+        }
+      },
+      "Person": {
+        "type": "object",
+        "required": ["likes"],
+        "properties": {
+          // We are not reusing the previous schema.
+          "likes": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": ["title"],
+              "properties": {
+                "title": { "type": "string" }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+```
 
 This neatly ties into the next point...
 
-## Use descriptive schema names
+## Use descriptive schema / field names
 
 It helps everybody! Think of it as how you'd name your types in your preferred language! Keep casing consistent, and name them describing their purpose!
 
 ### ✅ Would recommend
 
+```json
+{
+  "components": {
+    "schemas": {
+      // Consistent, short descriptive names
+      "Book": {
+        "type": "object",
+        "required": ["title"],
+        "properties": {
+          // Same for fields
+          "title": { "type": "string" }
+        }
+      }
+    }
+  }
+  //...
+}
+```
+
 ### ❌ Wouldn't recommend
+
+```json
+{
+  "components": {
+    "schemas": {
+      // Inconsistent casing
+      "__Book_2": {
+        "type": "object",
+        "required": ["a0fef8b4_title"],
+        "properties": {
+          // Random stuff in field names
+          "a0fef8b4_title": { "type": "string" }
+        }
+      }
+    }
+  }
+  //...
+}
+```
 
 ## Name your operations
 
@@ -28,14 +129,102 @@ OpenAPI [operations](https://spec.openapis.org/oas/v3.1.0#operation-object) have
 
 ### ✅ Would recommend
 
+```json
+{
+  "paths": {
+    "/books": {
+      "get": {
+        // Proper name and description for everyone
+        "operationId": "getBooks"
+        // ...
+      },
+      "post": {
+        "operationId": "addBook"
+        // ...
+      }
+    }
+  }
+}
+```
+
 ### ❌ Wouldn't recommend
+
+Omitting the `operationId` field.
 
 ## Describe your parameters
 
-The OpenAPI [parameter](https://spec.openapis.org/oas/v3.1.0#parameter-object) spec is arguably not the most well defined part of the spec. You have many serialization options, that doesn't really contribute anything to the spec. You have path parameters that according to the spec can be omitted, but this leaves users clueless about the purpose and exact structure of given parameter. And you have cookie parameters among the request parameters, while it's a server produced concept, and should be on response instead.
+The OpenAPI [parameter](https://spec.openapis.org/oas/v3.1.0#parameter-object) spec is arguably not the most well defined part of the spec. There are many serialization styles, that doesn't contribute anything to the spec. Path parameters can be omitted according to the spec, but this leaves users clueless about the purpose and exact structure of given parameter. And you have cookie parameters among the request parameters, while it's a server produced concept.
 
-Regardless, when you are putting together your spec, define your parameters with intention: `name`, `style` (serialization method), and `schema` is a must, and `description` can be very useful as well, when appropriate. Both the readers of your documentation, and the users of your generated code will thank you!
+Regardless, when you are putting together your spec, define your parameters with intention: `name` and `schema` is a must, and `description` and `style` (serialization method) can be very useful as well, when appropriate. Both the readers of your documentation, and the users of your generated code will thank you!
 
 ### ✅ Would recommend
 
+```json
+{
+  "paths": {
+    "/books/{bookId}": {
+      "get": {
+        "operationId": "getBook",
+        "description": "Returns the book associated with the given bookId",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "bookId",
+            "description": "The id of the book",
+            "required": true,
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "someQueryParam",
+            "style": "form",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "x-some-header-param",
+            "style": "simple",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "boolean"
+            }
+          }
+        ]
+      }
+    }
+  }
+}
+```
+
 ### ❌ Wouldn't recommend
+
+```json
+{
+  "paths": {
+    "/books/{bookId}": {
+      "get": {
+        "operationId": "getBook",
+        "description": "Returns the book associated with the given bookId",
+        "parameters": [
+          {
+            "name": "someQueryParam",
+            "in": "query",
+            "required": false
+          },
+          {
+            "name": "x-some-header-param",
+            "style": "simple",
+            "in": "header",
+            "required": false
+          }
+        ]
+      }
+    }
+  }
+}
+```
