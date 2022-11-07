@@ -8,7 +8,7 @@ import { mainPages } from './src/mainPages'
 import { markdownPages } from './src/markdownPages'
 import { PageDescriptor } from './src/types'
 import { truncate } from 'lodash'
-import { isMarkdownPageDescriptor } from './src/utils'
+// import { isMarkdownPageDescriptor } from './src/utils'
 
 import 'webpack-dev-server'
 
@@ -79,7 +79,7 @@ function createMetaTags(page: PageDescriptor): Record<string, string | { propert
     keywords: 'openapi,oats,jsonschema,json-schema,yaml,json,typescript,codegen',
     'og:title': { property: 'og:title', content: page.name },
     'og:image': { property: 'og:image', content: 'https://oats-ts.github.io/docs/logo.jpg' },
-    'og:type': { property: 'og:type', content: isMarkdownPageDescriptor(page) ? 'article' : 'website' },
+    'og:type': { property: 'og:type', content: 'website' },
     'og:description': { property: 'og:description', content: truncate(page.description, { length: 60 }) },
   }
 }
