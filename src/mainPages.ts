@@ -2,7 +2,7 @@ import { MainPageDescriptor } from './types'
 
 const indexPage: MainPageDescriptor = {
   bundle: 'index',
-  name: 'Oats',
+  name: 'Oats - Home',
   description: 'Generate TypeScript from OpenAPI, that makes sense.',
   importPath: 'src/bundles/LandingPageBundle.tsx',
 }

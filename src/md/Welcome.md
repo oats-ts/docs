@@ -4,8 +4,8 @@ Oats in one sentence is a free and open source project, that can generate Typesc
 
 ## How to get started?
 
-- [**SDK Guide**](SdkGenerate) - If you are a frontend developer, or you want to generate a Typescript SDK based on an OpenAPI document
-- [**Server guide**](ServerGenerate) - If you are a backend developer, you want to focus on moving data, and generate the tedious parts (routing, parameter parsing etc.)
+- [**SDK Guide**](SdkGettingStarted) - If you are a frontend developer, or you want to generate a Typescript SDK based on an OpenAPI document
+- [**Server guide**](ServerGettingStarted) - If you are a backend developer, you want to focus on moving data, and generate the tedious parts (routing, parameter parsing etc.)
 
 ## Motivation
 
