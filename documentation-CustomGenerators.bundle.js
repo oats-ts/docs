@@ -164,10 +164,14 @@
   flex-grow: ${m.theme.flex.grow};
   height: 100vh;
 
+  pre {
+    min-height: 100%;
+  }
+
   .react-syntax-highlighter-line-number {
     color: rgba(255, 255, 255, 0.4) !important;
   }
-`;t.SyntaxHighlighter=({children:e,language:t,lineWrap:o,theme:n,host:a})=>{const[r,l]=(0,s.useState)(!1),[d,m]=(0,s.useState)(!1),[p,_]=(0,s.useState)(void 0),k=(0,i.cx)("editor"===a?x:v),y=g[n],w=(0,i.cx)(b);return s.default.createElement("div",{className:k,onMouseEnter:()=>{m(!0)},onMouseLeave:()=>{m(!1)}},s.default.createElement(c.Prism,{language:t,style:y,wrapLongLines:o,showLineNumbers:"editor"===a},e),s.default.createElement(u.CopyToClipboard,{text:e,onCopy:(e,t)=>{(0,f.isNil)(p)||(clearTimeout(p),_(void 0)),l(t),_(setTimeout((()=>{l(!1)}),2e3))}},s.default.createElement("button",{className:w,style:{opacity:d?1:0}},r?s.default.createElement(h.HiCheck,null):s.default.createElement(h.HiClipboard,null))))}},66999:function(e,t,o){var n=this&&this.__importDefault||function(e){return e&&e.__esModule?e:{default:e}};Object.defineProperty(t,"__esModule",{value:!0}),t.TBody=t.THead=t.Td=t.Th=t.Tr=t.Table=void 0;const a=o(18592),r=n(o(67294)),l=o(19446),i=a.css`
+`;t.SyntaxHighlighter=({children:e,language:t,lineWrap:o,theme:n,host:a,renderer:r})=>{const[l,i]=(0,s.useState)(!1),[d,m]=(0,s.useState)(void 0),p="editor"===a?x:v;return s.default.createElement("div",{className:p},s.default.createElement(c.Prism,{language:t,style:g[n],wrapLongLines:o,showLineNumbers:"editor"===a,...(0,f.isNil)(r)?{}:{renderer:r}},e),s.default.createElement(u.CopyToClipboard,{text:e,onCopy:(e,t)=>{(0,f.isNil)(d)||(clearTimeout(d),m(void 0)),i(t),m(setTimeout((()=>{i(!1)}),2e3))}},s.default.createElement("button",{className:b},l?s.default.createElement(h.HiCheck,null):s.default.createElement(h.HiClipboard,null))))}},66999:function(e,t,o){var n=this&&this.__importDefault||function(e){return e&&e.__esModule?e:{default:e}};Object.defineProperty(t,"__esModule",{value:!0}),t.TBody=t.THead=t.Td=t.Th=t.Tr=t.Table=void 0;const a=o(18592),r=n(o(67294)),l=o(19446),i=a.css`
   border-radius: ${l.theme.spacing.m};
   border: ${l.theme.spacing.xxxs} solid ${l.theme.colors.dark1};
   margin: 1px;
