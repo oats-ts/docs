@@ -173,12 +173,14 @@
   margin: 1px;
 `,s=a.css`
   border-collapse: collapse;
+  max-width: 100%;
   width: 100%;
   border-width: ${i.theme.spacing.zero};
 `;t.Table=({children:e,className:t,...o})=>r.default.createElement("div",{className:l},r.default.createElement("table",{className:(0,a.cx)(s,t),...o},e));const c=a.css`
   border: ${i.theme.spacing.xxxs} solid ${i.theme.colors.dark1};
   border-left-width: ${i.theme.spacing.zero};
   border-right-width: ${i.theme.spacing.zero};
+  max-width: 100%;
   &:last-of-type {
     border-bottom-width: ${i.theme.spacing.zero};
   }
