@@ -29,6 +29,7 @@ const pathWrapperStyle = css`
   flex-direction: row;
   align-items: center;
   gap: ${theme.spacing.s};
+  flex-wrap: wrap;
 `
 
 export const IssuePath: FC<{ path: string }> = ({ path }) => {
@@ -37,13 +38,13 @@ export const IssuePath: FC<{ path: string }> = ({ path }) => {
     return <>{path}</>
   }
   return (
-    <div className={pathWrapperStyle}>
+    <span className={pathWrapperStyle}>
       {sections.map((section, idx) => (
         <>
           {idx === 0 ? null : <HiChevronRight />}
           <span>{section}</span>
         </>
       ))}
-    </div>
+    </span>
   )
 }

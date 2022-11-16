@@ -13,6 +13,7 @@ const issuesContainerStyle = css`
 
 const iconCellStyle = css`
   font-size: 1.4rem;
+  vertical-align: middle;
 `
 
 const titleStyle = css`

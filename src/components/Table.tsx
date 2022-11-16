@@ -10,6 +10,7 @@ const tableContainerStyle = css`
 
 const tableStyle = css`
   border-collapse: collapse;
+  max-width: 100%;
   width: 100%;
   border-width: ${theme.spacing.zero};
 `
@@ -28,6 +29,7 @@ const trStyle = css`
   border: ${theme.spacing.xxxs} solid ${theme.colors.dark1};
   border-left-width: ${theme.spacing.zero};
   border-right-width: ${theme.spacing.zero};
+  max-width: 100%;
   &:last-of-type {
     border-bottom-width: ${theme.spacing.zero};
   }
