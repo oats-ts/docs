@@ -1,5 +1,5 @@
 import React, { FC, useContext } from 'react'
-import { EditorInput } from '../../model/types'
+import { EditorInput } from '../../types'
 import { GeneratorContext } from '../../model/GeneratorContext'
 import { TreeNode } from '../../components/TreeNode'
 import { isNil } from 'lodash'
@@ -19,7 +19,7 @@ export type ExplorerTreeItemProps = {
 }
 
 export const ExplorerTreeItem: FC<ExplorerTreeItemProps> = ({ value }) => {
-  const { explorerTreeState, editorInput, setEditorInput, setExplorerTreeState } = useContext(GeneratorContext)
+  const { explorerTreeState, editorInput, setExplorerTreeState } = useContext(GeneratorContext)
   const { setMenuOpen } = useMobileContext()
 
   const isOpen = (n: EditorInput) => {
@@ -58,26 +58,24 @@ export const ExplorerTreeItem: FC<ExplorerTreeItemProps> = ({ value }) => {
         return n.name
       case 'configuration':
         return 'Configure'
-      case 'generator-source':
+      case 'oats.js':
         return 'oats.js'
-      case 'package-json':
+      case 'package.json':
         return 'package.json'
       case 'issues':
         return `Issues (${n.issues.length})`
+      case '404':
+        throw new TypeError(`Shouldn't render 404 tree item`)
     }
   }
 
   const onClick = (n: EditorInput, open: boolean) => {
     switch (n.type) {
-      case 'file': {
-        setMenuOpen(false)
-        return setEditorInput(`file::${n.path}`)
-      }
-      case 'folder':
+      case 'folder': {
         return setExplorerTreeState({ ...explorerTreeState, [n.path]: !open })
+      }
       default: {
         setMenuOpen(false)
-        return setEditorInput(n.type)
       }
     }
   }
@@ -86,9 +84,9 @@ export const ExplorerTreeItem: FC<ExplorerTreeItemProps> = ({ value }) => {
     switch (n.type) {
       case 'configuration':
         return HiWrenchScrewdriver
-      case 'package-json':
+      case 'package.json':
         return HiDocumentText
-      case 'generator-source':
+      case 'oats.js':
         return HiDocumentText
       case 'issues': {
         if (n.issues.length === 0) {
@@ -109,10 +107,23 @@ export const ExplorerTreeItem: FC<ExplorerTreeItemProps> = ({ value }) => {
     }
   }
 
+  const getHref = (n: EditorInput) => {
+    switch (n.type) {
+      case 'file':
+        return `#${n.path}`
+      case 'folder':
+        return undefined
+      default: {
+        return `#${n.type}`
+      }
+    }
+  }
+
   return (
     <TreeNode
       value={value}
       level={0}
+      getHref={getHref}
       getIcon={getIcon}
       getLabel={getLabel}
       isOpen={isOpen}

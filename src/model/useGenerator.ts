@@ -1,6 +1,6 @@
 import { generate, GeneratorStepCompleted, ValidatorStepCompleted, version } from '@oats-ts/oats-ts'
 import { AbstractLoggerPlugin } from '@oats-ts/openapi-logger/lib/AbstractLoggerPlugin'
-import { validator, loggers } from '@oats-ts/openapi'
+import { validator } from '@oats-ts/openapi'
 import { isNil } from 'lodash'
 import {
   EditorInput,
@@ -12,7 +12,8 @@ import {
   GeneratorSourceNode,
   PackageJsonNode,
   EditorInputKey,
-} from './types'
+  NotFound,
+} from '../types'
 import { useCallback, useContext, useEffect, useMemo, useState } from 'react'
 import { isSuccess, Try } from '@oats-ts/try'
 import { GeneratedFile } from '@oats-ts/typescript-writer'
@@ -29,8 +30,13 @@ import { getPackageJsonSource } from './getPackageJsonSource'
 import { findFileByPath } from './findFileByPath'
 import { getVersionMap } from './getVersionMap'
 import { defaults } from './defaults'
+import { useLocation } from 'react-router-dom'
+import { getPathSequence } from './getPathSequence'
+
+const notFound: NotFound = { type: '404' }
 
 export function useGenerator(): GeneratorContextType {
+  const pathParam = useLocation().pathname as EditorInputKey
   const [samples, setSamples] = useState<string[]>([])
   const [configuration, setConfiguration] = useState<ConfigurationNode>(() =>
     storage.get<ConfigurationNode>(
@@ -48,8 +54,8 @@ export function useGenerator(): GeneratorContextType {
       verifyConfiguration,
     ),
   )
-  const [generatorSource, setGeneratorSource] = useState<GeneratorSourceNode>({ type: 'generator-source', source: '' })
-  const [packageJson, setPackageJson] = useState<PackageJsonNode>({ type: 'package-json', source: '' })
+  const [generatorSource, setGeneratorSource] = useState<GeneratorSourceNode>({ type: 'oats.js', source: '' })
+  const [packageJson, setPackageJson] = useState<PackageJsonNode>({ type: 'package.json', source: '' })
   const [issues, setIssues] = useState<IssuesNode>({ type: 'issues', issues: [] })
   const [_output, setOutput] = useState<FolderNode>({ type: 'folder', path: '/', name: '/', children: [] })
 
@@ -58,31 +64,42 @@ export function useGenerator(): GeneratorContextType {
   const [isGenerating, setGenerating] = useState<boolean>(true)
   const [explorerTreeState, setExplorerTreeState] = useState<ExplorerTreeState>({})
   const [filteredOutput, setFilteredOutput] = useState(_output)
-  const [editorInputKey, setEditorInputKey] = useState<EditorInputKey | undefined>(() =>
-    storage.get<EditorInputKey>('editorInput', 'configuration'),
-  )
 
   const editorInput = useMemo((): EditorInput | undefined => {
-    if (isNil(editorInputKey)) {
+    if (isNil(pathParam)) {
       return undefined
     }
-    if (editorInputKey.startsWith('file')) {
-      const [, path] = editorInputKey.split('::')
-      return findFileByPath(path!, _output)
-    }
-    switch (editorInputKey) {
+    switch (pathParam) {
       case 'configuration':
         return configuration
-      case 'generator-source':
+      case 'oats.js':
         return generatorSource
       case 'issues':
         return issues
-      case 'package-json':
+      case 'package.json':
         return packageJson
-      default:
-        return undefined
+      default: {
+        const file = findFileByPath(pathParam, _output)
+        if (isNil(file)) {
+          return isGenerating ? undefined : notFound
+        }
+        return file
+      }
     }
-  }, [editorInputKey, generatorSource, issues, packageJson, _output, configuration])
+  }, [pathParam, generatorSource, issues, packageJson, _output, configuration, isGenerating])
+
+  useEffect(() => {
+    switch (editorInput?.type) {
+      case 'file': {
+        const pathSequence = getPathSequence(editorInput.path, _output, [])
+        const openedPaths = pathSequence.reduce(
+          (paths, path) => ({ ...paths, [path]: true }),
+          {} as Record<string, boolean>,
+        )
+        return setExplorerTreeState({ ...explorerTreeState, ...openedPaths })
+      }
+    }
+  }, [editorInput])
 
   function processResult(output: Try<GeneratedFile[]>): void {
     if (isSuccess(output)) {
@@ -129,7 +146,7 @@ export function useGenerator(): GeneratorContextType {
       }
     }
     generate({
-      plugins: [loggers.simple(), new IssueHandlerPlugin()],
+      plugins: [new IssueHandlerPlugin()],
       validator: configuration.validator.enabled ? validator() : undefined,
       reader: createReader(configuration.reader),
       generator: createGenerator(configuration.generator),
@@ -143,7 +160,7 @@ export function useGenerator(): GeneratorContextType {
 
   const computeGeneratorSource = useCallback(() => {
     setGeneratorSource({
-      type: 'generator-source',
+      type: 'oats.js',
       source: getGeneratorSource(configuration),
     })
   }, [configuration.reader, configuration.validator, configuration.generator, configuration.writer])
@@ -155,12 +172,6 @@ export function useGenerator(): GeneratorContextType {
   }, [configuration])
 
   useDebounceEffect(updateConfigurationStorage, 200)
-
-  const updateEditorInputStorage = useCallback(() => {
-    storage.set('editorInput', editorInputKey)
-  }, [editorInputKey])
-
-  useDebounceEffect(updateEditorInputStorage, 200)
 
   useEffect(() => {
     setFilteredOutput(filterExplorerTree(_output, treeFilter))
@@ -178,7 +189,6 @@ export function useGenerator(): GeneratorContextType {
     treeFilter,
     packageJson,
     setExplorerTreeState,
-    setEditorInput: setEditorInputKey,
     setConfiguration,
     setTreeFilter,
   }

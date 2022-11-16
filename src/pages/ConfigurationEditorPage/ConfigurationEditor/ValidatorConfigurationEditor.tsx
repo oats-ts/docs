@@ -4,7 +4,7 @@ import { ConfigurationFormGroup } from '../../../components/ConfigurationFormGro
 import { FormSection } from '../../../components/FormSection'
 import { Switch } from '../../../components/Switch'
 import { defaults } from '../../../model/defaults'
-import { ValidatorConfiguration } from '../../../model/types'
+import { ValidatorConfiguration } from '../../../types'
 
 export type ValidatorConfigurationEditorProps = {
   input: ValidatorConfiguration

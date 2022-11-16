@@ -8,7 +8,7 @@ import {
   writers,
   formatters,
 } from '@oats-ts/openapi'
-import { GeneratorConfiguration, ReaderConfiguration, WriterConfiguration } from './types'
+import { GeneratorConfiguration, ReaderConfiguration, WriterConfiguration } from '../types'
 import typescriptParser from 'prettier/parser-typescript'
 import { createPresetConfiguration } from './createPresetConfiguration'
 import { isNil } from 'lodash'

@@ -3,7 +3,7 @@ import { Severity } from '@oats-ts/validators'
 import React, { FC } from 'react'
 import { HiExclamationCircle, HiInformationCircle, HiXCircle } from 'react-icons/hi2'
 import { Table, THead, TBody, Tr, Th, Td } from '../../components/Table'
-import { IssuesNode } from '../../model/types'
+import { IssuesNode } from '../../types'
 import { theme } from '../../theme'
 import { IssuePath } from './IssuePath'
 

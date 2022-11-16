@@ -1,4 +1,4 @@
-import { css, cx } from '@emotion/css'
+import { css } from '@emotion/css'
 import React, { FC, useState, CSSProperties } from 'react'
 import { Prism } from 'react-syntax-highlighter'
 import vscDarkPlus from 'react-syntax-highlighter/dist/esm/styles/prism/vsc-dark-plus'
@@ -14,6 +14,7 @@ export type SyntaxHighlighterProps = {
   theme: 'light' | 'medium' | 'dark'
   language?: string
   lineWrap?: boolean
+  renderer?: (props: rendererProps) => React.ReactNode
 }
 
 const themes: Record<SyntaxHighlighterProps['theme'], Record<string, CSSProperties>> = {
@@ -61,23 +62,25 @@ const editorContainerStyle = css`
   flex-grow: ${theme.flex.grow};
   height: 100vh;
 
+  pre {
+    min-height: 100%;
+  }
+
   .react-syntax-highlighter-line-number {
     color: rgba(255, 255, 255, 0.4) !important;
   }
 `
 
-export const SyntaxHighlighter: FC<SyntaxHighlighterProps> = ({ children, language, lineWrap, theme, host }) => {
+export const SyntaxHighlighter: FC<SyntaxHighlighterProps> = ({
+  children,
+  language,
+  lineWrap,
+  theme,
+  host,
+  renderer,
+}) => {
   const [copied, setCopied] = useState(false)
-  const [hovering, setHovering] = useState(false)
   const [resetTimeout, setResetTimeout] = useState<any>(undefined)
-
-  const onMouseEnter = () => {
-    setHovering(true)
-  }
-
-  const onMouseLeave = () => {
-    setHovering(false)
-  }
 
   const onCopy = (_: unknown, result: boolean) => {
     if (!isNil(resetTimeout)) {
@@ -92,18 +95,20 @@ export const SyntaxHighlighter: FC<SyntaxHighlighterProps> = ({ children, langua
     )
   }
 
-  const containerStyle = cx(host === 'editor' ? editorContainerStyle : docsContainerStyle)
-  const prismTheme = themes[theme]
-  const copyButtonFullStyle = cx(copyButtonStyle)
+  const containerStyle = host === 'editor' ? editorContainerStyle : docsContainerStyle
   return (
-    <div className={containerStyle} onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave}>
-      <Prism language={language} style={prismTheme} wrapLongLines={lineWrap} showLineNumbers={host === 'editor'}>
+    <div className={containerStyle}>
+      <Prism
+        language={language}
+        style={themes[theme]}
+        wrapLongLines={lineWrap}
+        showLineNumbers={host === 'editor'}
+        {...(isNil(renderer) ? {} : { renderer })}
+      >
         {children}
       </Prism>
       <CopyToClipboard text={children} onCopy={onCopy}>
-        <button className={copyButtonFullStyle} style={{ opacity: hovering ? 1 : 0 }}>
-          {copied ? <HiCheck /> : <HiClipboard />}
-        </button>
+        <button className={copyButtonStyle}>{copied ? <HiCheck /> : <HiClipboard />}</button>
       </CopyToClipboard>
     </div>
   )

@@ -1,4 +1,4 @@
-import { ConfigurationNode, GeneratorConfiguration, ReaderConfiguration, WriterConfiguration } from './types'
+import { ConfigurationNode, GeneratorConfiguration, ReaderConfiguration, WriterConfiguration } from '../types'
 import {
   createPrinter,
   factory,

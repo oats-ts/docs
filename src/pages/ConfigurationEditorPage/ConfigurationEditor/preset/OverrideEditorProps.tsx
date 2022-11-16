@@ -1,4 +1,4 @@
-import { PresetConfig, PresetConfigField } from '../../../../model/types'
+import { PresetConfig, PresetConfigField } from '../../../../types'
 
 export type OverrideEditorProps = {
   field: PresetConfigField

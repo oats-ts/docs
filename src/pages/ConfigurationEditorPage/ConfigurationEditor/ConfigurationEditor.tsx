@@ -5,7 +5,7 @@ import {
   ValidatorConfiguration,
   GeneratorConfiguration,
   WriterConfiguration,
-} from '../../../model/types'
+} from '../../../types'
 import { useGeneratorContext } from '../../../model/useGenerator'
 import { theme } from '../../../theme'
 import { GeneratorConfigurationEditor } from './GeneratorConfigurationEditor'

@@ -4,7 +4,7 @@ import {
   ReaderConfiguration,
   ValidatorConfiguration,
   WriterConfiguration,
-} from './types'
+} from '../types'
 
 import { PrettierConfiguration } from '../types'
 

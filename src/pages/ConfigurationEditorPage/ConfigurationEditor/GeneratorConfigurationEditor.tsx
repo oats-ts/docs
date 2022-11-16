@@ -6,7 +6,7 @@ import { dd, DropdownItem } from '../../../components/dropdownDefaults'
 import { ConfigurationFormGroup } from '../../../components/ConfigurationFormGroup'
 import { FormSection } from '../../../components/FormSection'
 import { Select } from '../../../components/Select'
-import { GeneratorConfiguration, GeneratorPreset, PathProviderType } from '../../../model/types'
+import { GeneratorConfiguration, GeneratorPreset, PathProviderType } from '../../../types'
 import { PresetConfigurationEditor } from './preset/PresetConfigurationEditor'
 import { defaults } from '../../../model/defaults'
 

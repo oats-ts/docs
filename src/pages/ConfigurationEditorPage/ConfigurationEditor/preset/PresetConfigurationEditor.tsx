@@ -1,6 +1,6 @@
 import React, { FC, useMemo } from 'react'
 import { getPresetConfigFields } from '../../../../model/getPresetConfigFields'
-import { GeneratorConfiguration, PresetConfig } from '../../../../model/types'
+import { GeneratorConfiguration, PresetConfig } from '../../../../types'
 import { editors } from './editors'
 
 export type PresetConfigurationEditorProps = {

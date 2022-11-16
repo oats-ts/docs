@@ -7,7 +7,7 @@ import { FormSection } from '../../../components/FormSection'
 import { Link } from '../../../components/Link'
 import { Switch } from '../../../components/Switch'
 import { defaults } from '../../../model/defaults'
-import { WriterConfiguration } from '../../../model/types'
+import { WriterConfiguration } from '../../../types'
 
 export type WriterConfigurationEditorProps = {
   input: WriterConfiguration

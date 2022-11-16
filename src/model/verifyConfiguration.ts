@@ -23,7 +23,7 @@ import {
   ValidatorConfiguration,
   PresetConfig,
   AdvancedOpenConfiguration,
-} from './types'
+} from '../types'
 
 const commentConfigValidator = object(
   shape<CommentConfig>({

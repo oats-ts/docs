@@ -6,7 +6,7 @@ import { dd, DropdownItem } from '../../../components/dropdownDefaults'
 import { ConfigurationFormGroup } from '../../../components/ConfigurationFormGroup'
 import { FormSection } from '../../../components/FormSection'
 import { Select } from '../../../components/Select'
-import { ReaderConfiguration, RemoteProtocol, SourceLanguage } from '../../../model/types'
+import { ReaderConfiguration, RemoteProtocol, SourceLanguage } from '../../../types'
 import { defaults } from '../../../model/defaults'
 import { Link } from '../../../components/Link'
 

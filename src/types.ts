@@ -13,12 +13,7 @@ export type PathProviderType = 'default' | 'singleFile' | 'byTarget' | 'byName'
 export type GeneratorConfigurationStyle = 'preset' | 'generators'
 export type WriterType = 'file' | 'memory'
 
-export type EditorInputKey =
-  | ConfigurationNode['type']
-  | IssuesNode['type']
-  | GeneratorSourceNode['type']
-  | PackageJsonNode['type']
-  | `${FileNode['type']}::${string}`
+export type EditorInputKey = 'configuration' | 'issues' | 'oats.js' | 'package.json' | (string & Record<never, never>)
 
 export type GhFileDescriptor = {
   path: string
@@ -43,16 +38,13 @@ export type GeneratorContextType = {
   // Generator output
   output: FolderNode
   issues: IssuesNode
-  isRemoteSampleLoading: boolean
   isLoading: boolean
   generatorSource: GeneratorSourceNode
   packageJson: PackageJsonNode
   // Setters
   setTreeFilter: (filter: string) => void
   setConfiguration: (node: ConfigurationNode) => void
-  setEditorInput: (key?: EditorInputKey) => void
   setExplorerTreeState: (state: ExplorerTreeState) => void
-  loadRemoteAsInline: () => void
 }
 
 export type ColorModeContextType = {
@@ -61,12 +53,12 @@ export type ColorModeContextType = {
 }
 
 export type GeneratorSourceNode = {
-  type: 'generator-source'
+  type: 'oats.js'
   source: string
 }
 
 export type PackageJsonNode = {
-  type: 'package-json'
+  type: 'package.json'
   source: string
 }
 
@@ -90,9 +82,6 @@ export type IssuesNode = {
 }
 
 export type ReaderConfiguration = {
-  readerType: 'inline' | 'remote'
-  inlineLanguage: Exclude<SourceLanguage, 'mixed'>
-  inlineContent: string
   remoteProtocol: RemoteProtocol
   remoteLanguage: SourceLanguage
   remotePath: string
@@ -149,6 +138,13 @@ export type WriterConfiguration = {
   lineSeparator: '\n' | '\r\n'
 }
 
+export type AdvancedOpenConfiguration = {
+  reader: boolean
+  writer: boolean
+  validator: boolean
+  generator: boolean
+}
+
 export type ConfigurationNode = {
   type: 'configuration'
   version: string
@@ -156,14 +152,17 @@ export type ConfigurationNode = {
   reader: ReaderConfiguration
   validator: ValidatorConfiguration
   generator: GeneratorConfiguration
+  advancedOpen: AdvancedOpenConfiguration
   writer: WriterConfiguration
 }
 
 export type FsNode = FileNode | FolderNode
 
-export type NonFsNode = ConfigurationNode | IssuesNode | GeneratorSourceNode | PackageJsonNode
+export type NotFound = {
+  type: '404'
+}
 
-export type EditorInput = FsNode | NonFsNode
+export type EditorInput = FsNode | ConfigurationNode | IssuesNode | GeneratorSourceNode | PackageJsonNode | NotFound
 
 export type DocumentationSection = {
   name?: string
