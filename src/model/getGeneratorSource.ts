@@ -257,18 +257,20 @@ function getGenerateCallAst(config: ConfigurationNode) {
         [
           comment(
             factory.createPropertyAssignment(
-              factory.createIdentifier('logger'),
-              factory.createCallExpression(
-                factory.createPropertyAccessExpression(
+              factory.createIdentifier('plugins'),
+              factory.createArrayLiteralExpression([
+                factory.createCallExpression(
                   factory.createPropertyAccessExpression(
-                    factory.createIdentifier(OATS),
-                    factory.createIdentifier('loggers'),
+                    factory.createPropertyAccessExpression(
+                      factory.createIdentifier(OATS),
+                      factory.createIdentifier('loggers'),
+                    ),
+                    factory.createIdentifier('simple'),
                   ),
-                  factory.createIdentifier('simple'),
+                  undefined,
+                  [],
                 ),
-                undefined,
-                [],
-              ),
+              ]),
             ),
             `Logs generator events as they happen. Use logger.verbose() for more detailed log output.`,
           ),

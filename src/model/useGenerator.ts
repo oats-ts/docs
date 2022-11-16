@@ -1,5 +1,5 @@
-import { generate, Logger, version } from '@oats-ts/oats-ts'
-
+import { generate, GeneratorStepCompleted, ValidatorStepCompleted, version } from '@oats-ts/oats-ts'
+import { AbstractLoggerPlugin } from '@oats-ts/openapi-logger/lib/AbstractLoggerPlugin'
 import { validator, loggers } from '@oats-ts/openapi'
 import { isNil } from 'lodash'
 import {
@@ -114,20 +114,22 @@ export function useGenerator(): GeneratorContextType {
     setGenerating(true)
     setIssues({ type: 'issues', issues: [] })
     setOutput({ type: 'folder', children: [], name: '/', path: '/' })
-    const logger: Logger = (emitter) => {
-      loggers.simple()(emitter)
-      emitter.addListener('validator-step-completed', ({ issues: validatorIssues }) => {
+    class IssueHandlerPlugin extends AbstractLoggerPlugin {
+      protected override onValidatorStepCompleted({ issues: validatorIssues }: ValidatorStepCompleted): void {
         setIssues((i) => ({ ...i, issues: [...i.issues, ...validatorIssues] }))
-      })
-      emitter.addListener('generator-step-completed', ({ dependencies, issues: genIssues }) => {
+      }
+      protected override onGeneratorStepCompleted({
+        dependencies,
+        issues: genIssues,
+      }: GeneratorStepCompleted<any>): void {
         getVersionMap('typescript', 'ts-node')
           .then((versionMap) => getPackageJsonSource(dependencies, versionMap))
           .then((source) => setPackageJson({ ...packageJson, source }))
         setIssues((i) => ({ ...i, issues: [...i.issues, ...genIssues] }))
-      })
+      }
     }
     generate({
-      logger,
+      plugins: [loggers.simple(), new IssueHandlerPlugin()],
       validator: configuration.validator.enabled ? validator() : undefined,
       reader: createReader(configuration.reader),
       generator: createGenerator(configuration.generator),
