@@ -76,7 +76,7 @@ const hints = {
   protocol: 'The protocol used to read your OpenAPI document',
 }
 
-type ReaderConfigurationEditorProps = {
+type RemoteReaderConfigurationEditorProps = {
   input: ReaderConfiguration
   isAdvancedOpen: boolean
   samples: string[]
@@ -84,7 +84,7 @@ type ReaderConfigurationEditorProps = {
   onChange: (node: ReaderConfiguration) => void
 }
 
-export const ReaderConfigurationEditor: FC<ReaderConfigurationEditorProps> = ({
+export const RemoteReaderConfigurationEditor: FC<RemoteReaderConfigurationEditorProps> = ({
   input,
   isAdvancedOpen,
   setAdvancedOpen,

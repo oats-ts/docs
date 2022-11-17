@@ -9,7 +9,7 @@ import {
 import { useGeneratorContext } from '../../../model/useGenerator'
 import { theme } from '../../../theme'
 import { GeneratorConfigurationEditor } from './GeneratorConfigurationEditor'
-import { ReaderConfigurationEditor } from './ReaderConfigurationEditor'
+import { RemoteReaderConfigurationEditor } from './RemoteReaderConfigurationEditor'
 import { ValidatorConfigurationEditor } from './ValidatorConfigurationEditor'
 import { WriterConfigurationEditor } from './WriterConfigurationEditor'
 
@@ -45,7 +45,7 @@ export const ConfigurationEditor: FC = () => {
   return (
     <div className={wrapperStyle}>
       <div className={contentContainerStyle}>
-        <ReaderConfigurationEditor
+        <RemoteReaderConfigurationEditor
           isAdvancedOpen={advancedOpen.reader}
           input={configuration.reader}
           samples={samples}

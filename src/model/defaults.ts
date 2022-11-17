@@ -30,6 +30,8 @@ const readerConfiguration: ReaderConfiguration = {
   remoteLanguage: 'mixed',
   remotePath: 'https://raw.githubusercontent.com/oats-ts/oats-schemas/master/schemas/pet-store-yaml.yaml',
   remoteProtocol: 'mixed',
+  inlineLanguage: 'json',
+  inlineSource: '',
 }
 
 const generatorConfiguration: GeneratorConfiguration = {

@@ -85,6 +85,8 @@ export type ReaderConfiguration = {
   remoteProtocol: RemoteProtocol
   remoteLanguage: SourceLanguage
   remotePath: string
+  inlineLanguage: Exclude<SourceLanguage, 'mixed'>
+  inlineSource: string
 }
 
 export type ValidatorConfiguration = {

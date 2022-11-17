@@ -50,6 +50,11 @@ const readerConfigValidator = object(
       file: literal('file'),
       mixed: literal('mixed'),
     }),
+    inlineLanguage: union({
+      json: literal('json'),
+      yaml: literal('yaml'),
+    }),
+    inlineSource: string(),
   }),
 )
 
