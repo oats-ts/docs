@@ -16,6 +16,7 @@ export const theme = {
   },
   fontSize: {
     code: '1.1rem',
+    xxs: '0.85rem',
     xs: '0.95rem',
     s: '1rem',
     m: '1.2rem',
