@@ -13,10 +13,11 @@ export type SchemEditorMonacoProps = {
 }
 
 const containerStyle = css`
-  max-height: calc(100vh - 10rem);
-  height: calc(100vh - 10rem);
+  max-height: calc(100vh - 14rem);
+  height: calc(100vh - 14rem);
   overflow: hidden;
   border-radius: ${theme.spacing.xs};
+  margin-top: ${theme.spacing.xs};
 `
 
 const options: monaco.editor.IStandaloneEditorConstructionOptions = {
@@ -24,6 +25,7 @@ const options: monaco.editor.IStandaloneEditorConstructionOptions = {
   minimap: { enabled: false },
   insertSpaces: true,
   tabSize: 2,
+  scrollBeyondLastLine: false,
   renderLineHighlight: 'none',
   padding: { top: 10 },
   fontFamily: theme.fontFamily.monospace,

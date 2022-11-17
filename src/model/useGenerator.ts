@@ -181,7 +181,10 @@ export function useGenerator(): GeneratorContextType {
   const loadRemoteAsInline = useCallback(() => {
     loadRemoteSchema(configuration.reader.remotePath, configuration.reader.remoteLanguage).then(
       ([inlineSource, inlineLanguage]) =>
-        setConfiguration({ ...configuration, reader: { ...configuration.reader, inlineSource, inlineLanguage } }),
+        setConfiguration({
+          ...configuration,
+          reader: { ...configuration.reader, inlineSource, inlineLanguage, type: 'inline' },
+        }),
     )
   }, [configuration.reader.remotePath])
 

@@ -26,11 +26,11 @@ const parsers: Record<ExactSourceLanguage, (input: string) => any> = {
 
 export function guessLanguage(source: string, hint: SourceLanguage): ExactSourceLanguage | undefined {
   const firstLanguage: ExactSourceLanguage = hint === 'mixed' ? 'json' : hint
-  const secondLanguage: ExactSourceLanguage = hint === 'json' ? 'yaml' : 'json'
+  const secondLanguage: ExactSourceLanguage = firstLanguage === 'json' ? 'yaml' : 'json'
 
   const attempts: [ExactSourceLanguage, (input: string) => any][] = [
     [firstLanguage, parsers[firstLanguage]],
-    [secondLanguage, parsers[firstLanguage]],
+    [secondLanguage, parsers[secondLanguage]],
   ]
 
   for (let i = 0; i < attempts.length; i += 1) {

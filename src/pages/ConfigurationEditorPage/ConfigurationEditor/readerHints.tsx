@@ -2,6 +2,7 @@ import React from 'react'
 import { Link } from '../../../components/Link'
 
 export const readerHints = {
+  inline: 'You can edit your OpenAPI document inline in this editor',
   path: (
     <>
       The URI or file path where your source OpenAPI document will be read from. You can pick from{' '}
@@ -12,7 +13,7 @@ export const readerHints = {
       <Link href="https://apis.guru" target="_blank">
         https://apis.guru
       </Link>{' '}
-      for examples.
+      for examples
     </>
   ),
   language: 'The language used by your OpenAPI document',

@@ -20,7 +20,7 @@ const groupHeaderStyle = css`
   display: flex;
   flex-direction: row;
   align-items: center;
-  gap: ${theme.spacing.xm};
+  gap: ${theme.spacing.xxm};
   margin: ${theme.spacing.zero};
   margin-bottom: ${theme.spacing.xxm};
 `

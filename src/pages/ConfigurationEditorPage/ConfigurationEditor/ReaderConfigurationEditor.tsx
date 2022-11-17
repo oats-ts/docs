@@ -1,5 +1,5 @@
 import React, { FC } from 'react'
-import { HiArrowUturnLeft, HiChevronDown, HiChevronUp } from 'react-icons/hi2'
+import { HiArrowUturnLeft, HiChevronDown, HiChevronUp, HiPencil } from 'react-icons/hi2'
 import { Autocomplete } from '../../../components/Autocomplete'
 import { ConfigurationFormGroup } from '../../../components/ConfigurationFormGroup'
 import { FormSection } from '../../../components/FormSection'
@@ -14,9 +14,17 @@ import { readerHints } from './readerHints'
 import { SchemEditorMonaco } from './SchemaEditorMonaco'
 import { css } from '@emotion/css'
 import { theme } from '../../../theme'
+import { Button } from '../../../components/Button'
 
 const extraBottomMarginStyle = css`
-  margin-bottom: ${theme.spacing.l};
+  margin-bottom: ${theme.spacing.s};
+`
+
+const pathContainerStyle = css`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: ${theme.spacing.s};
 `
 
 type ReaderConfigurationEditorProps = {
@@ -25,6 +33,7 @@ type ReaderConfigurationEditorProps = {
   samples: string[]
   setAdvancedOpen: (isOpen: boolean) => void
   onChange: (node: ReaderConfiguration) => void
+  loadRemoteAsInline: () => void
 }
 
 export const ReaderConfigurationEditor: FC<ReaderConfigurationEditorProps> = ({
@@ -33,6 +42,7 @@ export const ReaderConfigurationEditor: FC<ReaderConfigurationEditorProps> = ({
   setAdvancedOpen,
   samples,
   onChange,
+  loadRemoteAsInline,
 }) => {
   const toggleAdvanced = () => setAdvancedOpen(!isAdvancedOpen)
 
@@ -63,8 +73,8 @@ export const ReaderConfigurationEditor: FC<ReaderConfigurationEditorProps> = ({
       titleAttachment={
         <>
           <SwitchWithLabel
-            label={input.type === 'remote' ? 'Remote' : 'Inline'}
-            value={input.type === 'remote'}
+            label={input.type === 'inline' ? 'Inline' : 'Remote'}
+            value={input.type === 'inline'}
             onChange={handleTypeChange}
           />
           <ConfigurationFormGroupTitleButton label="Reset" icon={HiArrowUturnLeft} onClick={onReset} />
@@ -73,21 +83,28 @@ export const ReaderConfigurationEditor: FC<ReaderConfigurationEditorProps> = ({
     >
       {input.type === 'remote' ? (
         <FormSection name="URI" description={readerHints.path}>
-          <Autocomplete
-            placeholder="OpenAPI document URI"
-            items={samples}
-            value={input.remotePath}
-            customLabel="Custom document URI"
-            onChange={handlePathChange}
-          />
+          <div className={pathContainerStyle}>
+            <Autocomplete
+              placeholder="OpenAPI document URI"
+              items={samples}
+              value={input.remotePath}
+              customLabel="Custom document URI"
+              onChange={handlePathChange}
+            />
+            <Button onClick={loadRemoteAsInline}>
+              <HiPencil /> Edit
+            </Button>
+          </div>
         </FormSection>
       ) : (
-        <SchemEditorMonaco
-          language={input.inlineLanguage}
-          source={input.inlineSource}
-          className={isAdvancedOpen ? extraBottomMarginStyle : undefined}
-          onChange={handleSourceChange}
-        />
+        <FormSection name="OpenAPI source" description={readerHints.inline}>
+          <SchemEditorMonaco
+            language={input.inlineLanguage}
+            source={input.inlineSource}
+            className={isAdvancedOpen ? extraBottomMarginStyle : undefined}
+            onChange={handleSourceChange}
+          />
+        </FormSection>
       )}
       {isAdvancedOpen &&
         (input.type === 'inline' ? (

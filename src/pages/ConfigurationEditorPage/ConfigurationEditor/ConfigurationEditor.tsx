@@ -23,7 +23,7 @@ const contentContainerStyle = css`
 `
 
 export const ConfigurationEditor: FC = () => {
-  const { configuration, samples, setConfiguration } = useGeneratorContext()
+  const { configuration, samples, setConfiguration, loadRemoteAsInline } = useGeneratorContext()
   const { advancedOpen } = configuration
 
   const onReaderChange = (reader: ReaderConfiguration) =>
@@ -49,6 +49,7 @@ export const ConfigurationEditor: FC = () => {
           isAdvancedOpen={advancedOpen.reader}
           input={configuration.reader}
           samples={samples}
+          loadRemoteAsInline={loadRemoteAsInline}
           setAdvancedOpen={onReaderToggle}
           onChange={onReaderChange}
         />
