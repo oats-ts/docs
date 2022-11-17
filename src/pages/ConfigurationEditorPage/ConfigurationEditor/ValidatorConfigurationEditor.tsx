@@ -1,6 +1,7 @@
 import React, { FC } from 'react'
 import { HiArrowUturnLeft } from 'react-icons/hi2'
 import { ConfigurationFormGroup } from '../../../components/ConfigurationFormGroup'
+import { ConfigurationFormGroupTitleButton } from '../../../components/ConfigurationFormGroupTitleButton'
 import { FormSection } from '../../../components/FormSection'
 import { Switch } from '../../../components/Switch'
 import { defaults } from '../../../model/defaults'
@@ -25,9 +26,7 @@ export const ValidatorConfigurationEditor: FC<ValidatorConfigurationEditorProps>
   return (
     <ConfigurationFormGroup
       name="Validator"
-      titleButtonLabel="Reset"
-      titleButtonIcon={HiArrowUturnLeft}
-      onTitleButtonClick={onReset}
+      titleAttachment={<ConfigurationFormGroupTitleButton label="Reset" icon={HiArrowUturnLeft} onClick={onReset} />}
     >
       <FormSection name="Validate" description={hints.validate}>
         <Switch value={input.enabled} onChange={onEnabledChange} />

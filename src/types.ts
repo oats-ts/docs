@@ -6,12 +6,14 @@ import { Options } from 'prettier'
 import { MarkdownPageName } from './md/markdown'
 
 export type ColorMode = 'dark' | 'light'
-export type SourceLanguage = 'yaml' | 'json' | 'mixed'
+export type SourceLanguage = ExactSourceLanguage | 'mixed'
+export type ExactSourceLanguage = 'yaml' | 'json'
 export type RemoteProtocol = 'http' | 'https' | 'file' | 'mixed'
 export type GeneratorPreset = 'fullStack' | 'client' | 'server'
 export type PathProviderType = 'default' | 'singleFile' | 'byTarget' | 'byName'
 export type GeneratorConfigurationStyle = 'preset' | 'generators'
 export type WriterType = 'file' | 'memory'
+export type ReaderType = 'remote' | 'inline'
 
 export type EditorInputKey = 'configuration' | 'issues' | 'oats.js' | 'package.json' | (string & Record<never, never>)
 
@@ -45,6 +47,7 @@ export type GeneratorContextType = {
   setTreeFilter: (filter: string) => void
   setConfiguration: (node: ConfigurationNode) => void
   setExplorerTreeState: (state: ExplorerTreeState) => void
+  loadRemoteAsInline: () => void
 }
 
 export type ColorModeContextType = {
@@ -82,6 +85,7 @@ export type IssuesNode = {
 }
 
 export type ReaderConfiguration = {
+  type: ReaderType
   remoteProtocol: RemoteProtocol
   remoteLanguage: SourceLanguage
   remotePath: string

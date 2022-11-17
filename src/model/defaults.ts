@@ -27,6 +27,7 @@ const validatorConfiguration: ValidatorConfiguration = {
 }
 
 const readerConfiguration: ReaderConfiguration = {
+  type: 'remote',
   remoteLanguage: 'mixed',
   remotePath: 'https://raw.githubusercontent.com/oats-ts/oats-schemas/master/schemas/pet-store-yaml.yaml',
   remoteProtocol: 'mixed',

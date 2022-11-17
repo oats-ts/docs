@@ -9,6 +9,8 @@ import { Select } from '../../../components/Select'
 import { GeneratorConfiguration, GeneratorPreset, PathProviderType } from '../../../types'
 import { PresetConfigurationEditor } from './preset/PresetConfigurationEditor'
 import { defaults } from '../../../model/defaults'
+import { ConfigurationFormGroupAttachment } from '../../../components/ConfigurationFormGroupAttachment'
+import { ConfigurationFormGroupTitleButton } from '../../../components/ConfigurationFormGroupTitleButton'
 
 const presetOptions: DropdownItem<GeneratorPreset>[] = [
   {
@@ -108,12 +110,14 @@ export const GeneratorConfigurationEditor: FC<GeneratorConfigurationEditorProps>
   return (
     <ConfigurationFormGroup
       name="Generator"
-      bottomAttachmentLabel={isAdvancedOpen ? 'Hide advanced' : 'Show advanced'}
-      bottomAttachmentIcon={isAdvancedOpen ? HiChevronUp : HiChevronDown}
-      onAttachmentClick={toggleAdvanced}
-      titleButtonLabel="Reset"
-      titleButtonIcon={HiArrowUturnLeft}
-      onTitleButtonClick={onReset}
+      bottomAttachment={
+        <ConfigurationFormGroupAttachment.Bottom
+          label={isAdvancedOpen ? 'Hide advanced' : 'Show advanced'}
+          icon={isAdvancedOpen ? HiChevronUp : HiChevronDown}
+          onClick={toggleAdvanced}
+        />
+      }
+      titleAttachment={<ConfigurationFormGroupTitleButton label="Reset" icon={HiArrowUturnLeft} onClick={onReset} />}
     >
       <FormSection name="Preset" description={hints.preset}>
         <Select

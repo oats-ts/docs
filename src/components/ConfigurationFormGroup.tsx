@@ -2,22 +2,15 @@ import { css, cx } from '@emotion/css'
 import { isNil } from 'lodash'
 import React, { FC, PropsWithChildren } from 'react'
 import { IconType } from 'react-icons'
+import { ReactNode } from 'react-markdown/lib/ast-to-react'
 import { theme } from '../theme'
-import { Link } from './Link'
-
-// TODO if there's time pull this apart to smaller components, this is terrible design
 
 type ConfigurationFormGroupProps = PropsWithChildren & {
   name: string
-  bottomAttachmentLabel?: string
-  topAttachmentLabel?: string
-  topAttachmentIcon?: IconType
-  bottomAttachmentIcon?: IconType
-  onAttachmentClick?: (attachment: 'top' | 'bottom') => void
+  topAttachment?: ReactNode
+  bottomAttachment?: ReactNode
+  titleAttachment?: ReactNode
   icon?: IconType
-  titleButtonLabel?: string
-  titleButtonIcon?: IconType
-  onTitleButtonClick?: () => void
 }
 
 const groupHeaderStyle = css`
@@ -27,6 +20,7 @@ const groupHeaderStyle = css`
   display: flex;
   flex-direction: row;
   align-items: center;
+  gap: ${theme.spacing.xm};
   margin: ${theme.spacing.zero};
   margin-bottom: ${theme.spacing.xxm};
 `
@@ -34,13 +28,6 @@ const groupHeaderStyle = css`
 const groupNameStyle = css`
   flex: ${theme.flex.grow};
   text-transform: uppercase;
-`
-
-const titleButtonStyle = css`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  gap: ${theme.spacing.xs};
 `
 
 const groupStyle = css`
@@ -65,93 +52,33 @@ const hasBottomAttachmentStyle = css`
   margin-bottom: ${theme.spacing.zero};
 `
 
-const attachmentStyle = css`
-  label: attachment;
-  background-color: ${theme.colors.dark2};
-  color: ${theme.colors.text};
-  font-size: ${theme.fontSize.m};
-  display: flex;
-  gap: ${theme.spacing.s};
-  align-items: center;
-  justify-content: center;
-  transition: background-color 150ms linear, color 150ms linear, box-shadow 200ms linear;
-  border: unset;
-  padding: ${theme.spacing.m} ${theme.spacing.xxm};
-  position: relative;
-  font-weight: 400;
-  cursor: pointer;
-  &:hover {
-    background-color: ${theme.colors.dark1};
-  }
-`
-
-const topAttachmentStyle = cx(
-  attachmentStyle,
-  css`
-    border-top-left-radius: ${theme.spacing.m};
-    border-top-right-radius: ${theme.spacing.m};
-  `,
-)
-
-const bottomAttachmentStyle = cx(
-  attachmentStyle,
-  css`
-    border-bottom-left-radius: ${theme.spacing.m};
-    border-bottom-right-radius: ${theme.spacing.m};
-    margin-bottom: ${theme.spacing.xxm};
-  `,
-)
-
 export const ConfigurationFormGroup: FC<ConfigurationFormGroupProps> = ({
   name,
-  topAttachmentLabel,
-  topAttachmentIcon: TopIcon,
-  bottomAttachmentLabel,
-  bottomAttachmentIcon: BottomIcon,
   children,
   icon: Icon,
-  titleButtonLabel,
-  titleButtonIcon: TitleIcon,
-  onTitleButtonClick,
-  onAttachmentClick,
+  topAttachment,
+  bottomAttachment,
+  titleAttachment,
 }) => {
-  const hasTopAttachment = !isNil(topAttachmentLabel)
-  const hasBottomAttachment = !isNil(bottomAttachmentLabel)
-  const hasTitleButton = !isNil(titleButtonLabel)
+  const hasTopAttachment = !isNil(topAttachment)
+  const hasBottomAttachment = !isNil(bottomAttachment)
+  const hasTitleAttachment = !isNil(titleAttachment)
   const groupFullStyle = cx(
     groupStyle,
     hasTopAttachment ? hasTopAttachmentStyle : undefined,
     hasBottomAttachment ? hasBottomAttachmentStyle : undefined,
   )
 
-  const onTopAttachmentClick = () => onAttachmentClick?.('top')
-  const onBottomAttachmentClick = () => onAttachmentClick?.('bottom')
-
   return (
     <>
       <h2 className={groupHeaderStyle}>
         {Icon ? <Icon /> : null}
         <span className={groupNameStyle}>{name}</span>
-        {hasTitleButton && (
-          <Link className={titleButtonStyle} onClick={onTitleButtonClick}>
-            {TitleIcon ? <TitleIcon /> : null}
-            {titleButtonLabel}
-          </Link>
-        )}
+        {hasTitleAttachment && titleAttachment}
       </h2>
-      {hasTopAttachment && (
-        <div className={topAttachmentStyle} onClick={onTopAttachmentClick}>
-          {TopIcon ? <TopIcon /> : null}
-          {topAttachmentLabel}
-        </div>
-      )}
+      {hasTopAttachment && topAttachment}
       <section className={groupFullStyle}>{children}</section>
-      {hasBottomAttachment && (
-        <div className={bottomAttachmentStyle} onClick={onBottomAttachmentClick}>
-          {BottomIcon ? <BottomIcon /> : null}
-          {bottomAttachmentLabel}
-        </div>
-      )}
+      {hasBottomAttachment && bottomAttachment}
     </>
   )
 }

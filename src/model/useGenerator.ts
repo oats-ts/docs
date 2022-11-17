@@ -32,6 +32,7 @@ import { getVersionMap } from './getVersionMap'
 import { defaults } from './defaults'
 import { useLocation } from 'react-router-dom'
 import { getPathSequence } from './getPathSequence'
+import { loadRemoteSchema } from './loadRemoteSchema'
 
 const notFound: NotFound = { type: '404' }
 
@@ -177,6 +178,13 @@ export function useGenerator(): GeneratorContextType {
     setFilteredOutput(filterExplorerTree(_output, treeFilter))
   }, [_output, treeFilter])
 
+  const loadRemoteAsInline = useCallback(() => {
+    loadRemoteSchema(configuration.reader.remotePath, configuration.reader.remoteLanguage).then(
+      ([inlineSource, inlineLanguage]) =>
+        setConfiguration({ ...configuration, reader: { ...configuration.reader, inlineSource, inlineLanguage } }),
+    )
+  }, [configuration.reader.remotePath])
+
   return {
     output: filteredOutput,
     issues,
@@ -191,6 +199,7 @@ export function useGenerator(): GeneratorContextType {
     setExplorerTreeState,
     setConfiguration,
     setTreeFilter,
+    loadRemoteAsInline,
   }
 }
 

@@ -38,6 +38,10 @@ const commentConfigValidator = object(
 
 const readerConfigValidator = object(
   shape<ReaderConfiguration>({
+    type: union({
+      remote: literal('remote'),
+      inline: literal('inline'),
+    }),
     remoteLanguage: union({
       json: literal('json'),
       yaml: literal('yaml'),

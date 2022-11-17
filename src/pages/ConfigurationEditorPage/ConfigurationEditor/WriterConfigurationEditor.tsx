@@ -3,6 +3,8 @@ import React, { FC } from 'react'
 import { HiArrowUturnLeft, HiChevronDown, HiChevronUp } from 'react-icons/hi2'
 import { CommentsTable } from '../../../components/CommentsTable'
 import { ConfigurationFormGroup } from '../../../components/ConfigurationFormGroup'
+import { ConfigurationFormGroupAttachment } from '../../../components/ConfigurationFormGroupAttachment'
+import { ConfigurationFormGroupTitleButton } from '../../../components/ConfigurationFormGroupTitleButton'
 import { FormSection } from '../../../components/FormSection'
 import { Link } from '../../../components/Link'
 import { Switch } from '../../../components/Switch'
@@ -52,12 +54,14 @@ export const WriterConfigurationEditor: FC<WriterConfigurationEditorProps> = ({
   return (
     <ConfigurationFormGroup
       name="Writer"
-      bottomAttachmentLabel={isAdvancedOpen ? 'Hide advanced' : 'Show advanced'}
-      bottomAttachmentIcon={isAdvancedOpen ? HiChevronUp : HiChevronDown}
-      onAttachmentClick={toggleAdvanced}
-      titleButtonLabel="Reset"
-      titleButtonIcon={HiArrowUturnLeft}
-      onTitleButtonClick={onReset}
+      bottomAttachment={
+        <ConfigurationFormGroupAttachment.Bottom
+          label={isAdvancedOpen ? 'Hide advanced' : 'Show advanced'}
+          icon={isAdvancedOpen ? HiChevronUp : HiChevronDown}
+          onClick={toggleAdvanced}
+        />
+      }
+      titleAttachment={<ConfigurationFormGroupTitleButton label="Reset" icon={HiArrowUturnLeft} onClick={onReset} />}
     >
       <FormSection name="Use Prettier?" description={hints.useFormatter}>
         <Switch value={input.useFormatter} onChange={onUseFormatterChanged} />

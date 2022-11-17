@@ -1,5 +1,5 @@
 import YAML from 'yamljs'
-import { GhFileDescriptor, SourceLanguage } from '../types'
+import { ExactSourceLanguage, GhFileDescriptor, SourceLanguage } from '../types'
 
 const REPO = 'oats-ts/oats-schemas'
 
@@ -19,15 +19,29 @@ export async function fetchSampleFile(path: string): Promise<string> {
   return response.text()
 }
 
-export function guessLanguage(source: string): Exclude<SourceLanguage, 'mixed'> | undefined {
-  try {
-    JSON.parse(source)
-    return 'json'
-  } catch (e) {
+const parsers: Record<ExactSourceLanguage, (input: string) => any> = {
+  json: (input) => JSON.parse(input),
+  yaml: (input) => YAML.parse(input),
+}
+
+export function guessLanguage(source: string, hint: SourceLanguage): ExactSourceLanguage | undefined {
+  const firstLanguage: ExactSourceLanguage = hint === 'mixed' ? 'json' : hint
+  const secondLanguage: ExactSourceLanguage = hint === 'json' ? 'yaml' : 'json'
+
+  const attempts: [ExactSourceLanguage, (input: string) => any][] = [
+    [firstLanguage, parsers[firstLanguage]],
+    [secondLanguage, parsers[firstLanguage]],
+  ]
+
+  for (let i = 0; i < attempts.length; i += 1) {
+    const [language, parse] = attempts[i]!
     try {
-      YAML.parse(source)
-      return 'yaml'
-    } catch (e) {}
+      parse(source)
+      return language
+    } catch (e) {
+      /* Not this language */
+    }
   }
+
   return undefined
 }
