@@ -85,13 +85,13 @@ function transformNodeLinks(
     if (child.type === 'text' && !isNil(value) && typeof value === 'string') {
       const importedPathByName = importedNames[value.trim()]
       const importedPathByPath = importedPaths[value.slice(1, value.length - 1)]
-      if (!isNil(importedPathByName)) {
+      if (typeof importedPathByName === 'string') {
         return {
           ...node,
           children: replaceNameNode(value, importedPathByName),
         }
       }
-      if (!isNil(importedPathByPath)) {
+      if (typeof importedPathByPath === 'string') {
         return {
           ...node,
           children: replaceImportPath(value, importedPathByPath),
