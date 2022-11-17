@@ -1,7 +1,7 @@
 import { generate, GeneratorStepCompleted, ValidatorStepCompleted, version } from '@oats-ts/oats-ts'
 import { AbstractLoggerPlugin } from '@oats-ts/openapi-logger/lib/AbstractLoggerPlugin'
 import { validator } from '@oats-ts/openapi'
-import { isNil } from 'lodash'
+import { isEmpty, isNil } from 'lodash'
 import {
   EditorInput,
   ExplorerTreeState,
@@ -66,8 +66,8 @@ export function useGenerator(): GeneratorContextType {
   const [filteredOutput, setFilteredOutput] = useState(_output)
 
   const editorInput = useMemo((): EditorInput | undefined => {
-    if (isNil(pathParam)) {
-      return undefined
+    if (isEmpty(pathParam) || pathParam === '/') {
+      return configuration
     }
     switch (pathParam) {
       case 'configuration':
