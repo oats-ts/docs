@@ -11,41 +11,47 @@
   padding: ${s.theme.spacing.zero};
   background-color: ${s.theme.colors.dark3};
 `;t.AppContainer=({children:e})=>l.default.createElement(l.default.Fragment,null,l.default.createElement(r.Global,{styles:i.globalStyles}),l.default.createElement("div",{className:c},e))},78436:function(e,t,o){var a=this&&this.__importDefault||function(e){return e&&e.__esModule?e:{default:e}};Object.defineProperty(t,"__esModule",{value:!0}),t.Button=void 0;const n=o(18592),r=o(96486),l=a(o(67294)),i=o(19446),s=n.css`
-  label: secondary-button;
-  color: ${i.theme.colors.text};
-  background-color: ${i.theme.colors.dark1};
-
-  &:hover {
-    background-color: ${i.theme.colors.buttonHover};
-  }
-`,c=n.css`
-  label: primary-button;
-  color: ${i.theme.colors.text};
-  background-color: ${i.theme.colors.green};
-
-  &:hover {
-    background-color: #2ea043;
-  }
-`,d=n.css`
   label: button;
   text-decoration: none;
   display: flex;
   align-self: flex-start;
-  gap: ${i.theme.spacing.s};
   align-items: center;
   transition: background-color 150ms linear, color 150ms linear, box-shadow 200ms linear;
   border: unset;
-  border-radius: ${i.theme.spacing.s};
-  padding: ${i.theme.spacing.m} ${i.theme.spacing.xm};
   position: relative;
   font-weight: 400;
   cursor: pointer;
-  font-size: ${i.theme.fontSize.m};
   box-shadow: rgba(0, 0, 0, 0.05) ${i.theme.spacing.zero} ${i.theme.spacing.xs} ${i.theme.spacing.s};
   &:hover {
     box-shadow: rgba(0, 0, 0, 0.2) ${i.theme.spacing.zero} ${i.theme.spacing.xs} ${i.theme.spacing.xxm};
   }
-`;t.Button=({children:e,variant:t,className:o,href:a,onClick:i})=>{const m=(0,n.cx)(d,"primary"===t?c:s,o);return(0,r.isNil)(a)?l.default.createElement("button",{className:m,onClick:i},e):l.default.createElement("a",{className:m,onClick:i,href:a},e)}},4074:function(e,t,o){var a=this&&this.__importDefault||function(e){return e&&e.__esModule?e:{default:e}};Object.defineProperty(t,"__esModule",{value:!0}),t.Code=void 0;const n=o(18592),r=a(o(67294)),l=o(19446),i=n.css`
+`,c={secondary:n.css`
+    label: secondary-button;
+    color: ${i.theme.colors.text};
+    background-color: ${i.theme.colors.dark1};
+
+    &:hover {
+      background-color: ${i.theme.colors.buttonHover};
+    }
+  `,primary:n.css`
+    label: primary-button;
+    color: ${i.theme.colors.text};
+    background-color: ${i.theme.colors.green};
+
+    &:hover {
+      background-color: #2ea043;
+    }
+  `},d={default:n.css`
+    gap: ${i.theme.spacing.s};
+    padding: ${i.theme.spacing.m} ${i.theme.spacing.xm};
+    border-radius: ${i.theme.spacing.s};
+    font-size: ${i.theme.fontSize.m};
+  `,mini:n.css`
+    gap: ${i.theme.spacing.xs};
+    padding: ${i.theme.spacing.xs} ${i.theme.spacing.m};
+    border-radius: ${i.theme.spacing.xs};
+    font-size: ${i.theme.fontSize.xxs};
+  `};t.Button=({children:e,variant:t="secondary",size:o="default",className:a,href:i,title:m,onClick:u})=>{const h=(0,n.cx)(s,c[t],d[o],a);return(0,r.isNil)(i)?l.default.createElement("button",{className:h,onClick:u,title:m},e):l.default.createElement("a",{className:h,onClick:u,href:i,title:m},e)}},4074:function(e,t,o){var a=this&&this.__importDefault||function(e){return e&&e.__esModule?e:{default:e}};Object.defineProperty(t,"__esModule",{value:!0}),t.Code=void 0;const n=o(18592),r=a(o(67294)),l=o(19446),i=n.css`
   font-size: ${l.theme.fontSize.code};
   color: ${l.theme.colors.text};
   background-color: ${l.theme.colors.dark1};
@@ -478,5 +484,5 @@
   gap: ${i.theme.spacing.s};
 `,b=n.css`
   margin-top: ${i.theme.spacing.xm};
-`;t.QuickStart=()=>r.default.createElement(r.default.Fragment,null,r.default.createElement("h2",{className:g},r.default.createElement(l.HiBeaker,null)," Quick start"),r.default.createElement("div",{className:p},r.default.createElement(s.QuickStartItem,{index:1,title:"Prepare your OpenAPI document"},"You need an OpenAPI document to start with. In case you don't have one already, try this example:",r.default.createElement(c.SyntaxHighlighter,{host:"docs",lineWrap:!0,theme:"light"},"https://raw.githubusercontent.com/oats-ts/oats-schemas/master/schemas/book-store.json")),r.default.createElement(s.QuickStartItem,{index:2,title:"Install Oats"},"Install the necessary Oats modules to make the code generator work:",r.default.createElement(c.SyntaxHighlighter,{host:"docs",lineWrap:!0,theme:"light"},"npm i @oats-ts/openapi")),r.default.createElement(s.QuickStartItem,{index:3,title:"Configure the generator"},"Create a file called ",r.default.createElement("b",null,"oats.js")," in your project root with the following content:",r.default.createElement(c.SyntaxHighlighter,{language:"typescript",host:"docs",lineWrap:!0,theme:"light"},m.default),"Experiment with different configurations in the ",r.default.createElement(d.Link,{href:f.links.editor()},"configuration editor")),r.default.createElement(s.QuickStartItem,{index:4,title:"Run the generator"},"Open a terminal and simply run:",r.default.createElement(c.SyntaxHighlighter,{host:"docs",theme:"light"},"node ./oats.js")),r.default.createElement(s.QuickStartItem,{index:5,title:"Verify results"},"In case the generators ran successfully, you will see something like this in the terminal:",r.default.createElement(c.SyntaxHighlighter,{host:"docs",lineWrap:!0,theme:"light"},u.default),"The ",r.default.createElement(h.Code,null,"npm i")," command lists the necessary dependencies, that the generated output needs, to function at runtime.",r.default.createElement("div",{className:b},r.default.createElement("b",null,"Run this command, and you are ready to use the generated output!")),r.default.createElement("div",{className:b},"In case you see errors (and the descriptions don't help), check out the"," ",r.default.createElement(d.Link,{href:f.links.doc("OpenAPI101")},"OpenAPI 101")," guide, describing the most common DOs and DON'Ts with OpenAPI documents! In case it doesn't help either please open an"," ",r.default.createElement(d.Link,{href:"https://github.com/oats-ts/oats-ts/issues"},"issue"),", and describe the problem in detail!")),r.default.createElement(s.QuickStartItem,{index:6,title:"Where to next?"},"Check out the ",r.default.createElement(d.Link,{href:f.links.docs()},"documentation"),", where you can learn how to use the generator output. Also have a look at the ",r.default.createElement(d.Link,{href:f.links.editor()},"configuration editor"),", where you can put together your Oats configuration right in the browser, while observing the generated output (without downloading or installing anything, and without your data ever leaving your browser).")))},19446:(e,t)=>{Object.defineProperty(t,"__esModule",{value:!0}),t.theme=void 0,t.theme={colors:{transparent:"transparent",dark1:"#323232",dark2:"#212121",dark3:"#1e1e1e",dark4:"#181818",dark5:"#111111",darkHighlight:"#292929",text:"#ffffff",muted:"#aaaaaa",placeholder:"#777777",green:"#238636",buttonHover:"#444444"},fontSize:{code:"1.1rem",xs:"0.95rem",s:"1rem",m:"1.2rem",xm:"1.4rem",l:"1.8rem",xl:"2rem",xxl:"2.4rem"},fontFamily:{monospace:"'Source Code Pro', monospace",sansSerif:"'Montserrat', sans-serif"},spacing:{zero:"0rem",xxxs:"0.125rem",xxs:"0.25rem",xs:"0.375rem",s:"0.5rem",m:"0.75rem",xm:"1rem",xxm:"1.125rem",l:"1.5rem",xl:"1.625rem",xxl:"2.125rem",xxxl:"2.5rem",h:"3.75rem",xh:"5rem",xxh:"6.25rem"},flex:{grow:"1 1 1px"}}}},e=>{e(e.s=34553)}]);
+`;t.QuickStart=()=>r.default.createElement(r.default.Fragment,null,r.default.createElement("h2",{className:g},r.default.createElement(l.HiBeaker,null)," Quick start"),r.default.createElement("div",{className:p},r.default.createElement(s.QuickStartItem,{index:1,title:"Prepare your OpenAPI document"},"You need an OpenAPI document to start with. In case you don't have one already, try this example:",r.default.createElement(c.SyntaxHighlighter,{host:"docs",lineWrap:!0,theme:"light"},"https://raw.githubusercontent.com/oats-ts/oats-schemas/master/schemas/book-store.json")),r.default.createElement(s.QuickStartItem,{index:2,title:"Install Oats"},"Install the necessary Oats modules to make the code generator work:",r.default.createElement(c.SyntaxHighlighter,{host:"docs",lineWrap:!0,theme:"light"},"npm i @oats-ts/openapi")),r.default.createElement(s.QuickStartItem,{index:3,title:"Configure the generator"},"Create a file called ",r.default.createElement("b",null,"oats.js")," in your project root with the following content:",r.default.createElement(c.SyntaxHighlighter,{language:"typescript",host:"docs",lineWrap:!0,theme:"light"},m.default),"Experiment with different configurations in the ",r.default.createElement(d.Link,{href:f.links.editor()},"configuration editor")),r.default.createElement(s.QuickStartItem,{index:4,title:"Run the generator"},"Open a terminal and simply run:",r.default.createElement(c.SyntaxHighlighter,{host:"docs",theme:"light"},"node ./oats.js")),r.default.createElement(s.QuickStartItem,{index:5,title:"Verify results"},"In case the generators ran successfully, you will see something like this in the terminal:",r.default.createElement(c.SyntaxHighlighter,{host:"docs",lineWrap:!0,theme:"light"},u.default),"The ",r.default.createElement(h.Code,null,"npm i")," command lists the necessary dependencies, that the generated output needs, to function at runtime.",r.default.createElement("div",{className:b},r.default.createElement("b",null,"Run this command, and you are ready to use the generated output!")),r.default.createElement("div",{className:b},"In case you see errors (and the descriptions don't help), check out the"," ",r.default.createElement(d.Link,{href:f.links.doc("OpenAPI101")},"OpenAPI 101")," guide, describing the most common DOs and DON'Ts with OpenAPI documents! In case it doesn't help either please open an"," ",r.default.createElement(d.Link,{href:"https://github.com/oats-ts/oats-ts/issues"},"issue"),", and describe the problem in detail!")),r.default.createElement(s.QuickStartItem,{index:6,title:"Where to next?"},"Check out the ",r.default.createElement(d.Link,{href:f.links.docs()},"documentation"),", where you can learn how to use the generator output. Also have a look at the ",r.default.createElement(d.Link,{href:f.links.editor()},"configuration editor"),", where you can put together your Oats configuration right in the browser, while observing the generated output (without downloading or installing anything, and without your data ever leaving your browser).")))},19446:(e,t)=>{Object.defineProperty(t,"__esModule",{value:!0}),t.theme=void 0,t.theme={colors:{transparent:"transparent",dark1:"#323232",dark2:"#212121",dark3:"#1e1e1e",dark4:"#181818",dark5:"#111111",darkHighlight:"#292929",text:"#ffffff",muted:"#aaaaaa",placeholder:"#777777",green:"#238636",buttonHover:"#444444"},fontSize:{code:"1.1rem",xxs:"0.85rem",xs:"0.95rem",s:"1rem",m:"1.2rem",xm:"1.4rem",l:"1.8rem",xl:"2rem",xxl:"2.4rem"},fontFamily:{monospace:"'Source Code Pro', monospace",sansSerif:"'Montserrat', sans-serif"},spacing:{zero:"0rem",xxxs:"0.125rem",xxs:"0.25rem",xs:"0.375rem",s:"0.5rem",m:"0.75rem",xm:"1rem",xxm:"1.125rem",l:"1.5rem",xl:"1.625rem",xxl:"2.125rem",xxxl:"2.5rem",h:"3.75rem",xh:"5rem",xxh:"6.25rem"},flex:{grow:"1 1 1px"}}}},e=>{e(e.s=34553)}]);
 //# sourceMappingURL=index.bundle.js.map
