@@ -4,6 +4,7 @@ import Editor, { BeforeMount } from '@monaco-editor/react'
 import monaco from 'monaco-editor'
 import { css, cx } from '@emotion/css'
 import { theme } from '../../../theme'
+import * as openAPISchema from './openAPIJsonSchema.json'
 
 export type SchemEditorMonacoProps = {
   language: ExactSourceLanguage
@@ -39,6 +40,16 @@ export const SchemEditorMonaco: FC<SchemEditorMonacoProps> = ({ language, source
       inherit: true,
       rules: [],
       colors: { 'editor.background': theme.colors.dark1 },
+    })
+    monaco.languages.json.jsonDefaults.setDiagnosticsOptions({
+      validate: true,
+      schemas: [
+        {
+          uri: 'https://spec.openapis.org/oas/3.0/schema/2021-09-28',
+          fileMatch: ['*'],
+          schema: openAPISchema,
+        },
+      ],
     })
   }
 

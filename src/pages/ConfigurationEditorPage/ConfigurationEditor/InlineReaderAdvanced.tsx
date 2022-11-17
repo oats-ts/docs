@@ -1,8 +1,9 @@
 import { isNil } from 'lodash'
-import React, { FC, useMemo } from 'react'
+import React, { FC, useEffect } from 'react'
 import { dd, DropdownItem } from '../../../components/dropdownDefaults'
 import { FormSection } from '../../../components/FormSection'
 import { Select } from '../../../components/Select'
+import { tryTransformSource } from '../../../model/tryTransformSource'
 import { ExactSourceLanguage, ReaderConfiguration } from '../../../types'
 import { readerHints } from './readerHints'
 
@@ -27,13 +28,21 @@ type InlineReaderAdvancedProps = {
 }
 
 export const InlineReaderAdvanced: FC<InlineReaderAdvancedProps> = ({ input, onChange }) => {
-  const handleLanguageChange = ({ value }: DropdownItem<ExactSourceLanguage>) => {
-    onChange({ ...input, inlineLanguage: value })
+  const handleLanguageChange = ({ value: inlineLanguage }: DropdownItem<ExactSourceLanguage>) => {
+    onChange({
+      ...input,
+      inlineLanguage,
+    })
   }
 
-  const language = useMemo((): DropdownItem<ExactSourceLanguage> | undefined => {
-    return isNil(input.inlineLanguage) ? undefined : languageOptions.find((p) => p.value === input.inlineLanguage)
+  useEffect(() => {
+    onChange({ ...input, inlineSource: tryTransformSource(input.inlineLanguage, input.inlineSource) })
   }, [input.inlineLanguage])
+
+  const language = isNil(input.inlineLanguage)
+    ? undefined
+    : languageOptions.find((p) => p.value === input.inlineLanguage)
+
   return (
     <>
       <FormSection name="Language" description={readerHints.language}>

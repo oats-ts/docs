@@ -1,22 +1,28 @@
+import { isNil } from 'lodash'
 import YAML from 'yamljs'
-import { SourceLanguage } from '../types'
+import { ExactSourceLanguage } from '../types'
 
-export function tryTransformSource(from: SourceLanguage, to: SourceLanguage, code: string): string {
-  if (from !== to) {
-    if (to === 'json') {
-      try {
-        return JSON.stringify(YAML.parse(code), null, 2)
-      } catch (e) {
-        return code
-      }
-    }
-    if (to === 'yaml') {
-      try {
-        return YAML.stringify(JSON.parse(code), 10000, 2)
-      } catch (e) {
-        return code
-      }
-    }
+type Parser = (input: string) => any
+type Serializer = (input: any) => string
+
+const parsers: Parser[] = [(input: string) => JSON.parse(input), (input: string) => YAML.parse(input)]
+
+const serializers: Record<ExactSourceLanguage, Serializer> = {
+  json: (input: any) => JSON.stringify(input, null, 2),
+  yaml: (input: any) => YAML.stringify(input, 10000, 2),
+}
+
+function tryParse(code: string): any | undefined {
+  for (let i = 0; i < parsers.length; i += 1) {
+    try {
+      const parser = parsers[i]!
+      return parser(code)
+    } catch (e) {}
   }
-  return code
+  return undefined
+}
+
+export function tryTransformSource(to: ExactSourceLanguage, code: string): string {
+  const parsed = tryParse(code)
+  return isNil(parsed) ? code : serializers[to](parsed)
 }

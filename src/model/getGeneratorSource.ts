@@ -27,13 +27,17 @@ function getReaderComment(reader: ReaderConfiguration): string {
   const language = reader.remoteLanguage
   const docText = language === 'mixed' ? `document` : `${language.toUpperCase()} document`
   const commonTxt = `resolves it's references, structurally validates it, and exposes it for the next step.`
-  switch (reader.remoteProtocol) {
-    case 'file':
-      return `Reads your document from the file system, ${commonTxt}`
-    case 'mixed':
-      return `Reads your ${docText}, ${commonTxt}`
-    default:
-      return `Reads your ${docText} from ${reader.remoteProtocol.toUpperCase()}, ${commonTxt}`
+  if (reader.type === 'remote') {
+    switch (reader.remoteProtocol) {
+      case 'file':
+        return `Reads your document from the file system, ${commonTxt}`
+      case 'mixed':
+        return `Reads your ${docText}, ${commonTxt}`
+      default:
+        return `Reads your ${docText} from ${reader.remoteProtocol.toUpperCase()}, ${commonTxt}`
+    }
+  } else {
+    return 'Reades your document from an inline string'
   }
 }
 
@@ -47,6 +51,26 @@ function getRemoteReaderAst(reader: ReaderConfiguration) {
   )
 
   return factory.createCallExpression(propChain, undefined, [factory.createStringLiteral(reader.remotePath)])
+}
+
+function getInlineReaderAst(reader: ReaderConfiguration) {
+  const propChain = factory.createPropertyAccessExpression(
+    factory.createPropertyAccessExpression(
+      factory.createPropertyAccessExpression(factory.createIdentifier(OATS), factory.createIdentifier('readers')),
+      factory.createIdentifier(reader.remoteProtocol),
+    ),
+    factory.createIdentifier(reader.remoteLanguage),
+  )
+
+  return factory.createCallExpression(propChain, undefined, [factory.createStringLiteral(reader.remotePath)])
+}
+
+function getReaderAst(reader: ReaderConfiguration) {
+  if (reader.type === 'remote') {
+    return getRemoteReaderAst(reader)
+  } else {
+    return getInlineReaderAst(reader)
+  }
 }
 
 function getGenerators(generator: GeneratorConfiguration) {
@@ -275,7 +299,7 @@ function getGenerateCallAst(config: ConfigurationNode) {
             `Logs generator events as they happen. Use logger.verbose() for more detailed log output.`,
           ),
           comment(
-            factory.createPropertyAssignment(factory.createIdentifier('reader'), getRemoteReaderAst(config.reader)),
+            factory.createPropertyAssignment(factory.createIdentifier('reader'), getReaderAst(config.reader)),
             getReaderComment(config.reader),
           ),
           ...(config.validator.enabled
