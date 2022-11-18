@@ -18,7 +18,7 @@ This guide will help you getting started with generating server side code using 
 const oats = require('@oats-ts/openapi')
 
 oats.generate({
-  logger: oats.loggers.simple(),
+  plugins: [oats.loggers.simple()],
   reader: oats.readers.https.json(
     'https://raw.githubusercontent.com/oats-ts/oats-schemas/master/schemas/book-store.json',
   ),

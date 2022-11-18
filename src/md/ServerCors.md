@@ -37,7 +37,7 @@ Oats can generate express `Router`s that deal with CORS, customized to your exac
 const oats = require('@oats-ts/openapi')
 
 oats.generate({
-  logger: oats.loggers.simple(),
+  plugins: [oats.loggers.simple()],
   reader: oats.readers.https.json(
     'https://raw.githubusercontent.com/oats-ts/oats-schemas/master/schemas/book-store.json',
   ),

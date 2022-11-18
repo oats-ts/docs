@@ -18,7 +18,7 @@ In this guide you'll learn how to generate an SDK and (necessary related code) b
 const oats = require('@oats-ts/openapi')
 
 oats.generate({
-  logger: oats.loggers.simple(),
+  plugins: [oats.loggers.simple()],
   reader: oats.readers.https.json(
     'https://raw.githubusercontent.com/oats-ts/oats-schemas/master/schemas/book-store.json',
   ),
