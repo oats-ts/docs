@@ -68,3 +68,5 @@ export const defaults = {
   prettierConfiguration,
   advancedOpenConfiguration,
 }
+
+export const MEMORY_URI = 'file://memory'

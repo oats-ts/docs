@@ -14,7 +14,7 @@ import prettier from 'prettier/standalone'
 import { isNil } from 'lodash'
 import { CommentConfig } from '@oats-ts/typescript-writer'
 import { getPresetConfigAst } from './getPresetConfigAst'
-import { defaults } from './defaults'
+import { defaults, MEMORY_URI } from './defaults'
 import YAML from 'yamljs'
 
 const OATS = 'oats'
@@ -114,14 +114,9 @@ function getInlineReaderAst(reader: ReaderConfiguration) {
     ),
     undefined,
     [
-      factory.createStringLiteral('file://memory'),
+      factory.createStringLiteral(MEMORY_URI),
       factory.createObjectLiteralExpression(
-        [
-          factory.createPropertyAssignment(
-            factory.createStringLiteral('file://memory'),
-            factory.createIdentifier('source'),
-          ),
-        ],
+        [factory.createPropertyAssignment(factory.createStringLiteral(MEMORY_URI), factory.createIdentifier('source'))],
         false,
       ),
     ],

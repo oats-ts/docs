@@ -12,14 +12,13 @@ import { GeneratorConfiguration, ReaderConfiguration, WriterConfiguration } from
 import typescriptParser from 'prettier/parser-typescript'
 import { createPresetConfiguration } from './createPresetConfiguration'
 import { isNil } from 'lodash'
-
-const DUMMY_URL = 'http://dummy-url.com'
+import { MEMORY_URI } from './defaults'
 
 export function createReader(input: ReaderConfiguration) {
   if (input.type === 'remote') {
     return readers[input.remoteProtocol][input.remoteLanguage](input.remotePath)
   } else {
-    return readers.memory.mixed[input.inlineLanguage](DUMMY_URL, { [DUMMY_URL]: input.inlineSource })
+    return readers.memory.mixed[input.inlineLanguage](MEMORY_URI, { [MEMORY_URI]: input.inlineSource })
   }
 }
 
