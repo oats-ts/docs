@@ -1,10 +1,10 @@
 import { isNil } from 'lodash'
 import React, { FC, useEffect } from 'react'
-import { dd, DropdownItem } from '../../../components/dropdownDefaults'
-import { FormSection } from '../../../components/FormSection'
-import { Select } from '../../../components/Select'
-import { tryTransformSource } from '../../../model/tryTransformSource'
-import { ExactSourceLanguage, ReaderConfiguration } from '../../../types'
+import { dd, DropdownItem } from '../../../../components/dropdownDefaults'
+import { FormSection } from '../../../../components/FormSection'
+import { Select } from '../../../../components/Select'
+import { tryTransformSource } from '../../../../model/tryTransformSource'
+import { ExactSourceLanguage, ReaderConfiguration } from '../../../../types'
 import { readerHints } from './readerHints'
 
 const languageOptions: DropdownItem<ExactSourceLanguage>[] = [

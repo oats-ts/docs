@@ -8,10 +8,10 @@ import {
 } from '../../../types'
 import { useGeneratorContext } from '../../../model/useGenerator'
 import { theme } from '../../../theme'
-import { GeneratorConfigurationEditor } from './GeneratorConfigurationEditor'
-import { ValidatorConfigurationEditor } from './ValidatorConfigurationEditor'
-import { WriterConfigurationEditor } from './WriterConfigurationEditor'
-import { ReaderConfigurationEditor } from './ReaderConfigurationEditor'
+import { GeneratorConfigurationEditor } from './generator/GeneratorConfigurationEditor'
+import { ValidatorConfigurationEditor } from './validator/ValidatorConfigurationEditor'
+import { WriterConfigurationEditor } from './writer/WriterConfigurationEditor'
+import { ReaderConfigurationEditor } from './reader/ReaderConfigurationEditor'
 
 const wrapperStyle = css`
   padding: ${theme.spacing.l};

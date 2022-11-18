@@ -1,11 +1,11 @@
 import React, { FC } from 'react'
 import { HiArrowUturnLeft } from 'react-icons/hi2'
-import { ConfigurationFormGroup } from '../../../components/ConfigurationFormGroup'
-import { ConfigurationFormGroupTitleButton } from '../../../components/ConfigurationFormGroupTitleButton'
-import { FormSection } from '../../../components/FormSection'
-import { Switch } from '../../../components/Switch'
-import { defaults } from '../../../model/defaults'
-import { ValidatorConfiguration } from '../../../types'
+import { ConfigurationFormGroup } from '../../../../components/ConfigurationFormGroup'
+import { ConfigurationFormGroupTitleButton } from '../../../../components/ConfigurationFormGroupTitleButton'
+import { FormSection } from '../../../../components/FormSection'
+import { Switch } from '../../../../components/Switch'
+import { defaults } from '../../../../model/defaults'
+import { ValidatorConfiguration } from '../../../../types'
 
 export type ValidatorConfigurationEditorProps = {
   input: ValidatorConfiguration

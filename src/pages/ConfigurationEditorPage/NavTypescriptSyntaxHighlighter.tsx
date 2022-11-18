@@ -1,6 +1,6 @@
 import React, { FC } from 'react'
-import { SyntaxHighlighter } from '../../../components/SyntaxHighlighter'
-import { useTypescriptRenderer } from './useTypescriptRenderer'
+import { SyntaxHighlighter } from '../../components/SyntaxHighlighter'
+import { useTypescriptRenderer } from './ConfigurationEditor/reader/useTypescriptRenderer'
 
 type NavTypescriptSyntaxHighlighterProps = {
   ownPath: string

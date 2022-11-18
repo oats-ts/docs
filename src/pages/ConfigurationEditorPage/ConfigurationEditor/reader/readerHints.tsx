@@ -1,5 +1,5 @@
 import React from 'react'
-import { Link } from '../../../components/Link'
+import { Link } from '../../../../components/Link'
 
 export const readerHints = {
   inline: 'You can edit your OpenAPI document inline in this editor',

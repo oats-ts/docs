@@ -1,9 +1,9 @@
 import { isNil } from 'lodash'
 import React, { FC, useMemo } from 'react'
-import { dd, DropdownItem } from '../../../components/dropdownDefaults'
-import { FormSection } from '../../../components/FormSection'
-import { Select } from '../../../components/Select'
-import { ReaderConfiguration, RemoteProtocol, SourceLanguage } from '../../../types'
+import { dd, DropdownItem } from '../../../../components/dropdownDefaults'
+import { FormSection } from '../../../../components/FormSection'
+import { Select } from '../../../../components/Select'
+import { ReaderConfiguration, RemoteProtocol, SourceLanguage } from '../../../../types'
 import { readerHints } from './readerHints'
 
 const languageOptions: DropdownItem<SourceLanguage>[] = [

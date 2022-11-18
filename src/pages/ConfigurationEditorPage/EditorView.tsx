@@ -5,7 +5,7 @@ import { NotFoundPage } from '../../components/NotFoundPage'
 import { SyntaxHighlighter } from '../../components/SyntaxHighlighter'
 import { useGeneratorContext } from '../../model/useGenerator'
 import { ConfigurationEditor } from './ConfigurationEditor/ConfigurationEditor'
-import { NavTypescriptSyntaxHighlighter } from './ConfigurationEditor/NavTypescriptSyntaxHighlighter'
+import { NavTypescriptSyntaxHighlighter } from './NavTypescriptSyntaxHighlighter'
 import { IssuesPanel } from './IssuesPanel'
 
 export const EditorView: FC = () => {
