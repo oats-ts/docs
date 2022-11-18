@@ -15,6 +15,7 @@ import { isNil } from 'lodash'
 import { CommentConfig } from '@oats-ts/typescript-writer'
 import { getPresetConfigAst } from './getPresetConfigAst'
 import { defaults } from './defaults'
+import YAML from 'yamljs'
 
 const OATS = 'oats'
 const PKG = '@oats-ts/openapi'
@@ -37,8 +38,54 @@ function getReaderComment(reader: ReaderConfiguration): string {
         return `Reads your ${docText} from ${reader.remoteProtocol.toUpperCase()}, ${commonTxt}`
     }
   } else {
-    return 'Reades your document from an inline string'
+    return 'Reads your document from an inline string (const called source)'
   }
+}
+
+function compressSource(reader: ReaderConfiguration): string {
+  const { inlineLanguage, inlineSource } = reader
+  switch (inlineLanguage) {
+    case 'json': {
+      try {
+        return JSON.stringify(JSON.parse(inlineSource))
+      } catch (e) {
+        return inlineSource
+      }
+    }
+    case 'yaml': {
+      try {
+        return YAML.stringify(YAML.parse(inlineSource))
+      } catch (e) {
+        return inlineSource
+      }
+    }
+  }
+}
+
+function getInlineSourceStatementAst(reader: ReaderConfiguration) {
+  if (reader.type !== 'inline') {
+    return []
+  }
+  const src = compressSource(reader)
+  return [
+    comment(
+      factory.createVariableStatement(
+        undefined,
+        factory.createVariableDeclarationList(
+          [
+            factory.createVariableDeclaration(
+              factory.createIdentifier('source'),
+              undefined,
+              undefined,
+              factory.createNoSubstitutionTemplateLiteral(src, src),
+            ),
+          ],
+          NodeFlags.Const,
+        ),
+      ),
+      `The inline ${reader.inlineLanguage.toUpperCase()} source. Please only use this for experimenting or tests!`,
+    ),
+  ]
 }
 
 function getRemoteReaderAst(reader: ReaderConfiguration) {
@@ -54,15 +101,31 @@ function getRemoteReaderAst(reader: ReaderConfiguration) {
 }
 
 function getInlineReaderAst(reader: ReaderConfiguration) {
-  const propChain = factory.createPropertyAccessExpression(
+  return factory.createCallExpression(
     factory.createPropertyAccessExpression(
-      factory.createPropertyAccessExpression(factory.createIdentifier(OATS), factory.createIdentifier('readers')),
-      factory.createIdentifier(reader.remoteProtocol),
+      factory.createPropertyAccessExpression(
+        factory.createPropertyAccessExpression(
+          factory.createPropertyAccessExpression(factory.createIdentifier('oats'), factory.createIdentifier('readers')),
+          factory.createIdentifier('memory'),
+        ),
+        factory.createIdentifier('mixed'),
+      ),
+      factory.createIdentifier(reader.inlineLanguage),
     ),
-    factory.createIdentifier(reader.remoteLanguage),
+    undefined,
+    [
+      factory.createStringLiteral('file://memory'),
+      factory.createObjectLiteralExpression(
+        [
+          factory.createPropertyAssignment(
+            factory.createStringLiteral('file://memory'),
+            factory.createIdentifier('source'),
+          ),
+        ],
+        false,
+      ),
+    ],
   )
-
-  return factory.createCallExpression(propChain, undefined, [factory.createStringLiteral(reader.remotePath)])
 }
 
 function getReaderAst(reader: ReaderConfiguration) {
@@ -359,7 +422,11 @@ function getImportDeclarations(_: ConfigurationNode) {
 }
 
 export function getGeneratorSource(config: ConfigurationNode): string {
-  const contents: Statement[][] = [[getImportDeclarations(config)], [], [getGenerateCallAst(config)]]
+  const contents: Statement[][] = [
+    [getImportDeclarations(config)],
+    getInlineSourceStatementAst(config.reader),
+    [getGenerateCallAst(config)],
+  ]
 
   const sourceFiles = contents
     .filter((statements) => statements.length > 0)

@@ -7,7 +7,6 @@ import { ReaderConfiguration } from '../../../types'
 import { defaults } from '../../../model/defaults'
 import { ConfigurationFormGroupAttachment } from '../../../components/ConfigurationFormGroupAttachment'
 import { ConfigurationFormGroupTitleButton } from '../../../components/ConfigurationFormGroupTitleButton'
-import { SwitchWithLabel } from './SwitchWithLabel'
 import { InlineReaderAdvanced } from './InlineReaderAdvanced'
 import { RemoteReaderAdvanced } from './RemoteReaderAdvanced'
 import { readerHints } from './readerHints'
@@ -15,6 +14,8 @@ import { SchemEditorMonaco } from './SchemaEditorMonaco'
 import { css } from '@emotion/css'
 import { theme } from '../../../theme'
 import { Button } from '../../../components/Button'
+import { LabeledSwitch } from '../../../components/LabeledSwitch'
+import { capitalize } from 'lodash'
 
 const extraBottomMarginStyle = css`
   margin-bottom: ${theme.spacing.s};
@@ -72,10 +73,12 @@ export const ReaderConfigurationEditor: FC<ReaderConfigurationEditorProps> = ({
       }
       titleAttachment={
         <>
-          <SwitchWithLabel
-            label={input.type === 'inline' ? 'Inline' : 'Remote'}
-            value={input.type === 'inline'}
+          <LabeledSwitch
+            left="inline"
+            right="remote"
+            value={input.type}
             onChange={handleTypeChange}
+            stringify={capitalize}
           />
           <ConfigurationFormGroupTitleButton label="Reset" icon={HiArrowUturnLeft} onClick={onReset} />
         </>
