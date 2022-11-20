@@ -5,6 +5,8 @@ export type MarkdownData = {
   description: string
 }
 export const MARKDOWN_FOLDER = 'src/md'
+export const QUICKSTART_FOLDER = 'src/pages/LandingPage/md'
+export const QUICKSTART_MD_FILE = 'src/pages/LandingPage/md/quickStart.ts'
 export const MARKDOWN_EXTENSION = '.md'
 export const MARKDOWN_ENUM_FILE = 'src/md/markdown.ts'
 export const MARKDOWN_PAGES_FILE = 'src/markdownPages.ts'

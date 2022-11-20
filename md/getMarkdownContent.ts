@@ -1,7 +1,7 @@
 import { promises as fs } from 'fs'
-import { join, resolve } from 'path'
+import { join } from 'path'
 import { parse, ParsedPath } from 'path'
-import { MarkdownData, MARKDOWN_EXTENSION, MARKDOWN_FOLDER } from './common'
+import { MarkdownData, MARKDOWN_EXTENSION } from './common'
 
 function getLines(fileContent: string): string[] {
   return fileContent
@@ -31,22 +31,22 @@ function getDescription(lines: string[]): string {
   return nextLine.trim().replace(/"/g, "'")
 }
 
-async function readMarkdownFile(path: ParsedPath): Promise<MarkdownData> {
-  const fullPath = join(MARKDOWN_FOLDER, path.base)
+async function readMarkdownFile(path: string, parsed: ParsedPath): Promise<MarkdownData> {
+  const fullPath = join(path, parsed.base)
   const fileContent = await fs.readFile(fullPath, 'utf-8')
   const lines = getLines(fileContent)
 
   return {
-    fileName: path.base,
-    varName: path.name,
+    fileName: parsed.base,
+    varName: parsed.name,
     title: getTitle(lines),
     description: getDescription(lines),
   }
 }
 
-export async function getMarkdownContent(): Promise<MarkdownData[]> {
-  const paths = (await fs.readdir(resolve(MARKDOWN_FOLDER)))
+export async function getMarkdownContent(path: string): Promise<MarkdownData[]> {
+  const paths = (await fs.readdir(path))
     .map((fileName) => parse(fileName))
     .filter(({ ext }) => ext === MARKDOWN_EXTENSION)
-  return Promise.all(paths.map((path) => readMarkdownFile(path)))
+  return Promise.all(paths.map((parsed) => readMarkdownFile(path, parsed)))
 }

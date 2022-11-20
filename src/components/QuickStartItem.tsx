@@ -1,11 +1,14 @@
 import { css } from '@emotion/css'
-import React, { FC, PropsWithChildren } from 'react'
+import React, { FC } from 'react'
 import { theme } from '../theme'
 import { breakpoints } from '../breakpoints'
+import { QuickStartDescriptor } from '../types'
+import { MarkdownView } from './MarkdownView'
+import { SyntaxHighlighterProps } from './SyntaxHighlighter'
 
-type QuickStartItemProps = PropsWithChildren & {
+type QuickStartItemProps = {
   index: number
-  title: string
+  descriptor: QuickStartDescriptor
 }
 
 const containerStyle = css`
@@ -55,13 +58,21 @@ const contentContainerStyle = css`
   width: 100%;
 `
 
-export const QuickStartItem: FC<QuickStartItemProps> = ({ children, index, title }) => {
+const syntaxHighlighterProps: Partial<SyntaxHighlighterProps> = {
+  theme: 'light',
+  host: 'docs',
+  lineWrap: true,
+}
+
+export const QuickStartItem: FC<QuickStartItemProps> = ({ index, descriptor }) => {
   return (
     <div className={containerStyle}>
       <div className={circleStyle}>{index}</div>
       <div className={contentContainerStyle}>
-        <h3 className={titleStyle}>{title}</h3>
-        <div className={contentStyle}>{children}</div>
+        <h3 className={titleStyle}>{descriptor.title}</h3>
+        <div className={contentStyle}>
+          <MarkdownView content={descriptor.content} syntaxHighlighterProps={syntaxHighlighterProps} />
+        </div>
       </div>
     </div>
   )

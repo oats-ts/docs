@@ -1,7 +1,12 @@
+# Configure Oats
+
+Create a file called `oats.js` in your project root with the following content:
+
+```javascript
 const oats = require('@oats-ts/openapi')
 
 oats.generate({
-  logger: oats.loggers.simple(),
+  plugins: [oats.loggers.simple()],
   // Use readers.file, to read from the local file system
   reader: oats.readers.https.json(
     'https://raw.githubusercontent.com/oats-ts/oats-schemas/master/schemas/book-store.json',
@@ -19,3 +24,6 @@ oats.generate({
     }),
   }),
 })
+```
+
+Experiment with different configurations in the [configuration editor]({{editor}})

@@ -35,7 +35,7 @@ const readPage: MarkdownPageDescriptor = {
 const sdkErrorHandlingPage: MarkdownPageDescriptor = {
   bundle: 'documentation-SdkErrorHandling',
   name: 'Error handling',
-  description: "In this example you'll learn the recommended approach to handle errors using the generated SDK.",
+  description: "In this example you'll learn the recommended approach to handle errors when using the generated SDK.",
   importPath: 'src/bundles/documentation/DocumentationBundle_SdkErrorHandling.tsx',
   md: 'SdkErrorHandling',
 }
@@ -92,7 +92,8 @@ const serverGettingStartedPage: MarkdownPageDescriptor = {
 const serverSetupPage: MarkdownPageDescriptor = {
   bundle: 'documentation-ServerSetup',
   name: 'Express server setup',
-  description: "In this guide you'll learn how to set up generated Oats code with your existing express backend.",
+  description:
+    "In this guide you'll learn how to set up generated Oats code with your existing [express](https://expressjs.com) backend.",
   importPath: 'src/bundles/documentation/DocumentationBundle_ServerSetup.tsx',
   md: 'ServerSetup',
 }

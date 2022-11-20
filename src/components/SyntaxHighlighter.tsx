@@ -23,7 +23,13 @@ const themes: Record<SyntaxHighlighterProps['theme'], Record<string, CSSProperti
   dark: createPrismTheme(vscDarkPlus, theme.colors.dark4),
 }
 
-const copyButtonStyle = css`
+const copyButtonColors: Record<SyntaxHighlighterProps['theme'], string> = {
+  light: theme.colors.dark2,
+  medium: theme.colors.dark4,
+  dark: theme.colors.dark1,
+}
+
+const copyButtonStyle = (color: string) => css`
   label: syntax-hl-copy;
   top: ${theme.spacing.m};
   right: ${theme.spacing.m};
@@ -38,9 +44,14 @@ const copyButtonStyle = css`
   font-weight: 400;
   cursor: pointer;
   font-size: ${theme.fontSize.m};
-  background-color: ${theme.colors.dark2};
+  background-color: ${color};
   color: ${theme.colors.text};
   box-shadow: rgba(0, 0, 0, 0.05) ${theme.spacing.zero} ${theme.spacing.xs} ${theme.spacing.s};
+  opacity: 0.7;
+
+  &:hover {
+    opacity: 1;
+  }
 `
 
 const docsContainerStyle = css`
@@ -108,7 +119,7 @@ export const SyntaxHighlighter: FC<SyntaxHighlighterProps> = ({
         {children}
       </Prism>
       <CopyToClipboard text={children} onCopy={onCopy}>
-        <button className={copyButtonStyle}>{copied ? <HiCheck /> : <HiClipboard />}</button>
+        <button className={copyButtonStyle(copyButtonColors[theme])}>{copied ? <HiCheck /> : <HiClipboard />}</button>
       </CopyToClipboard>
     </div>
   )

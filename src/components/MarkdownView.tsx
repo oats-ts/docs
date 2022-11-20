@@ -1,6 +1,6 @@
 import { css } from '@emotion/css'
 import { isNil } from 'lodash'
-import React, { FC } from 'react'
+import React, { FC, useMemo } from 'react'
 import Markdown, { uriTransformer, Options } from 'react-markdown'
 import remarkGfm from 'remark-gfm'
 import { markdownPages } from '../markdownPages'
@@ -8,7 +8,7 @@ import { links } from '../links'
 import { theme } from '../theme'
 import { Code } from './Code'
 import { Link } from './Link'
-import { SyntaxHighlighter } from './SyntaxHighlighter'
+import { SyntaxHighlighter, SyntaxHighlighterProps } from './SyntaxHighlighter'
 import { Table, Td, Th, Tr } from './Table'
 
 const h1Style = css`
@@ -39,12 +39,10 @@ const quoteStyle = css`
     }
   }
 `
-const containerStyle = css`
-  margin: ${theme.spacing.l};
-`
 
 export type MarkdownViewProps = {
   content: string
+  syntaxHighlighterProps?: Partial<SyntaxHighlighterProps>
 }
 
 const pages = Object.values(markdownPages)
@@ -54,12 +52,19 @@ const customUriTransformer: Options['transformLinkUri'] = (uri: string) => {
   if (!isNil(page)) {
     return links.doc(page.md)
   }
+  // TODO better ideas welcome
+  if (uri === encodeURIComponent('{{documentation}}')) {
+    return links.docs()
+  }
+  if (uri === encodeURIComponent('{{editor}}')) {
+    return links.editor()
+  }
   return uriTransformer(uri)
 }
 
 const remarkPlugins: Options['remarkPlugins'] = [remarkGfm]
 
-const components: Options['components'] = {
+const createComponents = (shProps: Partial<SyntaxHighlighterProps>): Options['components'] => ({
   h1({ children }) {
     return <h1 className={h1Style}>{children}</h1>
   },
@@ -88,7 +93,12 @@ const components: Options['components'] = {
     const match = /language-(\w+)/.exec(className || '')
     if (match !== null && !inline) {
       return (
-        <SyntaxHighlighter language={match[1]} host="docs" theme="medium">
+        <SyntaxHighlighter
+          language={match[1]}
+          host={shProps.host ?? 'docs'}
+          theme={shProps.theme ?? 'medium'}
+          lineWrap={shProps.lineWrap ?? false}
+        >
           {String(children).replace(/\n$/, '')}
         </SyntaxHighlighter>
       )
@@ -99,16 +109,15 @@ const components: Options['components'] = {
     // TODO might need an alternative, as this replaces the ability to use blockquotes
     return <div className={quoteStyle}>{children}</div>
   },
-}
+})
 
-export const MarkdownView: FC<MarkdownViewProps> = ({ content }) => {
+export const MarkdownView: FC<MarkdownViewProps> = ({ content, syntaxHighlighterProps: sh = {} }) => {
+  const components = useMemo(() => {
+    return createComponents(sh)
+  }, [sh.host, sh.lineWrap, sh.theme])
+
   return (
-    <Markdown
-      remarkPlugins={remarkPlugins}
-      components={components}
-      transformLinkUri={customUriTransformer}
-      className={containerStyle}
-    >
+    <Markdown remarkPlugins={remarkPlugins} components={components} transformLinkUri={customUriTransformer}>
       {content ?? ''}
     </Markdown>
   )

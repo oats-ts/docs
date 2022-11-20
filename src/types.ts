@@ -191,3 +191,8 @@ export type BasePageDescriptor<B> = {
 export type MainPageDescriptor = BasePageDescriptor<MainBundleType>
 export type MarkdownPageDescriptor = BasePageDescriptor<MarkdownBundleType> & { md: MarkdownPageName }
 export type PageDescriptor = MainPageDescriptor | MarkdownPageDescriptor
+
+export type QuickStartDescriptor = {
+  title: string
+  content: string
+}

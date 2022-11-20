@@ -27,6 +27,10 @@ const contentContainerStyle = css`
   background-color: ${theme.colors.dark4};
 `
 
+const markdownContainerStyle = css`
+  margin: ${theme.spacing.l};
+`
+
 type ControlledDocumentationPage = {
   page: MarkdownPageName
   content: string
@@ -55,7 +59,9 @@ export const DocumentationPage: FC<ControlledDocumentationPage> = ({ page, conte
         </SideBar>
         <div className={contentContainerStyle}>
           <BreakPoint Component={MobileTitleBar} breakpoint="phone" />
-          <MarkdownView content={content} />
+          <div className={markdownContainerStyle}>
+            <MarkdownView content={content} />
+          </div>
           <DocumentationFooter />
         </div>
       </DocContainer>

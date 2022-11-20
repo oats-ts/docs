@@ -4,7 +4,7 @@ import { resolve } from 'path'
 import { MarkdownData, markdownBundleFile } from './common'
 import { stringify } from './stringify'
 
-export function createMarkdownImport({ fileName, varName }: MarkdownData): ImportDeclaration {
+function createMarkdownImport({ fileName, varName }: MarkdownData): ImportDeclaration {
   return factory.createImportDeclaration(
     undefined,
     undefined,
