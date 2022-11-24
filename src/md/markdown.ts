@@ -5,6 +5,7 @@ export const markdown = {
   Read: 'Read',
   SdkErrorHandling: 'SdkErrorHandling',
   SdkGettingStarted: 'SdkGettingStarted',
+  SdkPublish: 'SdkPublish',
   SdkTypes: 'SdkTypes',
   SdkUsage: 'SdkUsage',
   ServerApiExample: 'ServerApiExample',

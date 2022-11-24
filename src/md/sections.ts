@@ -27,6 +27,7 @@ const namedSections: DocumentationSection[] = [
       markdownPages.sdkTypesPage,
       markdownPages.sdkUsagePage,
       markdownPages.sdkErrorHandlingPage,
+      markdownPages.sdkPublishPage,
     ],
   },
   {

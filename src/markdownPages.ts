@@ -49,6 +49,15 @@ const sdkGettingStartedPage: MarkdownPageDescriptor = {
   md: 'SdkGettingStarted',
 }
 
+const sdkPublishPage: MarkdownPageDescriptor = {
+  bundle: 'documentation-SdkPublish',
+  name: 'Publish your SDK',
+  description:
+    'This guide will walk show how you can create an SDK (client side code that can talk to your backend) using Oats, and publish it as an npm package.',
+  importPath: 'src/bundles/documentation/DocumentationBundle_SdkPublish.tsx',
+  md: 'SdkPublish',
+}
+
 const sdkTypesPage: MarkdownPageDescriptor = {
   bundle: 'documentation-SdkTypes',
   name: 'SDK related types',
@@ -138,6 +147,7 @@ export const markdownPages = {
   readPage,
   sdkErrorHandlingPage,
   sdkGettingStartedPage,
+  sdkPublishPage,
   sdkTypesPage,
   sdkUsagePage,
   serverApiExamplePage,
