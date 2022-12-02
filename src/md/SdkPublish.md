@@ -111,14 +111,8 @@ class AuthenticatingFetchClientAdapter extends FetchClientAdapter {
   // Store the token in a field
   public token: string = ''
 
-  public getRequestHeaders<H>(
-    input?: H | undefined,
-    mimeType?: string | undefined,
-    cookie?: string | undefined,
-    serializer?: ((input: any) => Try<RawHttpHeaders>) | undefined,
-  ): RawHttpHeaders {
+  public getAuxiliaryRequestHeaders(): RawHttpHeaders {
     return {
-      ...super.getRequestHeaders(input, mimeType, cookie, serializer),
       // Your custom request header sending this token with each request
       Authorization: `Bearer ${this.token}`,
     }
