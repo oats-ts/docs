@@ -1,5 +1,5 @@
-import YAML from 'yamljs'
 import { ExactSourceLanguage, GhFileDescriptor, SourceLanguage } from '../types'
+import { parse } from 'yaml'
 
 const REPO = 'oats-ts/oats-schemas'
 
@@ -21,7 +21,7 @@ export async function fetchSampleFile(path: string): Promise<string> {
 
 const parsers: Record<ExactSourceLanguage, (input: string) => any> = {
   json: (input) => JSON.parse(input),
-  yaml: (input) => YAML.parse(input),
+  yaml: (input) => parse(input),
 }
 
 export function guessLanguage(source: string, hint: SourceLanguage): ExactSourceLanguage | undefined {

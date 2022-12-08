@@ -4,6 +4,9 @@ import { isEmpty, negate, isNil, last } from 'lodash'
 import { HiChevronRight } from 'react-icons/hi2'
 import { css } from '@emotion/css'
 import { theme } from '../../theme'
+import { URIManipulator } from '@oats-ts/oats-ts'
+
+const u = new URIManipulator()
 
 function getFragments(path: string): string[] | undefined {
   try {
@@ -18,7 +21,7 @@ function getFragments(path: string): string[] | undefined {
       const lastPathPart = last(uriPath.split('/'))
       parts.unshift(lastPathPart!)
     }
-    return parts.map((fragment) => decodeURIComponent(fragment))
+    return parts.map((fragment) => u.decode(fragment))
   } catch (e) {
     return undefined
   }

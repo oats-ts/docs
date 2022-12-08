@@ -24,11 +24,11 @@ First let's set up a folder and make it an `npm` project.
     "oats": "node ./oats.js"
   },
   "dependencies": {
-    "@oats-ts/openapi-fetch-client-adapter": "0.0.47",
-    "@oats-ts/openapi-runtime": "0.0.47"
+    "@oats-ts/openapi-fetch-client-adapter": "0.0.49",
+    "@oats-ts/openapi-runtime": "0.0.49"
   },
   "devDependencies": {
-    "@oats-ts/openapi": "0.0.47",
+    "@oats-ts/openapi": "0.0.49",
     "typescript": "4.9.3"
   }
 }
@@ -102,14 +102,22 @@ In case your API needs authentication, you can do this through a custom `FetchCl
 ```ts
 // src/index.ts
 
-import { FetchClientAdapter } from '@oats-ts/openapi-fetch-client-adapter'
+import {
+  FetchClientAdapter,
+  FetchClientAdapterConfig,
+} from '@oats-ts/openapi-fetch-client-adapter'
 import { Try, RawHttpHeaders } from '@oats-ts/openapi-runtime'
 import { BookStoreSdkImpl } from './sdk/sdkImpl'
 import { BookStoreSdk } from './sdk/sdkType'
 
 class AuthenticatingFetchClientAdapter extends FetchClientAdapter {
-  // Store the token in a field
-  public token: string = ''
+  constructor(
+    config: FetchClientAdapterConfig,
+    private readonly token: string,
+  ) {
+    super(config)
+    this.token = token
+  }
 
   public getAuxiliaryRequestHeaders(): RawHttpHeaders {
     return {
@@ -120,12 +128,9 @@ class AuthenticatingFetchClientAdapter extends FetchClientAdapter {
 }
 
 export function bookStoreSdk(token: string): BookStoreSdk {
-  const adapter = new AuthenticatingFetchClientAdapter({
-    // Your APIs url goes here
-    url: 'https://yourapi.com',
-  })
-  adapter.token = token
-  return new BookStoreSdkImpl(adapter)
+  return new BookStoreSdkImpl(
+    new AuthenticatingFetchClientAdapter({ url: 'https://yourapi.com' }, token),
+  )
 }
 ```
 

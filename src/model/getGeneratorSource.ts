@@ -15,7 +15,7 @@ import { isNil } from 'lodash'
 import { CommentConfig } from '@oats-ts/typescript-writer'
 import { getPresetConfigAst } from './getPresetConfigAst'
 import { defaults, MEMORY_URI } from './defaults'
-import YAML from 'yamljs'
+import { stringify, parse } from 'yaml'
 
 const OATS = 'oats'
 const PKG = '@oats-ts/openapi'
@@ -54,7 +54,7 @@ function compressSource(reader: ReaderConfiguration): string {
     }
     case 'yaml': {
       try {
-        return YAML.stringify(YAML.parse(inlineSource))
+        return stringify(parse(inlineSource))
       } catch (e) {
         return inlineSource
       }
