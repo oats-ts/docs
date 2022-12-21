@@ -196,3 +196,11 @@ export type QuickStartDescriptor = {
   title: string
   content: string
 }
+
+export type SchemaItem = {
+  name?: string
+  description?: string
+  url: string
+  image: string
+  provider: string
+}

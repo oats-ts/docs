@@ -19,7 +19,7 @@
     "build": "webpack -c webpack.config.ts --mode=production --stats-error-details",
     "start": "webpack-dev-server -c webpack.config.ts --mode=development",
     "md": "ts-node ./md.ts",
-    "deps": "ts-node ./listExternalDeps.ts"
+    "schema": "ts-node ./schemas/getSchemas.ts"
   },
   "devDependencies": {
     "@types/lodash": "4.14.182",

@@ -1,9 +1,11 @@
 import { ExactSourceLanguage, GhFileDescriptor, SourceLanguage } from '../types'
 import { parse } from 'yaml'
+import { fetch } from 'cross-fetch'
 
 const REPO = 'oats-ts/oats-schemas'
+const SAMPLE_FOLDERS = ['schemas', 'generated-schemas', 'edge-cases']
 
-export async function getSampleFiles(folders: string[]): Promise<string[]> {
+export async function getSampleFiles(folders: string[] = SAMPLE_FOLDERS): Promise<string[]> {
   const response = await fetch(`https://api.github.com/repos/${REPO}/git/trees/master?recursive=true`)
   const tree = ((await response.json()) as any).tree as GhFileDescriptor[]
   return tree

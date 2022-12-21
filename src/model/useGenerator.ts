@@ -119,7 +119,7 @@ export function useGenerator(): GeneratorContextType {
       setSamples(inStorage)
       setSamplesLoading(false)
     } else {
-      getSampleFiles(['schemas', 'generated-schemas'])
+      getSampleFiles()
         .then((fetchedSamples) => {
           setSamples(fetchedSamples)
           storage.set('samples', fetchedSamples, Ttl.hours(1))
