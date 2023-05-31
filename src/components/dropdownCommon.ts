@@ -6,6 +6,8 @@ type CommonDropdownProps<T> = {
   placeholder?: string
   getKey?: (item: T) => string
   getValue?: (item: T) => string
+  getDropdownLabel?: (item: T) => string
+  getIcon?: (item: T) => string | undefined
   getDescription?: (item: T) => string | undefined
 }
 

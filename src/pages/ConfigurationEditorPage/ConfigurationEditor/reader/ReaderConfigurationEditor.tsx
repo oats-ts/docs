@@ -1,9 +1,8 @@
-import React, { FC } from 'react'
+import React, { FC, useMemo } from 'react'
 import { HiArrowUturnLeft, HiChevronDown, HiChevronUp, HiPencil } from 'react-icons/hi2'
-import { Autocomplete } from '../../../../components/Autocomplete'
 import { ConfigurationFormGroup } from '../../../../components/ConfigurationFormGroup'
 import { FormSection } from '../../../../components/FormSection'
-import { ReaderConfiguration } from '../../../../types'
+import { ReaderConfiguration, SchemaItem } from '../../../../types'
 import { defaults } from '../../../../model/defaults'
 import { ConfigurationFormGroupAttachment } from '../../../../components/ConfigurationFormGroupAttachment'
 import { ConfigurationFormGroupTitleButton } from '../../../../components/ConfigurationFormGroupTitleButton'
@@ -15,7 +14,10 @@ import { css } from '@emotion/css'
 import { theme } from '../../../../theme'
 import { Button } from '../../../../components/Button'
 import { LabeledSwitch } from '../../../../components/LabeledSwitch'
-import { capitalize } from 'lodash'
+import { capitalize, isNil } from 'lodash'
+import { oatsSchemas } from '../../../../oatsSchemas'
+import { UrlAutocomplete } from '../../../../components/UrlAutocomplete'
+import { customSchemaItem } from '../../../../utils'
 
 const extraBottomMarginStyle = css`
   margin-bottom: ${theme.spacing.s};
@@ -37,18 +39,19 @@ type ReaderConfigurationEditorProps = {
   loadRemoteAsInline: () => void
 }
 
+const schemas: SchemaItem[] = [...oatsSchemas]
+
 export const ReaderConfigurationEditor: FC<ReaderConfigurationEditorProps> = ({
   input,
   isAdvancedOpen,
   setAdvancedOpen,
-  samples,
   onChange,
   loadRemoteAsInline,
 }) => {
   const toggleAdvanced = () => setAdvancedOpen(!isAdvancedOpen)
 
-  const handlePathChange = (remotePath: string) => {
-    onChange({ ...input, remotePath })
+  const handlePathChange = (item: SchemaItem) => {
+    onChange({ ...input, remotePath: item?.url })
   }
 
   const handleSourceChange = (inlineSource: string | undefined) => {
@@ -60,6 +63,11 @@ export const ReaderConfigurationEditor: FC<ReaderConfigurationEditorProps> = ({
   }
 
   const onReset = () => onChange(defaults.readerConfiguration)
+
+  const urlValue = useMemo<SchemaItem>(() => {
+    const item = schemas.find((s) => s.url === input.remotePath)
+    return isNil(item) ? customSchemaItem(input.remotePath) : item
+  }, [input.remotePath])
 
   return (
     <ConfigurationFormGroup
@@ -87,13 +95,7 @@ export const ReaderConfigurationEditor: FC<ReaderConfigurationEditorProps> = ({
       {input.type === 'remote' ? (
         <FormSection name="URI" description={readerHints.path}>
           <div className={pathContainerStyle}>
-            <Autocomplete
-              placeholder="OpenAPI document URI"
-              items={samples}
-              value={input.remotePath}
-              customLabel="Custom document URI"
-              onChange={handlePathChange}
-            />
+            <UrlAutocomplete items={schemas} value={urlValue} onChange={handlePathChange} />
             <Button onClick={loadRemoteAsInline}>
               <HiPencil /> Edit
             </Button>
